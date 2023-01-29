@@ -1,0 +1,133 @@
+#loading packages
+library(ggplot2)
+library(survey)
+library(mitools)
+library(survey)
+library(srvyr)
+library(dplyr)
+#srvyr is a dplyr version of survey, check out the "Vignettes":
+#https://cran.r-project.org/web/packages/srvyr/index.html
+library(mice)
+library(tidyverse)
+library(oaxaca)
+library(devtools)
+#install_github('djalmapessoa/convey')
+library(convey)
+library(haven)
+library(foreign)
+library(xtable)
+#install.packages("stargazer")
+library(stargazer)
+
+#setting the working directory
+setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
+AFLS <- readstata13::read.dta13("./data, additional/oecd_2019_engl_final.dta", generate.factors=TRUE, nonint.factors = TRUE)
+
+
+summary(AFLS)
+summary(AFLS$QS1_1)
+########################descriptive statistics##############################
+##sampleoverview##
+summary(AFLS)
+table(AFLS$QD10)
+barplot(table(AFLS$QD10))
+
+###employment
+employment<- summary(AFLS$QD10)
+employment
+79+699+5+24+50+494+21+23+23
+
+#svysample<- as.data.frame(svysample)
+
+# Create basic barchart
+                           
+
+##employmentdummies
+selfemployed<- ifelse(AFLS$QD10 == "Self-employed [work for myself]", 1, 0)
+summary(selfemployed)
+employed<- ifelse(AFLS$QD10 == "In paid employment [work for someone else]", 1, 0)
+employed
+summary(employed)
+
+##genderdummies
+male <- ifelse(AFLS$QD1 == "Male" , 1, 0)
+female <- ifelse(AFLS$QD1 == "2", 1, 0)
+summary(female)
+str(female)
+summary(male)
+male
+ggplot(AFLS$QD1, aes(male,female))
+
+#########weights#########
+wgtsvysample <-svydesign(id=~1, weights=~AFLS$wght, data=AFLS)
+
+svytable(~AFLS$QD1, design=wgtsvysample)
+svytable(~urbanicity, design=my_design, na.rm=TRUE)
+
+## two-way table
+svytable(~+gender+urbanicity, design=my_design, na.rm=TRUE)
+
+##gender
+summary(AFLS$QD1) #<- Übereinstimmung (Fessler et al., 2020)
+##age
+summary(AFLS$QD7)
+summary(AFLS$QD7_a)
+
+####################financial knowledge score#############################
+#QK1 - self-rated knowledge #does not add to financial literacy score
+summary(AFLS$QK1)
+#QK2 - equal splitting #does not add to financial literacy score
+summary(AFLS$QK2)
+QK2<- ifelse(AFLS$QK2 == "200", 1, 0)
+QK2
+#QK3 - *OECD - time value of money
+summary(AFLS$QK3)
+AFLS$QK3<- ifelse(AFLS$QK3 == "Or, less than they could buy today", 1, 0)
+QK3
+#QK4 - *OECD - interest paid on a loan
+summary(AFLS$QK4)
+AFLS$QK4<- ifelse(AFLS$QK4 == "0", 1, 0)
+QK4
+#QK5 - *OECD - interest plus principal
+summary(AFLS$QK5)
+AFLS$QK5<- ifelse(AFLS$QK5 == "102", 1, 0)
+QK5
+#QK6 - *OECD - compound interest 
+summary(AFLS$QK6)
+AFLS$QK6<- ifelse(AFLS$QK6 == "More than €110", 1, 0)
+QK6
+#QK7_1 - *OECD - risk and return
+summary(AFLS$QK7_1)
+AFLS$QK7_1<- ifelse(AFLS$QK7_1 == "True", 1, 0)
+QK7_1
+#QK7_2 - *OECD - inflation definition
+summary(AFLS$QK7_2)
+AFLS$QK7_2<- ifelse(AFLS$QK7_2 == "True", 1, 0)
+QK7_2
+#QK7_3 - *OECD - diversification
+summary(AFLS$QK7_3)
+AFLS$QK7_3<- ifelse(AFLS$QK7_3 == "True", 1, 0)
+QK7_3
+#S58 - non-OECD - real interest
+summary(AFLS$S58)
+AFLS$S58<- ifelse(AFLS$S58 == "", 1, 0)
+S58
+#QK7_4add - non-OECD - overdrawing a account #not included??
+summary(AFLS$QK7_4add)
+AFLS$QK7_4add<- ifelse(AFLS$QK7_4add == "", 1, 0)
+QK7_4add
+#EB3 - non-OECD - exchange rate
+summary(AFLS$EB3)
+AFLS$EB3<- ifelse(AFLS$EB3 == "", 3, 0)
+EB3
+
+
+#create financial knowledge score (score 0-7).
+
+#AFLS1 <- AFLS %>% 
+ # summarize(fin_know = QK3+QK4+QK5+QK6+QK7_1+QK7_3)
+
+#AFLS1
+
+####################financial attitude score#############################
+summary(AFLS$QS1_1)
