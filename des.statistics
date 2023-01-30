@@ -43,12 +43,18 @@ employment
                            
 
 ##employmentdummies
+summary(AFLS$QD10)
 selfemployed<- ifelse(AFLS$QD10 == "Self-employed [work for myself]", 1, 0)
 summary(selfemployed)
-employed<- ifelse(AFLS$QD10 == "In paid employment [work for someone else]", 1, 0)
+employed<- ifelse(AFLS$QD10 == "In paid employment [work for someone else]", 1, 0) #maybe keep those looking for work?
+unemployed<- ifelse(AFLS$QD10 == "Looking for work [unemployed]", 1, 0)
 employed
 summary(employed)
 
+#dropempl <- c("Apprentice","Looking after the home","Looking for work [unemployed]","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Looking for work [unemployed]","Student","Other")
+#AFLS2 <- AFLS[!(AFLS$QD10 %in% dropempl),] 
+#AFLS2
+  
 ##genderdummies
 male <- ifelse(AFLS$QD1 == "Male" , 1, 0)
 female <- ifelse(AFLS$QD1 == "2", 1, 0)
@@ -59,19 +65,19 @@ male
 ggplot(AFLS$QD1, aes(male,female))
 
 #########weights#########
-wgtsvysample <-svydesign(id=~1, weights=~AFLS$wght, data=AFLS)
+#wgtsvysample <-svydesign(id=~1, weights=~AFLS$wght, data=AFLS)
 
-svytable(~AFLS$QD1, design=wgtsvysample)
-svytable(~urbanicity, design=my_design, na.rm=TRUE)
+#AFLS3 <- AFLS[!(AFLS$QD7 %in% dropage),] ??
 
-## two-way table
-svytable(~+gender+urbanicity, design=my_design, na.rm=TRUE)
 
 ##gender
 summary(AFLS$QD1) #<- Übereinstimmung (Fessler et al., 2020)
 ##age
 summary(AFLS$QD7)
-summary(AFLS$QD7_a)
+
+AFLS2$QD7
+summary(AFLS2$QD7_a)
+
 
 ####################financial knowledge score#############################
 #QK1 - self-rated knowledge #does not add to financial literacy score
@@ -124,10 +130,18 @@ EB3
 
 #create financial knowledge score (score 0-7).
 
-#AFLS1 <- AFLS %>% 
- # summarize(fin_know = QK3+QK4+QK5+QK6+QK7_1+QK7_3)
+AFLS1 <- AFLS %>% 
+  mutate(fin_know = AFLS$QK3+AFLS$QK4+AFLS$QK5+AFLS$QK6+AFLS$QK7_1+AFLS$QK7_2+AFLS$QK7_3)
+
+summary(AFLS1$fin_know)
+table(AFLS1$fin_know)
+360/(8+26+63+95+168+270+428+360)
+8+26+63+95+168+270+428+360
+
 
 #AFLS1
 
 ####################financial attitude score#############################
 summary(AFLS$QS1_1)
+
+
