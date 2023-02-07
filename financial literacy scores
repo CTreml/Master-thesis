@@ -1,0 +1,495 @@
+#loading packages
+library(ggplot2)
+library(survey)
+library(mitools)
+library(survey)
+library(srvyr)
+library(dplyr)
+#srvyr is a dplyr version of survey, check out the "Vignettes":
+#https://cran.r-project.org/web/packages/srvyr/index.html
+library(mice)
+library(tidyverse)
+library(oaxaca)
+library(devtools)
+#install_github('djalmapessoa/convey')
+library(convey)
+library(haven)
+library(foreign)
+library(xtable)
+#install.packages("stargazer")
+library(stargazer)
+#install.packages("forcats")
+library(forcats)
+
+
+#setting the working directory
+setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
+ASFL_org <- readstata13::read.dta13("./Questionnaire & Dataset/oecd_2019_engl_final_official.dta", generate.factors=TRUE, nonint.factors = TRUE)
+ASFL <-ASFL_org
+ASFL
+
+#ASFL <- mutate_at(ASFL, c("QF12_1_1", "QF12_1_2"), ~replace(., is.NA(.), 0)) ??
+
+#######correct weighting###############
+#ASFL <- as.data.frame(ASFL_org)
+#ASFL_weighted <-svydesign(id=~1, weights=~ASFL_org$wght, data=ASFL_org, na.rm=TRUE)
+#ASFL <- ASFL_weighted$variables
+
+
+summary(ASFL$QD10)
+selfemployed<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
+summary(selfemployed)
+employed<- ifelse(ASFL$QD10 == "In paid employment [work for someone else]", 1, 0) #maybe keep those looking for work?
+unemployed<- ifelse(ASFL$QD10 == "Looking for work [unemployed]", 1, 0)
+employed
+summary(employed)
+
+dropempl <- c("Self-employed [work for myself]", "Apprentice","Looking after the home","Looking for work [unemployed]","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Looking for work [unemployed]","Student","Other")
+#AFLS2 <- AFLS[!(AFLS$QD10 %in% dropempl),] 
+#AFLS2 - Data set for self-employed!
+dropempl2 <- c("In paid employment [work for someone else]","Apprentice","Looking after the home","Looking for work [unemployed]","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Looking for work [unemployed]","Student","Other")
+ASFLse <- ASFL[!(ASFL$QD10 %in% dropempl2),] 
+summary(ASFLse)
+ASFLe <- ASFL[!(ASFL$QD10 %in% dropempl),] 
+ASFLe 
+
+####################financial knowledge score#############################
+#QK1 - self-rated knowledge #does not add to financial literacy score
+summary(ASFL$QK1)
+#QK2 - equal splitting #does not add to financial literacy score
+summary(ASFL$QK2)
+ASFL$QK2<- ifelse(ASFL$QK2 == "200", 1, 0)
+ASFLse$QK2<- ifelse(ASFLse$QK2 == "200", 1, 0)
+#QK2
+#QK3 - *OECD - time value of money
+summary(ASFL$QK3)
+ASFL$QK3<- ifelse(ASFL$QK3 == "Or, less than they could buy today", 1, 0)
+ASFLse$QK3<- ifelse(ASFLse$QK3 == "Or, less than they could buy today", 1, 0)
+#QK3
+#QK4 - *OECD - interest paid on a loan
+summary(ASFL$QK4)
+ASFL$QK4<- ifelse(ASFL$QK4 == "0", 1, 0)
+ASFLse$QK4<- ifelse(ASFLse$QK4 == "0", 1, 0)
+#QK4
+#QK5 - *OECD - interest plus principal
+summary(ASFL$QK5)
+ASFL$QK5<- ifelse(ASFL$QK5 == "102", 1, 0)
+ASFLse$QK5<- ifelse(ASFLse$QK5 == "102", 1, 0)
+#QK5
+#QK6 - *OECD - compound interest 
+summary(ASFL$QK6)
+ASFL$QK6<- ifelse(ASFL$QK6 == "More than €110", 1, 0)
+ASFLse$QK6<- ifelse(ASFLse$QK6 == "More than €110", 1, 0)
+#QK6
+#QK7_1 - *OECD - risk and return
+ASFL$QK7_1<- ifelse(ASFL$QK7_1 == "True", 1, 0)
+ASFLse$QK7_1<- ifelse(ASFLse$QK7_1 == "True", 1, 0)
+#QK7_1
+#QK7_2 - *OECD - inflation definition
+summary(ASFL$QK7_2)
+ASFL$QK7_2<- ifelse(ASFL$QK7_2 == "True", 1, 0)
+ASFLse$QK7_2<- ifelse(ASFLse$QK7_2 == "True", 1, 0)
+#QK7_2
+#QK7_3 - *OECD - diversification
+summary(ASFL$QK7_3)
+ASFL$QK7_3<- ifelse(ASFL$QK7_3 == "True", 1, 0)
+ASFL$QK7_3
+ASFLse$QK7_3<- ifelse(ASFLse$QK7_3 == "True", 1, 0)
+#QK7_3
+#S58 - non-OECD - real interest
+#summary(ASFL$S58)
+#ASFL$S58<- ifelse(ASFL$S58 == "", 1, 0)
+#ASFLse$S58<- ifelse(ASFLse$S58 == "", 1, 0)
+#S58
+#QK7_4add - non-OECD - overdrawing a account #not included??
+#summary(ASFL$QK7_4add)
+#ASFL$QK7_4add<- ifelse(ASFL$QK7_4add == "", 1, 0)
+#ASFLse$QK7_4add<- ifelse(ASFLse$QK7_4add == "", 1, 0)
+#QK7_4add
+#EB3 - non-OECD - exchange rate
+#summary(ASFL$EB3)
+#ASFL$EB3<- ifelse(ASFL$EB3 == "", 3, 0)
+#ASFLse$EB3<- ifelse(ASFLse$EB3 == "", 3, 0)
+#EB3
+
+
+#create financial knowledge score (score 0-7).
+
+ASFL1 <- ASFL %>% 
+  mutate(fin_know = ASFL$QK3+ASFL$QK4+ASFL$QK5+ASFL$QK6+ASFL$QK7_1+ASFL$QK7_2+ASFL$QK7_3)
+#ASFL1 <- ASFL %>% 
+#  mutate(fin_know = QK3+QK4+QK5+QK6+QK7_1+QK7_2+QK7_3)
+
+summary(ASFL1$fin_know)
+table(ASFL1$fin_know)
+360/(8+26+63+95+168+270+428+360)
+8+26+63+95+168+270+428+360
+#average:
+5.322/7
+#5 or more 
+270+428+360
+1058/1418  ###74.6 - in OECD presentation: 73.6 -> maybe due to weights?
+
+se_finknow<- ifelse(ASFL1$QD10 == "Self-employed [work for myself]", 1, 0)
+ASFL_se_finknow <- subset(ASFL1, ASFL1$QD10 == "Self-employed [work for myself]")
+ASFL_se_finknow
+summary(ASFL_se_finknow$fin_know)
+
+ASFL_e_finknow <- subset(ASFL1, ASFL1$QD10 == "In paid employment [work for someone else]")
+ASFL_e_finknow
+summary(ASFL_e_finknow$fin_know)
+
+#self-employment financial knowledge check! 
+ASFL1se <- ASFLse %>% 
+  mutate(fin_know = ASFLse$QK3+ASFLse$QK4+ASFLse$QK5+ASFLse$QK6+ASFLse$QK7_1+ASFLse$QK7_2+ASFLse$QK7_3)
+summary(ASFL1se$fin_know)
+table(ASFL1se$fin_know)
+
+#average:
+5.962/7
+#5 or more 
+10+25+35
+70/79
+####################financial attitude score#############################
+summary(ASFL$QS1_1)
+QS1_1 <-ASFL$QS1_1
+QS1_1_1_rec <- ifelse(QS1_1== "Refused", 3, 0)
+QS1_1_2_rec <- ifelse(QS1_1 == "Not relevant", 3, 0)
+QS1_1_3_rec <- ifelse(QS1_1 == "Don´t know", 3, 0)
+
+QS1_1_1 <- ifelse(QS1_1 == "Completely agree",1, 0)
+QS1_1_2 <- ifelse(QS1_1 == "2",2, 0)
+QS1_1_3 <- ifelse(QS1_1 == "3",3, 0)
+QS1_1_4 <- ifelse(QS1_1 == "4",4, 0)
+QS1_1_5 <- ifelse(QS1_1 == "Completely disagree",5, 0)
+QS1_1 <- QS1_1_1_rec+QS1_1_2_rec+QS1_1_3_rec+QS1_1_1+QS1_1_2+QS1_1_3+QS1_1_4+QS1_1_5
+QS1_1
+
+
+summary(ASFL$QS1_3)
+QS1_3 <-ASFL$QS1_3
+QS1_3_1_rec <- ifelse(QS1_3== "Refused", 3, 0)
+QS1_3_2_rec <- ifelse(QS1_3 == "Not relevant", 3, 0)
+QS1_3_3_rec <- ifelse(QS1_3 == "Don´t know", 3, 0)
+
+QS1_3_1 <- ifelse(QS1_3 == "Completely agree",1, 0)
+QS1_3_2 <- ifelse(QS1_3 == "2",2, 0)
+QS1_3_3 <- ifelse(QS1_3 == "3",3, 0)
+QS1_3_4 <- ifelse(QS1_3 == "4",4, 0)
+QS1_3_5 <- ifelse(QS1_3 == "Completely disagree",5, 0)
+QS1_3 <- QS1_3_1_rec+QS1_3_2_rec+QS1_3_3_rec+QS1_3_1+QS1_3_2+QS1_3_3+QS1_3_4+QS1_3_5
+QS1_3
+
+
+
+summary(ASFL$QS3_11)
+QS3_11 <-ASFL$QS3_11
+QS3_11_1_rec <- ifelse(QS3_11== "Refused", 3, 0)
+QS3_11_2_rec <- ifelse(QS3_11 == "Not relevant", 3, 0)
+QS3_11_3_rec <- ifelse(QS3_11 == "Don´t know", 3, 0)
+QS3_11_1 <- ifelse(QS3_11 == "Completely",1, 0)
+QS3_11_2 <- ifelse(QS3_11 == "2",2, 0)
+QS3_11_3 <- ifelse(QS3_11 == "3",3, 0)
+QS3_11_4 <- ifelse(QS3_11 == "4",4, 0)
+QS3_11_5 <- ifelse(QS3_11 == "Not at all",5, 0)
+QS3_11 <- QS3_11_1_rec+QS3_11_2_rec+QS3_11_3_rec+QS3_11_1+QS3_11_2+QS3_11_3+QS3_11_4+QS3_11_5
+QS3_11
+
+fin_att <- (QS1_1+QS1_3+QS3_11)/3
+fin_att
+ASFL2 <- cbind(ASFL1,fin_att)
+
+summary(ASFL2$fin_att)
+table(ASFL2$fin_att)
+#more than 3 (out of five)
+204+226+169+57+32+15
+703/1418
+
+se_finknow_finatt<- ifelse(ASFL2$QD10 == "Self-employed [work for myself]", 1, 0)
+ASFL_se_finknow_finatt <- subset(ASFL2, ASFL2$QD10 == "Self-employed [work for myself]")
+ASFL_se_finknow_finatt
+summary(ASFL_se_finknow_finatt$fin_att)
+table(ASFL_se_finknow_finatt$fin_att)
+
+###financial knowledge gender differences 
+ASFL_e_finknow_finatt_m <- subset(ASFL2, ASFL2$QD1 == "Male")
+summary(ASFL_e_finknow_finatt_m$fin_know)
+ASFL_e_finknow_finatt_w <- subset(ASFL2, ASFL2$QD1 == "2")
+summary(ASFL_e_finknow_finatt_w$fin_know)
+###financial attitude gender differences 
+ASFL_e_finknow_finatt_m <- subset(ASFL2, ASFL2$QD1 == "Male")
+summary(ASFL_e_finknow_finatt_m$fin_att)
+ASFL_e_finknow_finatt_w <- subset(ASFL2, ASFL2$QD1 == "2")
+summary(ASFL_e_finknow_finatt_w$fin_att)
+
+#more than 3 (out of five)
+11+19+8+2+5
+45/79
+
+e_finknow_finatt<- ifelse(ASFL2$QD10 == "In paid employment [work for someone else]", 1, 0)
+ASFL_e_finknow_finatt <- subset(ASFL2, ASFL2$QD10 == "In paid employment [work for someone else]")
+ASFL_e_finknow_finatt
+summary(ASFL_e_finknow_finatt$fin_att)
+table(ASFL_e_finknow_finatt$fin_att)
+
+###financial knowledge gender differences 
+ASFL_e_finknow_finatt_m <- subset(ASFL2, ASFL2$QD1 == "Male")
+summary(ASFL_e_finknow_finatt_m$fin_know)
+ASFL_e_finknow_finatt_w <- subset(ASFL2, ASFL2$QD1 == "2")
+summary(ASFL_e_finknow_finatt_w$fin_know)
+###financial attitude gender differences 
+ASFL_e_finknow_finatt_m <- subset(ASFL2, ASFL2$QD1 == "Male")
+summary(ASFL_e_finknow_finatt_m$fin_att)
+ASFL_e_finknow_finatt_w <- subset(ASFL2, ASFL2$QD1 == "2")
+summary(ASFL_e_finknow_finatt_w$fin_att)
+
+
+#more than 3 (out of five)
+116+113+89+30+10++5
+363/699
+
+
+####################financial behavior score#######################
+###########Budgeting#################
+ASFL$QF1
+QF1_a<-ASFL$QF1_a <- ifelse(ASFL$QF1 == "Yes", 1, 0)
+QF1_1<- ASFL$QF1<- ifelse(ASFL$QF1 == c("You make these decisions by yourself", "You make these decisions with someone else"), 1, 0)
+QF1_1
+QF1fin <- QF1_1 + QF1_a
+QF1fin
+
+
+QF2_1<- ASFL$QF2_1<- ifelse(ASFL$QF2_1 == "Yes", 1, 0)
+QF2_1
+QF2_2<- ASFL$QF2_2<- ifelse(ASFL$QF2_2 == "Yes", 1, 0)
+QF2_3<- ASFL$QF2_3<- ifelse(ASFL$QF2_3 == "Yes", 1, 0)
+QF2_4<- ASFL$QF2_4<- ifelse(ASFL$QF2_4 == "Yes", 1, 0)
+QF2_5<- ASFL$QF2_5<- ifelse(ASFL$QF2_5 == "Yes", 1, 0)
+QF2_6<- ASFL$QF2_6<- ifelse(ASFL$QF2_6 == "Yes", 1, 0)
+
+QF2 <- QF2_1 + QF2_2 + QF2_3 + QF2_4 + QF2_5 + QF2_6
+QF2
+
+QF2fin <- ifelse(QF2 >= "2", 1, 0)
+QF2fin
+
+QF_Bud <- QF1fin+QF2fin
+QF_Bud<-  ifelse(QF_Bud == "2", 1, 0)
+QF_Bud
+
+
+QF3_1<- ASFL$QF3_1<- ifelse(ASFL$QF3_1 == "Yes", 1, 0)
+QF3_2<- ASFL$QF3_2<- ifelse(ASFL$QF3_2 == "Yes", 1, 0)
+QF3_3<- ASFL$QF3_3<- ifelse(ASFL$QF3_3 == "Yes", 1, 0)
+QF3_5<- ASFL$QF3_5<- ifelse(ASFL$QF3_5 == "Yes", 1, 0)
+QF3_6<- ASFL$QF3_6<- ifelse(ASFL$QF3_6 == "Yes", 1, 0)
+QF3_7<- ASFL$QF3_7<- ifelse(ASFL$QF3_7 == "Yes", 1, 0)
+QF3_8<- ASFL$QF3_8<- ifelse(ASFL$QF3_8 == "Yes", 1, 0)
+
+QF3<- QF3_1+QF3_2+QF3_3+QF3_5+QF3_6+QF3_7+QF3_8
+QF3
+QF3 <- ifelse(QF3 >= "1", 1, 0)
+QF3
+
+ASFL$QF11<- ASFL$QF11<- ifelse(ASFL$QF11 == "No", 1, 0)
+QF11 <- ASFL$QF11
+QF11
+#######QF12!! <- problematic -> check by hand!
+ASFL <- ASFL %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 1, QF12_3_1))
+ASFL$QF12_3_1
+ASFL <- ASFL %>% mutate(QF12_3_2 = ifelse(is.na(QF12_3_2), 1, QF12_3_2))
+ASFL$QF12_3_2
+ASFL <- ASFL %>% mutate(QF12_3_3 = ifelse(is.na(QF12_3_3), 1, QF12_3_3))
+ASFL$QF12_3_3
+ASFL <- ASFL %>% mutate(QF12_3_4 = ifelse(is.na(QF12_3_4), 1, QF12_3_4))
+ASFL$QF12_3_4
+ASFL <- ASFL %>% mutate(QF12_3_5 = ifelse(is.na(QF12_3_5), 1, QF12_3_5))
+ASFL$QF12_3_5
+ASFL <- ASFL %>% mutate(QF12_3_6 = ifelse(is.na(QF12_3_6), 1, QF12_3_6))
+ASFL$QF12_3_6
+
+QF12_3_1 <- ASFL$QF12_3_1<-ASFL$QF12_3_1<- ifelse(ASFL$QF12_3_1 == c("4"), 1, 0)
+QF12_3_2 <- ASFL$QF12_3_2<-ASFL$QF12_3_2<- ifelse(ASFL$QF12_3_2 == c("4"), 1, 0)
+QF12_3_3 <- ASFL$QF12_3_3<-ASFL$QF12_3_3<- ifelse(ASFL$QF12_3_3 == c("4"), 1, 0)
+QF12_3_4 <- ASFL$QF12_3_4<-ASFL$QF12_3_4<- ifelse(ASFL$QF12_3_4 == c("4"), 1, 0)
+QF12_3_5 <- ASFL$QF12_3_5<-ASFL$QF12_3_5<- ifelse(ASFL$QF12_3_5 == c("4"), 1, 0)
+QF12_3_6 <- ASFL$QF12_3_6<-ASFL$QF12_3_6<- ifelse(ASFL$QF12_3_6 == c("4"), 1, 0)
+
+QF12_3 <- QF12_3_1+QF12_3_2+QF12_3_3+QF12_3_4+QF12_3_5+QF12_3_6
+QF12_3<- ifelse(QF12_3 == "0", 1, 0)
+QF12_3
+
+ASFL <- ASFL %>% mutate(QF12_4_1 = ifelse(is.na(QF12_4_1), 1, QF12_4_1))
+ASFL$QF12_4_1
+ASFL <- ASFL %>% mutate(QF12_4_2 = ifelse(is.na(QF12_4_2), 1, QF12_4_2))
+ASFL$QF12_4_2
+QF12_4_1 <-ASFL$QF12_4_1<- ifelse(ASFL$QF12_4_1 == "4", 1, 0)
+QF12_4_2 <-ASFL$QF12_4_2<- ifelse(ASFL$QF12_4_2 == "4", 1, 0)
+QF12_4 <- QF12_4_1+QF12_4_2
+QF12_4<- ifelse(QF12_4 == "0", 1, 0)
+QF12_4
+
+ASFL <- ASFL %>% mutate(QF12_5_1 = ifelse(is.na(QF12_5_1), 1, QF12_5_1))
+ASFL$QF12_5_1
+ASFL <- ASFL %>% mutate(QF12_5_6 = ifelse(is.na(QF12_5_6), 1, QF12_5_6))
+ASFL$QF12_5_6
+QF12_5_1 <-ASFL$QF12_5_1<- ifelse(ASFL$QF12_5_1 == "4", 1, 0)
+QF12_5_6 <-ASFL$QF12_5_6<- ifelse(ASFL$QF12_5_6 == "4", 1, 0)
+QF12_5 <- QF12_5_1+QF12_5_6
+QF12_5<- ifelse(QF12_5 == "0", 1, 0)
+QF12_5
+
+
+ASFL <- ASFL %>% mutate(QF12_6_1 = ifelse(is.na(QF12_6_1), 1, QF12_6_1))
+ASFL$QF12_6_1
+ASFL <- ASFL %>% mutate(QF12_6_2 = ifelse(is.na(QF12_6_2), 1, QF12_6_2))
+ASFL$QF12_6_2
+QF12_6_1 <-ASFL$QF12_6_1<- ifelse(ASFL$QF12_6_1 == "4", 1, 0)
+QF12_6_2 <-ASFL$QF12_6_2<- ifelse(ASFL$QF12_6_2 == "4", 1, 0)
+
+QF12_6 <- QF12_6_1+QF12_6_2
+QF12_6<- ifelse(QF12_6 == "0", 1, 0)
+QF12_6
+
+ASFL <- ASFL %>% mutate(Qprod2 = ifelse(is.na(Qprod2), 0, Qprod2))
+ASFL$Qprod2
+Qprod2<- ASFL$Qprod2<- ifelse(ASFL$Qprod2 == c("4", "7"), 1, 0)
+Qprod2
+
+ASFL$Qprod3_INT_2
+ASFL <- ASFL %>% mutate(Qprod3_INT_1 = ifelse(is.na(Qprod3_INT_1), 0, Qprod3_INT_1))
+ASFL <- ASFL %>% mutate(Qprod3_INT_2 = ifelse(is.na(Qprod3_INT_2), 0, Qprod3_INT_2))
+Qprod3_INT_1<- ASFL$Qprod3_INT_1<- ifelse(ASFL$Qprod3_INT_1 == "5", 1, 0)
+Qprod3_INT_1
+Qprod3_INT_2<- ASFL$Qprod3_INT_2<- ifelse(ASFL$Qprod3_INT_2 == "5", 1, 0)
+Qprod3_INT_2
+
+Qprod_D2 <- Qprod3_INT_1+Qprod3_INT_2
+Qprod_D2<- ifelse(Qprod_D2 >= "1", 2, 0)
+Qprod_D2
+
+
+
+ASFL$Qprod3_INT_3
+ASFL <- ASFL %>% mutate(Qprod3_INT_3 = ifelse(is.na(Qprod3_INT_3), 0, Qprod3_INT_3))
+ASFL <- ASFL %>% mutate(Qprod3_INT_4 = ifelse(is.na(Qprod3_INT_4), 0, Qprod3_INT_4))
+ASFL <- ASFL %>% mutate(Qprod3_INT_5 = ifelse(is.na(Qprod3_INT_5), 0, Qprod3_INT_5))
+ASFL <- ASFL %>% mutate(Qprod3_INT_6 = ifelse(is.na(Qprod3_INT_6), 0, Qprod3_INT_6))
+Qprod3_INT_3<- ASFL$Qprod3_INT_3<- ifelse(ASFL$Qprod3_INT_3 == "5", 1, 0)
+Qprod3_INT_4<- ASFL$Qprod3_INT_4<- ifelse(ASFL$Qprod3_INT_4 == "5", 1, 0)
+Qprod3_INT_5<- ASFL$Qprod3_INT_5<- ifelse(ASFL$Qprod3_INT_5 == "5", 1, 0)
+Qprod3_INT_6<- ASFL$Qprod3_INT_6<- ifelse(ASFL$Qprod3_INT_6 == "5", 1, 0)
+
+Qprod_D2_1 <- Qprod3_INT_3+Qprod3_INT_4+Qprod3_INT_5+Qprod3_INT_6
+Qprod_D2_1<- ifelse(Qprod_D2_1 >= "1", 1, 0)
+Qprod_D2_1
+
+Qprod_D1<- Qprod_D2_1 + Qprod2
+Qprod_D1<- ifelse(Qprod_D1 >= "1", 1, 0)
+Qprod_D1
+
+Qprod <- Qprod_D1+ Qprod_D2
+Qprod
+ASFL <- cbind(ASFL,Qprod)
+ASFL$Qprod[ASFL$Qprod == "3"] <- "2"
+
+Qprod <- ASFL$Qprod
+Qprod <- as.numeric(Qprod)
+Qprod
+
+##final QF12 ->not consider QF12_1, QF12_2, QD12_3
+QF12 <- QF12_3+QF12_4+QF12_5+QF12_6
+QF12
+QF12fin <- ifelse(QF12 == "4", 1, 0)
+QF12fin
+
+QF11
+QFMEM <- QF11+QF12fin
+QFMEM
+QFMEM <- ifelse(QFMEM == "2", 1, 0)
+QFMEM
+
+
+QS1_5 <-ASFL$QS1_5
+QS1_5_1 <- ifelse(QS1_5== "Completely agree", 1, 0)
+QS1_5_2 <- ifelse(QS1_5 == "2", 1, 0)
+QS1_5 <- QS1_5_1+QS1_5_2
+QS1_5
+
+
+QS1_8 <-ASFL$QS1_8
+QS1_8
+QS1_8_1 <- ifelse(QS1_8 == "Completely agree", 1, 0)
+QS1_8_2 <- ifelse(QS1_8 == "2", 1, 0)
+QS1_8 <- QS1_8_1+QS1_8_2
+QS1_8
+
+
+QS2_3 <-ASFL$QS2_3
+QS2_3
+QS2_3_1 <- ifelse(QS2_3 == "Always", 1, 0)
+QS2_3_2 <- ifelse(QS2_3 == "2", 1, 0)
+QS2_3 <- QS2_3_1+QS2_3_2
+QS2_3
+
+QS2_5 <-ASFL$QS2_5
+QS2_5
+QS2_5_1 <- ifelse(QS2_5 == "Always", 1, 0)
+QS2_5_2 <- ifelse(QS2_5 == "2", 1, 0)
+QS2_5 <- QS2_5_1+QS2_5_2
+QS2_5
+
+fin_beh <- QF_Bud+QFMEM+QF3+Qprod+QS1_5+QS1_8+QS2_3+QS2_5
+fin_beh
+Qprod
+QF_Bud
+table(fin_beh)
+##more than 6
+353+211+126+25
+715/1418
+ASFL3 <- cbind(ASFL2,fin_beh)
+
+se_finknow_finatt_finbeh<- ifelse(ASFL3$QD10 == "Self-employed [work for myself]", 1, 0)
+ASFL_se_finknow_finatt_finbeh <- subset(ASFL3, ASFL3$QD10 == "Self-employed [work for myself]")
+ASFL_se_finknow_finatt_finbeh
+summary(ASFL_se_finknow_finatt_finbeh$fin_beh)
+table(ASFL_se_finknow_finatt_finbeh$fin_beh)
+
+###financial knowledge gender differences 
+ASFL_se_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
+summary(ASFL_se_finknow_finatt_finbeh_m$fin_know)
+ASFL_se_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
+summary(ASFL_se_finknow_finatt_finbeh_w$fin_know)
+###financial attitude gender differences 
+ASFL_se_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
+summary(ASFL_se_finknow_finatt_finbeh_m$fin_att)
+ASFL_se_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
+summary(ASFL_se_finknow_finatt_finbeh_w$fin_att)
+###financial attitude gender differences 
+ASFL_se_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
+summary(ASFL_se_finknow_finatt_finbeh_m$fin_beh)
+ASFL_se_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
+summary(ASFL_se_finknow_finatt_finbeh_w$fin_beh)
+
+
+e_finknow_finatt_finbeh<- ifelse(ASFL3$QD10 == "In paid employment [work for someone else]", 1, 0)
+ASFL_e_finknow_finatt_finbeh <- subset(ASFL3, ASFL3$QD10 == "In paid employment [work for someone else]")
+ASFL_e_finknow_finatt_finbeh
+summary(ASFL_e_finknow_finatt_finbeh$fin_beh)
+table(ASFL_e_finknow_finatt_finbeh$fin_beh)
+
+###financial knowledge gender differences 
+ASFL_e_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
+summary(ASFL_e_finknow_finatt_finbeh_m$fin_know)
+ASFL_e_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
+summary(ASFL_e_finknow_finatt_finbeh_w$fin_know)
+###financial attitude gender differences 
+ASFL_e_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
+summary(ASFL_e_finknow_finatt_finbeh_m$fin_att)
+ASFL_e_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
+summary(ASFL_e_finknow_finatt_finbeh_w$fin_att)
+###financial behavior gender differences 
+ASFL_e_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
+summary(ASFL_e_finknow_finatt_finbeh_m$fin_beh)
+ASFL_e_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
+summary(ASFL_e_finknow_finatt_finbeh_w$fin_beh)
