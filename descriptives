@@ -1,0 +1,87 @@
+#loading packages
+library(ggplot2)
+library(survey)
+library(mitools)
+library(survey)
+library(srvyr)
+library(dplyr)
+#srvyr is a dplyr version of survey, check out the "Vignettes":
+#https://cran.r-project.org/web/packages/srvyr/index.html
+library(mice)
+library(tidyverse)
+library(oaxaca)
+library(devtools)
+#install_github('djalmapessoa/convey')
+library(convey)
+library(haven)
+library(foreign)
+library(xtable)
+#install.packages("stargazer")
+library(stargazer)
+#install.packages("forcats")
+library(forcats)
+
+#setting the working directory
+setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
+ASFL_org <- readstata13::read.dta13("./Questionnaire & Dataset/oecd_2019_engl_final_official.dta", generate.factors=TRUE, nonint.factors = TRUE)
+ASFL <-ASFL_org
+ASFL
+
+##################################employment##################################
+
+summary(ASFL$QD10)
+selfemployed<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
+summary(selfemployed)
+employed<- ifelse(ASFL$QD10 == "In paid employment [work for someone else]", 1, 0) #maybe keep those looking for work?
+unemployed<- ifelse(ASFL$QD10 == "Looking for work [unemployed]", 1, 0)
+employed
+summary(employed)
+
+dropempl <- c("Self-employed [work for myself]", "Apprentice","Looking after the home","Looking for work [unemployed]","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Looking for work [unemployed]","Student","Other")
+#AFLS2 <- AFLS[!(AFLS$QD10 %in% dropempl),] 
+#AFLS2 - Data set for self-employed!
+dropempl2 <- c("In paid employment [work for someone else]","Apprentice","Looking after the home","Looking for work [unemployed]","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Looking for work [unemployed]","Student","Other")
+ASFLse <- ASFL[!(ASFL$QD10 %in% dropempl2),] 
+summary(ASFLse)
+ASFLe <- ASFL[!(ASFL$QD10 %in% dropempl),] 
+ASFLe 
+
+
+##################################age##################################
+#full sample
+summary(ASFL$QD7_a)
+age_f <- as.numeric(as.character(ASFL$QD7))
+age_f
+summary(age_f)
+
+
+ASFL$QD7
+ASFL["age_group"] = cut(as.numeric(as.character(ASFL$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
+#self-employed
+summary(ASFL$QD7_a)
+age_f <- as.numeric(as.character(ASFL$QD7))
+age_f
+summary(age_f)
+
+
+ASFL$QD7
+ASFL["age_group"] = cut(as.numeric(as.character(ASFL$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
+youngmill_f<- ifelse(ASFL$age_group == "16-28", 1, 0)
+oldmill_f<- ifelse(ASFL$age_group == "29-38", 1, 0)
+genx_f <- ifelse(ASFL$age_group == "39-58", 1, 0)
+babyboomers_f <- ifelse(ASFL$age_group == "59-74", 1, 0)
+silentgen_f<- ifelse(ASFL$age_group == ">75", 1, 0)
+
+#self-employed
+
+
+#employed
+
+
+
+##################################gender##################################
+summary(ASFL$QD1)
+female_f <- ifelse(ASFL$QD1 == "2", 1, 0)
+female_f
+male_f <- ifelse(ASFL$QD1 == "Male", 1, 0)
+male_f
