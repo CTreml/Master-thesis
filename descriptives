@@ -71,17 +71,252 @@ oldmill_f<- ifelse(ASFL$age_group == "29-38", 1, 0)
 genx_f <- ifelse(ASFL$age_group == "39-58", 1, 0)
 babyboomers_f <- ifelse(ASFL$age_group == "59-74", 1, 0)
 silentgen_f<- ifelse(ASFL$age_group == ">75", 1, 0)
+summary(ASFL$age_group)
 
 #self-employed
 
+ASFLse$QD7
+ASFLse["age_group"] = cut(as.numeric(as.character(ASFLse$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
+youngmill_se<- ifelse(ASFLse$age_group == "16-28", 1, 0)
+oldmill_se<- ifelse(ASFLse$age_group == "29-38", 1, 0)
+genx_se<- ifelse(ASFLse$age_group == "39-58", 1, 0)
+babyboomers_se <- ifelse(ASFLse$age_group == "59-74", 1, 0)
+silentgen_se<- ifelse(ASFLse$age_group == ">75", 1, 0)
+summary(ASFLse$age_group)
 
 #employed
+ASFLe$QD7
+ASFLe["age_group"] = cut(as.numeric(as.character(ASFLe$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
+youngmill_e<- ifelse(ASFLe$age_group == "16-28", 1, 0)
+oldmill_e<- ifelse(ASFLe$age_group == "29-38", 1, 0)
+genx_e <- ifelse(ASFLe$age_group == "39-58", 1, 0)
+babyboomers_e <- ifelse(ASFLe$age_group == "59-74", 1, 0)
+silentgen_e<- ifelse(ASFLe$age_group == ">75", 1, 0)
+summary(ASFLe$age_group)
+
+###comparison
+###stacked bar chart 
+generationcomparison <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=5),
+                 age=rep(c('Young millenials', 'Old millenials', 'Generation X', 'Baby boomers', 'Silent generation ' ), times=3),
+                 share=c(158/1418, 198/1418, 515/1418, 354/1418, 193/1418, 0,5/79,63/79,11/79,0, 114/699,163/699,386/699,35/699,1/699))
+
+ggplot(generationcomparison, aes(fill=age, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')
+
 
 
 
 ##################################gender##################################
 summary(ASFL$QD1)
+
 female_f <- ifelse(ASFL$QD1 == "2", 1, 0)
 female_f
 male_f <- ifelse(ASFL$QD1 == "Male", 1, 0)
 male_f
+
+female_se <- ifelse(ASFLse$QD1 == "2", 1, 0)
+female_se
+male_se <- ifelse(ASFLse$QD1 == "Male", 1, 0)
+male_se
+
+female_e <- ifelse(ASFLe$QD1 == "2", 1, 0)
+female_e
+male_e <- ifelse(ASFLe$QD1 == "Male", 1, 0)
+male_e
+
+
+
+summary(ASFL$QD1)
+summary(ASFLse$QD1)
+summary(ASFLe$QD1)
+
+
+
+gender_comp <- data.frame(values = c(668/1418,750/1418,45/79,34/79,346/699,353/699),  # Create example data
+                            group = rep(c("full",
+                                          "self-employed",
+                                          "employed"),
+                                        each = 2),
+                            subgroup = LETTERS[1:2])
+gender_comp <- reshape(gender_comp,                        # Modify data for Base R barplot
+                         idvar = "subgroup",
+                         timevar = "group",
+                         direction = "wide")
+#row.names(fin_know_comp) <- fin_know_comp$subgroup
+gender_comp <- gender_comp[ , 2:ncol(gender_comp)]
+colnames(gender_comp) <- c("full","self-employed", "employed")
+rownames(gender_comp) <- c("male","female")
+gender_comp <- as.matrix(gender_comp)
+gender_comp   
+#gender_comp <- t(gender_comp)
+barplot(height = gender_comp,                       # Grouped barplot using Base R
+        beside = TRUE)
+
+##################################education##################################
+#fullsample
+ASFL$QD9
+#skip NAs
+ASFL <- ASFL %>% mutate(QD9 = ifelse(is.na(QD9), 0, QD9))
+primary_f <- ifelse(ASFL$QD9 == c("7", "6"), 1, 0)
+lowersecondary_f<- ifelse(ASFL$QD9 == "5", 1, 0)
+uppersecondary_f<- ifelse(ASFL$QD9 == "4", 1, 0)
+university_f<- ifelse(ASFL$QD9 == c("3", "2"), 1, 0)
+
+table(ASFL$QD9)
+#191/1382 , 809/1382 , 220/1382, 162/1382
+
+#selfemployed
+ASFLse$QD9
+#skip NAs
+ASFLse <- ASFLse %>% mutate(QD9 = ifelse(is.na(QD9), 0, QD9))
+primary_se <- ifelse(ASFLse$QD9 == c("6"), 1, 0) ##none with no formal education
+lowersecondary_se<- ifelse(ASFLse$QD9 == "5", 1, 0)
+uppersecondary_se<- ifelse(ASFLse$QD9 == "4", 1, 0)
+university_se_1<- ifelse(ASFLse$QD9 == "2", 1, 0)
+university_se_2<- ifelse(ASFLse$QD9 == "3", 1, 0)
+university_se <- university_se_1+university_se_2
+table(ASFLse$QD9)
+#4/77, 39/77, 11/77, 23/77
+
+#employed
+ASFLe$QD9
+#skip NAs
+ASFLe <- ASFLe %>% mutate(QD9 = ifelse(is.na(QD9), 0, QD9))
+primary_e <- ifelse(ASFLe$QD9 == c("7", "6"), 1, 0)
+lowersecondary_e<- ifelse(ASFLe$QD9 == "5", 1, 0)
+uppersecondary_e<- ifelse(ASFLe$QD9 == "4", 1, 0)
+university_e_1<- ifelse(ASFLe$QD9 == "2", 1, 0)
+university_e_2<- ifelse(ASFLe$QD9 == "3", 1, 0)
+university_e <- university_e_1+university_e_2
+
+table(ASFLe$QD9)
+#42/685, 408/685,138/685,97/685
+
+###comparison
+###stacked bar chart 
+educcomparison <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=4),
+                 education=rep(c('At most primary', 'Lower secondary', 'Upper secondary', 'Tertiary'), times=3),
+                 share=c(191/1382 , 809/1382 , 220/1382, 162/1382,4/77, 39/77, 11/77, 23/77,42/685, 408/685,138/685,97/685))
+
+ggplot(educcomparison, aes(fill=education, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')
+##################################household size##################################
+table(ASFL$QD5_1)
+471/(947+471)
+single_f <- ifelse(ASFL$QD5_1 == "Yes", 1, 0)
+table(ASFLse$QD5_1)
+23/(56+23)
+single_se <- ifelse(ASFLse$QD5_1 == "Yes", 1, 0)
+table(ASFLe$QD5_1)
+single_e <- ifelse(ASFLe$QD5_1 == "Yes", 1, 0)
+196/(503+196)
+
+
+
+##################################children##################################
+table(ASFL$QD5_4)
+table(ASFL$QD5_3)
+cb18_f <- ifelse(ASFL$QD5_3 == "Yes", 1, 0)
+cu18_f <- ifelse(ASFL$QD5_4 == "Yes", 1, 0)
+c_f <- cb18_f+cu18_f
+c_f  <- ifelse(c_f  >= "1", 1, 0)
+c_f
+table(c_f)
+351/(1418)
+cb18_se <- ifelse(ASFLse$QD5_3 == "Yes", 1, 0)
+cu18_se <- ifelse(ASFLse$QD5_4 == "Yes", 1, 0)
+c_se <- cb18_se+cu18_se
+c_se  <- ifelse(c_se  >= "1", 1, 0)
+table(c_se)
+29/79
+
+cb18_e <- ifelse(ASFLe$QD5_3 == "Yes", 1, 0)
+cu18_e <- ifelse(ASFLe$QD5_4 == "Yes", 1, 0)
+c_e <- cb18_e+cu18_e
+c_e  <- ifelse(c_e  >= "1", 1, 0)
+table(c_e)
+245/699
+
+
+
+##################################household income##################################
+#after tax
+ASFL$QD13
+below2000_f<- ifelse(ASFL$QD13 == "Up to X a month", 1, 0)
+between_f<- ifelse(ASFL$QD13 == "Between X and Y a month", 1, 0)
+above3300_f<- ifelse(ASFL$QD13 == "Y or more a month", 1, 0)
+table(ASFL$QD13)
+# 482/1302,508/1302,312/1302
+
+ASFLse$QD13
+below2000_se<- ifelse(ASFLse$QD13 == "Up to X a month", 1, 0)
+between_se<- ifelse(ASFLse$QD13 == "Between X and Y a month", 1, 0)
+above3300_se<- ifelse(ASFLse$QD13 == "Y or more a month", 1, 0)
+table(ASFLse$QD13)
+#15/69, 18/69, 36/69 
+
+ASFLse$QD13
+below2000_se<- ifelse(ASFLse$QD13 == "Up to X a month", 1, 0)
+between_se<- ifelse(ASFLse$QD13 == "Between X and Y a month", 1, 0)
+above3300_se<- ifelse(ASFLse$QD13 == "Y or more a month", 1, 0)
+table(ASFLse$QD13)
+#171/647,264/647,212/647
+
+###comparison
+###stacked bar chart 
+hincome <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=3),
+                             income=rep(c('Up to €2.000', 'Between €2.000 and €3.000', '€3.000 or more'), times=3),
+                             share=c(482/1302,508/1302,312/1302,15/69, 18/69, 36/69,171/647,264/647,212/647))
+
+ggplot(hincome, aes(fill=income, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')
+
+
+
+##################################self-rated financial knowledge##################################
+ASFL$QK1
+hhsfknow_f<- ifelse(ASFL$QK1 == "Very high", 1, 0)
+hsfknow_f<- ifelse(ASFL$QK1 == "Quite high", 1, 0)
+highsfknow_f <- hhsfknow_f+hsfknow_f
+asfknow_f<- ifelse(ASFL$QK1 == "About average", 1, 0)
+lsfknow_f<- ifelse(ASFL$QK1 == "Quite low", 1, 0)
+llsfknow_f<- ifelse(ASFL$QK1 == "Very low", 1, 0)
+lowsfknow_f <- lsfknow_f+llsfknow_f
+summary(ASFL$QK1)
+#573/1382,238/1382,571/1382
+
+ASFLse$QK1
+hhsfknow_se<- ifelse(ASFLse$QK1 == "Very high", 1, 0)
+hsfknow_se<- ifelse(ASFLse$QK1 == "Quite high", 1, 0)
+highsfknow_se <- hhsfknow_se+hsfknow_se
+asfknow_se<- ifelse(ASFLse$QK1 == "About average", 1, 0)
+lsfknow_se<- ifelse(ASFLse$QK1 == "Quite low", 1, 0)
+llsfknow_se<- ifelse(ASFLse$QK1 == "Very low", 1, 0)
+lowsfknow_se <- lsfknow_se+llsfknow_se
+summary(ASFLse$QK1)
+#27/75, 45/75,3/75
+
+ASFLe$QK1
+hhsfknow_e<- ifelse(ASFLe$QK1 == "Very high", 1, 0)
+hsfknow_e<- ifelse(ASFLe$QK1 == "Quite high", 1, 0)
+highsfknow_e <- hhsfknow_e+hsfknow_e
+asfknow_e<- ifelse(ASFLe$QK1 == "About average", 1, 0)
+lsfknow_e<- ifelse(ASFLe$QK1 == "Quite low", 1, 0)
+llsfknow_e<- ifelse(ASFLe$QK1 == "Very low", 1, 0)
+lowsfknow_e <- lsfknow_e+llsfknow_e
+summary(ASFLe$QK1)
+#92/682,291/682,299/682
+
+selfratedknow <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=3),
+                      selfassessment=rep(c('Low', 'Average', 'High'), times=3),
+                      share=c(573/1382,238/1382,571/1382,27/75, 45/75,3/75,92/682,291/682,299/682))
+
+ggplot(selfratedknow, aes(fill=selfassessment, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')
+
+selfratedknow_specific <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=5),
+                            selfassessment=rep(c('Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=3),
+                            share=c(60/1382, 178/1382,573/1382,428/1382, 143/1382,2/75, 1/75, 27/75,34/75, 11/75,17/682,75/682,291/682,219/682,80/682))
+
+ggplot(selfratedknow_specific, aes(fill=selfassessment, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')
