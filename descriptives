@@ -72,6 +72,7 @@ genx_f <- ifelse(ASFL$age_group == "39-58", 1, 0)
 babyboomers_f <- ifelse(ASFL$age_group == "59-74", 1, 0)
 silentgen_f<- ifelse(ASFL$age_group == ">75", 1, 0)
 summary(ASFL$age_group)
+#158/1418, 198/1418, 515/1418, 354/1418, 193/1418
 
 #self-employed
 
@@ -83,6 +84,7 @@ genx_se<- ifelse(ASFLse$age_group == "39-58", 1, 0)
 babyboomers_se <- ifelse(ASFLse$age_group == "59-74", 1, 0)
 silentgen_se<- ifelse(ASFLse$age_group == ">75", 1, 0)
 summary(ASFLse$age_group)
+#0,5/79,63/79,11/79,0
 
 #employed
 ASFLe$QD7
@@ -93,6 +95,7 @@ genx_e <- ifelse(ASFLe$age_group == "39-58", 1, 0)
 babyboomers_e <- ifelse(ASFLe$age_group == "59-74", 1, 0)
 silentgen_e<- ifelse(ASFLe$age_group == ">75", 1, 0)
 summary(ASFLe$age_group)
+#114/699,163/699,386/699,35/699,1/699
 
 ###comparison
 ###stacked bar chart 
@@ -275,6 +278,7 @@ ggplot(hincome, aes(fill=income, y=share, x=status)) +
 
 ##################################self-rated financial knowledge##################################
 ASFL$QK1
+dontknow_f <- ifelse(ASFL$QK1 == "Don't know", 1, 0)
 hhsfknow_f<- ifelse(ASFL$QK1 == "Very high", 1, 0)
 hsfknow_f<- ifelse(ASFL$QK1 == "Quite high", 1, 0)
 highsfknow_f <- hhsfknow_f+hsfknow_f
@@ -283,7 +287,9 @@ lsfknow_f<- ifelse(ASFL$QK1 == "Quite low", 1, 0)
 llsfknow_f<- ifelse(ASFL$QK1 == "Very low", 1, 0)
 lowsfknow_f <- lsfknow_f+llsfknow_f
 summary(ASFL$QK1)
-#573/1382,238/1382,571/1382
+#573/1382,238/1382,571/1382,23/1382
+571/1382
+
 
 ASFLse$QK1
 hhsfknow_se<- ifelse(ASFLse$QK1 == "Very high", 1, 0)
