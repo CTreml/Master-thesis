@@ -1,0 +1,275 @@
+#loading packages
+library(ggplot2)
+library(survey)
+library(mitools)
+library(survey)
+library(srvyr)
+library(dplyr)
+#srvyr is a dplyr version of survey, check out the "Vignettes":
+#https://cran.r-project.org/web/packages/srvyr/index.html
+library(mice)
+library(tidyverse)
+library(oaxaca)
+library(devtools)
+#install_github('djalmapessoa/convey')
+library(convey)
+library(haven)
+library(foreign)
+library(xtable)
+#install.packages("stargazer")
+library(stargazer)
+#install.packages("forcats")
+library(forcats)
+
+
+
+#setting the working directory
+setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
+ASFL_org <- readstata13::read.dta13("./Questionnaire & Dataset/oecd_2019_engl_final_official.dta", generate.factors=TRUE, nonint.factors = TRUE)
+ASFL <-ASFL_org
+ASFL
+
+#######correct weighting###############
+#ASFL <- as.data.frame(ASFL_org)
+ASFL_weighted <-svydesign(id=~1, weights=~ASFL$wght, data=ASFL)
+ASFL_weighted <- ASFL_weighted$variables
+#ASFL <- ASFL_weighted$variables
+
+#######dropbelow18 
+under18 <- c("16","17")
+ASFLadult <- ASFL[!(ASFL$QD7 %in% under18),] 
+ASFLadult
+
+
+##################################employment##################################
+
+summary(ASFL$QD10)
+selfemployed<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
+summary(selfemployed)
+employed<- ifelse(ASFL$QD10 == "In paid employment [work for someone else]", 1, 0) #maybe keep those looking for work?
+unemployed<- ifelse(ASFL$QD10 == "Looking for work [unemployed]", 1, 0)
+employed
+summary(employed)
+
+dropempl <- c("Self-employed [work for myself]", "Apprentice","Looking after the home","Looking for work [unemployed]","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Looking for work [unemployed]","Student","Other")
+#AFLS2 <- AFLS[!(AFLS$QD10 %in% dropempl),] 
+#AFLS2 - Data set for self-employed!
+dropempl2 <- c("In paid employment [work for someone else]","Apprentice","Looking after the home","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Looking for work [unemployed]","Student","Other")
+dropempl3 <- c("Self-employed [work for myself]", "Apprentice","Looking after the home","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Student","Other")
+
+
+ASFLse <- ASFL[!(ASFL$QD10 %in% dropempl2),] 
+summary(ASFLse)
+ASFLe <- ASFL[!(ASFL$QD10 %in% dropempl),] 
+summary(ASFLe)
+ASFLeu <-  ASFL[!(ASFL$QD10 %in% dropempl3),] 
+summary(ASFLeu)
+
+
+#################financial inclusion - Awareness of multiple products and their use
+#holds payment products
+ASFL$Qprod1b_7
+ASFL$Qprod1b_14
+paymprod_1 <- ifelse(ASFL$Qprod1b_6 == "Yes",1, 0)
+paymprod_2 <- ifelse(ASFL$Qprod1b_7 == "Yes",1, 0)
+paymprod_3 <- ifelse(ASFL$Qprod1b_14 == "Yes",1, 0)
+table(paymprod_1)
+662/(641+662)
+
+#hold savings, investment or retirement product
+ASFL$Qprod1b_
+
+
+#holdcreditproduct
+ASFL$Qprod1b_6
+
+#recent choice
+ASFL <- ASFL %>% mutate(Qprod1c_1 = ifelse(is.na(Qprod1c_1), 0, Qprod1c_1))
+ASFL$Qprod1c_1
+RC1 <- ifelse(ASFL$Qprod1c_1 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_2 = ifelse(is.na(Qprod1c_2), 0, Qprod1c_2))
+ASFL$Qprod1c_2
+RC2 <- ifelse(ASFL$Qprod1c_2 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_3 = ifelse(is.na(Qprod1c_3), 0, Qprod1c_3))
+ASFL$Qprod1c_3
+RC3 <- ifelse(ASFL$Qprod1c_3 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_5 = ifelse(is.na(Qprod1c_5), 0, Qprod1c_5))
+ASFL$Qprod1c_5
+RC5 <- ifelse(ASFL$Qprod1c_5 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_6 = ifelse(is.na(Qprod1c_6), 0, Qprod1c_6))
+ASFL$Qprod1c_6
+RC6 <- ifelse(ASFL$Qprod1c_6 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_7 = ifelse(is.na(Qprod1c_7), 0, Qprod1c_7))
+ASFL$Qprod1c_7
+RC7 <- ifelse(ASFL$Qprod1c_7 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_8 = ifelse(is.na(Qprod1c_8), 0, Qprod1c_8))
+ASFL$Qprod1c_8
+RC8 <- ifelse(ASFL$Qprod1c_8 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_9 = ifelse(is.na(Qprod1c_9), 0, Qprod1c_9))
+ASFL$Qprod1c_9
+RC9 <- ifelse(ASFL$Qprod1c_9 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_10 = ifelse(is.na(Qprod1c_10), 0, Qprod1c_10))
+ASFL$Qprod1c_10
+RC10 <- ifelse(ASFL$Qprod1c_10 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_11 = ifelse(is.na(Qprod1c_11), 0, Qprod1c_11))
+ASFL$Qprod1c_11
+RC11 <- ifelse(ASFL$Qprod1c_11 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_12 = ifelse(is.na(Qprod1c_12), 0, Qprod1c_12))
+ASFL$Qprod1c_12
+RC12 <- ifelse(ASFL$Qprod1c_12 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_13 = ifelse(is.na(Qprod1c_13), 0, Qprod1c_13))
+ASFL$Qprod1c_13
+RC13 <- ifelse(ASFL$Qprod1c_13 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_14 = ifelse(is.na(Qprod1c_14), 0, Qprod1c_14))
+ASFL$Qprod1c_14
+RC14 <- ifelse(ASFL$Qprod1c_14 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_15 = ifelse(is.na(Qprod1c_15), 0, Qprod1c_15))
+ASFL$Qprod1c_15
+RC15 <- ifelse(ASFL$Qprod1c_15 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_add_1 = ifelse(is.na(Qprod1c_add_1), 0, Qprod1c_add_1))
+ASFL$Qprod1c_add_1
+RCadd1 <- ifelse(ASFL$Qprod1c_add_1 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_add_2 = ifelse(is.na(Qprod1c_add_2), 0, Qprod1c_add_2))
+ASFL$Qprod1c_add_2
+RCadd2 <- ifelse(ASFL$Qprod1c_add_2 == "Yes",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_add_3 = ifelse(is.na(Qprod1c_add_3), 0, Qprod1c_add_3))
+ASFL$Qprod1c_add_3
+RCadd3 <- ifelse(ASFL$Qprod1c_add_3 == "Yes",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_add_4 = ifelse(is.na(Qprod1c_add_4), 0, Qprod1c_add_4))
+ASFL$Qprod1c_add_4
+RCadd4 <- ifelse(ASFL$Qprod1c_add_4 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_add_5 = ifelse(is.na(Qprod1c_add_5), 0, Qprod1c_add_5))
+ASFL$Qprod1c_add_5
+RCadd5 <- ifelse(ASFL$Qprod1c_add_5 == "Yes",1, 0)
+
+recentchoice <- RC1+RC2+RC3+RC5+RC6+RC7+RC8+RC9+RC10+RC11+RC12+RC13+RC14+RC15+RCadd1+RCadd2+RCadd3+RCadd4+RCadd5
+recentchoice
+
+
+
+################financial resilience - Availability of savings, experience of stress, prudence in planning and budgeting
+#full
+summary(ASFL$QF13)
+finres_f <- ifelse(ASFL$QF13 == "Six months or more",1, 0)
+summary(ASFL$QF4)
+finres2_f <- ifelse(ASFL$QF4 == "Yes",1, 0)
+
+78+38+135+325+303+479+60
+#78/1358, 38/1358, 135/1358, 325/1358, 303/1358, 479/1358
+
+#self-employed
+summary(ASFLse$QF13)
+finres_se <- ifelse(ASFLse$QF13 == "Six months or more",1, 0)
+summary(ASFLse$QF4)
+finres2_se <- ifelse(ASFLse$QF4 == "Yes",1, 0)
+
+5+0+7+15+15+36+1
+#5/78,0/78,7/78,15/78,15/78,36/78
+
+#employed
+summary(ASFLe$QF13)
+finres_e <- ifelse(ASFLe$QF13 == "Six months or more",1, 0)
+summary(ASFLe$QF4)
+finres2_e <- ifelse(ASFLe$QF4 == "Yes",1, 0)
+
+34+10+70+195+163+205+22
+#34/677,10/677,70/677,195/677,163/677,205/677
+#e+u
+summary(ASFLeu$QF13)
+finres_eu <- ifelse(ASFLeu$QF13 == "Six months or more",1, 0)
+summary(ASFLeu$QF4)
+finres2_eu <- ifelse(ASFLeu$QF4 == "Yes",1, 0)
+
+35+22+84+209+167+208
+#35/725,22/725,84/725,209/725,167/725,208/725
+
+#financial resilience comparison 
+finrescomparison <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=6),
+                                   finrel=rep(c('Don´t know', 'Less than a week','At least a week, but not one month','At least one month, but not three months','Between three and six months','Six months or more'), times=3),
+                                   share=c(78/1358, 38/1358, 135/1358, 325/1358, 303/1358, 479/1358,5/78,0/78,7/78,15/78,15/78,36/78,34/677,10/677,70/677,195/677,163/677,205/677))
+
+ggplot(finrescomparison, aes(fill=finrel, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')
+
+
+################financial well-being - Having control over money, ability to pursue life goals, lack of financial stress
+#score from 0 to 20
+#full
+summary(ASFL$QS2_2)
+QS2_2_1 <- ifelse(ASFL$QS2_2 == "Never", 4, 0)
+QS2_2_2 <- ifelse(ASFL$QS2_2 == "4", 3, 0)
+QS2_2_3 <- ifelse(ASFL$QS2_2 == "3", 2, 0)
+QS2_2_4 <- ifelse(ASFL$QS2_2 == "2", 1, 0)
+QS2_2 <- ASFL$QS2_2 <- QS2_2_1+QS2_2_2+QS2_2_3+QS2_2_4
+table(QS2_2)
+
+summary(ASFL$QS2_4)
+QS2_4_1 <- ifelse(ASFL$QS2_4 == "Always", 4, 0)
+QS2_4_2 <- ifelse(ASFL$QS2_4 == "2", 3, 0)
+QS2_4_3 <- ifelse(ASFL$QS2_4 == "3", 2, 0)
+QS2_4_4 <- ifelse(ASFL$QS2_4 == "4", 1, 0)
+QS2_4 <- ASFL$QS2_4 <- QS2_4_1+QS2_4_2+QS2_4_3+QS2_4_4
+QS2_4
+
+summary(ASFL$QS3_3)
+QS3_3_1 <- ifelse(ASFL$QS3_3 == "Not at all", 4, 0)
+QS3_3_2 <- ifelse(ASFL$QS3_3 == "4", 3, 0)
+QS3_3_3 <- ifelse(ASFL$QS3_3 == "3", 2, 0)
+QS3_3_4 <- ifelse(ASFL$QS3_3 == "2", 1, 0)
+QS3_3 <- ASFL$QS3_3 <- QS3_3_1+QS3_3_2+QS3_3_3+QS3_3_4
+QS3_3
+
+summary(ASFL$QS3_9)
+QS3_9_1 <- ifelse(ASFL$QS3_9 == "Not at all", 4, 0)
+QS3_9_2 <- ifelse(ASFL$QS3_9 == "4", 3, 0)
+QS3_9_3 <- ifelse(ASFL$QS3_9 == "3", 2, 0)
+QS3_9_4 <- ifelse(ASFL$QS3_9 == "2", 1, 0)
+QS3_9 <- ASFL$QS3_9 <- QS3_9_1+QS3_9_2+QS3_9_3+QS3_9_4
+QS3_9
+
+summary(ASFL$QS3_10)
+
+QS3_10_1 <- ifelse(ASFL$QS3_10 == "Not at all", 4, 0)
+QS3_10_2 <- ifelse(ASFL$QS3_10 == "4", 3, 0)
+QS3_10_3 <- ifelse(ASFL$QS3_10 == "3", 2, 0)
+QS3_10_4 <- ifelse(ASFL$QS3_10 == "2", 1, 0)
+QS3_10 <- ASFL$QS3_10 <- QS3_10_1+QS3_10_2+QS3_10_3+QS3_10_4
+QS3_10
+
+#not in OECD/INFE but Toolkit: QS1_4,7,10 ; QS2_1 ; QS3_11
+finwellbeing <- QS2_2+ QS2_4 + QS3_3 + QS3_9 + QS3_10
+  
+ASFL4 <- cbind(ASFL3,finwellbeing)
+ASFL4
+ASFL4adult <-ASFL4[!(ASFL4$QD7 %in% under18),] 
+summary(ASFL4$finwellbeing)
+summary(ASFL4adult$finwellbeing)
+
+
+ASFL_se_finwellbeing <- subset(ASFL4, ASFL4$QD10 == "Self-employed [work for myself]")
+ASFL_se_finwellbeing$finwellbeing
+table(ASFL_se_finwellbeing$finwellbeing)
+summary(ASFL_se_finwellbeing$finwellbeing)
+
+ASFL_e_finwellbeing <- subset(ASFL4, ASFL4$QD10 == "In paid employment [work for someone else]")
+ASFL_e_finwellbeing$finwellbeing
+table(ASFL_e_finwellbeing$finwellbeing)
+summary(ASFL_e_finwellbeing$finwellbeing)
