@@ -22,19 +22,21 @@ library(stargazer)
 library(forcats)
 
 
+
 #setting the working directory
 setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
 ASFL_org <- readstata13::read.dta13("./Questionnaire & Dataset/oecd_2019_engl_final_official.dta", generate.factors=TRUE, nonint.factors = TRUE)
 ASFL <-ASFL_org
 ASFL
 
+#dropbelow18 
+under18 <- c("16","17")
+ASFLadult <- ASFL[!(ASFL$QD7 %in% under18),] 
+ASFLadult
+
 #ASFL <- mutate_at(ASFL, c("QF12_1_1", "QF12_1_2"), ~replace(., is.NA(.), 0)) ??
 
-#######correct weighting###############
-#ASFL <- as.data.frame(ASFL_org)
-#ASFL_weighted <-svydesign(id=~1, weights=~ASFL_org$wght, data=ASFL_org, na.rm=TRUE)
-#ASFL <- ASFL_weighted$variables
-
+##################################employment##################################
 
 summary(ASFL$QD10)
 selfemployed<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
@@ -47,55 +49,76 @@ summary(employed)
 dropempl <- c("Self-employed [work for myself]", "Apprentice","Looking after the home","Looking for work [unemployed]","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Looking for work [unemployed]","Student","Other")
 #AFLS2 <- AFLS[!(AFLS$QD10 %in% dropempl),] 
 #AFLS2 - Data set for self-employed!
-dropempl2 <- c("In paid employment [work for someone else]","Apprentice","Looking after the home","Looking for work [unemployed]","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Looking for work [unemployed]","Student","Other")
+dropempl2 <- c("In paid employment [work for someone else]","Apprentice","Looking after the home","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Looking for work [unemployed]","Student","Other")
+dropempl3 <- c("Self-employed [work for myself]", "Apprentice","Looking after the home","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Student","Other")
+
+
 ASFLse <- ASFL[!(ASFL$QD10 %in% dropempl2),] 
 summary(ASFLse)
 ASFLe <- ASFL[!(ASFL$QD10 %in% dropempl),] 
-ASFLe 
+summary(ASFLe)
+ASFLeu <-  ASFL[!(ASFL$QD10 %in% dropempl3),] 
+summary(ASFLeu)
 
 ####################financial knowledge score#############################
 #QK1 - self-rated knowledge #does not add to financial literacy score
 summary(ASFL$QK1)
+
 #QK2 - equal splitting #does not add to financial literacy score
 summary(ASFL$QK2)
 ASFL$QK2<- ifelse(ASFL$QK2 == "200", 1, 0)
+table(ASFL$QK2)
 ASFLse$QK2<- ifelse(ASFLse$QK2 == "200", 1, 0)
-#QK2
+table(ASFLse$QK2)
+
 #QK3 - *OECD - time value of money
 summary(ASFL$QK3)
-ASFL$QK3<- ifelse(ASFL$QK3 == "Or, less than they could buy today", 1, 0)
+ASFL$QK3 <- ifelse(ASFL$QK3 == "Or, less than they could buy today", 1, 0)
+table(ASFL$QK3)
 ASFLse$QK3<- ifelse(ASFLse$QK3 == "Or, less than they could buy today", 1, 0)
-#QK3
+table(ASFLse$QK3)
+
 #QK4 - *OECD - interest paid on a loan
 summary(ASFL$QK4)
 ASFL$QK4<- ifelse(ASFL$QK4 == "0", 1, 0)
+table(ASFL$QK4)
 ASFLse$QK4<- ifelse(ASFLse$QK4 == "0", 1, 0)
-#QK4
+table(ASFLse$QK4)
+
 #QK5 - *OECD - interest plus principal
 summary(ASFL$QK5)
 ASFL$QK5<- ifelse(ASFL$QK5 == "102", 1, 0)
+table(ASFL$QK5)
 ASFLse$QK5<- ifelse(ASFLse$QK5 == "102", 1, 0)
-#QK5
+table(ASFLse$QK5)
+
 #QK6 - *OECD - compound interest 
 summary(ASFL$QK6)
 ASFL$QK6<- ifelse(ASFL$QK6 == "More than €110", 1, 0)
+table(ASFL$QK6)
 ASFLse$QK6<- ifelse(ASFLse$QK6 == "More than €110", 1, 0)
-#QK6
+table(ASFLse$QK6)
+
 #QK7_1 - *OECD - risk and return
 ASFL$QK7_1<- ifelse(ASFL$QK7_1 == "True", 1, 0)
+table(ASFL$QK7_1)
 ASFLse$QK7_1<- ifelse(ASFLse$QK7_1 == "True", 1, 0)
-#QK7_1
+table(ASFLse$QK7_1)
+
 #QK7_2 - *OECD - inflation definition
 summary(ASFL$QK7_2)
 ASFL$QK7_2<- ifelse(ASFL$QK7_2 == "True", 1, 0)
+table(ASFL$QK7_2)
 ASFLse$QK7_2<- ifelse(ASFLse$QK7_2 == "True", 1, 0)
-#QK7_2
+table(ASFLse$QK7_2)
+
 #QK7_3 - *OECD - diversification
 summary(ASFL$QK7_3)
 ASFL$QK7_3<- ifelse(ASFL$QK7_3 == "True", 1, 0)
-ASFL$QK7_3
+table(ASFL$QK7_3)
 ASFLse$QK7_3<- ifelse(ASFLse$QK7_3 == "True", 1, 0)
-#QK7_3
+table(ASFLse$QK7_3)
+
 #S58 - non-OECD - real interest
 #summary(ASFL$S58)
 #ASFL$S58<- ifelse(ASFL$S58 == "", 1, 0)
@@ -134,16 +157,18 @@ se_finknow<- ifelse(ASFL1$QD10 == "Self-employed [work for myself]", 1, 0)
 ASFL_se_finknow <- subset(ASFL1, ASFL1$QD10 == "Self-employed [work for myself]")
 ASFL_se_finknow
 summary(ASFL_se_finknow$fin_know)
+table(ASFL_se_finknow$fin_know)
 
 ASFL_e_finknow <- subset(ASFL1, ASFL1$QD10 == "In paid employment [work for someone else]")
 ASFL_e_finknow
 summary(ASFL_e_finknow$fin_know)
+table(ASFL_e_finknow$fin_know)
 
 #self-employment financial knowledge check! 
-ASFL1se <- ASFLse %>% 
-  mutate(fin_know = ASFLse$QK3+ASFLse$QK4+ASFLse$QK5+ASFLse$QK6+ASFLse$QK7_1+ASFLse$QK7_2+ASFLse$QK7_3)
-summary(ASFL1se$fin_know)
-table(ASFL1se$fin_know)
+#ASFL1se <- ASFLse %>% 
+ # mutate(fin_know = ASFLse$QK3+ASFLse$QK4+ASFLse$QK5+ASFLse$QK6+ASFLse$QK7_1+ASFLse$QK7_2+ASFLse$QK7_3)
+#summary(ASFL1se$fin_know)
+#table(ASFL1se$fin_know)
 
 #average:
 5.962/7
@@ -201,9 +226,20 @@ ASFL2 <- cbind(ASFL1,fin_att)
 
 summary(ASFL2$fin_att)
 table(ASFL2$fin_att)
+
+
 #more than 3 (out of five)
 204+226+169+57+32+15
 703/1418
+
+#onlyadults
+ASFL2adult <- ASFL2[!(ASFL2$QD7 %in% under18),] 
+
+
+summary(ASFL2adult$fin_att)
+table(ASFL2adult$fin_att)
+203+225+168+57+32+15
+700/1410
 
 se_finknow_finatt<- ifelse(ASFL2$QD10 == "Self-employed [work for myself]", 1, 0)
 ASFL_se_finknow_finatt <- subset(ASFL2, ASFL2$QD10 == "Self-employed [work for myself]")
@@ -449,6 +485,7 @@ table(fin_beh)
 715/1418
 ASFL3 <- cbind(ASFL2,fin_beh)
 
+#self-employed
 se_finknow_finatt_finbeh<- ifelse(ASFL3$QD10 == "Self-employed [work for myself]", 1, 0)
 ASFL_se_finknow_finatt_finbeh <- subset(ASFL3, ASFL3$QD10 == "Self-employed [work for myself]")
 ASFL_se_finknow_finatt_finbeh
@@ -471,7 +508,7 @@ summary(ASFL_se_finknow_finatt_finbeh_m$fin_beh)
 ASFL_se_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
 summary(ASFL_se_finknow_finatt_finbeh_w$fin_beh)
 
-
+#employed
 e_finknow_finatt_finbeh<- ifelse(ASFL3$QD10 == "In paid employment [work for someone else]", 1, 0)
 ASFL_e_finknow_finatt_finbeh <- subset(ASFL3, ASFL3$QD10 == "In paid employment [work for someone else]")
 ASFL_e_finknow_finatt_finbeh
@@ -493,3 +530,27 @@ ASFL_e_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
 summary(ASFL_e_finknow_finatt_finbeh_m$fin_beh)
 ASFL_e_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
 summary(ASFL_e_finknow_finatt_finbeh_w$fin_beh)
+
+#employed + unemployed
+eu_finknow_finatt_finbeh<- ifelse(ASFL3$QD10 == c("In paid employment [work for someone else]", "Looking for work [unemployed]"), 1, 0)
+ASFL_eu_finknow_finatt_finbeh <- subset(ASFL3, ASFL3$QD10 == c("In paid employment [work for someone else]", "Looking for work [unemployed]"))
+ASFL_eu_finknow_finatt_finbeh
+summary(ASFL_eu_finknow_finatt_finbeh$fin_beh)
+table(ASFL_eu_finknow_finatt_finbeh$fin_beh)
+
+###financial knowledge gender differences 
+ASFL_eu_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
+summary(ASFL_eu_finknow_finatt_finbeh_m$fin_know)
+ASFL_eu_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
+summary(ASFL_eu_finknow_finatt_finbeh_w$fin_know)
+###financial attitude gender differences 
+ASFL_eu_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
+summary(ASFL_eu_finknow_finatt_finbeh_m$fin_att)
+ASFL_eu_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
+summary(ASFL_eu_finknow_finatt_finbeh_w$fin_att)
+###financial behavior gender differences 
+ASFL_eu_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
+summary(ASFL_eu_finknow_finatt_finbeh_m$fin_beh)
+ASFL_eu_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
+summary(ASFL_eu_finknow_finatt_finbeh_w$fin_beh)
+
