@@ -66,104 +66,6 @@ ASFLeu <-  ASFL[!(ASFL$QD10 %in% dropempl3),]
 summary(ASFLeu)
 
 
-#################financial inclusion - Awareness of multiple products and their use
-#holds payment products
-ASFL$Qprod1b_7
-ASFL$Qprod1b_14
-paymprod_1 <- ifelse(ASFL$Qprod1b_6 == "Yes",1, 0)
-paymprod_2 <- ifelse(ASFL$Qprod1b_7 == "Yes",1, 0)
-paymprod_3 <- ifelse(ASFL$Qprod1b_14 == "Yes",1, 0)
-table(paymprod_1)
-662/(641+662)
-
-#hold savings, investment or retirement product
-ASFL$Qprod1b_
-
-
-#holdcreditproduct
-ASFL$Qprod1b_6
-
-#recent choice
-ASFL <- ASFL %>% mutate(Qprod1c_1 = ifelse(is.na(Qprod1c_1), 0, Qprod1c_1))
-ASFL$Qprod1c_1
-RC1 <- ifelse(ASFL$Qprod1c_1 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_2 = ifelse(is.na(Qprod1c_2), 0, Qprod1c_2))
-ASFL$Qprod1c_2
-RC2 <- ifelse(ASFL$Qprod1c_2 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_3 = ifelse(is.na(Qprod1c_3), 0, Qprod1c_3))
-ASFL$Qprod1c_3
-RC3 <- ifelse(ASFL$Qprod1c_3 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_5 = ifelse(is.na(Qprod1c_5), 0, Qprod1c_5))
-ASFL$Qprod1c_5
-RC5 <- ifelse(ASFL$Qprod1c_5 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_6 = ifelse(is.na(Qprod1c_6), 0, Qprod1c_6))
-ASFL$Qprod1c_6
-RC6 <- ifelse(ASFL$Qprod1c_6 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_7 = ifelse(is.na(Qprod1c_7), 0, Qprod1c_7))
-ASFL$Qprod1c_7
-RC7 <- ifelse(ASFL$Qprod1c_7 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_8 = ifelse(is.na(Qprod1c_8), 0, Qprod1c_8))
-ASFL$Qprod1c_8
-RC8 <- ifelse(ASFL$Qprod1c_8 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_9 = ifelse(is.na(Qprod1c_9), 0, Qprod1c_9))
-ASFL$Qprod1c_9
-RC9 <- ifelse(ASFL$Qprod1c_9 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_10 = ifelse(is.na(Qprod1c_10), 0, Qprod1c_10))
-ASFL$Qprod1c_10
-RC10 <- ifelse(ASFL$Qprod1c_10 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_11 = ifelse(is.na(Qprod1c_11), 0, Qprod1c_11))
-ASFL$Qprod1c_11
-RC11 <- ifelse(ASFL$Qprod1c_11 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_12 = ifelse(is.na(Qprod1c_12), 0, Qprod1c_12))
-ASFL$Qprod1c_12
-RC12 <- ifelse(ASFL$Qprod1c_12 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_13 = ifelse(is.na(Qprod1c_13), 0, Qprod1c_13))
-ASFL$Qprod1c_13
-RC13 <- ifelse(ASFL$Qprod1c_13 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_14 = ifelse(is.na(Qprod1c_14), 0, Qprod1c_14))
-ASFL$Qprod1c_14
-RC14 <- ifelse(ASFL$Qprod1c_14 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_15 = ifelse(is.na(Qprod1c_15), 0, Qprod1c_15))
-ASFL$Qprod1c_15
-RC15 <- ifelse(ASFL$Qprod1c_15 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_add_1 = ifelse(is.na(Qprod1c_add_1), 0, Qprod1c_add_1))
-ASFL$Qprod1c_add_1
-RCadd1 <- ifelse(ASFL$Qprod1c_add_1 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_add_2 = ifelse(is.na(Qprod1c_add_2), 0, Qprod1c_add_2))
-ASFL$Qprod1c_add_2
-RCadd2 <- ifelse(ASFL$Qprod1c_add_2 == "Yes",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_add_3 = ifelse(is.na(Qprod1c_add_3), 0, Qprod1c_add_3))
-ASFL$Qprod1c_add_3
-RCadd3 <- ifelse(ASFL$Qprod1c_add_3 == "Yes",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_add_4 = ifelse(is.na(Qprod1c_add_4), 0, Qprod1c_add_4))
-ASFL$Qprod1c_add_4
-RCadd4 <- ifelse(ASFL$Qprod1c_add_4 == "3",1, 0)
-
-ASFL <- ASFL %>% mutate(Qprod1c_add_5 = ifelse(is.na(Qprod1c_add_5), 0, Qprod1c_add_5))
-ASFL$Qprod1c_add_5
-RCadd5 <- ifelse(ASFL$Qprod1c_add_5 == "Yes",1, 0)
-
-recentchoice <- RC1+RC2+RC3+RC5+RC6+RC7+RC8+RC9+RC10+RC11+RC12+RC13+RC14+RC15+RCadd1+RCadd2+RCadd3+RCadd4+RCadd5
-recentchoice
-
-
 
 ################financial resilience - Availability of savings, experience of stress, prudence in planning and budgeting
 #full
@@ -273,3 +175,224 @@ ASFL_e_finwellbeing <- subset(ASFL4, ASFL4$QD10 == "In paid employment [work for
 ASFL_e_finwellbeing$finwellbeing
 table(ASFL_e_finwellbeing$finwellbeing)
 summary(ASFL_e_finwellbeing$finwellbeing)
+
+
+
+################financial inclusion ##############################
+####product use
+#aware of at least 5 financial products
+p1a1<- ifelse(ASFL$Qprod1a_1 == "Yes", 1, 0)
+p1a2<- ifelse(ASFL$Qprod1a_2 == "Yes", 1, 0)
+p1a3<- ifelse(ASFL$Qprod1a_3 == "Yes", 1, 0)
+p1a5<- ifelse(ASFL$Qprod1a_5 == "Yes", 1, 0)
+p1a6<- ifelse(ASFL$Qprod1a_6 == "Yes", 1, 0)
+p1a7<- ifelse(ASFL$Qprod1a_7 == "Yes", 1, 0)
+p1a8<- ifelse(ASFL$Qprod1a_8 == "Yes", 1, 0)
+p1a9<- ifelse(ASFL$Qprod1a_9 == "Yes", 1, 0)
+p1a10<- ifelse(ASFL$Qprod1a_10 == "Yes", 1, 0)
+p1a11<- ifelse(ASFL$Qprod1a_11 == "Yes", 1, 0)
+p1a12<- ifelse(ASFL$Qprod1a_12 == "Yes", 1, 0)
+p1a13<- ifelse(ASFL$Qprod1a_13 == "Yes", 1, 0)
+p1a14<- ifelse(ASFL$Qprod1a_14 == "Yes", 1, 0)
+p1a15<- ifelse(ASFL$Qprod1a_15 == "Yes", 1, 0)
+p1aadd1<- ifelse(ASFL$Qprod1a_add_1 == "Yes", 1, 0)
+p1aadd2<- ifelse(ASFL$Qprod1a_add_2 == "True", 1, 0)
+p1aadd3<- ifelse(ASFL$Qprod1a_add_3 == "True", 1, 0)
+p1aadd4<- ifelse(ASFL$Qprod1a_add_4 == "True", 1, 0)
+p1aadd5<- ifelse(ASFL$Qprod1a_add_5 == "True", 1, 0)
+
+produse <- p1a1+p1a2+p1a3+p1a5+p1a6+p1a7+p1a8+p1a9+p1a10+p1a11+p1a12+p1a13+p1a14+p1a15+p1aadd1+p1aadd2+p1aadd3+p1aadd4+p1aadd5
+table(produse)
+#puse <- ifelse(produse >= "5", 1, 0) #????
+4+6+26+30+33+28+36+22+32+24+19+26+29+53+84+119+121+140+192+394#
+#aware of all
+(1418-4-6-26-30-33)/1418
+394/1418
+
+##product holding 
+
+#holds a savings investment or retirement product
+ASFL <- ASFL %>% mutate(Qprod1b_1 = ifelse(is.na(Qprod1b_1), 0, Qprod1b_1))
+ASFL$Qprod1b_1
+p1b1 <- ifelse(ASFL$Qprod1b_1 == "4", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_2 = ifelse(is.na(Qprod1b_2), 0, Qprod1b_2))
+ASFL$Qprod1b_2
+p1b2 <- ifelse(ASFL$Qprod1b_2 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_8 = ifelse(is.na(Qprod1b_8), 0, Qprod1b_8))
+ASFL$Qprod1b_8
+p1b8 <- ifelse(ASFL$Qprod1b_8 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_11 = ifelse(is.na(Qprod1b_11), 0, Qprod1b_11))
+ASFL$Qprod1b_11
+p1b11 <- ifelse(ASFL$Qprod1b_11 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_12 = ifelse(is.na(Qprod1b_12), 0, Qprod1b_12))
+ASFL$Qprod1b_12
+p1b12 <- ifelse(ASFL$Qprod1b_12 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_add_2 = ifelse(is.na(Qprod1b_add_2), 0, Qprod1b_add_2))
+ASFL$Qprod1b_add_2
+p1badd2 <- ifelse(ASFL$Qprod1b_add_2 == "4", 1, 0)
+
+savinre <- p1b1+p1b2+p1b8+p1b11+p1b12+p1badd2
+table(savinre) #internationally very high in comparison - only 50% average
+savinred <- ifelse(savinre >= "1", 1, 0)
+table(savinred)
+1265/(1265+153)
+
+#Holds a current account debit card mobile payment facility or payment card
+ASFL <- ASFL %>% mutate(Qprod1b_7 = ifelse(is.na(Qprod1b_7), 0, Qprod1b_7))
+ASFL$Qprod1b_7
+p1b7 <- ifelse(ASFL$Qprod1b_7 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_13 = ifelse(is.na(Qprod1b_13), 0, Qprod1b_13))
+ASFL$Qprod1b_13
+p1b13 <- ifelse(ASFL$Qprod1b_13 == "4", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_14 = ifelse(is.na(Qprod1b_14), 0, Qprod1b_14))
+ASFL$Qprod1b_14
+p1b14 <- ifelse(ASFL$Qprod1b_14 == "3", 1, 0)
+  
+payprod <- p1b7+p1b13+p1b14
+table(payprod)
+payprodd <- ifelse(payprod >= "1", 1, 0)
+table(payprodd)
+1393/(1393+25)
+
+#Holds any insurance product
+ASFL <- ASFL %>% mutate(Qprod1b_10 = ifelse(is.na(Qprod1b_10), 0, Qprod1b_10))
+ASFL$Qprod1b_10
+p1b10 <- ifelse(ASFL$Qprod1b_10 == "3", 1, 0)
+table(p1b10)  
+1073/(1073+345)
+
+#Holds any credit product
+ASFL <- ASFL %>% mutate(Qprod1b_3 = ifelse(is.na(Qprod1b_3), 0, Qprod1b_3))
+ASFL$Qprod1b_3
+p1b3 <- ifelse(ASFL$Qprod1b_3 == "4", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_add_4 = ifelse(is.na(Qprod1b_add_4), 0, Qprod1b_add_4))
+ASFL$Qprod1b_add_4
+p1badd4 <- ifelse(ASFL$Qprod1b_add_4 == "4", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_5 = ifelse(is.na(Qprod1b_5), 0, Qprod1b_5))
+ASFL$Qprod1b_5
+Qprod1b_5 <- ifelse(ASFL$Qprod1b_5 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_6 = ifelse(is.na(Qprod1b_6), 0, Qprod1b_6))
+ASFL$Qprod1b_6
+Qprod1b_6 <- ifelse(ASFL$Qprod1b_6 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_9 = ifelse(is.na(Qprod1b_9), 0, Qprod1b_9))
+ASFL$Qprod1b_9
+Qprod1b_9 <- ifelse(ASFL$Qprod1b_9 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_add_1 = ifelse(is.na(Qprod1b_add_1), 0, Qprod1b_add_1))
+ASFL$Qprod1b_add_1
+Qprod1b_add_1 <- ifelse(ASFL$Qprod1b_add_1 == "3", 1, 0)
+
+credp <- p1b3+p1badd4+Qprod1b_5+Qprod1b_6+Qprod1b_9+Qprod1b_add_1
+table(credp)
+credpd <- ifelse(credp >= "1", 1, 0)
+table(credpd)  
+741/(741+677)
+
+#
+#bought a product in the past year
+#highest number indicates ´Yes after exluding NAs
+
+#recent choice
+ASFL <- ASFL %>% mutate(Qprod1c_1 = ifelse(is.na(Qprod1c_1), 0, Qprod1c_1))
+ASFL$Qprod1c_1
+RC1 <- ifelse(ASFL$Qprod1c_1 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_2 = ifelse(is.na(Qprod1c_2), 0, Qprod1c_2))
+ASFL$Qprod1c_2
+RC2 <- ifelse(ASFL$Qprod1c_2 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_3 = ifelse(is.na(Qprod1c_3), 0, Qprod1c_3))
+ASFL$Qprod1c_3
+RC3 <- ifelse(ASFL$Qprod1c_3 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_5 = ifelse(is.na(Qprod1c_5), 0, Qprod1c_5))
+ASFL$Qprod1c_5
+RC5 <- ifelse(ASFL$Qprod1c_5 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_6 = ifelse(is.na(Qprod1c_6), 0, Qprod1c_6))
+ASFL$Qprod1c_6
+RC6 <- ifelse(ASFL$Qprod1c_6 == "4",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_7 = ifelse(is.na(Qprod1c_7), 0, Qprod1c_7))
+ASFL$Qprod1c_7
+RC7 <- ifelse(ASFL$Qprod1c_7 == "4",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_8 = ifelse(is.na(Qprod1c_8), 0, Qprod1c_8))
+ASFL$Qprod1c_8
+RC8 <- ifelse(ASFL$Qprod1c_8 == "4",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_9 = ifelse(is.na(Qprod1c_9), 0, Qprod1c_9))
+ASFL$Qprod1c_9
+RC9 <- ifelse(ASFL$Qprod1c_9 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_10 = ifelse(is.na(Qprod1c_10), 0, Qprod1c_10))
+ASFL$Qprod1c_10
+RC10 <- ifelse(ASFL$Qprod1c_10 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_11 = ifelse(is.na(Qprod1c_11), 0, Qprod1c_11))
+ASFL$Qprod1c_11
+RC11 <- ifelse(ASFL$Qprod1c_11 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_12 = ifelse(is.na(Qprod1c_12), 0, Qprod1c_12))
+ASFL$Qprod1c_12
+RC12 <- ifelse(ASFL$Qprod1c_12 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_13 = ifelse(is.na(Qprod1c_13), 0, Qprod1c_13))
+ASFL$Qprod1c_13
+RC13 <- ifelse(ASFL$Qprod1c_13 == "4",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_14 = ifelse(is.na(Qprod1c_14), 0, Qprod1c_14))
+ASFL$Qprod1c_14
+RC14 <- ifelse(ASFL$Qprod1c_14 == "4",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_15 = ifelse(is.na(Qprod1c_15), 0, Qprod1c_15))
+ASFL$Qprod1c_15
+RC15 <- ifelse(ASFL$Qprod1c_15 == "2",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_add_1 = ifelse(is.na(Qprod1c_add_1), 0, Qprod1c_add_1))
+ASFL$Qprod1c_add_1
+RCadd1 <- ifelse(ASFL$Qprod1c_add_1 == "4",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_add_2 = ifelse(is.na(Qprod1c_add_2), 0, Qprod1c_add_2))
+ASFL$Qprod1c_add_2
+RCadd2 <- ifelse(ASFL$Qprod1c_add_2 == "4",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_add_3 = ifelse(is.na(Qprod1c_add_3), 0, Qprod1c_add_3))
+ASFL$Qprod1c_add_3
+RCadd3 <- ifelse(ASFL$Qprod1c_add_3 == "4",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_add_4 = ifelse(is.na(Qprod1c_add_4), 0, Qprod1c_add_4))
+ASFL$Qprod1c_add_4
+RCadd4 <- ifelse(ASFL$Qprod1c_add_4 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_add_5 = ifelse(is.na(Qprod1c_add_5), 0, Qprod1c_add_5))
+ASFL$Qprod1c_add_5
+RCadd5 <- ifelse(ASFL$Qprod1c_add_5 == "4",1, 0)
+
+recentchoice <- RC1+RC2+RC3+RC5+RC6+RC7+RC8+RC9+RC10+RC11+RC12+RC13+RC14+RC15+RCadd1+RCadd2+RCadd3+RCadd4+RCadd5
+table(recentchoice)
+recentchoiced <- ifelse(recentchoice >= "1", 1, 0)
+table(recentchoiced)
+897/(897+521)
+
+#turned to family/friends to borrow and save
+QF3_3 <- ifelse(ASFL$QF3_3 == "Yes", 1, 0)
+ASFL <- ASFL %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 0, QF12_3_1))
+QF12_3_1 <- ifelse(ASFL$QF12_3_1 == "4", 1, 0)
+QF12_3_1
+famfriend <- QF12_3_1+QF3_3
+famfriend
+table(famfriend)
+120/(1298+120)
+
