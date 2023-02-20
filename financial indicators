@@ -161,9 +161,45 @@ finwellbeing <- QS2_2+ QS2_4 + QS3_3 + QS3_9 + QS3_10
   
 ASFL4 <- cbind(ASFL3,finwellbeing)
 ASFL4
-ASFL4adult <-ASFL4[!(ASFL4$QD7 %in% under18),] 
 summary(ASFL4$finwellbeing)
+table(ASFL4$finwellbeing)
+98+97+107+105+105+86+79+59+60+43
+9+19+25+30+40+52+63+76+81+89+95
+839/(839+579)
+579/(839+579)
+
+ASFL4se <- ASFL4[!(ASFL4$QD10 %in% dropempl2),] 
+summary(ASFL4se$finwellbeing)
+table(ASFL4se$finwellbeing)
+#more than 10 (out of 20)
+1+6+7+5+6+7+4+5+8+1
+2+3+5+2+5+3+4+5
+50/79
+29/79
+
+ASFL4e <- ASFL4[!(ASFL4$QD10 %in% dropempl),] 
+summary(ASFL4e$finwellbeing)
+table(ASFL4e$finwellbeing)
+#more than 10 (out of 20)
+57+52+50+65+54+41+35+22+26+16 
+5+11+13+11+27+28+36+43+50+57
+418/(418+281)
+281/(418+281)
+
+ASFL4eu <- ASFL4[!(ASFL4$QD10 %in% dropempl3),] 
+summary(ASFL4eu$finwellbeing)
+table(ASFL4eu$finwellbeing)
+#more than 10 (out of 20)
+58+53+52+65+54+41+37+22+26+16 
+1+11+16+18+18+30+34+39+47+52+59
+424/(424+325)
+325/(424+325)
+
+
+ASFL4adult <-ASFL4[!(ASFL4$QD7 %in% under18),] 
 summary(ASFL4adult$finwellbeing)
+
+
 
 
 ASFL_se_finwellbeing <- subset(ASFL4, ASFL4$QD10 == "Self-employed [work for myself]")
@@ -203,13 +239,45 @@ p1aadd5<- ifelse(ASFL$Qprod1a_add_5 == "True", 1, 0)
 
 produse <- p1a1+p1a2+p1a3+p1a5+p1a6+p1a7+p1a8+p1a9+p1a10+p1a11+p1a12+p1a13+p1a14+p1a15+p1aadd1+p1aadd2+p1aadd3+p1aadd4+p1aadd5
 table(produse)
+ASFL5 <- cbind(ASFL4,produse)
+
 #puse <- ifelse(produse >= "5", 1, 0) #????
 4+6+26+30+33+28+36+22+32+24+19+26+29+53+84+119+121+140+192+394#
-#aware of all
+#aware of at least 5
 (1418-4-6-26-30-33)/1418
 394/1418
+4+6+26+30+33
 
-##product holding 
+#self-employed
+ASFL5se <- ASFL5[!(ASFL5$QD10 %in% dropempl2),] 
+summary(ASFL5se$produse)
+table(ASFL5se$produse)
+#aware of at least 5
+31/79
+1+2+2+1+2+1+1+3+2+2+3+7+7+14+31
+76/79
+
+#employed
+ASFL5e <- ASFL5[!(ASFL5$QD10 %in% dropempl),] 
+summary(ASFL5e$produse)
+table(ASFL5e$produse)
+#aware of at least 5
+9+7+18+19+20+16+15+15+9+6+9+21+29+29+49+62+104+262
+262/699
+665/699
+
+#employed+unemployed
+ASFL5eu <- ASFL5[!(ASFL5$QD10 %in% dropempl3),] 
+summary(ASFL5eu$produse)
+table(ASFL5eu$produse)
+#aware of at least 5
+1+12+8+19+20+21+16+17+16+9+9+9+25+33+31+52+66+114+271
+271/749
+709/749
+
+
+
+###product holding 
 
 #holds a savings investment or retirement product
 ASFL <- ASFL %>% mutate(Qprod1b_1 = ifelse(is.na(Qprod1b_1), 0, Qprod1b_1))
@@ -236,13 +304,40 @@ ASFL <- ASFL %>% mutate(Qprod1b_add_2 = ifelse(is.na(Qprod1b_add_2), 0, Qprod1b_
 ASFL$Qprod1b_add_2
 p1badd2 <- ifelse(ASFL$Qprod1b_add_2 == "4", 1, 0)
 
+#full
 savinre <- p1b1+p1b2+p1b8+p1b11+p1b12+p1badd2
 table(savinre) #internationally very high in comparison - only 50% average
 savinred <- ifelse(savinre >= "1", 1, 0)
 table(savinred)
 1265/(1265+153)
+20/1418
+ASFL5 <- cbind(ASFL5,savinre)
 
-#Holds a current account debit card mobile payment facility or payment card
+#self-employed
+ASFL5se <- ASFL5[!(ASFL5$QD10 %in% dropempl2),] 
+summary(ASFL5se$savinre)
+table(ASFL5se$savinre)
+19+18+12+12+5+5   #calculate above 1 by hand! 
+71/79
+5/79
+
+#employed
+ASFL5e <- ASFL5[!(ASFL5$QD10 %in% dropempl),] 
+summary(ASFL5e$savinre)
+table(ASFL5e$savinre)
+157+268+142+54+16+10 #calculate above 1 by hand! 
+647/699
+10/699
+
+#employed+unemployed
+ASFL5eu <- ASFL5[!(ASFL5$QD10 %in% dropempl3),] 
+summary(ASFL5eu$savinre)
+table(ASFL5eu$savinre)
+174+273+144+55+18+10
+674/749
+10/749
+
+###Holds a current account debit card mobile payment facility or payment card
 ASFL <- ASFL %>% mutate(Qprod1b_7 = ifelse(is.na(Qprod1b_7), 0, Qprod1b_7))
 ASFL$Qprod1b_7
 p1b7 <- ifelse(ASFL$Qprod1b_7 == "3", 1, 0)
@@ -254,21 +349,66 @@ p1b13 <- ifelse(ASFL$Qprod1b_13 == "4", 1, 0)
 ASFL <- ASFL %>% mutate(Qprod1b_14 = ifelse(is.na(Qprod1b_14), 0, Qprod1b_14))
 ASFL$Qprod1b_14
 p1b14 <- ifelse(ASFL$Qprod1b_14 == "3", 1, 0)
-  
+
+#full  
 payprod <- p1b7+p1b13+p1b14
 table(payprod)
+ASFL5 <- cbind(ASFL5,payprod)
 payprodd <- ifelse(payprod >= "1", 1, 0)
 table(payprodd)
 1393/(1393+25)
+26/1418
+
+#self-employed
+ASFL5se <- ASFL5[!(ASFL5$QD10 %in% dropempl2),] 
+summary(ASFL5se$payprod)
+table(ASFL5se$payprod)
+4/79
+
+#employed
+ASFL5e <- ASFL5[!(ASFL5$QD10 %in% dropempl),] 
+summary(ASFL5e$payprod)
+table(ASFL5e$payprod)
+541+133+19
+693/699
+19/699
+
+#employed + unemployed
+ASFL5eu <- ASFL5[!(ASFL5$QD10 %in% dropempl3),] 
+summary(ASFL5eu$payprod)
+table(ASFL5eu$payprod)
+589+134+19
+742/749
+19/749
 
 #Holds any insurance product
 ASFL <- ASFL %>% mutate(Qprod1b_10 = ifelse(is.na(Qprod1b_10), 0, Qprod1b_10))
 ASFL$Qprod1b_10
+#full
 p1b10 <- ifelse(ASFL$Qprod1b_10 == "3", 1, 0)
 table(p1b10)  
 1073/(1073+345)
+ASFL5 <- cbind(ASFL5,p1b10)
 
-#Holds any credit product
+#self-employed
+ASFL5se <- ASFL5[!(ASFL5$QD10 %in% dropempl2),] 
+summary(ASFL5se$p1b10)
+table(ASFL5se$p1b10)
+569/699
+
+#employed
+ASFL5e <- ASFL5[!(ASFL5$QD10 %in% dropempl),] 
+summary(ASFL5e$p1b10)
+table(ASFL5e$p1b10)
+569/699
+
+#employed + unemployed
+ASFL5eu <- ASFL5[!(ASFL5$QD10 %in% dropempl3),] 
+summary(ASFL5eu$p1b10)
+table(ASFL5eu$p1b10)
+595/749
+
+###Holds any credit product
 ASFL <- ASFL %>% mutate(Qprod1b_3 = ifelse(is.na(Qprod1b_3), 0, Qprod1b_3))
 ASFL$Qprod1b_3
 p1b3 <- ifelse(ASFL$Qprod1b_3 == "4", 1, 0)
@@ -295,12 +435,38 @@ Qprod1b_add_1 <- ifelse(ASFL$Qprod1b_add_1 == "3", 1, 0)
 
 credp <- p1b3+p1badd4+Qprod1b_5+Qprod1b_6+Qprod1b_9+Qprod1b_add_1
 table(credp)
+ASFL5 <- cbind(ASFL5,credp)
+#full
 credpd <- ifelse(credp >= "1", 1, 0)
 table(credpd)  
 741/(741+677)
+1/1418
 
+#self-employed
+ASFL5se <- ASFL5[!(ASFL5$QD10 %in% dropempl2),] 
+summary(ASFL5se$credp)
+table(ASFL5se$credp)
+27+18+9+1
+55/79
+1/79
+
+#employed
+ASFL5e <- ASFL5[!(ASFL5$QD10 %in% dropempl),] 
+summary(ASFL5e$credp)
+table(ASFL5e$credp)
+345+99+19+1+1+1
+466/699
+1/699
+
+#employed + unemployed
+ASFL5eu <- ASFL5[!(ASFL5$QD10 %in% dropempl3),] 
+summary(ASFL5eu$credp)
+table(ASFL5eu$credp)
+354+103+19+1+1+1
+479/749
+1/749
 #
-#bought a product in the past year
+###bought a product in the past year #recently chosen
 #highest number indicates ´Yes after exluding NAs
 
 #recent choice
@@ -382,11 +548,37 @@ RCadd5 <- ifelse(ASFL$Qprod1c_add_5 == "4",1, 0)
 
 recentchoice <- RC1+RC2+RC3+RC5+RC6+RC7+RC8+RC9+RC10+RC11+RC12+RC13+RC14+RC15+RCadd1+RCadd2+RCadd3+RCadd4+RCadd5
 table(recentchoice)
+#full
+ASFL5 <- cbind(ASFL5,recentchoice)
 recentchoiced <- ifelse(recentchoice >= "1", 1, 0)
 table(recentchoiced)
-897/(897+521)
+521/(897+521)
 
-#turned to family/friends to borrow and save
+#self-employed
+ASFL5se <- ASFL5[!(ASFL5$QD10 %in% dropempl2),] 
+summary(ASFL5se$recentchoice)
+table(ASFL5se$recentchoice)
+23+8+3+3+3+1+1
+42/79
+1/79
+
+#employed
+ASFL5e <- ASFL5[!(ASFL5$QD10 %in% dropempl),] 
+summary(ASFL5e$recentchoice)
+table(ASFL5e$recentchoice)
+167+102+41+22+12+8+4+1+3+1
+361/(361+338)
+
+#employed + unemployed
+ASFL5eu <- ASFL5[!(ASFL5$QD10 %in% dropempl3),] 
+summary(ASFL5eu$recentchoice)
+table(ASFL5eu$recentchoice)
+176+109+42+23+12+8+4+1+3+1
+379/749
+
+
+###turned to family/friends to borrow and save
+#full
 QF3_3 <- ifelse(ASFL$QF3_3 == "Yes", 1, 0)
 ASFL <- ASFL %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 0, QF12_3_1))
 QF12_3_1 <- ifelse(ASFL$QF12_3_1 == "4", 1, 0)
@@ -394,5 +586,96 @@ QF12_3_1
 famfriend <- QF12_3_1+QF3_3
 famfriend
 table(famfriend)
+ASFL5 <- cbind(ASFL5,famfriend)
 120/(1298+120)
 
+#self-employed
+ASFL5se <- ASFL5[!(ASFL5$QD10 %in% dropempl2),] 
+summary(ASFL5se$famfriend)
+table(ASFL5se$famfriend)
+7/79
+
+#employed
+ASFL5e <- ASFL5[!(ASFL5$QD10 %in% dropempl),] 
+summary(ASFL5e$famfriend)
+table(ASFL5e$famfriend)
+67/699
+
+#employed + unemployed
+ASFL5eu <- ASFL5[!(ASFL5$QD10 %in% dropempl3),] 
+summary(ASFL5eu$famfriend)
+table(ASFL5eu$famfriend)
+78/749
+
+QF3_3_se <- ifelse(ASFLse$QF3_3 == "Yes", 1, 0)
+QF3_3_se
+ASFLse <- ASFLse %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 0, QF12_3_1))
+QF12_3_1_se <- ifelse(ASFLse$QF12_3_1 == "4", 1, 0)
+QF12_3_1_se
+famfriend_se <- QF12_3_1_se+QF3_3_se
+famfriend_se
+table(famfriend_se)
+11/(68+11)
+
+#employed
+QF3_3_e <- ifelse(ASFLe$QF3_3 == "Yes", 1, 0)
+QF3_3_e
+ASFLe <- ASFLe %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 0, QF12_3_1))
+QF12_3_1_e <- ifelse(ASFLe$QF12_3_1 == "4", 1, 0)
+QF12_3_1_e
+famfriend_e <- QF12_3_1_e+QF3_3_e
+famfriend_e
+table(famfriend_e)
+98/(601+98)
+
+#employed + unemployed
+QF3_3_eu <- ifelse(ASFLeu$QF3_3 == "Yes", 1, 0)
+QF3_3_eu
+ASFLeu <- ASFLeu %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 0, QF12_3_1))
+QF12_3_1_eu <- ifelse(ASFLeu$QF12_3_1 == "4", 1, 0)
+QF12_3_1_eu
+famfriend_eu <- QF12_3_1_eu+QF3_3_eu
+famfriend_eu
+table(famfriend_eu)
+126/(126+623)
+
+
+#################financial indicators gender comparison##########################
+ASFL5m <- ASFL5[!(ASFL5$QD1 %in% dropgen),] 
+ASFL5f <- ASFL5[!(ASFL5$QD1 %in% dropgen1),] 
+
+summary(ASFL5m$fin_know)
+summary(ASFL5f$fin_know)
+
+summary(ASFL5m$fin_beh)
+summary(ASFL5f$fin_beh)
+
+summary(ASFL5m$fin_att)
+summary(ASFL5f$fin_att)
+
+summary(ASFL5m$produse)
+summary(ASFL5f$produse)
+
+summary(ASFL5m$savinre)
+summary(ASFL5f$savinre)
+
+summary(ASFL5m$payprod)
+summary(ASFL5f$payprod)
+
+summary(ASFL5m$p1b10)
+summary(ASFL5f$p1b10)
+
+summary(ASFL5m$credp)
+summary(ASFL5f$credp)
+
+summary(ASFL5m$recentchoice)
+summary(ASFL5f$recentchoice)
+
+summary(ASFL5m$famfriend)
+summary(ASFL5f$famfriend)
+
+table(ASFL5m$QF13)
+table(ASFL5f$QF13)
+
+summary(ASFL5m$finwellbeing)
+summary(ASFL5f$finwellbeing)
