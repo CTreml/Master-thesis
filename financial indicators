@@ -643,7 +643,10 @@ table(famfriend_eu)
 #################financial indicators gender comparison##########################
 ASFL5m <- ASFL5[!(ASFL5$QD1 %in% dropgen),] 
 ASFL5f <- ASFL5[!(ASFL5$QD1 %in% dropgen1),] 
+ASFL5sem <- ASFL5se[!(ASFL5se$QD1 %in% dropgen),] 
+ASFL5sef <- ASFL5se[!(ASFL5se$QD1 %in% dropgen1),] 
 
+#full
 summary(ASFL5m$fin_know)
 summary(ASFL5f$fin_know)
 
@@ -679,3 +682,40 @@ table(ASFL5f$QF13)
 
 summary(ASFL5m$finwellbeing)
 summary(ASFL5f$finwellbeing)
+
+#selfemployed
+summary(ASFL5sem$fin_know)
+summary(ASFL5sef$fin_know)
+
+summary(ASFL5sem$fin_beh)
+summary(ASFL5sef$fin_beh)
+
+summary(ASFL5sem$fin_att)
+summary(ASFL5sef$fin_att)
+
+summary(ASFL5sem$produse)
+summary(ASFL5sef$produse)
+
+summary(ASFL5sem$savinre)
+summary(ASFL5sef$savinre)
+
+summary(ASFL5sem$payprod)
+summary(ASFL5sef$payprod)
+
+summary(ASFL5sem$p1b10)
+summary(ASFL5sef$p1b10)
+
+summary(ASFL5sem$credp)
+summary(ASFL5sef$credp)
+
+summary(ASFL5sem$recentchoice)
+summary(ASFL5sef$recentchoice)
+
+summary(ASFL5sem$famfriend)
+summary(ASFL5sef$famfriend)
+
+table(ASFL5sem$QF13)
+table(ASFL5sef$QF13)
+
+summary(ASFL5sem$finwellbeing)
+summary(ASFL5sef$finwellbeing)
