@@ -27,6 +27,12 @@ ASFL_org <- readstata13::read.dta13("./Questionnaire & Dataset/oecd_2019_engl_fi
 ASFL <-ASFL_org
 ASFL
 
+##correct weighting 
+library(survey)
+
+ASFL_weighted <-svydesign(id=~1, weights=ASFL$wght, data=ASFL)
+ASFL_weighted <- ASFL_weighted$variables
+
 ##################################employment##################################
 
 summary(ASFL$QD10)
@@ -37,25 +43,24 @@ unemployed<- ifelse(ASFL$QD10 == "Looking for work [unemployed]", 1, 0)
 employed
 summary(employed)
 
-dropempl <- c("Self-employed [work for myself]", "Apprentice","Looking after the home","Looking for work [unemployed]","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Looking for work [unemployed]","Student","Other")
-#AFLS2 <- AFLS[!(AFLS$QD10 %in% dropempl),] 
-#AFLS2 - Data set for self-employed!
-dropempl2 <- c("In paid employment [work for someone else]","Apprentice","Looking after the home","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Looking for work [unemployed]","Student","Other")
-dropempl3 <- c("Self-employed [work for myself]", "Apprentice","Looking after the home","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Student","Other")
+se <- c("Self-employed [work for myself]")
+e <- c("In paid employment [work for someone else]")
+eu <- c("In paid employment [work for someone else]","Looking for work [unemployed]")
 
 
-ASFLse <- ASFL[!(ASFL$QD10 %in% dropempl2),] 
+ASFLse <- ASFL[(ASFL$QD10 %in% se),] 
 summary(ASFLse)
-ASFLe <- ASFL[!(ASFL$QD10 %in% dropempl),] 
+ASFLe <- ASFL[(ASFL$QD10 %in% e),] 
 summary(ASFLe)
-ASFLeu <-  ASFL[!(ASFL$QD10 %in% dropempl3),] 
+ASFLeu <-  ASFL[(ASFL$QD10 %in% eu),] 
 summary(ASFLeu)
-
+home <- subset(ASFL, ASFL$QD10 == "Looking after the home")
 ##################################age##################################
 #absolute - full sample
 summary(ASFL$QD7_a)
 age_f <- as.numeric(as.character(ASFL$QD7))
 age_f
+table(age_f)
 summary(age_f)
 
 #absolute - self-employed
@@ -92,6 +97,8 @@ genx_f <- ifelse(ASFL$age_group == "39-58", 1, 0)
 babyboomers_f <- ifelse(ASFL$age_group == "59-74", 1, 0)
 silentgen_f<- ifelse(ASFL$age_group == ">75", 1, 0)
 summary(ASFL$age_group)
+agegroup <- ASFL$age_group
+ASFL <- cbind(ASFL, agegroup)
 #158/1418, 198/1418, 515/1418, 354/1418, 193/1418
 
 #self-employed
@@ -205,14 +212,22 @@ age
 ##################################education##################################
 #fullsample
 ASFL$QD9
+ASFL$Qprod
 #skip NAs
 ASFL <- ASFL %>% mutate(QD9 = ifelse(is.na(QD9), 0, QD9))
-primary_f <- ifelse(ASFL$QD9 == c("7", "6"), 1, 0)
+ASFL$QD9
+ASFL["education"] = cut(as.numeric(as.character(ASFL$QD9)), c(2, 3, 4, 5, Inf), c("universitary", "upper secondary", "lower secondary", "primary"), include.lowest=TRUE)
+primary_f_1 <- ifelse(ASFL$QD9 == "7", 1, 0)
+primary_f_2 <- ifelse(ASFL$QD9 == "6", 1, 0)
+primary_f <- primary_f_1+primary_f_2
 lowersecondary_f<- ifelse(ASFL$QD9 == "5", 1, 0)
 uppersecondary_f<- ifelse(ASFL$QD9 == "4", 1, 0)
-university_f<- ifelse(ASFL$QD9 == c("3", "2"), 1, 0)
+university_f_1<- ifelse(ASFL$QD9 == "2", 1, 0)
+university_f_2<- ifelse(ASFL$QD9 == "3", 1, 0)
+university_f <- university_f_1+university_f_2
 
 table(ASFL$QD9)
+
 #191/1382 , 809/1382 , 220/1382, 162/1382
 
 #selfemployed
@@ -231,6 +246,7 @@ table(ASFLse$QD9)
 #employed
 #e
 ASFLe$QD9
+ASFL$Qprod1a
 #skip NAs
 ASFLe <- ASFLe %>% mutate(QD9 = ifelse(is.na(QD9), 0, QD9))
 primary_e_1 <- ifelse(ASFLe$QD9 == "7", 1, 0)
