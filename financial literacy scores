@@ -35,9 +35,35 @@ under18 <- c("16","17")
 above79 <- c("80","81","82","83","84","85","86","87","88","89","90","93","94","95","97")
 ASFLadult <- ASFL[!(ASFL$QD7 %in% under18),] 
 ASFLadult
-ASFLmain <- ASFLadult[!(ASFLadult$QD7 %in% above79),] 
+ASFLmainemploy <- ASFLadult[!(ASFLadult$QD7 %in% above79),] 
 
-#ASFL <- mutate_at(ASFL, c("QF12_1_1", "QF12_1_2"), ~replace(., is.NA(.), 0)) ??
+
+##################################gender##################################
+male<- ifelse(ASFL$QD1 == "Male", 1, 0)
+female <- ifelse(ASFL$QD1 == "Female", 1, 0)
+
+male <- c("Male")
+female <- c("2")
+
+##################################age##################################
+ASFL$QD7
+ASFL["age_group"] = cut(as.numeric(as.character(ASFL$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
+#self-employed
+
+ASFL$QD7
+ASFL["age_group"] = cut(as.numeric(as.character(ASFL$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
+youngmill<- ifelse(ASFL$age_group == "16-28", 1, 0)
+oldmill<- ifelse(ASFL$age_group == "29-38", 1, 0)
+genx <- ifelse(ASFL$age_group == "39-58", 1, 0)
+babyboomers <- ifelse(ASFL$age_group == "59-74", 1, 0)
+silentgen<- ifelse(ASFL$age_group == ">75", 1, 0)
+summary(ASFL$age_group)
+agegroup <- ASFL$age_group
+ASFL <- cbind(ASFL, agegroup)
+table(agegroup)
+
+
+
 
 ##################################employment##################################
 
@@ -49,18 +75,16 @@ unemployed<- ifelse(ASFL$QD10 == "Looking for work [unemployed]", 1, 0)
 employed
 summary(employed)
 
-dropempl <- c("Self-employed [work for myself]", "Apprentice","Looking after the home","Looking for work [unemployed]","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Looking for work [unemployed]","Student","Other")
-#AFLS2 <- AFLS[!(AFLS$QD10 %in% dropempl),] 
-#AFLS2 - Data set for self-employed!
-dropempl2 <- c("In paid employment [work for someone else]","Apprentice","Looking after the home","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Looking for work [unemployed]","Student","Other")
-dropempl3 <- c("Self-employed [work for myself]", "Apprentice","Looking after the home","Retired","Unable to work due to sickness or ill-health","Not working and not looking for work","Student","Other")
+se <- c("Self-employed [work for myself]")
+e <- c("In paid employment [work for someone else]")
+eu <- c("In paid employment [work for someone else]","Looking for work [unemployed]")
 
 
-ASFLse <- ASFL[!(ASFL$QD10 %in% dropempl2),] 
+ASFLse <- ASFL[(ASFL$QD10 %in% se),] 
 summary(ASFLse)
-ASFLe <- ASFL[!(ASFL$QD10 %in% dropempl),] 
+ASFLe <- ASFL[(ASFL$QD10 %in% e),] 
 summary(ASFLe)
-ASFLeu <-  ASFL[!(ASFL$QD10 %in% dropempl3),] 
+ASFLeu <-  ASFL[(ASFL$QD10 %in% eu),] 
 summary(ASFLeu)
 
 ####################financial knowledge score#############################
@@ -86,6 +110,7 @@ table(ASFLeu$QK2)
 #QK3 - *OECD - time value of money
 summary(ASFL$QK3)
 ASFL$QK3 <- ifelse(ASFL$QK3 == "Or, less than they could buy today", 1, 0)
+QK3 <- ifelse(ASFL$QK3 == "Or, less than they could buy today", 1, 0)
 table(ASFL$QK3)
 ASFLse$QK3<- ifelse(ASFLse$QK3 == "Or, less than they could buy today", 1, 0)
 table(ASFLse$QK3)
@@ -97,6 +122,7 @@ table(ASFLeu$QK3)
 #QK4 - *OECD - interest paid on a loan
 summary(ASFL$QK4)
 ASFL$QK4<- ifelse(ASFL$QK4 == "0", 1, 0)
+QK4<- ifelse(ASFL$QK4 == "0", 1, 0)
 table(ASFL$QK4)
 ASFLse$QK4<- ifelse(ASFLse$QK4 == "0", 1, 0)
 table(ASFLse$QK4)
@@ -108,6 +134,7 @@ table(ASFLeu$QK4)
 #QK5 - *OECD - interest plus principal
 summary(ASFL$QK5)
 ASFL$QK5<- ifelse(ASFL$QK5 == "102", 1, 0)
+QK5<- ifelse(ASFL$QK5 == "102", 1, 0)
 table(ASFL$QK5)
 ASFLse$QK5<- ifelse(ASFLse$QK5 == "102", 1, 0)
 table(ASFLse$QK5)
@@ -119,6 +146,7 @@ table(ASFLeu$QK5)
 #QK6 - *OECD - compound interest 
 summary(ASFL$QK6)
 ASFL$QK6<- ifelse(ASFL$QK6 == "More than €110", 1, 0)
+QK6<- ifelse(ASFL$QK6 == "More than €110", 1, 0)
 table(ASFL$QK6)
 ASFLse$QK6<- ifelse(ASFLse$QK6 == "More than €110", 1, 0)
 table(ASFLse$QK6)
@@ -183,18 +211,31 @@ table(ASFLeu$QK7_3)
 
 
 #create financial knowledge score (score 0-7).
-
+fin_know <- (ASFL$QK3+ASFL$QK4+ASFL$QK5+ASFL$QK6+ASFL$QK7_1+ASFL$QK7_2+ASFL$QK7_3)
 ASFL1 <- ASFL %>% 
   mutate(fin_know = ASFL$QK3+ASFL$QK4+ASFL$QK5+ASFL$QK6+ASFL$QK7_1+ASFL$QK7_2+ASFL$QK7_3)
 #ASFL1 <- ASFL %>% 
 #  mutate(fin_know = QK3+QK4+QK5+QK6+QK7_1+QK7_2+QK7_3)
 
-ASFL1se <- ASFL1[!(ASFL1$QD10 %in% dropempl2),] 
+ASFL1se <- ASFL1[(ASFL1$QD10 %in% se),] 
 summary(ASFL1se)
-ASFL1e <- ASFL1[!(ASFL1$QD10 %in% dropempl),] 
+ASFL1e <- ASFL1[(ASFL1$QD10 %in% e),] 
 summary(ASFL1e)
-ASFL1eu <-  ASFL1[!(ASFL1$QD10 %in% dropempl3),] 
+ASFL1eu <-  ASFL1[(ASFL1$QD10 %in% eu),] 
 summary(ASFL1eu)
+
+ASFL1m <- ASFL1[(ASFL1$QD1 %in% male),] 
+ASFL1f <- ASFL1[(ASFL1$QD1 %in% female),] 
+
+
+#relation between gender/age and level of financial knowledge
+
+plot(ASFL1m$QD7, ASFL1m$fin_know, pch=20)
+lines(lowess(ASFL1m$fin_know,ASFL1m$QD7), col="red")
+agegroupsfemale <- plot(ASFL1f$QD7_a, ASFL1f$fin_know)
+
+summary(ASFL1m$fin_know)
+summary(ASFL1f$fin_know)
 
 summary(ASFL1$fin_know)
 table(ASFL1$fin_know)
@@ -240,6 +281,8 @@ table(ASFL1eu$fin_know)
 #summary(ASFL1se$fin_know)
 #table(ASFL1se$fin_know)
 
+
+
 #average:
 5.962/7
 #5 or more 
@@ -255,6 +298,23 @@ rownames(finknowdetail) <- c("full","employed","self-employed")
 barplot(finknowdetail, beside=TRUE) 
       # xlab="x", ylab="share of correct answers", main="",
       # legend("bottomright", c("full", "employed", "selfemployed"), pch=1))
+
+
+#number of correct responses 
+finkowanswers <- data.frame(answers=rep(c('0','1', '2', '3','4', '5', '6','7'), each=3),
+                      status=rep(c('full', 'self-employed', 'employed'), times=8),
+                      share=c(8/1418, 0/79, 2/699, 26/1418, 1/79, 12/699, 63/1418, 2/79, 23/699, 95/1418, 3/79, 50/699, 168/1418, 3/79, 83/699, 270/1418, 10/79, 114/699, 428/1418, 25/79, 222/699, 360/1418, 35/79, 193/699))
+
+ggplot(finkowanswers, aes(fill=status, y=share, x=answers)) + 
+  geom_bar(position='stack', stat='identity')
+
+finkowanswers <- data.frame(answers=rep(c('full', 'self-employed', 'employed'), each=8),
+                            status=rep(c('0','1', '2', '3','4', '5', '6','7'), times=3),
+                            share=c(8/1418, 0/79, 2/699, 26/1418, 1/79, 12/699, 63/1418, 2/79, 23/699, 95/1418, 3/79, 50/699, 168/1418, 3/79, 83/699, 270/1418, 10/79, 114/699, 428/1418, 25/79, 222/699, 360/1418, 35/79, 193/699))
+
+ggplot(finkowanswers, aes(fill=answers, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')
+
 
 ####################financial attitude score#############################
 #recode Refused, Not relevant and don´t know to 3
@@ -315,7 +375,7 @@ table(ASFL2$fin_att)
 204+226+169+57+32+15
 703/1418 #OECD: 49.0%
 
-ASFL2se <- ASFL2[!(ASFL2$QD10 %in% dropempl2),] 
+ASFL2se <- ASFL2[(ASFL2$QD10 %in% se),] 
 summary(ASFL2se)
 summary(ASFL2se$fin_att)
 table(ASFL2se$fin_att)
@@ -323,14 +383,14 @@ table(ASFL2se$fin_att)
 11+19+8+2+5
 45/(45+1+2+4+4+8+15)
 
-ASFL2e <- ASFL2[!(ASFL2$QD10 %in% dropempl),] 
+ASFL2e <- ASFL2[(ASFL2$QD10 %in% e),] 
 summary(ASFL2e$fin_att)
 table(ASFL2e$fin_att)
 #more than 3 (out of five)
 116+113+89+30+10+5
 363/(363+12+11+23+57+45+81+107)
 
-ASFL2eu <-  ASFL2[!(ASFL2$QD10 %in% dropempl3),] 
+ASFL2eu <-  ASFL2[(ASFL2$QD10 %in% eu),] 
 summary(ASFL2eu$fin_att)
 table(ASFL2eu$fin_att)
 #more than 3 (out of five)
@@ -348,51 +408,21 @@ table(ASFL2adult$fin_att)
 203+225+168+57+32+15
 700/1410
 
-se_finknow_finatt<- ifelse(ASFL2$QD10 == "Self-employed [work for myself]", 1, 0)
-ASFL_se_finknow_finatt <- subset(ASFL2, ASFL2$QD10 == "Self-employed [work for myself]")
-ASFL_se_finknow_finatt
-summary(ASFL_se_finknow_finatt$fin_att)
-table(ASFL_se_finknow_finatt$fin_att)
 #more than 3 out of 5 
 
 
-###financial knowledge gender differences 
-ASFL_se_finknow_finatt_m <- subset(ASFL2, ASFL2$QD1 == "Male")
-summary(ASFL_se_finknow_finatt_m$fin_know)
-ASFL_se_finknow_finatt_w <- subset(ASFL2, ASFL2$QD1 == "2")
-summary(ASFL_se_finknow_finatt_w$fin_know)
-###financial attitude gender differences 
-ASFL_se_finknow_finatt_m <- subset(ASFL2, ASFL2$QD1 == "Male")
-summary(ASFL_se_finknow_finatt_m$fin_att)
-ASFL_se_finknow_finatt_w <- subset(ASFL2, ASFL2$QD1 == "2")
-summary(ASFL_se_finknow_finatt_w$fin_att)
+###gender differences 
+ASFL2m <- ASFL2[(ASFL2$QD1 %in% male),]
+ASFL2f <- ASFL2[(ASFL2$QD1 %in% female),]
 
-#more than 3 (out of five)
-11+19+8+2+5
-45/79
+ASFL2sem <- ASFL2se[(ASFL2se$QD1 %in% male),]
+ASFL2sef <- ASFL2se[(ASFL2se$QD1 %in% female),]
 
-e_finknow_finatt<- ifelse(ASFL2$QD10 == "In paid employment [work for someone else]", 1, 0)
-ASFL_e_finknow_finatt <- subset(ASFL2, ASFL2$QD10 == "In paid employment [work for someone else]")
-ASFL_e_finknow_finatt
-summary(ASFL_e_finknow_finatt$fin_att)
-table(ASFL_e_finknow_finatt$fin_att)
+ASFL2em <- ASFL2e[(ASFL2e$QD1 %in% male),]
+ASFL2ef <- ASFL2e[(ASFL2e$QD1 %in% female),]
 
-###financial knowledge gender differences 
-ASFL_e_finknow_finatt_m <- subset(ASFL2, ASFL2$QD1 == "Male")
-summary(ASFL_e_finknow_finatt_m$fin_know)
-ASFL_e_finknow_finatt_w <- subset(ASFL2, ASFL2$QD1 == "2")
-summary(ASFL_e_finknow_finatt_w$fin_know)
-###financial attitude gender differences 
-ASFL_e_finknow_finatt_m <- subset(ASFL2, ASFL2$QD1 == "Male")
-summary(ASFL_e_finknow_finatt_m$fin_att)
-ASFL_e_finknow_finatt_w <- subset(ASFL2, ASFL2$QD1 == "2")
-summary(ASFL_e_finknow_finatt_w$fin_att)
-
-
-#more than 3 (out of five)
-116+113+89+30+10++5
-363/699
-
+ASFL2eum <- ASFL2eu[(ASFL2eu$QD1 %in% male),]
+ASFL2euf <- ASFL2eu[(ASFL2eu$QD1 %in% female),]
 
 ####################financial behavior score#######################
 ###########Budgeting#################
@@ -612,7 +642,7 @@ table(ASFL3adult$fin_beh)
 357+235+134+29
 755/(755+4+17+25+60+180+369)
 
-ASFL3se <- ASFL3[!(ASFL3$QD10 %in% dropempl2),] 
+ASFL3se <- ASFL3[(ASFL3$QD10 %in% se),] 
 summary(ASFL3se)
 summary(ASFL3se$fin_beh)
 table(ASFL3se$fin_beh)
@@ -620,87 +650,30 @@ table(ASFL3se$fin_beh)
 16+22+17+1
 56/(56+1+6+16)
 
-ASFL3e <- ASFL3[!(ASFL3$QD10 %in% dropempl),] 
+ASFL3e <- ASFL3[(ASFL3$QD10 %in% e),] 
 summary(ASFL3e$fin_beh)
 table(ASFL3e$fin_beh)
 #more than 6 (out of nine)
 176+148+89+23
 436/(436+2+8+15+31+71+136)
 
-ASFL3eu <-  ASFL3[!(ASFL3$QD10 %in% dropempl3),] 
+ASFL3eu <-  ASFL3[(ASFL3$QD10 %in% eu),] 
 summary(ASFL3eu$fin_beh)
 table(ASFL3eu$fin_beh)
 #more than 3 (out of five)
 182+151+92+24
 449/(449+3+14+19+39+80+145)
 
+ASFL3m <- ASFL3[(ASFL3$QD1 %in% male),]
+ASFL3f <- ASFL3[(ASFL3$QD1 %in% female),]
 
-#self-employed
-se_finknow_finatt_finbeh<- ifelse(ASFL3$QD10 == "Self-employed [work for myself]", 1, 0)
-ASFL_se_finknow_finatt_finbeh <- subset(ASFL3, ASFL3$QD10 == "Self-employed [work for myself]")
-ASFL_se_finknow_finatt_finbeh
-summary(ASFL_se_finknow_finatt_finbeh$fin_beh)
-table(ASFL_se_finknow_finatt_finbeh$fin_beh)
+ASFL3sem <- ASFL3se[(ASFL3se$QD1 %in% male),]
+ASFL3sef <- ASFL3se[(ASFL3se$QD1 %in% female),]
 
-###financial knowledge gender differences 
-ASFL_se_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
-summary(ASFL_se_finknow_finatt_finbeh_m$fin_know)
-ASFL_se_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
-summary(ASFL_se_finknow_finatt_finbeh_w$fin_know)
-###financial attitude gender differences 
-ASFL_se_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
-summary(ASFL_se_finknow_finatt_finbeh_m$fin_att)
-ASFL_se_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
-summary(ASFL_se_finknow_finatt_finbeh_w$fin_att)
-###financial attitude gender differences 
-ASFL_se_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
-summary(ASFL_se_finknow_finatt_finbeh_m$fin_beh)
-ASFL_se_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
-summary(ASFL_se_finknow_finatt_finbeh_w$fin_beh)
+ASFL3em <- ASFL3e[(ASFL3e$QD1 %in% male),]
+ASFL3ef <- ASFL3e[(ASFL3e$QD1 %in% female),]
 
-#employed
-e_finknow_finatt_finbeh<- ifelse(ASFL3$QD10 == "In paid employment [work for someone else]", 1, 0)
-ASFL_e_finknow_finatt_finbeh <- subset(ASFL3, ASFL3$QD10 == "In paid employment [work for someone else]")
-ASFL_e_finknow_finatt_finbeh
-summary(ASFL_e_finknow_finatt_finbeh$fin_beh)
-table(ASFL_e_finknow_finatt_finbeh$fin_beh)
+ASFL3eum <- ASFL3eu[(ASFL3eu$QD1 %in% male),]
+ASFL3euf <- ASFL3eu[(ASFL3eu$QD1 %in% female),]
 
-###financial knowledge gender differences 
-ASFL_e_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
-summary(ASFL_e_finknow_finatt_finbeh_m$fin_know)
-ASFL_e_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
-summary(ASFL_e_finknow_finatt_finbeh_w$fin_know)
-###financial attitude gender differences 
-ASFL_e_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
-summary(ASFL_e_finknow_finatt_finbeh_m$fin_att)
-ASFL_e_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
-summary(ASFL_e_finknow_finatt_finbeh_w$fin_att)
-###financial behavior gender differences 
-ASFL_e_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
-summary(ASFL_e_finknow_finatt_finbeh_m$fin_beh)
-ASFL_e_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
-summary(ASFL_e_finknow_finatt_finbeh_w$fin_beh)
-
-#employed + unemployed
-eu_finknow_finatt_finbeh<- ifelse(ASFL3$QD10 == c("In paid employment [work for someone else]", "Looking for work [unemployed]"), 1, 0)
-ASFL_eu_finknow_finatt_finbeh <- subset(ASFL3, ASFL3$QD10 == c("In paid employment [work for someone else]", "Looking for work [unemployed]"))
-ASFL_eu_finknow_finatt_finbeh
-summary(ASFL_eu_finknow_finatt_finbeh$fin_beh)
-table(ASFL_eu_finknow_finatt_finbeh$fin_beh)
-
-###financial knowledge gender differences 
-ASFL_eu_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
-summary(ASFL_eu_finknow_finatt_finbeh_m$fin_know)
-ASFL_eu_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
-summary(ASFL_eu_finknow_finatt_finbeh_w$fin_know)
-###financial attitude gender differences 
-ASFL_eu_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
-summary(ASFL_eu_finknow_finatt_finbeh_m$fin_att)
-ASFL_eu_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
-summary(ASFL_eu_finknow_finatt_finbeh_w$fin_att)
-###financial behavior gender differences 
-ASFL_eu_finknow_finatt_finbeh_m <- subset(ASFL3, ASFL3$QD1 == "Male")
-summary(ASFL_eu_finknow_finatt_finbeh_m$fin_beh)
-ASFL_eu_finknow_finatt_finbeh_w <- subset(ASFL3, ASFL3$QD1 == "2")
-summary(ASFL_eu_finknow_finatt_finbeh_w$fin_beh)
 
