@@ -1,0 +1,94 @@
+#loading packages
+library(ggplot2)
+library(survey)
+library(mitools)
+library(survey)
+library(srvyr)
+library(dplyr)
+#srvyr is a dplyr version of survey, check out the "Vignettes":
+#https://cran.r-project.org/web/packages/srvyr/index.html
+library(mice)
+library(tidyverse)
+library(oaxaca)
+library(devtools)
+#install_github('djalmapessoa/convey')
+library(convey)
+library(haven)
+library(foreign)
+library(xtable)
+#install.packages("stargazer")
+library(stargazer)
+#install.packages("forcats")
+library(forcats)
+
+#setting the working directory
+setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
+ASFL_org <- readstata13::read.dta13("./Questionnaire & Dataset/oecd_2019_engl_final_official.dta", generate.factors=TRUE, nonint.factors = TRUE)
+ASFL <-ASFL_org
+
+##################################employment##################################
+
+summary(ASFL$QD10)
+selfemployed<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
+summary(selfemployed)
+employed<- ifelse(ASFL$QD10 == "In paid employment [work for someone else]", 1, 0) #maybe keep those looking for work?
+unemployed<- ifelse(ASFL$QD10 == "Looking for work [unemployed]", 1, 0)
+employed
+summary(employed)
+
+se <- c("Self-employed [work for myself]")
+e <- c("In paid employment [work for someone else]")
+eu <- c("In paid employment [work for someone else]","Looking for work [unemployed]")
+
+
+ASFLse <- ASFL[(ASFL$QD10 %in% se),] 
+summary(ASFLse)
+ASFLe <- ASFL[(ASFL$QD10 %in% e),] 
+summary(ASFLe)
+ASFLeu <-  ASFL[(ASFL$QD10 %in% eu),] 
+summary(ASFLeu)
+
+##################################age##################################
+ASFL$QD7
+ASFL["age_group"] = cut(as.numeric(as.character(ASFL$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
+youngmill<- ifelse(ASFL$age_group == "16-28", 1, 0)
+oldmill<- ifelse(ASFL$age_group == "29-38", 1, 0)
+genx <- ifelse(ASFL$age_group == "39-58", 1, 0)
+babyboomers <- ifelse(ASFL$age_group == "59-74", 1, 0)
+
+babyboomers <- ASFL5[(ASFL5$agegroup %in% babyboom),] 
+silentgen<- ifelse(ASFL$age_group == ">75", 1, 0)
+summary(ASFL$age_group)
+agegroup <- ASFL$age_group
+ASFL <- cbind(ASFL, agegroup)
+table(agegroup)
+
+
+youngmill <- c("16-28")
+oldmill <- c("29-38")
+genx <- c("39-58")
+babyboom <- c("59-74")
+silgen <- c("75+")
+
+
+under18 <- c("16","17")
+above79 <- c("80","81","82","83","84","85","86","87","88","89","90","93","94","95","97")
+ASFLadult <- ASFL[!(ASFL$QD7 %in% under18),] 
+ASFLadult
+ASFLmainemploy <- ASFLadult[!(ASFLadult$QD7 %in% above79),] 
+
+
+##################################gender##################################
+male<- ifelse(ASFL$QD1 == "Male", 1, 0)
+female <- ifelse(ASFL$QD1 == "Female", 1, 0)
+
+male <- c("Male")
+female <- c("2")
+
+##################################education##################################
+####maybe change definition! 
+ASFL <- ASFL %>% mutate(QD9 = ifelse(is.na(QD9), 0, QD9))
+ASFL$QD9
+ASFL["education"] = cut(as.numeric(as.character(ASFL$QD9)), c(2, 3, 4, 5, Inf), c("universitary", "upper secondary", "lower secondary", "primary"), include.lowest=TRUE)
+education <- ASFL$education
+education
