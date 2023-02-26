@@ -1,37 +1,4 @@
-#loading packages
-library(ggplot2)
-library(survey)
-library(mitools)
-library(survey)
-library(srvyr)
-library(dplyr)
-#srvyr is a dplyr version of survey, check out the "Vignettes":
-#https://cran.r-project.org/web/packages/srvyr/index.html
-library(mice)
-library(tidyverse)
-library(oaxaca)
-library(devtools)
-#install_github('djalmapessoa/convey')
-library(convey)
-library(haven)
-library(foreign)
-library(xtable)
-#install.packages("stargazer")
-library(stargazer)
-#install.packages("forcats")
-library(forcats)
 
-#setting the working directory
-setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
-ASFL_org <- readstata13::read.dta13("./Questionnaire & Dataset/oecd_2019_engl_final_official.dta", generate.factors=TRUE, nonint.factors = TRUE)
-ASFL <-ASFL_org
-ASFL
-
-##correct weighting 
-library(survey)
-
-ASFL_weighted <-svydesign(id=~1, weights=ASFL$wght, data=ASFL)
-ASFL_weighted <- ASFL_weighted$variables
 
 ##################################employment##################################
 
@@ -56,6 +23,7 @@ ASFLeu <-  ASFL[(ASFL$QD10 %in% eu),]
 summary(ASFLeu)
 home <- subset(ASFL, ASFL$QD10 == "Looking after the home")
 ##################################age##################################
+summary(ASFL$QD7)
 #absolute - full sample
 summary(ASFL$QD7_a)
 age_f <- as.numeric(as.character(ASFL$QD7))
@@ -68,7 +36,6 @@ summary(ASFLse$QD7_a)
 age_se <- as.numeric(as.character(ASFLse$QD7))
 age_se
 summary(age_se)
-
 
 #absolute - employed
 #e
@@ -94,11 +61,10 @@ ASFL["age_group"] = cut(as.numeric(as.character(ASFL$QD7)), c(16, 28, 38, 58, 74
 youngmill_f<- ifelse(ASFL$age_group == "16-28", 1, 0)
 oldmill_f<- ifelse(ASFL$age_group == "29-38", 1, 0)
 genx_f <- ifelse(ASFL$age_group == "39-58", 1, 0)
-babyboomers_f <- ifelse(ASFL$age_group == "59-74", 1, 0)
+babyboom_f <- ifelse(ASFL$age_group == "59-74", 1, 0)
 silentgen_f<- ifelse(ASFL$age_group == ">75", 1, 0)
 summary(ASFL$age_group)
-agegroup <- ASFL$age_group
-ASFL <- cbind(ASFL, agegroup)
+
 #158/1418, 198/1418, 515/1418, 354/1418, 193/1418
 
 #self-employed
@@ -108,7 +74,7 @@ ASFLse["age_group"] = cut(as.numeric(as.character(ASFLse$QD7)), c(16, 28, 38, 58
 youngmill_se<- ifelse(ASFLse$age_group == "16-28", 1, 0)
 oldmill_se<- ifelse(ASFLse$age_group == "29-38", 1, 0)
 genx_se<- ifelse(ASFLse$age_group == "39-58", 1, 0)
-babyboomers_se <- ifelse(ASFLse$age_group == "59-74", 1, 0)
+babyboom_se <- ifelse(ASFLse$age_group == "59-74", 1, 0)
 silentgen_se<- ifelse(ASFLse$age_group == ">75", 1, 0)
 summary(ASFLse$age_group)
 #0,5/79,63/79,11/79,0
@@ -120,7 +86,7 @@ ASFLe["age_group"] = cut(as.numeric(as.character(ASFLe$QD7)), c(16, 28, 38, 58, 
 youngmill_e<- ifelse(ASFLe$age_group == "16-28", 1, 0)
 oldmill_e<- ifelse(ASFLe$age_group == "29-38", 1, 0)
 genx_e <- ifelse(ASFLe$age_group == "39-58", 1, 0)
-babyboomers_e <- ifelse(ASFLe$age_group == "59-74", 1, 0)
+babyboom_e <- ifelse(ASFLe$age_group == "59-74", 1, 0)
 silentgen_e<- ifelse(ASFLe$age_group == ">75", 1, 0)
 summary(ASFLe$age_group)
 #114/699,163/699,386/699,35/699,1/699
@@ -130,7 +96,7 @@ ASFLeu["age_group"] = cut(as.numeric(as.character(ASFLeu$QD7)), c(16, 28, 38, 58
 youngmill_eu<- ifelse(ASFLeu$age_group == "16-28", 1, 0)
 oldmill_eu<- ifelse(ASFLeu$age_group == "29-38", 1, 0)
 genx_eu <- ifelse(ASFLeu$age_group == "39-58", 1, 0)
-babyboomers_eu <- ifelse(ASFLeu$age_group == "59-74", 1, 0)
+babyboom_eu <- ifelse(ASFLeu$age_group == "59-74", 1, 0)
 silentgen_eu<- ifelse(ASFLeu$age_group == ">75", 1, 0)
 summary(ASFLeu$age_group)
 #123/749, 174/749, 414/749, 37/749, 1/749
@@ -393,6 +359,7 @@ ggplot(hincome, aes(fill=income, y=share, x=status)) +
 
 ##################################self-rated financial knowledge##################################
 #full
+selfassess <- ASFL$QK1
 ASFL$QK1
 dontknow_f <- ifelse(ASFL$QK1 == "Don't know", 1, 0)
 hhsfknow_f<- ifelse(ASFL$QK1 == "Very high", 1, 0)
@@ -454,3 +421,5 @@ selfratedknow_specific <- data.frame(status=rep(c('full', 'self-employed', 'empl
 
 ggplot(selfratedknow_specific, aes(fill=selfassessment, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')
+       
+         
