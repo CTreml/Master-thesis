@@ -1,91 +1,5 @@
-#loading packages
-library(ggplot2)
-library(survey)
-library(mitools)
-library(survey)
-library(srvyr)
-library(dplyr)
-#srvyr is a dplyr version of survey, check out the "Vignettes":
-#https://cran.r-project.org/web/packages/srvyr/index.html
-library(mice)
-library(tidyverse)
-library(oaxaca)
-library(devtools)
-#install_github('djalmapessoa/convey')
-library(convey)
-library(haven)
-library(foreign)
-library(xtable)
-#install.packages("stargazer")
-library(stargazer)
-#install.packages("forcats")
-library(forcats)
 
 
-
-#setting the working directory
-setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
-ASFL_org <- readstata13::read.dta13("./Questionnaire & Dataset/oecd_2019_engl_final_official.dta", generate.factors=TRUE, nonint.factors = TRUE)
-ASFL <-ASFL_org
-ASFL
-
-#dropbelow18 
-table(ASFL$QD7)
-under18 <- c("16","17")
-above79 <- c("80","81","82","83","84","85","86","87","88","89","90","93","94","95","97")
-ASFLadult <- ASFL[!(ASFL$QD7 %in% under18),] 
-ASFLadult
-ASFLmainemploy <- ASFLadult[!(ASFLadult$QD7 %in% above79),] 
-
-
-##################################gender##################################
-male<- ifelse(ASFL$QD1 == "Male", 1, 0)
-female <- ifelse(ASFL$QD1 == "Female", 1, 0)
-
-male <- c("Male")
-female <- c("2")
-
-##################################age##################################
-ASFL$QD7
-ASFL["age_group"] = cut(as.numeric(as.character(ASFL$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
-#self-employed
-
-ASFL$QD7
-ASFL["age_group"] = cut(as.numeric(as.character(ASFL$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
-youngmill<- ifelse(ASFL$age_group == "16-28", 1, 0)
-oldmill<- ifelse(ASFL$age_group == "29-38", 1, 0)
-genx <- ifelse(ASFL$age_group == "39-58", 1, 0)
-babyboomers <- ifelse(ASFL$age_group == "59-74", 1, 0)
-silentgen<- ifelse(ASFL$age_group == ">75", 1, 0)
-summary(ASFL$age_group)
-agegroup <- ASFL$age_group
-ASFL <- cbind(ASFL, agegroup)
-table(agegroup)
-
-
-
-
-##################################employment##################################
-
-summary(ASFL$QD10)
-selfemployed<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
-summary(selfemployed)
-employed<- ifelse(ASFL$QD10 == "In paid employment [work for someone else]", 1, 0) #maybe keep those looking for work?
-unemployed<- ifelse(ASFL$QD10 == "Looking for work [unemployed]", 1, 0)
-employed
-summary(employed)
-
-se <- c("Self-employed [work for myself]")
-e <- c("In paid employment [work for someone else]")
-eu <- c("In paid employment [work for someone else]","Looking for work [unemployed]")
-
-
-ASFLse <- ASFL[(ASFL$QD10 %in% se),] 
-summary(ASFLse)
-ASFLe <- ASFL[(ASFL$QD10 %in% e),] 
-summary(ASFLe)
-ASFLeu <-  ASFL[(ASFL$QD10 %in% eu),] 
-summary(ASFLeu)
 
 ####################financial knowledge score#############################
 #QK1 - self-rated knowledge #does not add to financial literacy score
@@ -212,8 +126,9 @@ table(ASFLeu$QK7_3)
 
 #create financial knowledge score (score 0-7).
 fin_know <- (ASFL$QK3+ASFL$QK4+ASFL$QK5+ASFL$QK6+ASFL$QK7_1+ASFL$QK7_2+ASFL$QK7_3)
-ASFL1 <- ASFL %>% 
-  mutate(fin_know = ASFL$QK3+ASFL$QK4+ASFL$QK5+ASFL$QK6+ASFL$QK7_1+ASFL$QK7_2+ASFL$QK7_3)
+ASFL1 <- cbind(ASFL,fin_know)
+#ASFL1 <- ASFL %>% 
+  #mutate(fin_know = ASFL$QK3+ASFL$QK4+ASFL$QK5+ASFL$QK6+ASFL$QK7_1+ASFL$QK7_2+ASFL$QK7_3)
 #ASFL1 <- ASFL %>% 
 #  mutate(fin_know = QK3+QK4+QK5+QK6+QK7_1+QK7_2+QK7_3)
 
@@ -280,7 +195,6 @@ table(ASFL1eu$fin_know)
  #mutate(fin_know = ASFLse$QK3+ASFLse$QK4+ASFLse$QK5+ASFLse$QK6+ASFLse$QK7_1+ASFLse$QK7_2+ASFLse$QK7_3)
 #summary(ASFL1se$fin_know)
 #table(ASFL1se$fin_know)
-
 
 
 #average:
@@ -460,8 +374,7 @@ QF3_5<- ASFL$QF3_5<- ifelse(ASFL$QF3_5 == "Yes", 1, 0)
 QF3_6<- ASFL$QF3_6<- ifelse(ASFL$QF3_6 == "Yes", 1, 0)
 QF3_7<- ASFL$QF3_7<- ifelse(ASFL$QF3_7 == "Yes", 1, 0)
 QF3_8<- ASFL$QF3_8<- ifelse(ASFL$QF3_8 == "Yes", 1, 0)
-QF3_97<- ASFL$QF3_97<- ifelse(ASFL$QF3_97 == "Yes", 1, 0) #notrelevant
-QF3_99<- ASFL$QF3_99<- ifelse(ASFL$QF3_99 == "Yes", 1, 0) #notrelevant
+
 
 QF3<- QF3_1+QF3_2+QF3_3+QF3_5+QF3_6+QF3_7+QF3_8
 QF3
@@ -675,5 +588,4 @@ ASFL3ef <- ASFL3e[(ASFL3e$QD1 %in% female),]
 
 ASFL3eum <- ASFL3eu[(ASFL3eu$QD1 %in% male),]
 ASFL3euf <- ASFL3eu[(ASFL3eu$QD1 %in% female),]
-
 
