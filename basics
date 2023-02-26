@@ -49,26 +49,34 @@ ASFLeu <-  ASFL[(ASFL$QD10 %in% eu),]
 summary(ASFLeu)
 
 ##################################age##################################
-ASFL$QD7
+age<-ASFL$QD7
+age <- as.numeric(age)
+age2 <- age^2
 ASFL["age_group"] = cut(as.numeric(as.character(ASFL$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
-youngmill<- ifelse(ASFL$age_group == "16-28", 1, 0)
-oldmill<- ifelse(ASFL$age_group == "29-38", 1, 0)
-genx <- ifelse(ASFL$age_group == "39-58", 1, 0)
-babyboomers <- ifelse(ASFL$age_group == "59-74", 1, 0)
+youngmilld<- ifelse(ASFL$age_group == "16-28", 1, 0)
+oldmilld<- ifelse(ASFL$age_group == "29-38", 1, 0)
+genxd <- ifelse(ASFL$age_group == "39-58", 1, 0)
+babyboomd <- ifelse(ASFL$age_group == "59-74", 1, 0)
+silgend<- ifelse(ASFL$age_group == ">75", 1, 0)
 
-babyboomers <- ASFL5[(ASFL5$agegroup %in% babyboom),] 
-silentgen<- ifelse(ASFL$age_group == ">75", 1, 0)
 summary(ASFL$age_group)
-agegroup <- ASFL$age_group
-ASFL <- cbind(ASFL, agegroup)
-table(agegroup)
+
+#table(age_group)
 
 
 youngmill <- c("16-28")
 oldmill <- c("29-38")
 genx <- c("39-58")
 babyboom <- c("59-74")
-silgen <- c("75+")
+silgen <- c(">75")
+
+youngmill<- ASFL[(ASFL$age_group %in% youngmill),] 
+oldmill<- ASFL[(ASFL$age_group %in% oldmill),] 
+genx <- ASFL[(ASFL$age_group %in% genx),] 
+babyboom <- ASFL[(ASFL$age_group %in% babyboom),]
+silgen<- ASFL[(ASFL$age_group %in% silgen),] 
+
+
 
 
 under18 <- c("16","17")
@@ -79,6 +87,7 @@ ASFLmainemploy <- ASFLadult[!(ASFLadult$QD7 %in% above79),]
 
 
 ##################################gender##################################
+gender <- ASFL$QD1
 male<- ifelse(ASFL$QD1 == "Male", 1, 0)
 female <- ifelse(ASFL$QD1 == "Female", 1, 0)
 
@@ -89,6 +98,12 @@ female <- c("2")
 ####maybe change definition! 
 ASFL <- ASFL %>% mutate(QD9 = ifelse(is.na(QD9), 0, QD9))
 ASFL$QD9
-ASFL["education"] = cut(as.numeric(as.character(ASFL$QD9)), c(2, 3, 4, 5, Inf), c("universitary", "upper secondary", "lower secondary", "primary"), include.lowest=TRUE)
-education <- ASFL$education
-education
+ASFL["education"] = cut(as.numeric(as.character(ASFL$QD9)), c(2, 3, 4, 5, Inf), c("universitary", "upper secondary", "Lower secondary", "Primary"), include.lowest=TRUE)
+
+
+#################################self-assessment##############################
+selfassess <- ASFL$QK1
+ASFL <- cbind(ASFL,selfassess)
+hincome <- ASFL$QD13
+ASFL <- cbind(ASFL,hincome)
+
