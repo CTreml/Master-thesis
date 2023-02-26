@@ -16,6 +16,23 @@ ASFL$QK2<- ifelse(ASFL$QK2 == "200", 1, 0)
 table(ASFL$QK2)
 ASFLse$QK2<- ifelse(ASFLse$QK2 == "200", 1, 0)
 table(ASFLse$QK2)
+
+
+####################financial knowledge score#############################
+#QK1 - self-rated knowledge #does not add to financial literacy score
+#descriptive statistics
+summary(ASFL$QK1)
+summary(ASFLse$QK1)
+summary(ASFLe$QK1)
+summary(ASFLeu$QK1)
+
+
+#QK2 - equal splitting #does not add to financial literacy score
+summary(ASFL$QK2)
+ASFL$QK2<- ifelse(ASFL$QK2 == "200", 1, 0)
+table(ASFL$QK2)
+ASFLse$QK2<- ifelse(ASFLse$QK2 == "200", 1, 0)
+table(ASFLse$QK2)
 ASFLe$QK2<- ifelse(ASFLe$QK2 == "200", 1, 0)
 table(ASFLe$QK2)
 ASFLeu$QK2<- ifelse(ASFLeu$QK2 == "200", 1, 0)
@@ -128,7 +145,7 @@ table(ASFLeu$QK7_3)
 fin_know <- (ASFL$QK3+ASFL$QK4+ASFL$QK5+ASFL$QK6+ASFL$QK7_1+ASFL$QK7_2+ASFL$QK7_3)
 ASFL1 <- cbind(ASFL,fin_know)
 #ASFL1 <- ASFL %>% 
-  #mutate(fin_know = ASFL$QK3+ASFL$QK4+ASFL$QK5+ASFL$QK6+ASFL$QK7_1+ASFL$QK7_2+ASFL$QK7_3)
+#mutate(fin_know = ASFL$QK3+ASFL$QK4+ASFL$QK5+ASFL$QK6+ASFL$QK7_1+ASFL$QK7_2+ASFL$QK7_3)
 #ASFL1 <- ASFL %>% 
 #  mutate(fin_know = QK3+QK4+QK5+QK6+QK7_1+QK7_2+QK7_3)
 
@@ -192,7 +209,7 @@ table(ASFL1eu$fin_know)
 
 #self-employment financial knowledge check! 
 #ASFL1se <- ASFLse %>% 
- #mutate(fin_know = ASFLse$QK3+ASFLse$QK4+ASFLse$QK5+ASFLse$QK6+ASFLse$QK7_1+ASFLse$QK7_2+ASFLse$QK7_3)
+#mutate(fin_know = ASFLse$QK3+ASFLse$QK4+ASFLse$QK5+ASFLse$QK6+ASFLse$QK7_1+ASFLse$QK7_2+ASFLse$QK7_3)
 #summary(ASFL1se$fin_know)
 #table(ASFL1se$fin_know)
 
@@ -210,14 +227,14 @@ colnames(finknowdetail) <- c("Time value", "Interest on loan", "Interest plus pr
 rownames(finknowdetail) <- c("full","employed","self-employed")
 
 barplot(finknowdetail, beside=TRUE) 
-      # xlab="x", ylab="share of correct answers", main="",
-      # legend("bottomright", c("full", "employed", "selfemployed"), pch=1))
+# xlab="x", ylab="share of correct answers", main="",
+# legend("bottomright", c("full", "employed", "selfemployed"), pch=1))
 
 
 #number of correct responses 
 finkowanswers <- data.frame(answers=rep(c('0','1', '2', '3','4', '5', '6','7'), each=3),
-                      status=rep(c('full', 'self-employed', 'employed'), times=8),
-                      share=c(8/1418, 0/79, 2/699, 26/1418, 1/79, 12/699, 63/1418, 2/79, 23/699, 95/1418, 3/79, 50/699, 168/1418, 3/79, 83/699, 270/1418, 10/79, 114/699, 428/1418, 25/79, 222/699, 360/1418, 35/79, 193/699))
+                            status=rep(c('full', 'self-employed', 'employed'), times=8),
+                            share=c(8/1418, 0/79, 2/699, 26/1418, 1/79, 12/699, 63/1418, 2/79, 23/699, 95/1418, 3/79, 50/699, 168/1418, 3/79, 83/699, 270/1418, 10/79, 114/699, 428/1418, 25/79, 222/699, 360/1418, 35/79, 193/699))
 
 ggplot(finkowanswers, aes(fill=status, y=share, x=answers)) + 
   geom_bar(position='stack', stat='identity')
@@ -456,6 +473,7 @@ QFMEM <- QF11+QF12fin
 QFMEM
 QFMEM <- ifelse(QFMEM >= "1", 1, 0)
 QFMEM
+ASFL2 <- cbind(ASFL2,QFMEM)
 
 
 #try to shop around (score 0,1 or 2)
@@ -497,12 +515,9 @@ Qprod_D1
 
 Qprod <- Qprod_D1+ Qprod_D2
 Qprod
-ASFL <- cbind(ASFL,Qprod)
-ASFL$Qprod[ASFL$Qprod == "3"] <- "2"
-
-Qprod <- ASFL$Qprod
+Qprod[Qprod == "3"] <- "2"
 Qprod <- as.numeric(Qprod)
-Qprod
+ASFL2 <- cbind(ASFL2,Qprod)
 
 
 
@@ -588,4 +603,6 @@ ASFL3ef <- ASFL3e[(ASFL3e$QD1 %in% female),]
 
 ASFL3eum <- ASFL3eu[(ASFL3eu$QD1 %in% male),]
 ASFL3euf <- ASFL3eu[(ASFL3eu$QD1 %in% female),]
+
+
 
