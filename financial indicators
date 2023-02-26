@@ -1,60 +1,3 @@
-#loading packages
-library(ggplot2)
-library(survey)
-library(mitools)
-library(survey)
-library(srvyr)
-library(dplyr)
-#srvyr is a dplyr version of survey, check out the "Vignettes":
-#https://cran.r-project.org/web/packages/srvyr/index.html
-library(mice)
-library(tidyverse)
-library(oaxaca)
-library(devtools)
-#install_github('djalmapessoa/convey')
-library(convey)
-library(haven)
-library(foreign)
-library(xtable)
-#install.packages("stargazer")
-library(stargazer)
-#install.packages("forcats")
-library(forcats)
-
-
-
-#setting the working directory
-setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
-ASFL_org <- readstata13::read.dta13("./Questionnaire & Dataset/oecd_2019_engl_final_official.dta", generate.factors=TRUE, nonint.factors = TRUE)
-ASFL <-ASFL_org
-ASFL
-
-#######correct weighting###############
-#ASFL <- as.data.frame(ASFL_org)
-ASFL_weighted <-svydesign(id=~1, weights=~ASFL$wght, data=ASFL)
-ASFL_weighted <- ASFL_weighted$variables
-#ASFL <- ASFL_weighted$variables
-
-#######dropbelow18 
-under18 <- c("16","17")
-ASFLadult <- ASFL[!(ASFL$QD7 %in% under18),] 
-ASFLadult
-
-
-##################################employment##################################
-
-se <- c("Self-employed [work for myself]")
-e <- c("In paid employment [work for someone else]")
-eu <- c("In paid employment [work for someone else]","Looking for work [unemployed]")
-
-
-ASFLse <- ASFL[(ASFL$QD10 %in% se),] 
-summary(ASFLse)
-ASFLe <- ASFL[(ASFL$QD10 %in% e),] 
-summary(ASFLe)
-ASFLeu <-  ASFL[(ASFL$QD10 %in% eu),] 
-summary(ASFLeu)
-
 
 ################financial resilience - Availability of savings, experience of stress, prudence in planning and budgeting
 #full
@@ -567,16 +510,21 @@ table(ASFL5eu$recentchoice)
 
 
 ###turned to family/friends to borrow and save
+#QF3 and QF12 from before 
 #full
-QF3_3 <- ifelse(ASFL$QF3_3 == "Yes", 1, 0)
-ASFL <- ASFL %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 0, QF12_3_1))
-QF12_3_1 <- ifelse(ASFL$QF12_3_1 == "4", 1, 0)
-QF12_3_1
-famfriend <- QF12_3_1+QF3_3
+#QF3_3_borrow <- ifelse(ASFL$QF3_3 == "Yes", 1, 0)
+ASFL <- ASFL %>% mutate(QF12_2_3 = ifelse(is.na(QF12_2_3), 0, QF12_2_3))
+QF12_2_3 <- ifelse(ASFL$QF12_2_3 == "4", 1, 0)
+#ASFL <- ASFL %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 0, QF12_3_1))
+#QF12_3_1 <- ifelse(ASFL$QF12_3_1 == "Yes", 1, 0)
+
+famfriend <- QF3_3+QF12_3_1+QF12_2_3
 famfriend
 table(famfriend)
+famfriend[famfriend == "2"] <- "1"
+famfriend <- as.numeric(famfriend)
 ASFL5 <- cbind(ASFL5,famfriend)
-120/(1298+120)
+120/(1298+120) #maybe change!
 
 #self-employed
 ASFL5se <- ASFL5[(ASFL5$QD10 %in% se),] 
@@ -636,39 +584,61 @@ ASFL5f <- ASFL5[(ASFL5$QD1 %in% female),]
 
 summary(ASFL5m$fin_know)
 summary(ASFL5f$fin_know)
+table(ASFL5m$fin_know)
+table(ASFL5f$fin_know)
 
 summary(ASFL5m$fin_beh)
 summary(ASFL5f$fin_beh)
+table(ASFL5m$fin_beh)
+table(ASFL5f$fin_beh)
 
 summary(ASFL5m$fin_att)
 summary(ASFL5f$fin_att)
+table(ASFL5m$fin_att)
+table(ASFL5f$fin_att)
 
 summary(ASFL5m$produse)
 summary(ASFL5f$produse)
+table(ASFL5m$produse)
+table(ASFL5f$produse)
 
 summary(ASFL5m$savinre)
 summary(ASFL5f$savinre)
+table(ASFL5m$savinre)
+table(ASFL5f$savinre)
 
 summary(ASFL5m$payprod)
 summary(ASFL5f$payprod)
+table(ASFL5m$payprod)
+table(ASFL5f$payprod)
 
 summary(ASFL5m$p1b10)
 summary(ASFL5f$p1b10)
+table(ASFL5m$p1b10)
+table(ASFL5f$p1b10)
 
 summary(ASFL5m$credp)
 summary(ASFL5f$credp)
+table(ASFL5m$credp)
+table(ASFL5f$credp)
 
 summary(ASFL5m$recentchoice)
 summary(ASFL5f$recentchoice)
+table(ASFL5m$recentchoice)
+table(ASFL5f$recentchoice)
 
 summary(ASFL5m$famfriend)
 summary(ASFL5f$famfriend)
+table(ASFL5m$famfriend)
+table(ASFL5f$famfriend)
 
 table(ASFL5m$QF13)
 table(ASFL5f$QF13)
 
 summary(ASFL5m$finwellbeing)
 summary(ASFL5f$finwellbeing)
+table(ASFL5m$finwellbeing)
+table(ASFL5f$finwellbeing)
 
 #selfemployed
 ASFL5sem <- ASFL5se[(ASFL5se$QD1 %in% male),] 
@@ -676,39 +646,61 @@ ASFL5sef <- ASFL5se[(ASFL5se$QD1 %in% female),]
 
 summary(ASFL5sem$fin_know)
 summary(ASFL5sef$fin_know)
+table(ASFL5sem$fin_know)
+table(ASFL5sef$fin_know)
 
 summary(ASFL5sem$fin_beh)
 summary(ASFL5sef$fin_beh)
+table(ASFL5sem$fin_beh)
+table(ASFL5sef$fin_beh)
 
 summary(ASFL5sem$fin_att)
 summary(ASFL5sef$fin_att)
+table(ASFL5sem$fin_att)
+table(ASFL5sef$fin_att)
 
 summary(ASFL5sem$produse)
 summary(ASFL5sef$produse)
+table(ASFL5sem$produse)
+table(ASFL5sef$produse)
 
 summary(ASFL5sem$savinre)
 summary(ASFL5sef$savinre)
+table(ASFL5sem$savinre)
+table(ASFL5sef$savinre)
 
 summary(ASFL5sem$payprod)
 summary(ASFL5sef$payprod)
+table(ASFL5sem$payprod)
+table(ASFL5sef$payprod)
 
 summary(ASFL5sem$p1b10)
 summary(ASFL5sef$p1b10)
+table(ASFL5sem$p1b10)
+table(ASFL5sef$p1b10)
 
 summary(ASFL5sem$credp)
 summary(ASFL5sef$credp)
+table(ASFL5sem$credp)
+table(ASFL5sef$credp)
 
 summary(ASFL5sem$recentchoice)
 summary(ASFL5sef$recentchoice)
+table(ASFL5sem$recentchoice)
+table(ASFL5sef$recentchoice)
 
 summary(ASFL5sem$famfriend)
 summary(ASFL5sef$famfriend)
+table(ASFL5sem$famfriend)
+table(ASFL5sef$famfriend)
 
 table(ASFL5sem$QF13)
 table(ASFL5sef$QF13)
 
 summary(ASFL5sem$finwellbeing)
 summary(ASFL5sef$finwellbeing)
+table(ASFL5sem$finwellbeing)
+table(ASFL5sef$finwellbeing)
 
 #employed
 ASFL5em <- ASFL5e[(ASFL5e$QD1 %in% male),] 
@@ -716,119 +708,448 @@ ASFL5ef <- ASFL5e[(ASFL5e$QD1 %in% female),]
 
 summary(ASFL5em$fin_know)
 summary(ASFL5ef$fin_know)
+table(ASFL5em$fin_know)
+table(ASFL5ef$fin_know)
 
 summary(ASFL5em$fin_beh)
 summary(ASFL5ef$fin_beh)
+table(ASFL5em$fin_beh)
+table(ASFL5ef$fin_beh)
 
 summary(ASFL5em$fin_att)
 summary(ASFL5ef$fin_att)
+table(ASFL5em$fin_att)
+table(ASFL5ef$fin_att)
 
 summary(ASFL5em$produse)
 summary(ASFL5ef$produse)
+table(ASFL5em$produse)
+table(ASFL5ef$produse)
 
 summary(ASFL5em$savinre)
 summary(ASFL5ef$savinre)
+table(ASFL5em$savinre)
+table(ASFL5ef$savinre)
 
 summary(ASFL5em$payprod)
 summary(ASFL5ef$payprod)
+table(ASFL5em$payprod)
+table(ASFL5ef$payprod)
+
 
 summary(ASFL5em$p1b10)
 summary(ASFL5ef$p1b10)
+table(ASFL5em$p1b10)
+table(ASFL5ef$p1b10)
 
 summary(ASFL5em$credp)
 summary(ASFL5ef$credp)
+table(ASFL5em$credp)
+table(ASFL5ef$credp)
 
 summary(ASFL5em$recentchoice)
 summary(ASFL5ef$recentchoice)
+table(ASFL5em$recentchoice)
+table(ASFL5ef$recentchoice)
 
 summary(ASFL5em$famfriend)
 summary(ASFL5ef$famfriend)
+table(ASFL5em$famfriend)
+table(ASFL5ef$famfriend)
 
 table(ASFL5em$QF13)
 table(ASFL5ef$QF13)
 
 summary(ASFL5em$finwellbeing)
 summary(ASFL5ef$finwellbeing)
+table(ASFL5em$finwellbeing)
+table(ASFL5ef$finwellbeing)
+
 
 
 #################financial indicators age comparison##########################
+#full
+youngmillf <- c("16-28")
+oldmillf <- c("29-38")
+genxf <- c("39-58")
+babyboomf <- c("59-74")
+silgenf <- c(">75")
+ASFL5_ymill <- ASFL5[(ASFL5$age_group %in% youngmillf),] 
+ASFL5_omill <- ASFL5[(ASFL5$age_group %in% oldmillf),] 
+ASFL5_genZ <- ASFL5[(ASFL5$age_group %in% genxf),] 
+ASFL5_babyboom <- ASFL5[(ASFL5$age_group %in% babyboomf),] 
+ASFL5_silgen <- ASFL5[(ASFL5$age_group %in% silgenf),] 
 
-ASFL5_ymill <- ASFL5[(ASFL5$agegroup %in% youngmill),] 
-ASFL5_omill <- ASFL5[(ASFL5$agegroup %in% oldmill),] 
-ASFL5_genZ <- ASFL5[(ASFL5$agegroup %in% genx),] 
-ASFL5_babyboom <- ASFL5[(ASFL5$agegroup %in% babyboom),] 
-ASFL5_silgen <- ASFL5[(ASFL5$agegroup %in% silgen),] 
-
-table(ASFL5$agegroup)
+table(ASFL5$age_group)
 
 summary(ASFL5_ymill$fin_know)
 summary(ASFL5_omill$fin_know)
 summary(ASFL5_genZ$fin_know)
 summary(ASFL5_babyboom$fin_know)
 summary(ASFL5_silgen$fin_know)
-
+table(ASFL5_ymill$fin_know)
+table(ASFL5_omill$fin_know)
+table(ASFL5_genZ$fin_know)
+table(ASFL5_babyboom$fin_know)
+table(ASFL5_silgen$fin_know)
 
 summary(ASFL5_ymill$fin_beh)
 summary(ASFL5_omill$fin_beh)
 summary(ASFL5_genZ$fin_beh)
 summary(ASFL5_babyboom$fin_beh)
 summary(ASFL5_silgen$fin_beh)
+table(ASFL5_ymill$fin_beh)
+table(ASFL5_omill$fin_beh)
+table(ASFL5_genZ$fin_beh)
+table(ASFL5_babyboom$fin_beh)
+table(ASFL5_silgen$fin_beh)
 
 summary(ASFL5_ymill$fin_att)
 summary(ASFL5_omill$fin_att)
 summary(ASFL5_genZ$fin_att)
 summary(ASFL5_babyboom$fin_att)
 summary(ASFL5_silgen$fin_att)
+table(ASFL5_ymill$fin_att)
+table(ASFL5_omill$fin_att)
+table(ASFL5_genZ$fin_att)
+table(ASFL5_babyboom$fin_att)
+table(ASFL5_silgen$fin_att)
+
+summary(ASFL5_ymill$produse)
+summary(ASFL5_omill$produse)
+summary(ASFL5_genZ$produse)
+summary(ASFL5_babyboom$produse)
+summary(ASFL5_silgen$produse)
+table(ASFL5_ymill$produse)
+table(ASFL5_omill$produse)
+table(ASFL5_genZ$produse)
+table(ASFL5_babyboom$produse)
+table(ASFL5_silgen$produse)
+
+summary(ASFL5_ymill$savinre)
+summary(ASFL5_omill$savinre)
+summary(ASFL5_genZ$savinre)
+summary(ASFL5_babyboom$savinre)
+summary(ASFL5_silgen$savinre)
+table(ASFL5_ymill$savinre)
+table(ASFL5_omill$savinre)
+table(ASFL5_genZ$savinre)
+table(ASFL5_babyboom$savinre)
+table(ASFL5_silgen$savinre)
+
+summary(ASFL5_ymill$payprod)
+summary(ASFL5_omill$payprod)
+summary(ASFL5_genZ$payprod)
+summary(ASFL5_babyboom$payprod)
+summary(ASFL5_silgen$payprod)
+table(ASFL5_ymill$payprod)
+table(ASFL5_omill$payprod)
+table(ASFL5_genZ$payprod)
+table(ASFL5_babyboom$payprod)
+table(ASFL5_silgen$payprod)
+
+summary(ASFL5_ymill$p1b10)
+summary(ASFL5_omill$p1b10)
+summary(ASFL5_genZ$p1b10)
+summary(ASFL5_babyboom$p1b10)
+summary(ASFL5_silgen$p1b10)
+table(ASFL5_ymill$p1b10)
+table(ASFL5_omill$p1b10)
+table(ASFL5_genZ$p1b10)
+table(ASFL5_babyboom$p1b10)
+table(ASFL5_silgen$p1b10)
+
+summary(ASFL5_ymill$credp)
+summary(ASFL5_omill$credp)
+summary(ASFL5_genZ$credp)
+summary(ASFL5_babyboom$credp)
+summary(ASFL5_silgen$credp)
+table(ASFL5_ymill$credp)
+table(ASFL5_omill$credp)
+table(ASFL5_genZ$credp)
+table(ASFL5_babyboom$credp)
+table(ASFL5_silgen$credp)
+
+summary(ASFL5_ymill$recentchoice)
+summary(ASFL5_omill$recentchoice)
+summary(ASFL5_genZ$recentchoice)
+summary(ASFL5_babyboom$recentchoice)
+summary(ASFL5_silgen$recentchoice)
+table(ASFL5_ymill$recentchoice)
+table(ASFL5_omill$recentchoice)
+table(ASFL5_genZ$recentchoice)
+table(ASFL5_babyboom$recentchoice)
+table(ASFL5_silgen$recentchoice)
+
+summary(ASFL5_ymill$famfriend)
+summary(ASFL5_omill$famfriend)
+summary(ASFL5_genZ$famfriend)
+summary(ASFL5_babyboom$famfriend)
+summary(ASFL5_silgen$famfriend)
+table(ASFL5_ymill$famfriend)
+table(ASFL5_omill$famfriend)
+table(ASFL5_genZ$famfriend)
+table(ASFL5_babyboom$famfriend)
+table(ASFL5_silgen$famfriend)
+
+
+table(ASFL5_ymill$QF13)
+table(ASFL5_omill$QF13)
+table(ASFL5_genZ$QF13)
+table(ASFL5_babyboom$QF13)
+table(ASFL5_silgen$QF13)
+
+summary(ASFL5_ymill$finwellbeing)
+summary(ASFL5_omill$finwellbeing)
+summary(ASFL5_genZ$finwellbeing)
+summary(ASFL5_babyboom$finwellbeing)
+summary(ASFL5_silgen$finwellbeing)
+table(ASFL5_ymill$finwellbeing)
+table(ASFL5_omill$finwellbeing)
+table(ASFL5_genZ$finwellbeing)
+table(ASFL5_babyboom$finwellbeing)
+table(ASFL5_silgen$finwellbeing)
+
 
 #self-employed
-ASFL5se_ymill <- ASFL5se[(ASFL5se$agegroup %in% youngmill),] #no observation
-ASFL5se_omill <- ASFL5se[(ASFL5se$agegroup %in% oldmill),] 
-ASFL5se_genZ <- ASFL5se[(ASFL5se$agegroup %in% genx),] 
-ASFL5se_babyboom <- ASFL5se[(ASFL5se$agegroup %in% babyboom),] 
-ASFL5se_silgen <- ASFL5se[(ASFL5se$agegroup %in% silgen),] #no observation
+youngmillse <- c("16-28")
+oldmillse <- c("29-38")
+genxse <- c("39-58")
+babyboomse <- c("59-74")
+silgense <- c(">75")
+ASFL5se_ymill <- ASFL5se[(ASFL5se$age_group %in% youngmillse),] #no observation
+ASFL5se_omill <- ASFL5se[(ASFL5se$age_group %in% oldmillse),] 
+ASFL5se_genZ <- ASFL5se[(ASFL5se$age_group %in% genxse),] 
+ASFL5se_babyboom <- ASFL5se[(ASFL5se$age_group %in% babyboomse),] 
+ASFL5se_silgen <- ASFL5se[(ASFL5se$age_group %in% silgense),] #no observation
 
-table(ASFL5se$agegroup)
+table(ASFL5se$age_group)
 
 summary(ASFL5se_omill$fin_know)
 summary(ASFL5se_genZ$fin_know)
 summary(ASFL5se_babyboom$fin_know)
+table(ASFL5se_omill$fin_know)
+table(ASFL5se_genZ$fin_know)
+table(ASFL5se_babyboom$fin_know)
 
 summary(ASFL5se_omill$fin_beh)
 summary(ASFL5se_genZ$fin_beh)
 summary(ASFL5se_babyboom$fin_beh)
+table(ASFL5se_omill$fin_beh)
+table(ASFL5se_genZ$fin_beh)
+table(ASFL5se_babyboom$fin_beh)
 
 summary(ASFL5se_omill$fin_att)
 summary(ASFL5se_genZ$fin_att)
 summary(ASFL5se_babyboom$fin_att)
+table(ASFL5se_omill$fin_att)
+table(ASFL5se_genZ$fin_att)
+table(ASFL5se_babyboom$fin_att)
+
+summary(ASFL5se_omill$produse)
+summary(ASFL5se_genZ$produse)
+summary(ASFL5se_babyboom$produse)
+table(ASFL5se_omill$produse)
+table(ASFL5se_genZ$produse)
+table(ASFL5se_babyboom$produse)
+
+summary(ASFL5se_omill$savinre)
+summary(ASFL5se_genZ$savinre)
+summary(ASFL5se_babyboom$savinre)
+table(ASFL5se_omill$savinre)
+table(ASFL5se_genZ$savinre)
+table(ASFL5se_babyboom$savinre)
+
+summary(ASFL5se_omill$payprod)
+summary(ASFL5se_genZ$payprod)
+summary(ASFL5se_babyboom$payprod)
+table(ASFL5se_omill$payprod)
+table(ASFL5se_genZ$payprod)
+table(ASFL5se_babyboom$payprod)
+
+summary(ASFL5se_omill$p1b10)
+summary(ASFL5se_genZ$p1b10)
+summary(ASFL5se_babyboom$p1b10)
+table(ASFL5se_omill$p1b10)
+table(ASFL5se_genZ$p1b10)
+table(ASFL5se_babyboom$p1b10)
+
+summary(ASFL5se_omill$credp)
+summary(ASFL5se_genZ$credp)
+summary(ASFL5se_babyboom$credp)
+table(ASFL5se_omill$credp)
+table(ASFL5se_genZ$credp)
+table(ASFL5se_babyboom$credp)
+
+summary(ASFL5se_omill$recentchoice)
+summary(ASFL5se_genZ$recentchoice)
+summary(ASFL5se_babyboom$recentchoice)
+table(ASFL5se_omill$recentchoice)
+table(ASFL5se_genZ$recentchoice)
+table(ASFL5se_babyboom$recentchoice)
+
+summary(ASFL5se_omill$famfriend)
+summary(ASFL5se_genZ$famfriend)
+summary(ASFL5se_babyboom$famfriend)
+table(ASFL5se_omill$famfriend)
+table(ASFL5se_genZ$famfriend)
+table(ASFL5se_babyboom$famfriend)
+
+table(ASFL5se_omill$QF13)
+table(ASFL5se_genZ$QF13)
+table(ASFL5se_babyboom$QF13)
+
+summary(ASFL5se_omill$finwellbeing)
+summary(ASFL5se_genZ$finwellbeing)
+summary(ASFL5se_babyboom$finwellbeing)
+table(ASFL5se_omill$finwellbeing)
+table(ASFL5se_genZ$finwellbeing)
+table(ASFL5se_babyboom$finwellbeing)
 
 
 #employed
-ASFL5e_ymill <- ASFL5e[(ASFL5e$agegroup %in% youngmill),] 
-ASFL5e_omill <- ASFL5e[(ASFL5e$agegroup %in% oldmill),] 
-ASFL5e_genZ <- ASFL5e[(ASFL5e$agegroup %in% genx),] 
-ASFL5e_babyboom <- ASFL5e[(ASFL5e$agegroup %in% babyboom),] 
-ASFL5e_silgen <- ASFL5e[(ASFL5e$agegroup %in% silgen),] 
+youngmille <- c("16-28")
+oldmille <- c("29-38")
+genxe <- c("39-58")
+babyboome <- c("59-74")
+silgene <- c(">75")
+ASFL5e_ymill <- ASFL5e[(ASFL5e$age_group %in% youngmille),] 
+ASFL5e_omill <- ASFL5e[(ASFL5e$age_group %in% oldmille),] 
+ASFL5e_genZ <- ASFL5e[(ASFL5e$age_group %in% genxe),] 
+ASFL5e_babyboom <- ASFL5e[(ASFL5e$age_group %in% babyboome),] 
+ASFL5e_silgen <- ASFL5e[(ASFL5e$age_group %in% silgene),] 
 
-table(ASFL5e$agegroup)
+table(ASFL5e$age_group)
 
 summary(ASFL5e_ymill$fin_know)
 summary(ASFL5e_omill$fin_know)
 summary(ASFL5e_genZ$fin_know)
 summary(ASFL5e_babyboom$fin_know)
 summary(ASFL5e_silgen$fin_know)
-
+table(ASFL5e_ymill$fin_know)
+table(ASFL5e_omill$fin_know)
+table(ASFL5e_genZ$fin_know)
+table(ASFL5e_babyboom$fin_know)
+table(ASFL5e_silgen$fin_know)
 
 summary(ASFL5e_ymill$fin_beh)
 summary(ASFL5e_omill$fin_beh)
 summary(ASFL5e_genZ$fin_beh)
 summary(ASFL5e_babyboom$fin_beh)
 summary(ASFL5e_silgen$fin_beh)
+table(ASFL5e_ymill$fin_beh)
+table(ASFL5e_omill$fin_beh)
+table(ASFL5e_genZ$fin_beh)
+table(ASFL5e_babyboom$fin_beh)
+table(ASFL5e_silgen$fin_beh)
 
 summary(ASFL5e_ymill$fin_att)
 summary(ASFL5e_omill$fin_att)
 summary(ASFL5e_genZ$fin_att)
 summary(ASFL5e_babyboom$fin_att)
 summary(ASFL5e_silgen$fin_att)
+table(ASFL5e_ymill$fin_att)
+table(ASFL5e_omill$fin_att)
+table(ASFL5e_genZ$fin_att)
+table(ASFL5e_babyboom$fin_att)
+table(ASFL5e_silgen$fin_att)
+
+summary(ASFL5e_ymill$produse)
+summary(ASFL5e_omill$produse)
+summary(ASFL5e_genZ$produse)
+summary(ASFL5e_babyboom$produse)
+summary(ASFL5e_silgen$produse)
+table(ASFL5e_ymill$produse)
+table(ASFL5e_omill$produse)
+table(ASFL5e_genZ$produse)
+table(ASFL5e_babyboom$produse)
+table(ASFL5e_silgen$produse)
+
+summary(ASFL5e_ymill$savinre)
+summary(ASFL5e_omill$savinre)
+summary(ASFL5e_genZ$savinre)
+summary(ASFL5e_babyboom$savinre)
+summary(ASFL5e_silgen$savinre)
+table(ASFL5e_ymill$savinre)
+table(ASFL5e_omill$savinre)
+table(ASFL5e_genZ$savinre)
+table(ASFL5e_babyboom$savinre)
+table(ASFL5e_silgen$savinre)
+
+summary(ASFL5e_ymill$payprod)
+summary(ASFL5e_omill$payprod)
+summary(ASFL5e_genZ$payprod)
+summary(ASFL5e_babyboom$payprod)
+summary(ASFL5e_silgen$payprod)
+table(ASFL5e_ymill$payprod)
+table(ASFL5e_omill$payprod)
+table(ASFL5e_genZ$payprod)
+table(ASFL5e_babyboom$payprod)
+table(ASFL5e_silgen$payprod)
+
+summary(ASFL5e_ymill$p1b10)
+summary(ASFL5e_omill$p1b10)
+summary(ASFL5e_genZ$p1b10)
+summary(ASFL5e_babyboom$p1b10)
+summary(ASFL5e_silgen$p1b10)
+table(ASFL5e_ymill$p1b10)
+table(ASFL5e_omill$p1b10)
+table(ASFL5e_genZ$p1b10)
+table(ASFL5e_babyboom$p1b10)
+table(ASFL5e_silgen$p1b10)
+
+summary(ASFL5e_ymill$credp)
+summary(ASFL5e_omill$credp)
+summary(ASFL5e_genZ$credp)
+summary(ASFL5e_babyboom$credp)
+summary(ASFL5e_silgen$credp)
+table(ASFL5e_ymill$credp)
+table(ASFL5e_omill$credp)
+table(ASFL5e_genZ$credp)
+table(ASFL5e_babyboom$credp)
+table(ASFL5e_silgen$credp)
+
+summary(ASFL5e_ymill$recentchoice)
+summary(ASFL5e_omill$recentchoice)
+summary(ASFL5e_genZ$recentchoice)
+summary(ASFL5e_babyboom$recentchoice)
+summary(ASFL5e_silgen$recentchoice)
+table(ASFL5e_ymill$recentchoice)
+table(ASFL5e_omill$recentchoice)
+table(ASFL5e_genZ$recentchoice)
+table(ASFL5e_babyboom$recentchoice)
+table(ASFL5e_silgen$recentchoice)
+
+summary(ASFL5e_ymill$famfriend)
+summary(ASFL5e_omill$famfriend)
+summary(ASFL5e_genZ$famfriend)
+summary(ASFL5e_babyboom$famfriend)
+summary(ASFL5e_silgen$famfriend)
+table(ASFL5e_ymill$famfriend)
+table(ASFL5e_omill$famfriend)
+table(ASFL5e_genZ$famfriend)
+table(ASFL5e_babyboom$famfriend)
+table(ASFL5e_silgen$famfriend)
+
+
+table(ASFL5e_ymill$QF13)
+table(ASFL5e_omill$QF13)
+table(ASFL5e_genZ$QF13)
+table(ASFL5e_babyboom$QF13)
+table(ASFL5e_silgen$QF13)
+
+summary(ASFL5e_ymill$finwellbeing)
+summary(ASFL5e_omill$finwellbeing)
+summary(ASFL5e_genZ$finwellbeing)
+summary(ASFL5e_babyboom$finwellbeing)
+summary(ASFL5e_silgen$finwellbeing)
+table(ASFL5e_ymill$finwellbeing)
+table(ASFL5e_omill$finwellbeing)
+table(ASFL5e_genZ$finwellbeing)
+table(ASFL5e_babyboom$finwellbeing)
+table(ASFL5e_silgen$finwellbeing)
+
+
 
 #############################full financial literacy score (without additional indicators)#########################
 finlit <- fin_know+fin_att+fin_beh
@@ -843,6 +1164,7 @@ summary(ASFL6$fin_know)
 ####################self-assessment & actual knowledge#####################
 #graph according to Fessler et al (2020) - probably difficult for self-employed! 
 #full
+table(ASFL6$fin_know)
 f1 <- c("1")
 f2 <- c("2")
 f3 <- c("3")
@@ -865,11 +1187,76 @@ table(ASFL6f6$QK1)
 ASFL6f7 <- ASFL6[(ASFL6$fin_know %in% f7),]
 table(ASFL6f7$QK1)
 
-finknowsrvsactual <- data.frame(selfassessment=rep(c('Very low','Quite low', 'Average', 'Quite high', 'Very high'), each=7),
-                                finknow=rep(c('1', '2', '3','4','5','6','7'), times=5),
-                                     share=c(/26, /26,/26,/26,/26, /63, /63, /63, /63, /63, /95, /95, /95, /95, /95,  /168,/168,/168,/168,/168,/270,/270,/270,/270,/270,/428,/428,/428,/428,/428,/360,/360,/360,/360,/360)
+par(mfrow=c(1,2))
+finknowsrvsactual <- data.frame(finknow=rep(c('1', '2', '3','4','5','6','7'), each=6),
+                                selfassessment=rep(c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=7),
+                                     share=c(3/26,3/26, 5/26,5/26,7/26,3/26, 5/63, 7/63, 13/63, 27/63, 6/63, 5/63, 6/95, 11/95, 16/95, 38/95, 17/95, 7/95,8/168,7/168,28/168,73/168,41/168,11/168,8/270,17/270,41/270,114/270,67/270,23/270,4/428,9/428,54/428,161/428,144/428,56/428,2/360,4/360,19/360,151/360,146/360,38/360))
 
 ggplot(finknowsrvsactual, aes(fill=selfassessment, y=share, x=finknow)) + 
   geom_bar(position='stack', stat='identity')
 
 
+#self-employed
+table(ASFL6se$fin_know)
+f1 <- c("1")
+f2 <- c("2")
+f3 <- c("3")
+f4 <- c("4")
+f5 <- c("5")
+f6 <- c("6")
+f7 <- c("7")
+ASFL6sef1 <- ASFL6se[(ASFL6se$fin_know %in% f1),] 
+table(ASFL6sef1$QK1)
+ASFL6sef2 <- ASFL6se[(ASFL6se$fin_know %in% f2),] 
+table(ASFL6sef2$QK1)
+ASFL6sef3 <- ASFL6se[(ASFL6se$fin_know %in% f3),] 
+table(ASFL6sef3$QK1)
+ASFL6sef4 <- ASFL6se[(ASFL6se$fin_know %in% f4),] 
+table(ASFL6sef4$QK1)
+ASFL6sef5 <- ASFL6se[(ASFL6se$fin_know %in% f5),] 
+table(ASFL6sef5$QK1)
+ASFL6sef6 <- ASFL6se[(ASFL6se$fin_know %in% f6),] 
+table(ASFL6sef6$QK1)
+ASFL6sef7 <- ASFL6se[(ASFL6se$fin_know %in% f7),]
+table(ASFL6sef7$QK1)
+
+
+finknowsrvsactualse <- data.frame(finknow=rep(c('1', '2', '3','4','5','6','7'), each=6),
+                                  selfassessment=rep(c('Ref/Dont know','Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=7),
+                                  share=c(0/1,1/1,0/1,0/1,0/1,0/1,1/2,0/2,0/2,0/2,0/2,1/2,1/3,1/3,0/3,1/3,0/3,0/3,1/3,0/3,0/3,0/3,1/3,1/3,1/10,0/10,1/10,3/10,4/10,1/10,0/25,0/25,0/25,9/25,12/25,4/25,0/35,0/35,0/35,14/35,17/35,4/35))
+ggplot(finknowsrvsactualse, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')
+
+#employed
+table(ASFL6e$fin_know)
+f1 <- c("1")
+f2 <- c("2")
+f3 <- c("3")
+f4 <- c("4")
+f5 <- c("5")
+f6 <- c("6")
+f7 <- c("7")
+ASFL6ef1 <- ASFL6e[(ASFL6e$fin_know %in% f1),] 
+table(ASFL6ef1$QK1)
+ASFL6ef2 <- ASFL6e[(ASFL6e$fin_know %in% f2),] 
+table(ASFL6ef2$QK1)
+ASFL6ef3 <- ASFL6e[(ASFL6e$fin_know %in% f3),] 
+table(ASFL6ef3$QK1)
+ASFL6ef4 <- ASFL6e[(ASFL6e$fin_know %in% f4),] 
+table(ASFL6ef4$QK1)
+ASFL6ef5 <- ASFL6e[(ASFL6e$fin_know %in% f5),] 
+table(ASFL6ef5$QK1)
+ASFL6ef6 <- ASFL6e[(ASFL6e$fin_know %in% f6),] 
+table(ASFL6ef6$QK1)
+ASFL6ef7 <- ASFL6e[(ASFL6e$fin_know %in% f7),]
+table(ASFL6ef7$QK1)
+
+
+finknowsrvsactuale <- data.frame(finknow=rep(c('1', '2', '3','4','5','6','7'), each=6),
+                                selfassessment=rep(c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=7),
+                                share=c(1/12,0/12,3/12,3/12,3/12,2/12,2/23,1/23,4/23,11/23,3/23,2/23,1/50,7/50,8/50,18/50,10/50,6/50,3/83,2/83,12/83,36/83,23/83,7/83,4/114,4/114,17/114,48/114,29/114,12/114,4/222,2/222,19/222,92/222,73/222,32/222,2/193,1/193,11/193,82/193,78/193,19/193))
+
+ggplot(finknowsrvsactuale, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')
+
+par(mfrow=c(1,1))
