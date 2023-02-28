@@ -1,9 +1,6 @@
 
-
-
-####################financial knowledge score#############################
 #QK1 - self-rated knowledge #does not add to financial literacy score
-#descriptive statistics
+#see: descriptive statistics
 summary(ASFL$QK1)
 summary(ASFLse$QK1)
 summary(ASFLe$QK1)
@@ -12,142 +9,85 @@ summary(ASFLeu$QK1)
 
 #QK2 - equal splitting #does not add to financial literacy score
 summary(ASFL$QK2)
-ASFL$QK2<- ifelse(ASFL$QK2 == "200", 1, 0)
-table(ASFL$QK2)
-ASFLse$QK2<- ifelse(ASFLse$QK2 == "200", 1, 0)
-table(ASFLse$QK2)
+QK2<- ifelse(ASFL$QK2 == "200", 1, 0)
+table(QK2)
+summary(ASFLse$QK2)
+QK2se<- ifelse(ASFLse$QK2 == "200", 1, 0)
+table(QK2_se)
+summary(ASFLe$QK2)
+QK2e<- ifelse(ASFLe$QK2 == "200", 1, 0)
+table(QK2e)
+summary(ASFLeu$QK2)
+QK2eu<- ifelse(ASFLeu$QK2 == "200", 1, 0)
+table(QK2eu)
+
 
 
 ####################financial knowledge score#############################
-#QK1 - self-rated knowledge #does not add to financial literacy score
-#descriptive statistics
-summary(ASFL$QK1)
-summary(ASFLse$QK1)
-summary(ASFLe$QK1)
-summary(ASFLeu$QK1)
-
-
-#QK2 - equal splitting #does not add to financial literacy score
-summary(ASFL$QK2)
-ASFL$QK2<- ifelse(ASFL$QK2 == "200", 1, 0)
-table(ASFL$QK2)
-ASFLse$QK2<- ifelse(ASFLse$QK2 == "200", 1, 0)
-table(ASFLse$QK2)
-ASFLe$QK2<- ifelse(ASFLe$QK2 == "200", 1, 0)
-table(ASFLe$QK2)
-ASFLeu$QK2<- ifelse(ASFLeu$QK2 == "200", 1, 0)
-table(ASFLeu$QK2)
-
 #QK3 - *OECD - time value of money
 summary(ASFL$QK3)
-ASFL$QK3 <- ifelse(ASFL$QK3 == "Or, less than they could buy today", 1, 0)
 QK3 <- ifelse(ASFL$QK3 == "Or, less than they could buy today", 1, 0)
 table(ASFL$QK3)
-ASFLse$QK3<- ifelse(ASFLse$QK3 == "Or, less than they could buy today", 1, 0)
-table(ASFLse$QK3)
-ASFLe$QK3 <- ifelse(ASFLe$QK3 == "Or, less than they could buy today", 1, 0)
-table(ASFLe$QK3)
-ASFLeu$QK3<- ifelse(ASFLeu$QK3 == "Or, less than they could buy today", 1, 0)
-table(ASFLeu$QK3)
+
 
 #QK4 - *OECD - interest paid on a loan
 summary(ASFL$QK4)
-ASFL$QK4<- ifelse(ASFL$QK4 == "0", 1, 0)
 QK4<- ifelse(ASFL$QK4 == "0", 1, 0)
-table(ASFL$QK4)
-ASFLse$QK4<- ifelse(ASFLse$QK4 == "0", 1, 0)
-table(ASFLse$QK4)
-ASFLe$QK4<- ifelse(ASFLe$QK4 == "0", 1, 0)
-table(ASFLe$QK4)
-ASFLeu$QK4<- ifelse(ASFLeu$QK4 == "0", 1, 0)
-table(ASFLeu$QK4)
+table(QK4)
+
 
 #QK5 - *OECD - interest plus principal
 summary(ASFL$QK5)
-ASFL$QK5<- ifelse(ASFL$QK5 == "102", 1, 0)
 QK5<- ifelse(ASFL$QK5 == "102", 1, 0)
-table(ASFL$QK5)
-ASFLse$QK5<- ifelse(ASFLse$QK5 == "102", 1, 0)
-table(ASFLse$QK5)
-ASFLe$QK5<- ifelse(ASFLe$QK5 == "102", 1, 0)
-table(ASFLe$QK5)
-ASFLeu$QK5<- ifelse(ASFLeu$QK5 == "102", 1, 0)
-table(ASFLeu$QK5)
+table(QK5)
 
 #QK6 - *OECD - compound interest 
 summary(ASFL$QK6)
-ASFL$QK6<- ifelse(ASFL$QK6 == "More than €110", 1, 0)
 QK6<- ifelse(ASFL$QK6 == "More than €110", 1, 0)
-table(ASFL$QK6)
-ASFLse$QK6<- ifelse(ASFLse$QK6 == "More than €110", 1, 0)
-table(ASFLse$QK6)
-ASFLe$QK6<- ifelse(ASFLe$QK6 == "More than €110", 1, 0)
-table(ASFLe$QK6)
-ASFLeu$QK6<- ifelse(ASFLeu$QK6 == "More than €110", 1, 0)
-table(ASFLeu$QK6)
+table(QK6)
+
 
 #QK7_1 - *OECD - risk and return
 summary(ASFL$QK7_1)
-ASFL$QK7_1<- ifelse(ASFL$QK7_1 == "True", 1, 0)
-table(ASFL$QK7_1)
-ASFLse$QK7_1<- ifelse(ASFLse$QK7_1 == "True", 1, 0)
-table(ASFLse$QK7_1)
-ASFLe$QK7_1<- ifelse(ASFLe$QK7_1 == "True", 1, 0)
-table(ASFLe$QK7_1)
-ASFLeu$QK7_1<- ifelse(ASFLeu$QK7_1 == "True", 1, 0)
-table(ASFLeu$QK7_1)
+QK7_1<- ifelse(ASFL$QK7_1 == "True", 1, 0)
+table(QK7_1)
 
 #QK7_2 - *OECD - inflation definition
 summary(ASFL$QK7_2)
-ASFL$QK7_2<- ifelse(ASFL$QK7_2 == "True", 1, 0)
-table(ASFL$QK7_2)
-ASFLse$QK7_2<- ifelse(ASFLse$QK7_2 == "True", 1, 0)
-table(ASFLse$QK7_2)
-ASFLe$QK7_2<- ifelse(ASFLe$QK7_2 == "True", 1, 0)
-table(ASFLe$QK7_2)
-ASFLeu$QK7_2<- ifelse(ASFLeu$QK7_2 == "True", 1, 0)
-table(ASFLeu$QK7_2)
+QK7_2<- ifelse(ASFL$QK7_2 == "True", 1, 0)
+table(QK7_2)
 
 #QK7_3 - *OECD - diversification
 summary(ASFL$QK7_3)
-ASFL$QK7_3<- ifelse(ASFL$QK7_3 == "True", 1, 0)
-table(ASFL$QK7_3)
-ASFLse$QK7_3<- ifelse(ASFLse$QK7_3 == "True", 1, 0)
-table(ASFLse$QK7_3)
-ASFLe$QK7_3<- ifelse(ASFLe$QK7_3 == "True", 1, 0)
-table(ASFLe$QK7_3)
-ASFLeu$QK7_3<- ifelse(ASFLeu$QK7_3 == "True", 1, 0)
-table(ASFLeu$QK7_3)
+QK7_3<- ifelse(ASFL$QK7_3 == "True", 1, 0)
+table(QK7_3)
+
 
 #S58 - non-OECD - real interest
-#summary(ASFL$S58)
-#ASFL$S58<- ifelse(ASFL$S58 == "", 1, 0)
-#ASFLse$S58<- ifelse(ASFLse$S58 == "", 1, 0)
-#ASFLe$S58<- ifelse(ASFLse$S58 == "", 1, 0)
-#ASFLeu$S58<- ifelse(ASFLse$S58 == "", 1, 0)
+summary(ASFL$S58)
+S58<- ifelse(ASFL$S58 == "Less than today", 1, 0)
+table(S58)
+
 
 #QK7_4add - non-OECD - overdrawing a account 
-#summary(ASFL$QK7_4add)
-#ASFL$QK7_4add<- ifelse(ASFL$QK7_4add == "", 1, 0)
-#ASFLse$QK7_4add<- ifelse(ASFLse$QK7_4add == "", 1, 0)
-#ASFLe$QK7_4add<- ifelse(ASFLse$QK7_4add == "", 1, 0)
-#ASFLeu$QK7_4add<- ifelse(ASFLse$QK7_4add == "", 1, 0)
+summary(ASFL$QK7_4add)
+QK7_4add<- ifelse(ASFL$QK7_4add == "False", 1, 0)
+table(QK7_4add)
 
 #EB3 - non-OECD - exchange rate
-#summary(ASFL$EB3)
-#ASFL$EB3<- ifelse(ASFL$EB3 == "", 3, 0)
-#ASFLse$EB3<- ifelse(ASFLse$EB3 == "", 3, 0)
-#ASFLe$EB3<- ifelse(ASFLe$EB3 == "", 3, 0)
-#ASFLeu$EB3<- ifelse(ASFLeu$EB3 == "", 3, 0)
+summary(ASFL$EB3)
+EB3<- ifelse(ASFL$EB3 == "Increases", 1, 0)
+table(EB3)
 
 
 #create financial knowledge score (score 0-7).
-fin_know <- (ASFL$QK3+ASFL$QK4+ASFL$QK5+ASFL$QK6+ASFL$QK7_1+ASFL$QK7_2+ASFL$QK7_3)
+fin_know <- (QK3+QK4+QK5+QK6+QK7_1+QK7_2+QK7_3)
+table(fin_know)
 ASFL1 <- cbind(ASFL,fin_know)
-#ASFL1 <- ASFL %>% 
-#mutate(fin_know = ASFL$QK3+ASFL$QK4+ASFL$QK5+ASFL$QK6+ASFL$QK7_1+ASFL$QK7_2+ASFL$QK7_3)
-#ASFL1 <- ASFL %>% 
-#  mutate(fin_know = QK3+QK4+QK5+QK6+QK7_1+QK7_2+QK7_3)
+
+fin_know_add <- (QK3+QK4+QK5+QK6+QK7_1+QK7_2+QK7_3+S58+QK7_4add+EB3)
+table(fin_know_add)
+ASFL1 <- cbind(ASFL,fin_know_add)
 
 ASFL1se <- ASFL1[(ASFL1$QD10 %in% se),] 
 summary(ASFL1se)
@@ -603,6 +543,8 @@ ASFL3ef <- ASFL3e[(ASFL3e$QD1 %in% female),]
 
 ASFL3eum <- ASFL3eu[(ASFL3eu$QD1 %in% male),]
 ASFL3euf <- ASFL3eu[(ASFL3eu$QD1 %in% female),]
+
+
 
 
 
