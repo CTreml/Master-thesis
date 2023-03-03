@@ -23,13 +23,21 @@ library(forcats)
 
 #setting the working directory
 setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
-ASFL_org <- readstata13::read.dta13("./Questionnaire & Dataset/oecd_2019_engl_final_official.dta", generate.factors=TRUE, nonint.factors = TRUE)
-ASFL <-ASFL_org
+ASFL_org <- readstata13::read.dta13("./Questionnaire & Dataset/Data/oecd_2019_engl_final_official.dta", generate.factors=TRUE, nonint.factors = TRUE)
 
-##################################employment##################################
+
+ASFL_add <- readstata13::read.dta13("./Questionnaire & Dataset/Data/add_austria-specific.dta", generate.factors=TRUE, nonint.factors = TRUE)
+ASFL_full <- merge (ASFL_org, ASFL_add, by="id")
+ASFL <-ASFL_full
+##################################EMPLOYMENT##################################
 
 summary(ASFL$QD10)
 selfemployed<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
+##alternative: QF9_11 ##own business as a retirement funding option
+summary(ASFL$QF9_11)
+retirefundbusiness <- ifelse(ASFL$QF9_11 == "Yes", 1, 0)
+table(retirefundbusiness)
+
 summary(selfemployed)
 employed<- ifelse(ASFL$QD10 == "In paid employment [work for someone else]", 1, 0) #maybe keep those looking for work?
 unemployed<- ifelse(ASFL$QD10 == "Looking for work [unemployed]", 1, 0)
@@ -48,7 +56,12 @@ summary(ASFLe)
 ASFLeu <-  ASFL[(ASFL$QD10 %in% eu),] 
 summary(ASFLeu)
 
-##################################age##################################
+##################################add_employment#########################
+summary(ASFL$QF9_10) #still working in pension to fund retirement
+summary(ASFL$st1ab) #respondent ever employed
+summary(ASFL$st3ab) #person contributing most to household income ever employed
+
+##################################AGE##################################
 age<-ASFL$QD7
 age <- as.numeric(age)
 age2 <- age^2
@@ -86,7 +99,7 @@ ASFLadult
 ASFLmainemploy <- ASFLadult[!(ASFLadult$QD7 %in% above79),] 
 
 
-##################################gender##################################
+##################################GENDER##################################
 gender <- ASFL$QD1
 male<- ifelse(ASFL$QD1 == "Male", 1, 0)
 female <- ifelse(ASFL$QD1 == "Female", 1, 0)
@@ -94,16 +107,21 @@ female <- ifelse(ASFL$QD1 == "Female", 1, 0)
 male <- c("Male")
 female <- c("2")
 
-##################################education##################################
+##################################EDUCATION##################################
 ####maybe change definition! 
 ASFL <- ASFL %>% mutate(QD9 = ifelse(is.na(QD9), 0, QD9))
 ASFL$QD9
 ASFL["education"] = cut(as.numeric(as.character(ASFL$QD9)), c(2, 3, 4, 5, Inf), c("universitary", "upper secondary", "Lower secondary", "Primary"), include.lowest=TRUE)
 
 
-#################################self-assessment##############################
+#################################add_education###################################
+
+summary(ASFL$st1g) #highest attained education
+
+summary(ASFL$st3g)
+
+#################################SELF-ASSESSMENT##############################
 selfassess <- ASFL$QK1
 ASFL <- cbind(ASFL,selfassess)
 hincome <- ASFL$QD13
 ASFL <- cbind(ASFL,hincome)
-
