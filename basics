@@ -29,6 +29,10 @@ ASFL_org <- readstata13::read.dta13("./Questionnaire & Dataset/Data/oecd_2019_en
 ASFL_add <- readstata13::read.dta13("./Questionnaire & Dataset/Data/add_austria-specific.dta", generate.factors=TRUE, nonint.factors = TRUE)
 ASFL_full <- merge (ASFL_org, ASFL_add, by="id")
 ASFL <-ASFL_full
+
+#correct weighting
+ASFL <-svydesign(id=~id, weights=~wght, data=ASFL_full)
+ASFL <- ASFL$variables
 ##################################EMPLOYMENT##################################
 
 summary(ASFL$QD10)
@@ -37,16 +41,28 @@ selfemployed<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
 summary(ASFL$QF9_11)
 retirefundbusiness <- ifelse(ASFL$QF9_11 == "Yes", 1, 0)
 table(retirefundbusiness)
-
 summary(selfemployed)
+
 employed<- ifelse(ASFL$QD10 == "In paid employment [work for someone else]", 1, 0) #maybe keep those looking for work?
 unemployed<- ifelse(ASFL$QD10 == "Looking for work [unemployed]", 1, 0)
 employed
 summary(employed)
 
+apprentice<- ifelse(ASFL$QD10 == "Apprentice", 1, 0)
+student<- ifelse(ASFL$QD10 == "Student", 1, 0)
+other<- ifelse(ASFL$QD10 == "Other", 1, 0)
+retired<- ifelse(ASFL$QD10 == "Retired", 1, 0)
+home <- ifelse(ASFL$QD10 == "Looking after the home", 1, 0)
+notactive<-ifelse(ASFL$QD10 == "Not working and not looking for work", 1, 0)
+
+others <- unemployed+apprentice+student+other+retired+home+notactive
+table(others)  
+  
 se <- c("Self-employed [work for myself]")
 e <- c("In paid employment [work for someone else]")
 eu <- c("In paid employment [work for someone else]","Looking for work [unemployed]")
+empl <- c("In paid employment [work for someone else]","Self-employed [work for myself]")
+oth <- c("Looking for work [unemployed]","Apprentice","Student","Other","Retired","Looking after the home", "Not working and not looking for work")
 
 
 ASFLse <- ASFL[(ASFL$QD10 %in% se),] 
@@ -55,7 +71,21 @@ ASFLe <- ASFL[(ASFL$QD10 %in% e),]
 summary(ASFLe)
 ASFLeu <-  ASFL[(ASFL$QD10 %in% eu),] 
 summary(ASFLeu)
+ASFLother <-  ASFL[(ASFL$QD10 %in% others),] 
+summary(ASFLother)
+640+699+79
+ASFLempl <- ASFL[(ASFL$QD10 %in% empl),] 
+ASFLempl$QD10
 
+unemployed<- subset(ASFL, ASFL$QD10 == "Looking for work [unemployed]")
+student <- subset(ASFL, ASFL$QD10 == "Student")
+apprentice<- subset(ASFL, ASFL$QD10 == "Apprentice")
+retired<- subset(ASFL, ASFL$QD10 == "Retired")
+notactive<- subset(ASFL, ASFL$QD10 == "Not working and not looking for work")
+home <- subset(ASFL, ASFL$QD10 == "Looking after the home")
+other<- subset(ASFL, ASFL$QD10 == "Other")
+
+ASFL <- cbind(ASFL,employed,selfemployed,others)
 ##################################add_employment#########################
 summary(ASFL$QF9_10) #still working in pension to fund retirement
 summary(ASFL$st1ab) #respondent ever employed
@@ -73,6 +103,7 @@ babyboomd <- ifelse(ASFL$age_group == "59-74", 1, 0)
 silgend<- ifelse(ASFL$age_group == ">75", 1, 0)
 
 summary(ASFL$age_group)
+ASFL <- cbind(ASFL,youngmilld,oldmilld,genxd,babyboomd,silgend)
 
 #table(age_group)
 
@@ -101,11 +132,13 @@ ASFLmainemploy <- ASFLadult[!(ASFLadult$QD7 %in% above79),]
 
 ##################################GENDER##################################
 gender <- ASFL$QD1
-male<- ifelse(ASFL$QD1 == "Male", 1, 0)
-female <- ifelse(ASFL$QD1 == "Female", 1, 0)
+maled<- ifelse(ASFL$QD1 == "Male", 1, 0)
+femaled <- ifelse(ASFL$QD1 == "Female", 1, 0)
 
 male <- c("Male")
 female <- c("2")
+
+ASFL <- cbind(ASFL,maled,femaled)
 
 ##################################EDUCATION##################################
 ####maybe change definition! 
@@ -113,6 +146,16 @@ ASFL <- ASFL %>% mutate(QD9 = ifelse(is.na(QD9), 0, QD9))
 ASFL$QD9
 ASFL["education"] = cut(as.numeric(as.character(ASFL$QD9)), c(2, 3, 4, 5, Inf), c("universitary", "upper secondary", "Lower secondary", "Primary"), include.lowest=TRUE)
 
+primary_1 <- ifelse(ASFL$QD9 == "7", 1, 0)
+primary_2 <- ifelse(ASFL$QD9 == "6", 1, 0)
+primary <- primary_1+primary_2
+lowersecondary<- ifelse(ASFL$QD9 == "5", 1, 0)
+uppersecondary<- ifelse(ASFL$QD9 == "4", 1, 0)
+university_1<- ifelse(ASFL$QD9 == "2", 1, 0)
+university_2<- ifelse(ASFL$QD9 == "3", 1, 0)
+university <- university_1+university_2
+
+ASFL <- cbind(ASFL,primary,lowersecondary,uppersecondary,university)
 
 #################################add_education###################################
 
@@ -123,5 +166,6 @@ summary(ASFL$st3g)
 #################################SELF-ASSESSMENT##############################
 selfassess <- ASFL$QK1
 ASFL <- cbind(ASFL,selfassess)
+sa <- c("Very high","Quite high","About average","Quite low","Very low")
 hincome <- ASFL$QD13
 ASFL <- cbind(ASFL,hincome)
