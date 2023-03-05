@@ -235,6 +235,14 @@ barplot(finknowdetail, beside=TRUE, ylim = c(0,1), main="Financial knowledge det
 #legend("bottomright", c("full", "employed", "selfemployed"), pch=0.05)
 
 
+#knowdetail <- c(rep("Time value" , 2) , rep("Interest on loan" , 2) ,  rep("crypto assets" , 2),rep("risk willingness" , 2) , rep("risk propensity" , 2) )
+#emplstat <- rep(c("self-employed" , "employed" ) , 10)
+#value <- abs(c(933/1418, 1264/1418,1121/1418,759/1418,1314/1418,1282/1418,874/1418,1120/1418,964/1418,978/1418,60/79,75/79,72/79,53/79,73/79,74/79,64/79,75/79,57/79,70/79,459/699,630/699,559/699,403/699,641/699,631/699,470/699,549/699,511/699,492/699))
+#knowdetail<- data.frame(knowdetail,emplstat,value)
+
+#ggplot(riskplot, aes(fill=emplstat, y=value, x=risk)) + 
+ # geom_bar(position="dodge", stat="identity")
+
 #number of correct responses ##wrong
 finkowanswers <- data.frame(answers=rep(c('0','1', '2', '3','4', '5', '6','7','8','9','10'), each=3),
                             status=rep(c('full', 'self-employed', 'employed'), times=11),
@@ -244,14 +252,6 @@ ggplot(finkowanswers, aes(fill=status, y=share, x=answers)) +
   geom_bar(position='stack', stat='identity')
 
 
-
-finknowanswers <- data.frame(answers=rep(c('full', 'self-employed', 'employed'), each=11),
-                            status=rep(c('0','1', '2', '3','4', '5', '6','7','8','9','10'), times=3),
-                            share=c(6/1418,11/1418,41/1418,34/1418,80/1418,107/1418,120/1418,153/1418,291/1418,310/1418,265/1418, 0/79, 1/79,1/79,2/79,2/79,0/79,2/79,4/79,15/79,24/79,28/79,1/699,2/699,15/699,15/699,45/699,48/699,60/699,62/699,147/699,162/699,142/699))
-
-finknowanswers$status <- factor(finknowanswers$status, levels(finknowanswers$status))
-ggplot(finkowanswers, aes(fill=status, y=share, x=answers)) + 
-  geom_bar(position='stack', stat='identity')
 
 
 ####################FINANCIAL ATTITUDE SCORE#############################
@@ -410,7 +410,7 @@ QF3fin #active saving - at least 1 yes
 
 #######QF11#####################
 ##preliminary check for QF12
-QF11 <- ASFL$QF11<- ifelse(ASFL$QF11 == "No", 1, 0)
+QF11 <-  ifelse(ASFL$QF11 == "No", 1, 0)
 QF11
 
 #######QF12#####################
@@ -442,10 +442,10 @@ QF12_3fin
 
 ASFL <- ASFL %>% mutate(QF12_4_1 = ifelse(is.na(QF12_4_1), 1, QF12_4_1))
 ASFL$QF12_4_1
-QF12_4_1 <-ASFL$QF12_4_1<- ifelse(ASFL$QF12_4_1 == "4", 1, 0)
+QF12_4_1 <- ifelse(ASFL$QF12_4_1 == "4", 1, 0)
 ASFL <- ASFL %>% mutate(QF12_4_2 = ifelse(is.na(QF12_4_2), 1, QF12_4_2))
 ASFL$QF12_4_2
-QF12_4_2 <-ASFL$QF12_4_2<- ifelse(ASFL$QF12_4_2 == "4", 1, 0)
+QF12_4_2 <- ifelse(ASFL$QF12_4_2 == "4", 1, 0)
 
 QF12_4 <- QF12_4_1+QF12_4_2
 QF12_4fin<- ifelse(QF12_4 == "0", 1, 0)
@@ -579,7 +579,7 @@ table(ASFL3$fin_beh)
 909+4+13+29+49+130+284
 909/1418
 ASFL3adult <- ASFL3[!(ASFL3$QD7 %in% under18),] 
-summary(ASFL3adult$fin_beh)
+summary(ASFL3adult$fin_beh) #5.963
 table(ASFL3adult$fin_beh)
 374+294+160+76
 904/(904+4+13+27+49+130+283) #OECD: 64.5%
@@ -607,6 +607,7 @@ table(ASFL3eu$fin_beh)
 449/(449+3+14+19+39+80+145)
 
 ASFL3m <- ASFL3[(ASFL3$QD1 %in% male),]
+ASFL3madult <- ASFL3[!(ASFL3$QD7 %in% under18),]
 ASFL3f <- ASFL3[(ASFL3$QD1 %in% female),]
 
 ASFL3sem <- ASFL3se[(ASFL3se$QD1 %in% male),]
@@ -617,8 +618,6 @@ ASFL3ef <- ASFL3e[(ASFL3e$QD1 %in% female),]
 
 ASFL3eum <- ASFL3eu[(ASFL3eu$QD1 %in% male),]
 ASFL3euf <- ASFL3eu[(ASFL3eu$QD1 %in% female),]
-
-
 
 
 
