@@ -1,5 +1,4 @@
 
-
 ##################################employment##################################
 
 summary(ASFL$QD10)
@@ -13,7 +12,7 @@ summary(employed)
 se <- c("Self-employed [work for myself]")
 e <- c("In paid employment [work for someone else]")
 eu <- c("In paid employment [work for someone else]","Looking for work [unemployed]")
-
+others <- c("Looking for work [unemployed]","Apprentice","Student","Other","Retired","Looking after the home", "Not working and not looking for work")
 
 ASFLse <- ASFL[(ASFL$QD10 %in% se),] 
 summary(ASFLse)
@@ -21,7 +20,11 @@ ASFLe <- ASFL[(ASFL$QD10 %in% e),]
 summary(ASFLe)
 ASFLeu <-  ASFL[(ASFL$QD10 %in% eu),] 
 summary(ASFLeu)
-home <- subset(ASFL, ASFL$QD10 == "Looking after the home")
+ASFLother <-  ASFL[(ASFL$QD10 %in% others),] 
+summary(ASFLother)
+
+
+
 ##################################age##################################
 summary(ASFL$QD7)
 #absolute - full sample
@@ -140,36 +143,17 @@ male_eu
 summary(ASFLse$QD1)
 summary(ASFLe$QD1)
 summary(ASFLeu$QD1)
+summary(ASFLother$QD1)
 
+emplstat <- c(rep("Self-employed" , 2) , rep("Employed" , 2) ,  rep("Others" , 2) )
+gender <- rep(c("Male" , "Female" ) , 3)
+value <- abs(c(45/79,34/79,346/699,353/699,277/699,363/699))
+riskplot<- data.frame(gender,emplstat,value)
 
-
-gender_comp <- data.frame(values = c(668/1418,750/1418,45/79,34/79,346/699,353/699),  # Create example data
-                            group = rep(c("full",
-                                          "self-employed",
-                                          "employed"),
-                                        each = 2),
-                            subgroup = LETTERS[1:2])
-gender_comp <- reshape(gender_comp,                        # Modify data for Base R barplot
-                         idvar = "subgroup",
-                         timevar = "group",
-                         direction = "wide")
-#row.names(fin_know_comp) <- fin_know_comp$subgroup
-gender_comp <- gender_comp[ , 2:ncol(gender_comp)]
-colnames(gender_comp) <- c("full","self-employed", "employed")
-rownames(gender_comp) <- c("male","female")
-gender_comp <- as.matrix(gender_comp)
-gender_comp   
-#gender_comp <- t(gender_comp)
-barplot(height = gender_comp,                       # Grouped barplot using Base R
-        beside = TRUE)
-
-
-#gendercomparison <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=2),
-                                #   gender=rep(c('Female', 'Male'), times=3),
-                                #   share=c(750/1418, 668/1418,34/79,45/79,353/699,346/699))
-
-#ggplot(generationcomparison, aes(fill=gender, y=share, x=status)) + 
- # geom_bar(position='stack', stat='identity')
+riskplot$emplstat<- factor(riskplot$emplstat, levels=c('Self-employed', 'Employed', 'Others'))
+riskplot$gender<- factor(riskplot$gender, levels=c('Male','Female'))
+ggplot(riskplot, aes(fill=gender, y=value, x=emplstat)) + 
+  geom_bar(position="dodge", stat="identity")
 
 ##oldestyoungest
 age <- ASFL$QD7
@@ -271,6 +255,8 @@ single_eu <- ifelse(ASFLeu$QD5_1 == "Yes", 1, 0)
 
 ##################################children##################################
 #full
+sole <- ifelse(ASFL$QD5_1 == "Yes", 1, 0)
+ASFL <- cbind(ASFL,sole)
 table(ASFL$QD5_4)
 table(ASFL$QD5_3)
 cb18_f <- ifelse(ASFL$QD5_3 == "Yes", 1, 0)
@@ -283,7 +269,11 @@ table(cu18_f)
 table(c_f)
 351/(1418)
 
+
+
 #self-employed
+solese <- ifelse(ASFLse$QD5_1 == "Yes", 1, 0)
+
 cb18_se <- ifelse(ASFLse$QD5_3 == "Yes", 1, 0)
 cu18_se <- ifelse(ASFLse$QD5_4 == "Yes", 1, 0)
 c_se <- cb18_se+cu18_se
@@ -294,6 +284,8 @@ table(c_se)
 29/79
 
 #employed
+solee <- ifelse(ASFLe$QD5_1 == "Yes", 1, 0)
+
 cb18_e <- ifelse(ASFLe$QD5_3 == "Yes", 1, 0)
 cu18_e <- ifelse(ASFLe$QD5_4 == "Yes", 1, 0)
 c_e <- cb18_e+cu18_e
@@ -303,6 +295,8 @@ table(cu18_e)
 table(c_e)
 245/699
 #e+u
+soleeu <- ifelse(ASFLeu$QD5_1 == "Yes", 1, 0)
+
 cb18_eu <- ifelse(ASFLeu$QD5_3 == "Yes", 1, 0)
 cu18_eu <- ifelse(ASFLeu$QD5_4 == "Yes", 1, 0)
 c_eu <- cb18_eu+cu18_eu
@@ -370,11 +364,12 @@ lsfknow_f<- ifelse(ASFL$QK1 == "Quite low", 1, 0)
 llsfknow_f<- ifelse(ASFL$QK1 == "Very low", 1, 0)
 lowsfknow_f <- lsfknow_f+llsfknow_f
 summary(ASFL$QK1)
-#238/1382,573/1382,571/1382,23/1382
-571/1382
+13+23+143+428+573+178+60
+23/1418
+
 
 #self-employed
-ASFLse$QK1
+selfassess_se <-ASFLse$QK1
 hhsfknow_se<- ifelse(ASFLse$QK1 == "Very high", 1, 0)
 hsfknow_se<- ifelse(ASFLse$QK1 == "Quite high", 1, 0)
 highsfknow_se <- hhsfknow_se+hsfknow_se
@@ -383,10 +378,10 @@ lsfknow_se<- ifelse(ASFLse$QK1 == "Quite low", 1, 0)
 llsfknow_se<- ifelse(ASFLse$QK1 == "Very low", 1, 0)
 lowsfknow_se <- lsfknow_se+llsfknow_se
 summary(ASFLse$QK1)
-#3/75,27/75, 45/75,2/75
+
 
 #employed
-ASFLe$QK1
+selfassess_e <- ASFLe$QK1
 hhsfknow_e<- ifelse(ASFLe$QK1 == "Very high", 1, 0)
 hsfknow_e<- ifelse(ASFLe$QK1 == "Quite high", 1, 0)
 highsfknow_e <- hhsfknow_e+hsfknow_e
@@ -395,9 +390,10 @@ lsfknow_e<- ifelse(ASFLe$QK1 == "Quite low", 1, 0)
 llsfknow_e<- ifelse(ASFLe$QK1 == "Very low", 1, 0)
 lowsfknow_e <- lsfknow_e+llsfknow_e
 summary(ASFLe$QK1)
-#92/682,291/682,299/682,13/682
+
+
 #e+u
-ASFLeu$QK1
+selfassess_eu <- ASFLeu$QK1
 hhsfknow_eu<- ifelse(ASFLeu$QK1 == "Very high", 1, 0)
 hsfknow_eu<- ifelse(ASFLeu$QK1 == "Quite high", 1, 0)
 highsfknow_eu <- hhsfknow_eu+hsfknow_eu
@@ -406,20 +402,22 @@ lsfknow_eu<- ifelse(ASFLeu$QK1 == "Quite low", 1, 0)
 llsfknow_eu<- ifelse(ASFLeu$QK1 == "Very low", 1, 0)
 lowsfknow_eu <- lsfknow_eu+llsfknow_eu
 summary(ASFLeu$QK1)
-#111/731,311/731,/731,309/731,14/731
+
+
 
 selfratedknow <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=3),
                       selfassessment=rep(c('Low', 'Average', 'High'), times=3),
                       share=c(238/1382,573/1382,571/1382,3/75, 27/75, 45/75,92/682,291/682,299/682))
-
+selfratedknow$selfassessment<- factor(selfratedknow$selfassessment, levels=c('Low', 'Average', 'High'))
+selfratedknow$status<- factor(selfratedknow$status, levels=c('full', 'self-employed', 'employed'))
 ggplot(selfratedknow, aes(fill=selfassessment, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')
 
 selfratedknow_specific <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=5),
                             selfassessment=rep(c('Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=3),
                             share=c(60/1382, 178/1382,573/1382,428/1382, 143/1382,2/75, 1/75, 27/75,34/75, 11/75,17/682,75/682,291/682,219/682,80/682))
-
+selfratedknow_specific$selfassessment<- factor(selfratedknow_specific$selfassessment, levels=c('Very low','Quite low', 'Average', 'Quite high', 'Very high'))
+selfratedknow_specific$status<- factor(selfratedknow_specific$status, levels=c('full', 'self-employed', 'employed'))
 ggplot(selfratedknow_specific, aes(fill=selfassessment, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')
        
-         
