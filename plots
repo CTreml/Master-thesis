@@ -1,0 +1,170 @@
+########################PLOTS###########################
+
+###########FINANCIAL KNOWLEDGE##########################
+#basic financial knowledge
+finknow <- c(rep("0" , 2),rep("1" , 2) , rep("2" , 2) ,  rep("3" , 2),rep("4" , 2),rep("5" , 2),rep("6" , 2),rep("7" , 2))
+emplstat <- rep(c("self-employed" , "employed" ) , 8)
+value <- abs(c(0/79,8/699,1/79,26/699,2/79,63/699,3/79,95/699,3/79,168/699,10/79,270/699,25/79,428/699,35/79,360/699))
+finknowOECD<- data.frame(finknow,emplstat,value)
+ggplot(finknowOECD, aes(fill=emplstat, y=value, x=finknow)) + 
+  geom_bar(position="dodge", stat="identity")
+
+#enlarged financial knowledge
+finknow <- c(rep("0" , 2),rep("1" , 2) , rep("2" , 2) ,  rep("3" , 2),rep("4" , 2),rep("5" , 2),rep("6" , 2),rep("7" , 2),rep("8" , 2),rep("9" , 2),rep("10" , 2))
+emplstat <- rep(c("self-employed" , "employed" ) , 11)
+value <- abs(c(0/79,6/699,1/79,11/699,1/79,41/699,2/79,34/699,2/79,80/699,0/79,107/699,2/79,120/699,4/79,153/699,17/79,291/699,24/79,310/699,28/79,265/699))
+finknowadd<- data.frame(finknow,emplstat,value)
+finknowadd$finknow<- factor(finknowadd$finknow, levels=c('0','1', '2', '3','4','5','6','7','8','9','10'))
+ggplot(finknowadd, aes(fill=emplstat, y=value, x=finknow)) + 
+  geom_bar(position="dodge", stat="identity")
+##########relation between gender/age and level of financial knowledge#############
+plot(ASFL1m$QD7, ASFL1m$fin_know, pch=20)
+lines(lowess(ASFL1m$fin_know,ASFL1m$QD7), col="red")
+agegroupsfemale <- plot(ASFL1f$QD7_a, ASFL1f$fin_know)
+
+
+finknowgender = data.frame(x=ASFL1m$QD7, y=ASFL1m$fin_know)
+library(ggplot2)
+ggplot(finknowgender, aes(x=ASFL1m$QD7, y=ASFL1m$fin_know)) + 
+    geom_point(alpha = 0.4) +
+    stat_summary_bin(fun.y='mean', bins=15,
+                     color='orange', size=2, geom='point')
+
+
+########risk attitude variable
+risk <- matrix (c(18/79,9/79,4/79,24/79,14/79,91/699,57/699,32/699,185/699,123/699), ncol=5, byrow=TRUE)
+risk
+colnames(risk) <- c("stocks/shares","bonds","cryptoassets","risk willingness","risk propensity")
+rownames(risk) <- c("self-employed","employed")
+
+barplot(risk, beside=TRUE, ylim = c(0,1), main="Risk attitude", ylab="share of appliance", col=c("red","blue")) 
+
+
+risk <- c(rep("stocks/shares" , 2) , rep("bonds" , 2) ,  rep("crypto assets" , 2),rep("risk willingness" , 2) , rep("risk propensity" , 2) )
+emplstat <- rep(c("self-employed" , "employed" ) , 5)
+value <- abs(c(18/79,91/699,9/79,57/699,4/79,32/699,24/79,185/699,14/79,123/699))
+riskplot<- data.frame(risk,emplstat,value)
+
+ggplot(riskplot, aes(fill=emplstat, y=value, x=risk)) + 
+  geom_bar(position="dodge", stat="identity")
+###############FINANCIAL RESILIENCE######################
+########financial fraud##################
+
+
+########financial stress and concern####################
+fistr <- c(rep("shortfall" , 2) , rep("expense worries" , 2) , rep("financial concern" , 2) , rep("´just getting by´" , 2) )
+emplstat <- rep(c("self-employed" , "employed" ) , 4)
+value <- abs(c(5/79,90/699,5/79,67/699,15/79,142/699,23/79,222/699))
+finstressplot <- data.frame(fistr,emplstat,value)
+
+ggplot(finstressplot, aes(fill=emplstat, y=value, x=fistr)) + 
+  geom_bar(position="dodge", stat="identity")
+
+
+
+####################SELF-ASSESSMENT & ACTUAL KNOWLEDGE#####################
+#graph according to Fessler et al (2020) - probably difficult for self-employed! 
+#full
+table(ASFL6$fin_know)
+f1 <- c("1")
+f2 <- c("2")
+f3 <- c("3")
+f4 <- c("4")
+f5 <- c("5")
+f6 <- c("6")
+f7 <- c("7")
+ASFL6f1 <- ASFL6[(ASFL6$fin_know %in% f1),] 
+table(ASFL6f1$QK1)
+ASFL6f2 <- ASFL6[(ASFL6$fin_know %in% f2),] 
+table(ASFL6f2$QK1)
+ASFL6f3 <- ASFL6[(ASFL6$fin_know %in% f3),] 
+table(ASFL6f3$QK1)
+ASFL6f4 <- ASFL6[(ASFL6$fin_know %in% f4),] 
+table(ASFL6f4$QK1)
+ASFL6f5 <- ASFL6[(ASFL6$fin_know %in% f5),] 
+table(ASFL6f5$QK1)
+ASFL6f6 <- ASFL6[(ASFL6$fin_know %in% f6),] 
+table(ASFL6f6$QK1)
+ASFL6f7 <- ASFL6[(ASFL6$fin_know %in% f7),]
+table(ASFL6f7$QK1)
+
+par(mfrow=c(1,2))
+finknowsrvsactual <- data.frame(finknow=rep(c('1', '2', '3','4','5','6','7'), each=6),
+                                selfassessment=rep(c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=7),
+                                share=c(3/26,3/26, 5/26,5/26,7/26,3/26, 5/63, 7/63, 13/63, 27/63, 6/63, 5/63, 6/95, 11/95, 16/95, 38/95, 17/95, 7/95,8/168,7/168,28/168,73/168,41/168,11/168,8/270,17/270,41/270,114/270,67/270,23/270,4/428,9/428,54/428,161/428,144/428,56/428,2/360,4/360,19/360,151/360,146/360,38/360))
+finknowsrvsactual$finknow<- factor(finknowsrvsactual$finknow, levels=c('1', '2', '3','4','5','6','7'))
+finknowsrvsactual$selfassessment<- factor(finknowsrvsactual$selfassessment, levels=c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'))
+
+ggplot(finknowsrvsactual, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')
+
+
+#self-employed
+table(ASFL6se$fin_know)
+f1 <- c("1")
+f2 <- c("2")
+f3 <- c("3")
+f4 <- c("4")
+f5 <- c("5")
+f6 <- c("6")
+f7 <- c("7")
+ASFL6sef1 <- ASFL6se[(ASFL6se$fin_know %in% f1),] 
+table(ASFL6sef1$QK1)
+ASFL6sef2 <- ASFL6se[(ASFL6se$fin_know %in% f2),] 
+table(ASFL6sef2$QK1)
+ASFL6sef3 <- ASFL6se[(ASFL6se$fin_know %in% f3),] 
+table(ASFL6sef3$QK1)
+ASFL6sef4 <- ASFL6se[(ASFL6se$fin_know %in% f4),] 
+table(ASFL6sef4$QK1)
+ASFL6sef5 <- ASFL6se[(ASFL6se$fin_know %in% f5),] 
+table(ASFL6sef5$QK1)
+ASFL6sef6 <- ASFL6se[(ASFL6se$fin_know %in% f6),] 
+table(ASFL6sef6$QK1)
+ASFL6sef7 <- ASFL6se[(ASFL6se$fin_know %in% f7),]
+table(ASFL6sef7$QK1)
+
+
+finknowsrvsactualse <- data.frame(finknow=rep(c('1', '2', '3','4','5','6','7'), each=6),
+                                  selfassessment=rep(c('Ref/Dont know','Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=7),
+                                  share=c(0/1,1/1,0/1,0/1,0/1,0/1,1/2,0/2,0/2,0/2,0/2,1/2,1/3,1/3,0/3,1/3,0/3,0/3,1/3,0/3,0/3,0/3,1/3,1/3,1/10,0/10,1/10,3/10,4/10,1/10,0/25,0/25,0/25,9/25,12/25,4/25,0/35,0/35,0/35,14/35,17/35,4/35))
+finknowsrvsactualse$finknow<- factor(finknowsrvsactualse$finknow, levels=c('1', '2', '3','4','5','6','7'))
+finknowsrvsactualse$selfassessment<- factor(finknowsrvsactualse$selfassessment, levels=c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'))
+
+ggplot(finknowsrvsactualse, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')
+
+#employed
+table(ASFL6e$fin_know)
+f1 <- c("1")
+f2 <- c("2")
+f3 <- c("3")
+f4 <- c("4")
+f5 <- c("5")
+f6 <- c("6")
+f7 <- c("7")
+ASFL6ef1 <- ASFL6e[(ASFL6e$fin_know %in% f1),] 
+table(ASFL6ef1$QK1)
+ASFL6ef2 <- ASFL6e[(ASFL6e$fin_know %in% f2),] 
+table(ASFL6ef2$QK1)
+ASFL6ef3 <- ASFL6e[(ASFL6e$fin_know %in% f3),] 
+table(ASFL6ef3$QK1)
+ASFL6ef4 <- ASFL6e[(ASFL6e$fin_know %in% f4),] 
+table(ASFL6ef4$QK1)
+ASFL6ef5 <- ASFL6e[(ASFL6e$fin_know %in% f5),] 
+table(ASFL6ef5$QK1)
+ASFL6ef6 <- ASFL6e[(ASFL6e$fin_know %in% f6),] 
+table(ASFL6ef6$QK1)
+ASFL6ef7 <- ASFL6e[(ASFL6e$fin_know %in% f7),]
+table(ASFL6ef7$QK1)
+
+
+finknowsrvsactuale <- data.frame(finknow=rep(c('1', '2', '3','4','5','6','7'), each=6),
+                                 selfassessment=rep(c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=7),
+                                 share=c(1/12,0/12,3/12,3/12,3/12,2/12,2/23,1/23,4/23,11/23,3/23,2/23,1/50,7/50,8/50,18/50,10/50,6/50,3/83,2/83,12/83,36/83,23/83,7/83,4/114,4/114,17/114,48/114,29/114,12/114,4/222,2/222,19/222,92/222,73/222,32/222,2/193,1/193,11/193,82/193,78/193,19/193))
+finknowsrvsactuale$finknow<- factor(finknowsrvsactuale$finknow, levels=c('1', '2', '3','4','5','6','7'))
+finknowsrvsactuale$selfassessment<- factor(finknowsrvsactuale$selfassessment, levels=c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'))
+
+ggplot(finknowsrvsactuale, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')
+
+par(mfrow=c(1,1))
