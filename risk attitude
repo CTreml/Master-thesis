@@ -1,0 +1,168 @@
+####################financial risk taking#############################
+#HFCS1 ; QS1_2 ; Qprod1b_11/12 ;(QF3_6/Qprod1c_15; QF3_5, QS3_1, QS3_11 , QF13;  LR1)
+#1 variable 
+table(ASFL$HFCS1)
+risk <- ASFL$HFCS1
+risk1<- ifelse(ASFL$HFCS1 == "I am prepared to take substantial financial risks expecting to earn substantial returns", 1, 0)
+risk2<- ifelse(ASFL$HFCS1 == "I am prepared to take above average financial risks expecting to earn above average returns", 1, 0)
+HFCSrisk <- risk1 + risk2
+risk3<- ifelse(ASFL$HFCS1 == "I am prepared to take average financial risks expecting to earn average returns", 1, 0)
+risk4<- ifelse(ASFL$HFCS1 == "I am not willing to take any financial risk", 1, 0)
+HFCSnrisk <- risk3 + risk4
+table(HFCSrisk)
+table(HFCSnrisk)
+ASFL7 <- cbind(ASFL6,HFCSrisk)
+
+#full
+summary(ASFL7$HFCSrisk)
+table(ASFL7$HFCSrisk)
+
+#self-employed
+summary(ASFLse$HFCS1)
+ASFL7se <- ASFL7[(ASFL7$QD10 %in% se),] 
+summary(ASFL7se$HFCSrisk)
+table(ASFL7se$HFCSrisk)
+
+#employed
+summary(ASFLe$HFCS1)
+ASFL7e <- ASFL7[(ASFL7$QD10 %in% e),] 
+summary(ASFL7e$HFCSrisk)
+table(ASFL7e$HFCSrisk)
+
+#employed + unemployed
+summary(ASFLeu$HFCS1)
+ASFL7eu <- ASFL7[(ASFL7$QD10 %in% eu),] 
+summary(ASFL7eu$HFCSrisk)
+table(ASFL7eu$HFCSrisk)
+
+
+HFCSrisk <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=4),
+                                     HFCSrisk=rep(c('Substantial', 'Above average', 'Average', 'No'), times=3),
+                                     share=c(47/1418, 115/1418,362/1418,894/1418, 8/79,6/79,29/79,36/79, 29/699,94/699,225/699,351/699))
+HFCSrisk$HFCSrisk<- factor(HFCSrisk$HFCSrisk, levels=c('Substantial', 'Above average', 'Average', 'No'))
+HFCSrisk$status<- factor(HFCSrisk$status, levels=c('full', 'self-employed', 'employed'))
+ggplot(HFCSrisk, aes(fill=HFCSrisk, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity') +
+ # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
+  labs(y = 'Preparedness to take financial risk')
+
+
+###############designed risk variable#################################
+#######Risky financial assets - recently chosen or used in the last year for active saving###########################
+#######Stock, shares & bonds#################
+summary(ASFL$Qprod1b_11)#stock and shares
+summary(ASFL$Qprod1b_12)#bonds 
+summary(ASFL$Qprod1c_15)#crypto
+summary(ASFL$QF3_5)#bonds and time deposits
+summary(ASFL$QF3_6)#crypto
+summary(ASFL$QF3_7)#stock and shares
+
+
+stockshare <- p1b11 + QF3_7
+stockshared <- ifelse(stockshare >= "1", 1, 0)
+
+bond <- p1b12 + QF3_5
+bondd <- ifelse(bond >= "1", 1, 0)
+
+#investing in crypto-assets
+
+crypto <- QF3_6 + RC15
+cryptod <- ifelse(crypto >= "1", 1, 0)
+
+ASFL7 <- cbind(ASFL7,stockshared,bondd,cryptod)
+table(ASFL7$stockshared)
+
+
+riskyassets<- p1b11 + p1b12 + QF3_5 + QF3_7 + QF3_6 + RC15
+table(riskyassets)
+riskyassetsd <- ifelse(riskyassets >= "1", 1, 0)
+table(riskyassetsd)
+ASFL7 <- cbind(ASFL7,riskyassetsd)
+
+####RISK ATTITUDE I am prepared to risk some of my own money when saving or making an investment
+#also: Cupak et al (2021)
+summary(ASFL$QS1_2)
+QS1_2 <-ASFL$QS1_2
+QS1_2_1_rec <- ifelse(QS1_2== "Refused", 1, 0)
+QS1_2_2_rec <- ifelse(QS1_2 == "Not relevant", 1, 0)
+QS1_2_3_rec <- ifelse(QS1_2 == "Don't know", 1, 0)
+
+QS1_2_1 <- ifelse(QS1_2 == "Completely agree",1, 0)
+QS1_2_2 <- ifelse(QS1_2 == "2",1, 0)
+QS1_2risk <- QS1_2_1 + QS1_2_2
+QS1_2_3 <- ifelse(QS1_2 == "3",1, 0)
+QS1_2neithernor <- QS1_2_1_rec+QS1_2_2_rec+QS1_2_3_rec+QS1_2_3
+QS1_2_4 <- ifelse(QS1_2 == "4",1, 0)
+QS1_2_5 <- ifelse(QS1_2 == "Completely disagree",1, 0)
+QS1_2nrisk <- QS1_2_4 + QS1_2_5
+table(QS1_2risk)
+table(QS1_2nrisk)
+table(QS1_2neithernor)
+ASFL7 <- cbind(ASFL7,QS1_2risk)
+
+
+riskscore <- ASFL7$bondd+ASFL7$stockshared+ASFL7$cryptod+ASFL7$HFCSrisk+ASFL7$QS1_2risk
+table(riskscore)
+riskscored <- ifelse(riskscore >= "2", 1, 0)
+table(riskscored)
+ASFL7 <- cbind(ASFL7,riskscored)
+#sample analysis
+
+ASFL7se <- ASFL7[(ASFL7$QD10 %in% se),]
+ASFL7e <- ASFL7[(ASFL7$QD10 %in% e),]
+ASFL7eu <- ASFL7[(ASFL7$QD10 %in% eu),]
+
+table(ASFL7$bondd)
+table(ASFL7se$bondd)
+table(ASFL7e$bondd)
+table(ASFL7eu$bondd)
+
+table(ASFL7$stockshared)
+table(ASFL7se$stockshared)
+table(ASFL7e$stockshared)
+table(ASFL7eu$stockshared)
+
+table(ASFL7$cryptod)
+table(ASFL7se$cryptod)
+table(ASFL7e$cryptod)
+table(ASFL7eu$cryptod)
+
+table(ASFL7$riskyassetsd)
+table(ASFL7se$riskyassetsd)
+table(ASFL7e$riskyassetsd)
+table(ASFL7eu$riskyassetsd)
+
+table(ASFL7$HFCSrisk)
+table(ASFL7se$HFCSrisk)
+table(ASFL7e$HFCSrisk)
+table(ASFL7eu$HFCSrisk)
+
+table(ASFL7$QS1_2risk)
+table(ASFL7se$QS1_2risk)
+table(ASFL7e$QS1_2risk)
+table(ASFL7eu$QS1_2risk)
+
+
+
+
+########FINANCIAL BUFFER 
+# financial resilience!
+finbuff 
+####Alternative: financial safety buffer #take all Refused/Not relevant, no own income/Dont know as "Yes" -> "No" incdicating higher risk 
+##"NO" means no financial buffer
+#full
+summary(ASFL$LR1)
+LR1 <- ifelse(ASFL$LR1 == "No",1, 0)
+table(LR1)
+#self-employed
+summary(ASFLse$LR1)
+LR1se <- ifelse(ASFLse$LR1 == "No",1, 0)
+table(LR1se)
+#employed
+summary(ASFLe$LR1)
+LR1e <- ifelse(ASFLe$LR1 == "No",1, 0)
+table(LR1e)
+#employed + unemployed
+summary(ASFLeu$LR1)
+LR1eu <- ifelse(ASFLeu$LR1 == "No",1, 0)
+table(LR1eu)
