@@ -47,6 +47,33 @@ riskplot<- data.frame(risk,emplstat,value)
 
 ggplot(riskplot, aes(fill=emplstat, y=value, x=risk)) + 
   geom_bar(position="dodge", stat="identity")
+
+###############FINANCIAL INCLUSION######################
+finincl1 <- c(rep("Awareness" , 2) , rep("Recent purchase" , 2) , rep("Family & Friends" , 2) )
+emplstat <- rep(c("self-employed" , "employed" ) , 3)
+value <- abs(c(76/79,665/699,42/79,361/699,8/79,89/699))
+financialinclusionplot1 <- data.frame(finincl1,emplstat,value)
+financialinclusionplot1$finincl1<- factor(financialinclusionplot1$finincl1, levels=c('Awareness', 'Recent purchase', 'Family & Friends'))
+ggplot(financialinclusionplot1, aes(fill=emplstat, y=value, x=finincl1)) + 
+  geom_bar(position="dodge", stat="identity")
+
+finincl2 <- c(rep("Saving,Investment,Retirement" , 2) , rep("Payment" , 2) , rep("Insurance" , 2) , rep("Credit" , 2))
+emplstat <- rep(c("self-employed" , "employed" ) , 4)
+value <- abs(c(71/79,647/699,79/79,693/699,68/79,569/699,66/79,502/699))
+financialinclusionplot2 <- data.frame(finincl2,emplstat,value)
+financialinclusionplot2$finincl2<- factor(financialinclusionplot2$finincl2, levels=c('Saving,Investment,Retirement','Payment','Insurance','Credit'))
+ggplot(financialinclusionplot2, aes(fill=emplstat, y=value, x=finincl2)) + 
+  geom_bar(position="dodge", stat="identity")
+
+###############FINANCIAL WELL-BEING######################
+finwell <- c(rep("Well-being" , 2) )
+emplstat <- rep(c("self-employed" , "employed" ) , 1)
+value <- abs(c(12.33,11.6))
+financialwellbeing <- data.frame(finwell,emplstat,value)
+
+ggplot(financialwellbeing, aes(fill=emplstat, y=value, x=finwell)) + 
+  geom_bar(position="dodge", stat="identity") + ylim(0, 20)
+
 ###############FINANCIAL RESILIENCE######################
 ########financial fraud##################
 
