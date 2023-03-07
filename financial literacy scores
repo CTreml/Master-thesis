@@ -26,18 +26,34 @@ table(QK2eu)
 ####################FINANCIAL KNOWLEDGE SCORE#############################
 #QK3 - *OECD - time value of money
 summary(ASFL$QK3)
-QK3 <- ifelse(ASFL$QK3 == "Or, less than they could buy today", 1, 0)
-table(ASFL$QK3)
+QK3_1 <- ifelse(ASFL$QK3 == "Or, less than they could buy today", 1, 0)
+QK3_2 <- ifelse(ASFL$QK3 == "It depends on the types of things that they want to buy", 1, 0)
+QK3<- QK3_1+QK3_2
 table(QK3)
-QK3se <- ifelse(ASFLse$QK3 == "Or, less than they could buy today", 1, 0)
+1051/1418 #both options
+933/1418 #only one option
+
+summary(ASFLse$QK3)
+QK3_1se <- ifelse(ASFLse$QK3 == "Or, less than they could buy today", 1, 0)
+QK3_2se <- ifelse(ASFLse$QK3 == "It depends on the types of things that they want to buy", 1, 0)
+QK3se<- QK3_1se+QK3_2se
 table(QK3se)
-QK3e <- ifelse(ASFLe$QK3 == "Or, less than they could buy today", 1, 0)
+
+summary(ASFLe$QK3)
+QK3_1e <- ifelse(ASFLe$QK3 == "Or, less than they could buy today", 1, 0)
+QK3_2e <- ifelse(ASFLe$QK3 == "It depends on the types of things that they want to buy", 1, 0)
+QK3e<- QK3_1e+QK3_2e
 table(QK3e)
-QK3eu <- ifelse(ASFLeu$QK3 == "Or, less than they could buy today", 1, 0)
+
+summary(ASFLeu$QK3)
+QK3_1eu <- ifelse(ASFLeu$QK3 == "Or, less than they could buy today", 1, 0)
+QK3_2eu <- ifelse(ASFLeu$QK3 == "It depends on the types of things that they want to buy", 1, 0)
+QK3eu<- QK3_1eu+QK3_2eu
 table(QK3eu)
 
 #QK4 - *OECD - interest paid on a loan
 summary(ASFL$QK4)
+52/1418
 QK4<- ifelse(ASFL$QK4 == "0", 1, 0)
 table(QK4)
 QK4se<- ifelse(ASFLse$QK4 == "0", 1, 0)
@@ -70,6 +86,30 @@ table(QK6e)
 QK6eu<- ifelse(ASFLeu$QK6 == "More than €110", 1, 0)
 table(QK6eu)
 
+###QK5 + QK6
+QK56 <- QK5+QK6
+table(QK56)
+QK6n <- ifelse(QK56 == "2",1, 0)
+table(QK6n)
+702/1418
+
+QK56se <- QK5se+QK6se
+table(QK56se)
+QK6sen <- ifelse(QK56se == "2",1, 0)
+table(QK6sen)
+53/79
+
+QK56e <- QK5e+QK6e
+table(QK56e)
+QK6en <- ifelse(QK56e == "2",1, 0)
+table(QK6en)
+365/699
+
+QK56eu <- QK5eu+QK6eu
+table(QK56eu)
+QK6eun <- ifelse(QK56eu == "2",1, 0)
+table(QK6eun)
+379/749
 
 #QK7_1 - *OECD - risk and return
 summary(ASFL$QK7_1)
@@ -140,13 +180,43 @@ table(EB3eu)
 
 
 #create financial knowledge score (score 0-7).
-fin_know <- (QK3+QK4+QK5+QK6+QK7_1+QK7_2+QK7_3)
+#old: QK3_1+QK4+QK5+QK6+QK7_1+QK7_2+QK7_3
+fin_know <- (QK3+QK4+QK5+QK6n+QK7_1+QK7_2+QK7_3)
 table(fin_know)
 ASFL1 <- cbind(ASFL,fin_know)
 summary(ASFL1$fin_know)
 
+table(ASFL1$fin_know)
+finknowd <- ifelse(ASFL1$fin_know >= "5", 1, 0)
+table(finknowd)
+#average:
+#old: 5.322/7 #76.0%
+5.365/7
+#at least 5 (out of 7)
+#old: 270+428+360
+#1058/(1058+8+26+63+95+168) ###74.6 - in OECD presentation: 73.6 -> maybe due to weights?
+252+405+405
+1062/1418
 
-fin_know_add <- (QK3+QK4+QK5+QK6+QK7_1+QK7_2+QK7_3+S58+QK7_4add+EB3)
+#OECD
+ASFL1adult <- ASFL1[!(ASFL1$QD7 %in% under18),] 
+table(ASFL1adult$fin_know)
+#old:267+425+360
+#1052/(1052+8+26+62+94+168)
+249+403+404
+1056/1410
+
+ASFL1main <- ASFL1adult[!(ASFL1adult$QD7 %in% above79),] 
+table(ASFL1main$fin_know)
+#old: 254+409+349
+#1012/(1012+6+23+59+88+153)
+236+389+391
+1016/1341 #75.76
+
+##############austria specific additional financial knowledge!
+
+#old: QK3_1+QK4+QK5+QK6+QK7_1+QK7_2+QK7_3+S58+QK7_4add+EB3
+fin_know_add <- (QK3+QK4+QK5+QK6n+QK7_1+QK7_2+QK7_3+S58+QK7_4add+EB3)
 table(fin_know_add)
 ASFL1 <- cbind(ASFL1,fin_know_add)
 summary(ASFL1$fin_know_add)
@@ -156,6 +226,7 @@ table(ASFL1se$fin_know)
 summary(ASFL1se$fin_know)
 table(ASFL1se$fin_know_add)
 summary(ASFL1se$fin_know_add)
+
 ASFL1e <- ASFL1[(ASFL1$QD10 %in% e),] 
 table(ASFL1e$fin_know)
 summary(ASFL1e$fin_know)
@@ -170,87 +241,8 @@ summary(ASFL1eu$fin_know_add)
 #gender specific
 ASFL1m <- ASFL1[(ASFL1$QD1 %in% male),] 
 ASFL1f <- ASFL1[(ASFL1$QD1 %in% female),] 
-
-
 summary(ASFL1m$fin_know)
 summary(ASFL1f$fin_know)
-
-summary(ASFL1$fin_know)
-table(ASFL1$fin_know)
-360/(8+26+63+95+168+270+428+360)
-8+26+63+95+168+270+428+360
-#average:
-5.322/7
-#5 or more 
-270+428+360
-1058/(1058+8+26+63+95+168)  ###74.6 - in OECD presentation: 73.6 -> maybe due to weights?
-#full
-ASFL1adult <- ASFL1[!(ASFL1$QD7 %in% under18),] 
-ASFL1adult
-table(ASFL1adult$fin_know)
-267+425+360
-1052/(1052+8+26+62+94+168)
-ASFL1main <- ASFL1adult[!(ASFL1adult$QD7 %in% above79),] 
-table(ASFL1main$fin_know)
-254+409+349
-1012/(1012+6+23+59+88+153)
-
-#selfemployed
-se_finknow<- ifelse(ASFL1$QD10 == "Self-employed [work for myself]", 1, 0)
-ASFL_se_finknow <- subset(ASFL1, ASFL1$QD10 == "Self-employed [work for myself]")
-ASFL_se_finknow
-summary(ASFL_se_finknow$fin_know)
-table(ASFL_se_finknow$fin_know)
-summary(ASFL1se$fin_know)
-table(ASFL1se$fin_know)
-
-#employed
-summary(ASFL1e$fin_know)
-table(ASFL1e$fin_know)
-
-#e+u
-summary(ASFL1eu$fin_know)
-table(ASFL1eu$fin_know)
-
-
-#self-employment financial knowledge check! 
-#ASFL1se <- ASFLse %>% 
-#mutate(fin_know = ASFLse$QK3+ASFLse$QK4+ASFLse$QK5+ASFLse$QK6+ASFLse$QK7_1+ASFLse$QK7_2+ASFLse$QK7_3)
-#summary(ASFL1se$fin_know)
-#table(ASFL1se$fin_know)
-#average:
-5.962/7
-#5 or more 
-10+25+35
-70/79
-
-########################################PLOTS#######################
-##### exact financial literacy
-finknowdetail <- matrix (c(933/1418, 1264/1418,1121/1418,759/1418,1314/1418,1282/1418,874/1418,1120/1418,964/1418,978/1418,60/79,75/79,72/79,53/79,73/79,74/79,64/79,75/79,57/79,70/79,459/699,630/699,559/699,403/699,641/699,631/699,470/699,549/699,511/699,492/699), ncol=10, byrow=TRUE)
-finknowdetail
-colnames(finknowdetail) <- c("Time value", "Interest on loan", "Interest plus prinipal", "Compound interest", "Risk and return", "Inflation definition", "Diversification", "Real interest", "Overdrawing account", "Exchange rate")
-rownames(finknowdetail) <- c("full","self-employed","employed")
-
-barplot(finknowdetail, beside=TRUE, ylim = c(0,1), main="Financial knowledge details", ylab="share of correct responses", col=c("green","red","blue")) 
-#legend("bottomright", c("full", "employed", "selfemployed"), pch=0.05)
-
-
-#knowdetail <- c(rep("Time value" , 2) , rep("Interest on loan" , 2) ,  rep("crypto assets" , 2),rep("risk willingness" , 2) , rep("risk propensity" , 2) )
-#emplstat <- rep(c("self-employed" , "employed" ) , 10)
-#value <- abs(c(933/1418, 1264/1418,1121/1418,759/1418,1314/1418,1282/1418,874/1418,1120/1418,964/1418,978/1418,60/79,75/79,72/79,53/79,73/79,74/79,64/79,75/79,57/79,70/79,459/699,630/699,559/699,403/699,641/699,631/699,470/699,549/699,511/699,492/699))
-#knowdetail<- data.frame(knowdetail,emplstat,value)
-
-#ggplot(riskplot, aes(fill=emplstat, y=value, x=risk)) + 
- # geom_bar(position="dodge", stat="identity")
-
-#number of correct responses ##wrong
-finkowanswers <- data.frame(answers=rep(c('0','1', '2', '3','4', '5', '6','7','8','9','10'), each=3),
-                            status=rep(c('full', 'self-employed', 'employed'), times=11),
-                            share=c(6/7,0/7,1/7,11/14,1/14,2/14,41/57,1/57,15/57,34/51,2/51,15/51,80/127,2/127,45/127,107/155,0/155,48/155,120/182,2/182,60/182,153/219,4/219,62/219,291/453,15/453,147/453,310/496,24/496,162/496,265/435,28/435,142/435))
-
-ggplot(finkowanswers, aes(fill=status, y=share, x=answers)) + 
-  geom_bar(position='stack', stat='identity')
-
 
 
 
@@ -287,6 +279,8 @@ QS1_3_4 <- ifelse(QS1_3 == "4",4, 0)
 QS1_3_5 <- ifelse(QS1_3 == "Completely disagree",5, 0)
 QS1_3 <- QS1_3_1_rec+QS1_3_2_rec+QS1_3_3_rec+QS1_3_1+QS1_3_2+QS1_3_3+QS1_3_4+QS1_3_5
 QS1_3
+table(QS1_3)
+summary(QS1_3)
 
 
 #live for today and let tommorow take care of itself
@@ -323,9 +317,13 @@ summary(ASFL2adult$fin_att)
 table(ASFL2adult$fin_att)
 #more than 3 (out of 5) 
 206+225+169+57+32+15
-22+20+49+100+100+180+235+704
-704/1410 #49.9%
-#OECD: 49.0%
+704/1410 #49.9% #OECD: 49.0%
+
+ASFL2main <- ASFL2adult[!(ASFL2adult$QD7 %in% above79),] 
+summary(ASFL2main$fin_att)
+table(ASFL2main$fin_att)
+201+217+163+56+32+12
+681/1341
 
 ASFL2se <- ASFL2[(ASFL2$QD10 %in% se),] 
 summary(ASFL2se$fin_att)
@@ -351,7 +349,9 @@ table(ASFL2eu$fin_att)
 
 ###gender differences 
 ASFL2m <- ASFL2[(ASFL2$QD1 %in% male),]
+summary(ASFL2m$fin_att)
 ASFL2f <- ASFL2[(ASFL2$QD1 %in% female),]
+summary(ASFL2f$fin_att) #according to Fessler et al(2020)
 
 ASFL2sem <- ASFL2se[(ASFL2se$QD1 %in% male),]
 ASFL2sef <- ASFL2se[(ASFL2se$QD1 %in% female),]
@@ -365,8 +365,8 @@ ASFL2euf <- ASFL2eu[(ASFL2eu$QD1 %in% female),]
 ####################FINANCIAL BEHAVIOUR SCORE#######################
 ###########Budgeting#################
 summary(ASFL$QF1_a)
-summary(ASFL$QF1)
 QF1_a <- ifelse(ASFL$QF1_a == "Yes", 1, 0)
+summary(ASFL$QF1)
 QF1_1_1<- ifelse(ASFL$QF1 == c("You make these decisions by yourself"), 1, 0)
 QF1_1_2<- ifelse(ASFL$QF1 == c("You make these decisions with someone else"), 1, 0)
 QF1_1 <- QF1_1_1+QF1_1_2
@@ -374,13 +374,14 @@ QF1 <- QF1_1 + QF1_a
 table(QF1)
 QF1fin <- ifelse(QF1 >= "1", 1, 0) #money management QF1_a OR QF1
 
-
+ASFL$QF2_99
 QF2_1<- ifelse(ASFL$QF2_1 == "Yes", 1, 0)
 QF2_2<- ifelse(ASFL$QF2_2 == "Yes", 1, 0)
 QF2_3<- ifelse(ASFL$QF2_3 == "Yes", 1, 0)
 QF2_4<- ifelse(ASFL$QF2_4 == "Yes", 1, 0)
 QF2_5<- ifelse(ASFL$QF2_5 == "Yes", 1, 0)
 QF2_6<- ifelse(ASFL$QF2_6 == "Yes", 1, 0)
+table(ASFL$QF2_99)#Refused
 
 QF2 <- QF2_1 + QF2_2 + QF2_3 + QF2_4 + QF2_5 + QF2_6
 table(QF2)
@@ -392,7 +393,7 @@ QF_Budfin<-  ifelse(QF_Bud == "2", 1, 0)
 table(QF_Budfin)
 QF_Budfin
 
-####QF3 - active saving#############
+####QF3 - Active saving#############
 QF3_1<- ifelse(ASFL$QF3_1 == "Yes", 1, 0)
 QF3_2<- ifelse(ASFL$QF3_2 == "Yes", 1, 0)
 QF3_3<- ifelse(ASFL$QF3_3 == "Yes", 1, 0)
@@ -401,60 +402,68 @@ QF3_5<- ifelse(ASFL$QF3_5 == "Yes", 1, 0)
 QF3_6<- ifelse(ASFL$QF3_6 == "Yes", 1, 0)
 QF3_7<- ifelse(ASFL$QF3_7 == "Yes", 1, 0)
 QF3_8<- ifelse(ASFL$QF3_8 == "Yes", 1, 0)
-
+table(ASFL$QF3_97)
+table(ASFL$QF3_99)#Refused
 
 QF3<- QF3_1+QF3_2+QF3_3+QF3_5+QF3_6+QF3_7+QF3_8
 table(QF3)
 QF3fin <- ifelse(QF3 >= "1", 1, 0)
 QF3fin #active saving - at least 1 yes
 
+####Avoiding borrowing to make ends meet###########
 #######QF11#####################
 ##preliminary check for QF12
-QF11 <-  ifelse(ASFL$QF11 == "No", 1, 0)
-QF11
+summary(ASFL$QF11)
+QF11a <-  ifelse(ASFL$QF11 == "No", 1, 0)
+table(QF11a)
+#alternative- take all refused/NA/dont know as 1
+QF11b<-  ifelse(ASFL$QF11 == "Yes", 0, 1)
+table(QF11b)
 
 #######QF12#####################
 ASFL$QF12_3_1 #recode NAs
-ASFL <- ASFL %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 1, QF12_3_1))
+ASFL <- ASFL %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 0, QF12_3_1))
 ASFL$QF12_3_1
 QF12_3_1 <- ifelse(ASFL$QF12_3_1 == c("4"), 1, 0)
-ASFL <- ASFL %>% mutate(QF12_3_2 = ifelse(is.na(QF12_3_2), 1, QF12_3_2))
+ASFL <- ASFL %>% mutate(QF12_3_2 = ifelse(is.na(QF12_3_2), 0, QF12_3_2))
 ASFL$QF12_3_2
 QF12_3_2 <- ifelse(ASFL$QF12_3_2 == c("4"), 1, 0)
-ASFL <- ASFL %>% mutate(QF12_3_3 = ifelse(is.na(QF12_3_3), 1, QF12_3_3))
+ASFL <- ASFL %>% mutate(QF12_3_3 = ifelse(is.na(QF12_3_3), 0, QF12_3_3))
 ASFL$QF12_3_3
 QF12_3_3 <- ifelse(ASFL$QF12_3_3 == c("4"), 1, 0)
-ASFL <- ASFL %>% mutate(QF12_3_4 = ifelse(is.na(QF12_3_4), 1, QF12_3_4))
+ASFL <- ASFL %>% mutate(QF12_3_4 = ifelse(is.na(QF12_3_4), 0, QF12_3_4))
 ASFL$QF12_3_4
 QF12_3_4 <-ifelse(ASFL$QF12_3_4 == c("4"), 1, 0)
-ASFL <- ASFL %>% mutate(QF12_3_5 = ifelse(is.na(QF12_3_5), 1, QF12_3_5))
+ASFL <- ASFL %>% mutate(QF12_3_5 = ifelse(is.na(QF12_3_5), 0, QF12_3_5))
 ASFL$QF12_3_5
 QF12_3_5 <- ifelse(ASFL$QF12_3_5 == c("4"), 1, 0)
-ASFL <- ASFL %>% mutate(QF12_3_6 = ifelse(is.na(QF12_3_6), 1, QF12_3_6))
+ASFL <- ASFL %>% mutate(QF12_3_6 = ifelse(is.na(QF12_3_6), 0, QF12_3_6))
 ASFL$QF12_3_6
 QF12_3_6 <- ifelse(ASFL$QF12_3_6 == c("4"), 1, 0)
 
 
 QF12_3 <- QF12_3_1+QF12_3_2+QF12_3_3+QF12_3_4+QF12_3_5+QF12_3_6
+table(QF12_3)
 QF12_3fin<- ifelse(QF12_3 == "0", 1, 0)
 QF12_3fin
+table(QF12_3fin)
 
 
-ASFL <- ASFL %>% mutate(QF12_4_1 = ifelse(is.na(QF12_4_1), 1, QF12_4_1))
+ASFL <- ASFL %>% mutate(QF12_4_1 = ifelse(is.na(QF12_4_1), 0, QF12_4_1))
 ASFL$QF12_4_1
 QF12_4_1 <- ifelse(ASFL$QF12_4_1 == "4", 1, 0)
-ASFL <- ASFL %>% mutate(QF12_4_2 = ifelse(is.na(QF12_4_2), 1, QF12_4_2))
+ASFL <- ASFL %>% mutate(QF12_4_2 = ifelse(is.na(QF12_4_2), 0, QF12_4_2))
 ASFL$QF12_4_2
 QF12_4_2 <- ifelse(ASFL$QF12_4_2 == "4", 1, 0)
 
 QF12_4 <- QF12_4_1+QF12_4_2
 QF12_4fin<- ifelse(QF12_4 == "0", 1, 0)
-QF12_4fin
+table(QF12_4fin)
 
-ASFL <- ASFL %>% mutate(QF12_5_1 = ifelse(is.na(QF12_5_1), 1, QF12_5_1))
+ASFL <- ASFL %>% mutate(QF12_5_1 = ifelse(is.na(QF12_5_1), 0, QF12_5_1))
 ASFL$QF12_5_1
 QF12_5_1 <-ASFL$QF12_5_1<- ifelse(ASFL$QF12_5_1 == "4", 1, 0)
-ASFL <- ASFL %>% mutate(QF12_5_6 = ifelse(is.na(QF12_5_6), 1, QF12_5_6))
+ASFL <- ASFL %>% mutate(QF12_5_6 = ifelse(is.na(QF12_5_6), 0, QF12_5_6))
 ASFL$QF12_5_6
 QF12_5_6 <-ifelse(ASFL$QF12_5_6 == "4", 1, 0)
 
@@ -462,10 +471,10 @@ QF12_5 <- QF12_5_1+QF12_5_6
 QF12_5fin<- ifelse(QF12_5 == "0", 1, 0)
 QF12_5fin
 
-ASFL <- ASFL %>% mutate(QF12_6_1 = ifelse(is.na(QF12_6_1), 1, QF12_6_1))
+ASFL <- ASFL %>% mutate(QF12_6_1 = ifelse(is.na(QF12_6_1), 0, QF12_6_1))
 ASFL$QF12_6_1
 QF12_6_1 <-ASFL$QF12_6_1<- ifelse(ASFL$QF12_6_1 == "4", 1, 0)
-ASFL <- ASFL %>% mutate(QF12_6_2 = ifelse(is.na(QF12_6_2), 1, QF12_6_2))
+ASFL <- ASFL %>% mutate(QF12_6_2 = ifelse(is.na(QF12_6_2), 0, QF12_6_2))
 ASFL$QF12_6_2
 QF12_6_2<- ifelse(ASFL$QF12_6_2 == "4", 1, 0)
 
@@ -478,26 +487,31 @@ QF12 <- QF12_3fin+QF12_4fin+QF12_5fin+QF12_6fin
 QF12
 QF12fin <- ifelse(QF12 == "4", 1, 0)  #filter out all without
 QF12fin
+table(QF12fin)
 
 ##?????????
-QF11
-QFMEM <- QF11+QF12fin
+table(QF11b)
+table(QF11a)
+QFMEM <- QF11a+QF12fin
 QFMEM
 QFMEM <- ifelse(QFMEM >= "1", 1, 0)
-QFMEM
-ASFL2 <- cbind(ASFL2,QFMEM)
+table(QFMEM)
+#ASFL2 <- cbind(ASFL2,QFMEM)
 
 
 #try to shop around (score 0,1 or 2)
+#1 for Qprod2 (I considered several or I looked around but there were no others)
+ASFL$Qprod2
 ASFL <- ASFL %>% mutate(Qprod2 = ifelse(is.na(Qprod2), 0, Qprod2))
 ASFL$Qprod2
 Qprod2_1<- ifelse(ASFL$Qprod2 == c("4"), 1, 0)
 Qprod2_2<- ifelse(ASFL$Qprod2 == c("7"), 1, 0)
-Qprod2 <- Qprod2_1+Qprod2_2
-table(Qprod2)
+Qprod2fin <- Qprod2_1+Qprod2_2
+table(Qprod2fin)
 
-
+#2 for Best-buy guidance / Recommendation from independent financial advise
 ASFL <- ASFL %>% mutate(Qprod3_INT_1 = ifelse(is.na(Qprod3_INT_1), 0, Qprod3_INT_1))
+ASFL$Qprod3_INT_1
 Qprod3_INT_1<- ifelse(ASFL$Qprod3_INT_1 == "5", 1, 0)
 Qprod3_INT_1
 ASFL <- ASFL %>% mutate(Qprod3_INT_2 = ifelse(is.na(Qprod3_INT_2), 0, Qprod3_INT_2))
@@ -505,10 +519,10 @@ Qprod3_INT_2<- ifelse(ASFL$Qprod3_INT_2 == "5", 1, 0)
 Qprod3_INT_2
 
 Qprod_D2 <- Qprod3_INT_1+Qprod3_INT_2
-Qprod_D2<- ifelse(Qprod_D2 >= "1", 2, 0)
-Qprod_D2
+Qprod_D2fin<- ifelse(Qprod_D2 >= "1", 2, 0)
+table(Qprod_D2fin)
 
-
+#1 for information from an advert or brochure, recommendation from friends etc., information from bank staff, or other information
 ASFL$Qprod3_INT_3
 ASFL <- ASFL %>% mutate(Qprod3_INT_3 = ifelse(is.na(Qprod3_INT_3), 0, Qprod3_INT_3))
 Qprod3_INT_3<- ifelse(ASFL$Qprod3_INT_3 == "5", 1, 0)
@@ -521,27 +535,34 @@ Qprod3_INT_6<- ifelse(ASFL$Qprod3_INT_6 == "5", 1, 0)
 
 
 Qprod_D2_1 <- Qprod3_INT_3+Qprod3_INT_4+Qprod3_INT_5+Qprod3_INT_6
-Qprod_D2_1<- ifelse(Qprod_D2_1 >= "1", 1, 0)
-Qprod_D2_1
+Qprod_D2_1fin<- ifelse(Qprod_D2_1 >= "1", 1, 0)
+Qprod_D2_1fin
 
-Qprod_D1<- Qprod_D2_1 + Qprod2
-Qprod_D1<- ifelse(Qprod_D1 >= "1", 1, 0)
-Qprod_D1
+Qprod_D1<- Qprod_D2_1fin + Qprod2fin
+Qprod_D1fin<- ifelse(Qprod_D1 >= "1", 1, 0)
+Qprod_D1fin
 
-Qprod <- Qprod_D1+ Qprod_D2
+Qprod <- Qprod_D1fin+ Qprod_D2fin
 Qprod
+Qprod[Qprod == "2"] <- "1"
 Qprod[Qprod == "3"] <- "2"
+Qprod
 Qprodfin <- as.numeric(Qprod)
+Qprodfin
+table(Qprodfin)
+#2 indicates "Shopped around and used independent info or advice
+#1 indicates "Some attempt to make informed decision" 
+#0 indicates "'Not shopped around and no attempt make informed decisions (including no recent product choice)"
 ASFL2 <- cbind(ASFL2,Qprodfin)
 
-
+#watch on financial affairs
 QS1_5 <-ASFL$QS1_5
 QS1_5_1 <- ifelse(QS1_5== "Completely agree", 1, 0)
 QS1_5_2 <- ifelse(QS1_5 == "2", 1, 0)
 QS1_5 <- QS1_5_1+QS1_5_2
 QS1_5
 
-
+#strieving to achieve long-term goals
 QS1_8 <-ASFL$QS1_8
 QS1_8
 QS1_8_1 <- ifelse(QS1_8 == "Completely agree", 1, 0)
@@ -549,7 +570,7 @@ QS1_8_2 <- ifelse(QS1_8 == "2", 1, 0)
 QS1_8 <- QS1_8_1+QS1_8_2
 QS1_8
 
-
+#Considered purchases
 QS2_3 <-ASFL$QS2_3
 QS2_3
 QS2_3_1 <- ifelse(QS2_3 == "Always", 1, 0)
@@ -557,6 +578,7 @@ QS2_3_2 <- ifelse(QS2_3 == "2", 1, 0)
 QS2_3 <- QS2_3_1+QS2_3_2
 QS2_3
 
+#Paying bills on time
 QS2_5 <-ASFL$QS2_5
 QS2_5
 QS2_5_1 <- ifelse(QS2_5 == "Always", 1, 0)
@@ -564,13 +586,25 @@ QS2_5_2 <- ifelse(QS2_5 == "2", 1, 0)
 QS2_5 <- QS2_5_1+QS2_5_2
 QS2_5
 
+
 fin_beh <- QF_Budfin+QF12fin+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
+#QF12fin equal to QFMEM
 fin_beh
+fin_beh2 <-QF_Budfin+QF11a+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
+fin_beh3 <-QF_Budfin+QF11b+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
 Qprodfin
 QF_Budfin
 table(fin_beh)
+table(fin_beh2)
+summary(fin_beh2)
+table(fin_beh3)
+summary(fin_beh3)
+377+299+166+62
+904/1418
 
 ASFL3 <- cbind(ASFL2,fin_beh)
+ASFL3 <- cbind(ASFL3,fin_beh2)
+ASFL3 <- cbind(ASFL3,fin_beh3)
 summary(ASFL3$fin_beh)  #5.963
 table(ASFL3$fin_beh)
 #barplot
@@ -579,10 +613,15 @@ table(ASFL3$fin_beh)
 909+4+13+29+49+130+284
 909/1418
 ASFL3adult <- ASFL3[!(ASFL3$QD7 %in% under18),] 
-summary(ASFL3adult$fin_beh) #5.963
+summary(ASFL3adult$fin_beh) 
+summary(ASFL3adult$fin_beh2)
+summary(ASFL3adult$fin_beh3)
 table(ASFL3adult$fin_beh)
-374+294+160+76
-904/(904+4+13+27+49+130+283) #OECD: 64.5%
+373+299+165+62
+899/1410  #OECD: 64.5%
+table(ASFL3adult$fin_beh2)
+374+279+158+59
+870/1410
 
 ASFL3se <- ASFL3[(ASFL3$QD10 %in% se),] 
 summary(ASFL3se)
@@ -607,8 +646,9 @@ table(ASFL3eu$fin_beh)
 449/(449+3+14+19+39+80+145)
 
 ASFL3m <- ASFL3[(ASFL3$QD1 %in% male),]
-ASFL3madult <- ASFL3[!(ASFL3$QD7 %in% under18),]
+summary(ASFL3m$fin_beh2)
 ASFL3f <- ASFL3[(ASFL3$QD1 %in% female),]
+summary(ASFL3f$fin_beh3)
 
 ASFL3sem <- ASFL3se[(ASFL3se$QD1 %in% male),]
 ASFL3sef <- ASFL3se[(ASFL3se$QD1 %in% female),]
@@ -618,6 +658,8 @@ ASFL3ef <- ASFL3e[(ASFL3e$QD1 %in% female),]
 
 ASFL3eum <- ASFL3eu[(ASFL3eu$QD1 %in% male),]
 ASFL3euf <- ASFL3eu[(ASFL3eu$QD1 %in% female),]
+
+
 
 
 
