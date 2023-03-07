@@ -1,4 +1,5 @@
 
+
 ################FINANCIAL RESILIENCE#######################################
 ####################- Availability of savings, experience of stress, prudence in planning and budgeting
 #financial buffer - covering at least three months in case of a job loss (proxy for wealth)
@@ -8,12 +9,23 @@ finres1 <- ifelse(ASFL$QF13 == "Six months or more",1, 0)
 finres2 <- ifelse(ASFL$QF13 == "At least three months, but not six months",1, 0)
 finbuff <- finres1+finres2
 table(finbuff)
+78+38+135+325+303+479+60
 ASFL3 <- cbind(ASFL3,finbuff)
 #alternative
 summary(ASFL$QF4)
 finres2_f <- ifelse(ASFL$QF4 == "Yes",1, 0)
 table(finres2_f)
-78+38+135+325+303+479+60
+
+ASFL3adult <- ASFL3[!(ASFL3$QD7 %in% under18),] 
+table(ASFL3adult$QF13) 
+(75+58)/1410
+(37+135)/1410
+325/1410
+302/1410
+478/1410
+ASFL3main <- ASFL3adult[!(ASFL3adult$QD7 %in% above79),] 
+table(ASFL3main$QF13)
+
 
 
 #self-employed
@@ -84,46 +96,64 @@ ASFL3eu <- ASFL3[(ASFL3$QD10 %in% eu),]
 ASFL3other <- ASFL3[(ASFL3$QD10 %in% others),]
 
 table(ASFL3$fraud_1)
+table(ASFL3adult$fraud_1)
+45/1410
 table(ASFL3se$fraud_1)
 table(ASFL3e$fraud_1)
 table(ASFL3eu$fraud_1)
 
 table(ASFL3$fraud_2)
+table(ASFL3adult$fraud_2)
+15/1410
 table(ASFL3se$fraud_2)
 table(ASFL3e$fraud_2)
 table(ASFL3eu$fraud_2)
 
 table(ASFL3$fraud_3)
+table(ASFL3adult$fraud_3)
+14/1410
 table(ASFL3se$fraud_3)
 table(ASFL3e$fraud_3)
 table(ASFL3eu$fraud_3)
 
 table(ASFL3$fraud_4)
+table(ASFL3adult$fraud_4)
+68/1410
 table(ASFL3se$fraud_4)
 table(ASFL3e$fraud_4)
 table(ASFL3eu$fraud_4)
 
 table(ASFL3$fraud_5)
+table(ASFL3adult$fraud_5)
+30/1410
 table(ASFL3se$fraud_5)
 table(ASFL3e$fraud_5)
 table(ASFL3eu$fraud_5)
 
 table(ASFL3$fraud_6)
+table(ASFL3adult$fraud_6)
+13/1410
 table(ASFL3se$fraud_6)
 table(ASFL3e$fraud_6)
 table(ASFL3eu$fraud_6)
 
 table(ASFL3$fraud_7)
+table(ASFL3adult$fraud_7)
+87/1410
 table(ASFL3se$fraud_7)
 table(ASFL3e$fraud_7)
 table(ASFL3eu$fraud_7)
 
 table(ASFL3$fraud_8)
+table(ASFL3adult$fraud_8)
+29/1410
 table(ASFL3se$fraud_8)
 table(ASFL3e$fraud_8)
 table(ASFL3eu$fraud_8)
 
 table(ASFL3$fraud_9)
+table(ASFL3adult$fraud_9)
+11/1410
 table(ASFL3se$fraud_9)
 table(ASFL3e$fraud_9)
 table(ASFL3eu$fraud_9)
@@ -155,6 +185,7 @@ finstress1 <- QS2_1_1+QS2_1_2
 table(finstress1)
 140/1418
 
+
 summary(ASFL$QS3_9)
 QS3_9_1 <- ifelse(ASFL$QS3_9 == "Completely", 1, 0)
 QS3_9_2 <- ifelse(ASFL$QS3_9 == "2", 1, 0)
@@ -174,24 +205,32 @@ ASFL3 <- cbind(ASFL3,shortfall,finstress1,finstress2,finstress3)
 ASFL3se <- ASFL3[(ASFL3$QD10 %in% se),]
 ASFL3e <- ASFL3[(ASFL3$QD10 %in% e),]
 ASFL3eu <- ASFL3[(ASFL3$QD10 %in% eu),]
-
+ASFL3adult <- ASFL3[!(ASFL3$QD7 %in% under18),]
 
 table(ASFL3$shortfall)
+table(ASFL3adult$shortfall)
+179/1410
 table(ASFL3se$shortfall)
 table(ASFL3e$shortfall)
 table(ASFL3eu$shortfall)
 
 table(ASFL3$finstress1)
+table(ASFL3adult$finstress1)
+139/1410
 table(ASFL3se$finstress1)
 table(ASFL3e$finstress1)
 table(ASFL3eu$finstress1)
 
 table(ASFL3$finstress2)
+table(ASFL3adult$finstress2)
+317/1410
 table(ASFL3se$finstress2)
 table(ASFL3e$finstress2)
 table(ASFL3eu$finstress2)
 
 table(ASFL3$finstress3)
+table(ASFL3adult$finstress3)
+508/1410
 table(ASFL3se$finstress3)
 table(ASFL3e$finstress3)
 table(ASFL3eu$finstress3)
@@ -257,7 +296,9 @@ table(ASFL4$finwellbeing)
 579/(839+579)
 
 ASFL4adult <-ASFL4[!(ASFL4$QD7 %in% under18),] 
-summary(ASFL4adult$finwellbeing)   #OECD: mean well-being score: 11.4
+summary(ASFL4adult$finwellbeing)#OECD: mean well-being score: 11.4
+ASFL4main <-ASFL4adult[!(ASFL4adult$QD7 %in% above79),] 
+summary(ASFL4main$finwellbeing)
 
 ASFL4se <- ASFL4[(ASFL4$QD10 %in% se),] 
 summary(ASFL4se$finwellbeing)
@@ -288,7 +329,7 @@ table(ASFL4eu$finwellbeing)
 
 
 
-################financial inclusion ##############################
+################FINANCIAL INCLUSION ##############################
 ####product use
 #aware of at least 5 financial products
 p1a1<- ifelse(ASFL$Qprod1a_1 == "Yes", 1, 0)
@@ -468,7 +509,7 @@ ASFL5 <- cbind(ASFL5,p1b10)
 ASFL5se <- ASFL5[(ASFL5$QD10 %in% se),] 
 summary(ASFL5se$p1b10)
 table(ASFL5se$p1b10)
-569/699
+68/79
 
 #employed
 ASFL5e <- ASFL5[(ASFL5$QD10 %in% e),] 
@@ -531,23 +572,39 @@ table(credpd)
 1/1418
 
 ASFL5adult <- ASFL5[!(ASFL5$QD7 %in% under18),] 
+ASFL5main <- ASFL5adult[!(ASFL5adult$QD7 %in% above79),] 
 table(ASFL5adult$credp)
+table(ASFL5mainemploy$credp)
+1341-557
+784/1341
 518+174+69+24+3+1+1+1
 791/1410
+1410-619
+
+table(ASFL5adult$savinre)
+(1410-152)/1410
+table(ASFL5adult$payprod)
+(1410-23)/1410
+table(ASFL5adult$p1b10)
+(1410-339)/1410
+table(ASFL5adult$credp)
+(1410-619)/1410
+
 
 
 #self-employed
 ASFL5se <- ASFL5[(ASFL5$QD10 %in% se),] 
 summary(ASFL5se$credp)
 table(ASFL5se$credp)
-27+18+9+1
-55/79
+66/79
 1/79
 
 #employed
 ASFL5e <- ASFL5[(ASFL5$QD10 %in% e),] 
 summary(ASFL5e$credp)
 table(ASFL5e$credp)
+699-197
+502/699
 345+99+19+1+1+1
 466/699
 1/699
@@ -556,6 +613,8 @@ table(ASFL5e$credp)
 ASFL5eu <- ASFL5[(ASFL5$QD10 %in% eu),] 
 summary(ASFL5eu$credp)
 table(ASFL5eu$credp)
+749-229
+520/749
 354+103+19+1+1+1
 479/749
 1/749
@@ -695,7 +754,6 @@ famfriend[famfriend == "2"] <- "1"
 famfriend <- as.numeric(famfriend)
 ASFL5 <- cbind(ASFL5,famfriend)
 table(famfriend)
-120/(1298+120) #maybe change!
 168/1418 #OECD:13%
 
 ASFL5adult <- ASFL5[!(ASFL5$QD7 %in% under18),] 
@@ -707,19 +765,19 @@ table(ASFL5adult$famfriend)
 ASFL5se <- ASFL5[(ASFL5$QD10 %in% se),] 
 summary(ASFL5se$famfriend)
 table(ASFL5se$famfriend)
-7/79
+8/79
 
 #employed
 ASFL5e <- ASFL5[(ASFL5$QD10 %in% e),] 
 summary(ASFL5e$famfriend)
 table(ASFL5e$famfriend)
-67/699
+89/699
 
 #employed + unemployed
 ASFL5eu <- ASFL5[(ASFL5$QD10 %in% eu),] 
 summary(ASFL5eu$famfriend)
 table(ASFL5eu$famfriend)
-78/749
+113/749
 
 QF3_3_se <- ifelse(ASFLse$QF3_3 == "Yes", 1, 0)
 QF3_3_se
@@ -887,6 +945,7 @@ summary(ASFL5em$fin_know)
 summary(ASFL5ef$fin_know)
 table(ASFL5em$fin_know)
 table(ASFL5ef$fin_know)
+#corresponds to scores in Fessler et al (2020)
 
 summary(ASFL5em$fin_beh)
 summary(ASFL5ef$fin_beh)
@@ -964,6 +1023,7 @@ summary(ASFL5_omill$fin_know)
 summary(ASFL5_genZ$fin_know)
 summary(ASFL5_babyboom$fin_know)
 summary(ASFL5_silgen$fin_know)
+#corresponds to scores in Fessler et al (2020)
 table(ASFL5_ymill$fin_know)
 table(ASFL5_omill$fin_know)
 table(ASFL5_genZ$fin_know)
@@ -1336,4 +1396,5 @@ ASFL6 <- cbind(ASFL5, finlit)
 ASFL6se <- ASFL6[(ASFL6$QD10 %in% se),]
 ASFL6e <- ASFL6[(ASFL6$QD10 %in% e),]
 ASFL6eu <- ASFL6[(ASFL6$QD10 %in% eu),]
-summary(ASFL6$fin_know)
+summary(ASFL6$finlit)
+
