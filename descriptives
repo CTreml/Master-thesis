@@ -106,10 +106,11 @@ summary(ASFLeu$age_group)
 
 ###comparison
 ###stacked bar chart 
-generationcomparison <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=5),
+generationcomparison <- data.frame(status=rep(c('Full', 'Self-employed', 'Employed'), each=5),
                  age=rep(c('Young millenials', 'Old millenials', 'Generation X', 'Baby boomers', 'Silent generation ' ), times=3),
-                 share=c(158/1418, 198/1418, 515/1418, 354/1418, 193/1418, 0,5/79,63/79,11/79,0, 114/699,163/699,386/699,35/699,1/699))
-
+                 share=c(158/1418, 198/1418, 515/1418, 354/1418, 193/1418, 0/79,5/79,63/79,11/79,0/79, 114/699,163/699,386/699,35/699,1/699))
+generationcomparison$status<- factor(generationcomparison$status, levels=c('Full', 'Self-employed', 'Employed'))
+generationcomparison$age<- factor(generationcomparison$age, levels=c('Young millenials', 'Old millenials', 'Generation X', 'Baby boomers', 'Silent generation '))
 ggplot(generationcomparison, aes(fill=age, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')
 
@@ -145,15 +146,16 @@ summary(ASFLe$QD1)
 summary(ASFLeu$QD1)
 summary(ASFLother$QD1)
 
+#gender shares in different work groups
 emplstat <- c(rep("Self-employed" , 2) , rep("Employed" , 2) ,  rep("Others" , 2) )
 gender <- rep(c("Male" , "Female" ) , 3)
 value <- abs(c(45/79,34/79,346/699,353/699,277/699,363/699))
-riskplot<- data.frame(gender,emplstat,value)
+genderplot<- data.frame(gender,emplstat,value)
 
-riskplot$emplstat<- factor(riskplot$emplstat, levels=c('Self-employed', 'Employed', 'Others'))
-riskplot$gender<- factor(riskplot$gender, levels=c('Male','Female'))
-ggplot(riskplot, aes(fill=gender, y=value, x=emplstat)) + 
-  geom_bar(position="dodge", stat="identity")
+genderplot$emplstat<- factor(genderplot$emplstat, levels=c('Self-employed', 'Employed', 'Others'))
+genderplot$gender<- factor(genderplot$gender, levels=c('Male','Female'))
+ggplot(genderplot, aes(fill=gender, y=value, x=emplstat)) + 
+  geom_bar(position="dodge", stat="identity")+ labs(x="" ,y="Prcetage share",fill="Gender")
 
 ##oldestyoungest
 age <- ASFL$QD7
@@ -227,12 +229,14 @@ table(ASFLeu$QD9)
 
 ###comparison
 ###stacked bar chart 
-educcomparison <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=4),
+educcomparison <- data.frame(status=rep(c('Full', 'Self-employed', 'Employed'), each=4),
                  education=rep(c('At most primary', 'Lower secondary', 'Upper secondary', 'Tertiary'), times=3),
                  share=c(191/1382 , 809/1382 , 220/1382, 162/1382,4/77, 39/77, 11/77, 23/77,42/685, 408/685,138/685,97/685))
-
+educcomparison$status<- factor(educcomparison$status, levels=c('Full', 'Self-employed', 'Employed'))
+educcomparison$education<- factor(educcomparison$education, levels=c('At most primary', 'Lower secondary', 'Upper secondary', 'Tertiary'))
 ggplot(educcomparison, aes(fill=education, y=share, x=status)) + 
-  geom_bar(position='stack', stat='identity')
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Education")
 ##################################household size##################################
 #full
 table(ASFL$QD5_1)
@@ -342,12 +346,14 @@ table(ASFLeu$QD13)
 
 ###comparison
 ###stacked bar chart 
-hincome <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=3),
-                             income=rep(c('Up to €2.000', 'Between €2.000 and €3.000', '€3.000 or more'), times=3),
+hincome <- data.frame(status=rep(c('Full', 'Self-employed', 'Employed'), each=3),
+                             income=rep(c('Up to 2.000', 'Between 2.000 and 3.000', '3.000 or more'), times=3),
                              share=c(482/1302,508/1302,312/1302,15/69, 18/69, 36/69,171/647,264/647,212/647))
-
+hincome$status<- factor(hincome$status, levels=c('Full', 'Self-employed', 'Employed'))
+hincome$income<- factor(hincome$income, levels=c('Up to 2.000', 'Between 2.000 and 3.000', '3.000 or more'))
 ggplot(hincome, aes(fill=income, y=share, x=status)) + 
-  geom_bar(position='stack', stat='identity')
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Household income in euros")
 
 
 
@@ -405,19 +411,22 @@ summary(ASFLeu$QK1)
 
 
 
-selfratedknow <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=3),
+selfratedknow <- data.frame(status=rep(c('Full', 'Self-employed', 'Employed'), each=3),
                       selfassessment=rep(c('Low', 'Average', 'High'), times=3),
                       share=c(238/1382,573/1382,571/1382,3/75, 27/75, 45/75,92/682,291/682,299/682))
 selfratedknow$selfassessment<- factor(selfratedknow$selfassessment, levels=c('Low', 'Average', 'High'))
-selfratedknow$status<- factor(selfratedknow$status, levels=c('full', 'self-employed', 'employed'))
+selfratedknow$status<- factor(selfratedknow$status, levels=c('Full', 'Self-employed', 'Employed'))
 ggplot(selfratedknow, aes(fill=selfassessment, y=share, x=status)) + 
-  geom_bar(position='stack', stat='identity')
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
 
-selfratedknow_specific <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=5),
+selfratedknow_specific <- data.frame(status=rep(c('Full', 'Self-employed', 'Employed'), each=5),
                             selfassessment=rep(c('Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=3),
                             share=c(60/1382, 178/1382,573/1382,428/1382, 143/1382,2/75, 1/75, 27/75,34/75, 11/75,17/682,75/682,291/682,219/682,80/682))
 selfratedknow_specific$selfassessment<- factor(selfratedknow_specific$selfassessment, levels=c('Very low','Quite low', 'Average', 'Quite high', 'Very high'))
-selfratedknow_specific$status<- factor(selfratedknow_specific$status, levels=c('full', 'self-employed', 'employed'))
+selfratedknow_specific$status<- factor(selfratedknow_specific$status, levels=c('Full', 'Self-employed', 'Employed'))
 ggplot(selfratedknow_specific, aes(fill=selfassessment, y=share, x=status)) + 
-  geom_bar(position='stack', stat='identity')
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
        
+         
