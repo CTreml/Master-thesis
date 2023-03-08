@@ -26,6 +26,9 @@ table(QK2eu)
 ####################FINANCIAL KNOWLEDGE SCORE#############################
 #QK3 - *OECD - time value of money
 summary(ASFL$QK3)
+(61+21+3)/1418
+(219+63)/1418
+(933+118)/1418
 QK3_1 <- ifelse(ASFL$QK3 == "Or, less than they could buy today", 1, 0)
 QK3_2 <- ifelse(ASFL$QK3 == "It depends on the types of things that they want to buy", 1, 0)
 QK3<- QK3_1+QK3_2
@@ -53,7 +56,9 @@ table(QK3eu)
 
 #QK4 - *OECD - interest paid on a loan
 summary(ASFL$QK4)
-52/1418
+(52+41+33)/1418
+(16+1+5+3+1+1+1)/1418
+1264/1418
 QK4<- ifelse(ASFL$QK4 == "0", 1, 0)
 table(QK4)
 QK4se<- ifelse(ASFLse$QK4 == "0", 1, 0)
@@ -66,6 +71,9 @@ table(QK4eu)
 
 #QK5 - *OECD - interest plus principal
 summary(ASFL$QK5)
+(136+44+10)/1418
+1121/1418
+1-0.1339915-0.7905501
 QK5<- ifelse(ASFL$QK5 == "102", 1, 0)
 table(QK5)
 QK5se<- ifelse(ASFLse$QK5 == "102", 1, 0)
@@ -76,8 +84,10 @@ QK5eu<- ifelse(ASFLeu$QK5 == "102", 1, 0)
 table(QK5eu)
 
 #QK6 - *OECD - compound interest 
-summary(ASFL$QK6)
-QK6<- ifelse(ASFL$QK6 == "More than €110", 1, 0)
+summary(ASFL$QK6) 
+(7+26+111)/1418
+(7+26+111)
+QK6<- ifelse(ASFL$QK6 == "More than €110" , 1, 0)
 table(QK6)
 QK6se<- ifelse(ASFLse$QK6 == "More than €110", 1, 0)
 table(QK6se)
@@ -92,6 +102,9 @@ table(QK56)
 QK6n <- ifelse(QK56 == "2",1, 0)
 table(QK6n)
 702/1418
+476+(411+91+13)
+759/1418
+515/1418
 
 QK56se <- QK5se+QK6se
 table(QK56se)
@@ -113,6 +126,9 @@ table(QK6eun)
 
 #QK7_1 - *OECD - risk and return
 summary(ASFL$QK7_1)
+(62+3)/1418
+39/1418
+1314/1418
 QK7_1<- ifelse(ASFL$QK7_1 == "True", 1, 0)
 table(QK7_1)
 QK7_1se<- ifelse(ASFLse$QK7_1 == "True", 1, 0)
@@ -135,6 +151,9 @@ table(QK7_2eu)
 
 #QK7_3 - *OECD - diversification
 summary(ASFL$QK7_3)
+(325+15)/1418
+204/1418
+874/1418
 QK7_3<- ifelse(ASFL$QK7_3 == "True", 1, 0)
 table(QK7_3)
 QK7_3se<- ifelse(ASFLse$QK7_3 == "True", 1, 0)
@@ -158,6 +177,9 @@ table(S58eu)
 
 #QK7_4add - non-OECD - overdrawing a account 
 summary(ASFL$QK7_4add)
+(204+17)/1418
+233/1418
+964/1418
 QK7_4add<- ifelse(ASFL$QK7_4add == "False", 1, 0)
 table(QK7_4add)
 QK7_4addse<- ifelse(ASFLse$QK7_4add == "False", 1, 0)
@@ -169,6 +191,9 @@ table(QK7_4addeu)
 
 #EB3 - non-OECD - exchange rate
 summary(ASFL$EB3)
+(9+19+247)/1418
+(79+86)/1418
+978/1418
 EB3<- ifelse(ASFL$EB3 == "Increases", 1, 0)
 table(EB3)
 EB3se<- ifelse(ASFLse$EB3 == "Increases", 1, 0)
@@ -309,7 +334,7 @@ summary(ASFL2$fin_att)
 table(ASFL2$fin_att)
 #more than 3 (out of 5)
 207+226+170+57+32+15
-707/1418 
+707/1418 #OECD:49.0
 
 #onlyadults
 ASFL2adult <- ASFL2[!(ASFL2$QD7 %in% under18),] 
@@ -317,7 +342,7 @@ summary(ASFL2adult$fin_att)
 table(ASFL2adult$fin_att)
 #more than 3 (out of 5) 
 206+225+169+57+32+15
-704/1410 #49.9% #OECD: 49.0%
+704/1410 #OECD: 49.0%
 
 ASFL2main <- ASFL2adult[!(ASFL2adult$QD7 %in% above79),] 
 summary(ASFL2main$fin_att)
@@ -372,9 +397,9 @@ QF1_1_2<- ifelse(ASFL$QF1 == c("You make these decisions with someone else"), 1,
 QF1_1 <- QF1_1_1+QF1_1_2
 QF1 <- QF1_1 + QF1_a
 table(QF1)
-QF1fin <- ifelse(QF1 >= "1", 1, 0) #money management QF1_a OR QF1
+QF1fin <- ifelse(QF1 >= "1", 1, 0) #personally or jointly responsible QF1_a OR QF1
 
-ASFL$QF2_99
+ASFL$QF2_1
 QF2_1<- ifelse(ASFL$QF2_1 == "Yes", 1, 0)
 QF2_2<- ifelse(ASFL$QF2_2 == "Yes", 1, 0)
 QF2_3<- ifelse(ASFL$QF2_3 == "Yes", 1, 0)
@@ -390,6 +415,7 @@ QF2fin #keeping track of money - at least 2 Yes
 
 QF_Bud <- QF1fin+QF2fin
 QF_Budfin<-  ifelse(QF_Bud == "2", 1, 0)
+#alternative: QF_Budfin <- QF1fin*QF2fin
 table(QF_Budfin)
 QF_Budfin
 
@@ -397,7 +423,7 @@ QF_Budfin
 QF3_1<- ifelse(ASFL$QF3_1 == "Yes", 1, 0)
 QF3_2<- ifelse(ASFL$QF3_2 == "Yes", 1, 0)
 QF3_3<- ifelse(ASFL$QF3_3 == "Yes", 1, 0)
-QF3_4<- ifelse(ASFL$QF3_4 == "Yes", 1, 0)
+#QF3_4<- ifelse(ASFL$QF3_4 == "Yes", 1, 0)
 QF3_5<- ifelse(ASFL$QF3_5 == "Yes", 1, 0)
 QF3_6<- ifelse(ASFL$QF3_6 == "Yes", 1, 0)
 QF3_7<- ifelse(ASFL$QF3_7 == "Yes", 1, 0)
@@ -405,7 +431,9 @@ QF3_8<- ifelse(ASFL$QF3_8 == "Yes", 1, 0)
 table(ASFL$QF3_97)
 table(ASFL$QF3_99)#Refused
 
+#alternative with QF3_8: 
 QF3<- QF3_1+QF3_2+QF3_3+QF3_5+QF3_6+QF3_7+QF3_8
+#QF3<- QF3_1+QF3_2+QF3_3+QF3_5+QF3_6+QF3_7
 table(QF3)
 QF3fin <- ifelse(QF3 >= "1", 1, 0)
 QF3fin #active saving - at least 1 yes
@@ -416,15 +444,16 @@ QF3fin #active saving - at least 1 yes
 summary(ASFL$QF11)
 QF11a <-  ifelse(ASFL$QF11 == "No", 1, 0)
 table(QF11a)
-#alternative- take all refused/NA/dont know as 1
+#take all refused/NA/dont know as 1 - only take those "did not borrow to make ends meet out
 QF11b<-  ifelse(ASFL$QF11 == "Yes", 0, 1)
 table(QF11b)
 
 #######QF12#####################
-ASFL$QF12_3_1 #recode NAs
+table(ASFL$QF12_3_1) #recode NAs
 ASFL <- ASFL %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 0, QF12_3_1))
 ASFL$QF12_3_1
 QF12_3_1 <- ifelse(ASFL$QF12_3_1 == c("4"), 1, 0)
+table(QF12_3_1)
 ASFL <- ASFL %>% mutate(QF12_3_2 = ifelse(is.na(QF12_3_2), 0, QF12_3_2))
 ASFL$QF12_3_2
 QF12_3_2 <- ifelse(ASFL$QF12_3_2 == c("4"), 1, 0)
@@ -479,10 +508,14 @@ ASFL$QF12_6_2
 QF12_6_2<- ifelse(ASFL$QF12_6_2 == "4", 1, 0)
 
 QF12_6 <- QF12_6_1+QF12_6_2
-QF12_6fin<- ifelse(QF12_6 == "0", 1, 0)
+QF12_6fin<- ifelse(QF12_6 == "0", 1, 0) #no at all any option
 QF12_6fin
 
+
 ##final QF12 ->not consider QF12_1, QF12_2
+#alternative: QF12_1 <- QF12_3_1+QF12_3_2+QF12_3_3+QF12_3_4+QF12_3_5+QF12_3_6+QF12_4_1+QF12_4_2+QF12_5_1+QF12_5_6+QF12_6_1+QF12_6_2
+#QF12_1fin <- ifelse(QF12_1 == "0", 1, 0)
+#table(QF12_1fin)
 QF12 <- QF12_3fin+QF12_4fin+QF12_5fin+QF12_6fin
 QF12
 QF12fin <- ifelse(QF12 == "4", 1, 0)  #filter out all without
@@ -490,18 +523,21 @@ QF12fin
 table(QF12fin)
 
 ##?????????
-table(QF11b)
 table(QF11a)
-QFMEM <- QF11a+QF12fin
-QFMEM
-QFMEM <- ifelse(QFMEM >= "1", 1, 0)
-table(QFMEM)
+QFMEM1 <- QF11a+QF12fin #with QF11 as filtering
+QFMEM1fin <- ifelse(QFMEM1 >= "1", 1, 0)
+table(QFMEM1fin)
+table(QF11b)
+QFMEM2 <- QF11b+QF12fin 
+QFMEM2fin <- ifelse(QFMEM2 >= "1", 1, 0)
+table(QFMEM2fin)
 #ASFL2 <- cbind(ASFL2,QFMEM)
 
 
 #try to shop around (score 0,1 or 2)
 #1 for Qprod2 (I considered several or I looked around but there were no others)
-ASFL$Qprod2
+table(ASFL$Qprod2)
+table(ASFL_org$Qprod2)
 ASFL <- ASFL %>% mutate(Qprod2 = ifelse(is.na(Qprod2), 0, Qprod2))
 ASFL$Qprod2
 Qprod2_1<- ifelse(ASFL$Qprod2 == c("4"), 1, 0)
@@ -536,15 +572,16 @@ Qprod3_INT_6<- ifelse(ASFL$Qprod3_INT_6 == "5", 1, 0)
 
 Qprod_D2_1 <- Qprod3_INT_3+Qprod3_INT_4+Qprod3_INT_5+Qprod3_INT_6
 Qprod_D2_1fin<- ifelse(Qprod_D2_1 >= "1", 1, 0)
-Qprod_D2_1fin
+table(Qprod_D2_1fin)
 
 Qprod_D1<- Qprod_D2_1fin + Qprod2fin
+table(Qprod_D1)
 Qprod_D1fin<- ifelse(Qprod_D1 >= "1", 1, 0)
 Qprod_D1fin
 
 Qprod <- Qprod_D1fin+ Qprod_D2fin
 Qprod
-Qprod[Qprod == "2"] <- "1"
+Qprod[Qprod == "2"] <- "1" #Qprod
 Qprod[Qprod == "3"] <- "2"
 Qprod
 Qprodfin <- as.numeric(Qprod)
@@ -609,16 +646,15 @@ summary(ASFL3$fin_beh)  #5.963
 table(ASFL3$fin_beh)
 #barplot
 ##more than 6 (out of nine)
-378+294+161+76
-909+4+13+29+49+130+284
-909/1418
+377+299+167+62
+905/1418
 ASFL3adult <- ASFL3[!(ASFL3$QD7 %in% under18),] 
 summary(ASFL3adult$fin_beh) 
 summary(ASFL3adult$fin_beh2)
 summary(ASFL3adult$fin_beh3)
 table(ASFL3adult$fin_beh)
-373+299+165+62
-899/1410  #OECD: 64.5%
+373+299+166+62
+900/1410  #OECD: 64.5%
 table(ASFL3adult$fin_beh2)
 374+279+158+59
 870/1410
@@ -658,8 +694,6 @@ ASFL3ef <- ASFL3e[(ASFL3e$QD1 %in% female),]
 
 ASFL3eum <- ASFL3eu[(ASFL3eu$QD1 %in% male),]
 ASFL3euf <- ASFL3eu[(ASFL3eu$QD1 %in% female),]
-
-
 
 
 
