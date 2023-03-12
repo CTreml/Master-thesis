@@ -1,5 +1,4 @@
 
-
 ################FINANCIAL RESILIENCE#######################################
 ####################- Availability of savings, experience of stress, prudence in planning and budgeting
 #financial buffer - covering at least three months in case of a job loss (proxy for wealth)
@@ -25,6 +24,7 @@ table(ASFL3adult$QF13)
 478/1410
 ASFL3main <- ASFL3adult[!(ASFL3adult$QD7 %in% above79),] 
 table(ASFL3main$QF13)
+(56+70)/1341
 
 
 
@@ -54,16 +54,6 @@ finres2_eu <- ifelse(ASFLeu$QF4 == "Yes",1, 0)
 35+22+84+209+167+208
 #35/725,22/725,84/725,209/725,167/725,208/725
 
-#financial resilience comparison 
-##availabilit of financial cushion in case of loss of income
-#count refused as don´t know according to OECD!
-finrescomparison <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=5),
-                                   finrel=rep(c('Don´t know/Ref', 'About a week','About a month','About three months','Six months or above'), times=3),
-                                   share=c(138/1418,170/1418,325/1418,303/1418,479/1418,6/79,7/79,15/79,15/79,36/79,56/699,80/699,195/699,163/699,205/699))
-finrescomparison$finrel<- factor(finrescomparison$finrel, levels=c('Don´t know/Ref', 'About a week','About a month','About three months','Six months or above'))
-finrescomparison$status<- factor(finrescomparison$status, levels=c('full', 'self-employed', 'employed'))
-ggplot(finrescomparison, aes(fill=finrel, y=share, x=status)) + 
-  geom_bar(position='stack', stat='identity')
 
 
 
@@ -206,10 +196,13 @@ ASFL3se <- ASFL3[(ASFL3$QD10 %in% se),]
 ASFL3e <- ASFL3[(ASFL3$QD10 %in% e),]
 ASFL3eu <- ASFL3[(ASFL3$QD10 %in% eu),]
 ASFL3adult <- ASFL3[!(ASFL3$QD7 %in% under18),]
+ASFL3main <- ASFL3[!(ASFL3$QD7 %in% above79),]
 
 table(ASFL3$shortfall)
 table(ASFL3adult$shortfall)
 179/1410
+table(ASFL3main$shortfall)
+179/1341
 table(ASFL3se$shortfall)
 table(ASFL3e$shortfall)
 table(ASFL3eu$shortfall)
@@ -395,9 +388,11 @@ table(ASFL5eu$produse)
 ####################################product holding ###################################################
 
 #holds a savings investment or retirement product
+table(ASFL_org$Qprod1b_1)
 ASFL <- ASFL %>% mutate(Qprod1b_1 = ifelse(is.na(Qprod1b_1), 0, Qprod1b_1))
 ASFL$Qprod1b_1
 p1b1 <- ifelse(ASFL$Qprod1b_1 == "4", 1, 0)
+table(p1b1)
 
 ASFL <- ASFL %>% mutate(Qprod1b_2 = ifelse(is.na(Qprod1b_2), 0, Qprod1b_2))
 ASFL$Qprod1b_2
@@ -574,7 +569,7 @@ table(credpd)
 ASFL5adult <- ASFL5[!(ASFL5$QD7 %in% under18),] 
 ASFL5main <- ASFL5adult[!(ASFL5adult$QD7 %in% above79),] 
 table(ASFL5adult$credp)
-table(ASFL5mainemploy$credp)
+table(ASFL5main$credp)
 1341-557
 784/1341
 518+174+69+24+3+1+1+1
@@ -622,8 +617,7 @@ table(ASFL5eu$credp)
 
 #
 ###bought a product in the past year #recently chosen
-#highest number indicates ´Yes after exluding NAs
-
+#highest number (3 or 4) indicates ´Yes after exluding NAs
 #recent choice
 ASFL <- ASFL %>% mutate(Qprod1c_1 = ifelse(is.na(Qprod1c_1), 0, Qprod1c_1))
 ASFL$Qprod1c_1
@@ -745,6 +739,7 @@ table(ASFL5eu$recentchoice)
 ASFL <- ASFL %>% mutate(QF12_2_3 = ifelse(is.na(QF12_2_3), 0, QF12_2_3))
 QF12_2_3 <- ifelse(ASFL$QF12_2_3 == "4", 1, 0)
 #ASFL <- ASFL %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 0, QF12_3_1))
+#eventually only QF12_3_1
 #QF12_3_1 <- ifelse(ASFL$QF12_3_1 == "Yes", 1, 0)
 
 famfriend <- QF3_3+QF12_3_1+QF12_2_3
@@ -756,10 +751,44 @@ ASFL5 <- cbind(ASFL5,famfriend)
 table(famfriend)
 168/1418 #OECD:13%
 
+
+ASFL5main <- ASFL5[!(ASFL5$QD7 %in% above79),] 
+summary(ASFL5main$famfriend)
+table(ASFL5main$famfriend)
+162/1341#OECD:13%
+
+#financial inclusion main set comparison
+table(ASFL5main$produse)
+(1341-3-4-22-29-41)/1341
+table(ASFL5main$savinre)
+(1341-147)/1341
+table(ASFL5main$credp)
+(1341-564)/1341
+table(ASFL5main$payprod)
+(1341-24)/1341
+table(ASFL5main$p1b10)
+(1341-311)/1341
+table(ASFL5main$recentchoice)
+(1341-830)/1341
+
 ASFL5adult <- ASFL5[!(ASFL5$QD7 %in% under18),] 
 summary(ASFL5adult$famfriend)
 table(ASFL5adult$famfriend)
 168/(1242+168)#OECD:13%
+
+#financial inclusion adult comparison
+table(ASFL5adult$produse)
+(1410-4-6-26-29-33)/1410
+table(ASFL5adult$savinre)
+(1410-152)/1410
+table(ASFL5adult$credp)
+(1410-619)/1410
+table(ASFL5adult$payprod)
+(1410-23)/1410
+table(ASFL5adult$p1b10)
+(1410-339)/1410
+table(ASFL5adult$recentchoice)
+(1410-895)/1410
 
 #self-employed
 ASFL5se <- ASFL5[(ASFL5$QD10 %in% se),] 
@@ -810,6 +839,41 @@ famfriend_eu <- QF12_3_1_eu+QF3_3_eu
 famfriend_eu
 table(famfriend_eu)
 126/(126+623)
+
+#adult / main
+QF3_3_adult <- ifelse(ASFLadult$QF3_3 == "Yes", 1, 0)
+QF3_3_adult
+ASFLadult <- ASFLadult %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 0, QF12_3_1))
+QF12_3_1_adult <- ifelse(ASFLadult$QF12_3_1 == "4", 1, 0)
+QF12_3_1_adult
+#ASFLadult <- ASFLadult %>% mutate(QF12_2_3 = ifelse(is.na(QF12_2_3), 0, QF12_2_3))
+#QF12_2_3_adult <- ifelse(ASFLadult$QF12_2_3 == "4", 1, 0)
+#famfriend_adult <- QF12_2_3_adult+QF12_3_1_adult+QF3_3_adult
+famfriend_adult <- QF12_3_1_adult+QF3_3_adult
+famfriend_adult
+table(famfriend_adult)
+126/(126+623)
+120/1341
+168/1410
+
+QF3_3_main <- ifelse(ASFLmain$QF3_3 == "Yes", 1, 0)
+QF3_3_main
+ASFLmain <- ASFLmain %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 0, QF12_3_1))
+QF12_3_1_main <- ifelse(ASFLmain$QF12_3_1 == "4", 1, 0)
+QF12_3_1_main
+#ASFLmain <- ASFLmain %>% mutate(QF12_2_3 = ifelse(is.na(QF12_2_3), 0, QF12_2_3))
+#QF12_2_3_main <- ifelse(ASFLmain$QF12_2_3 == "4", 1, 0)
+#famfriend_main <- QF12_2_3_main+QF12_3_1_main+QF3_3_main
+famfriend_main <- QF12_3_1_main+QF3_3_main
+famfriend_main
+table(famfriend_main)
+126/(126+623)
+114/1341
+(144+18)/1341
+
+
+table(ASFLadult$produse)
+
 
 
 #################financial indicators gender comparison##########################
@@ -1397,4 +1461,5 @@ ASFL6se <- ASFL6[(ASFL6$QD10 %in% se),]
 ASFL6e <- ASFL6[(ASFL6$QD10 %in% e),]
 ASFL6eu <- ASFL6[(ASFL6$QD10 %in% eu),]
 summary(ASFL6$finlit)
+
 
