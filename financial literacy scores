@@ -2,7 +2,13 @@
 #QK1 - self-rated knowledge #does not add to financial literacy score
 #see: descriptive statistics
 summary(ASFL$QK1)
+
+ASFLsem <- ASFLse[(ASFLse$QD1 %in% male),]
+ASFLsef <- ASFLse[(ASFLse$QD1 %in% female),]
 summary(ASFLse$QK1)
+summary(ASFLsem$QK1)
+summary(ASFLsef$QK1)
+
 summary(ASFLe$QK1)
 summary(ASFLeu$QK1)
 
@@ -36,6 +42,12 @@ table(QK3)
 1051/1418 #both options
 933/1418 #only one option
 
+QK3_1adult <- ifelse(ASFLadult$QK3 == "Or, less than they could buy today", 1, 0)
+QK3_2adult <- ifelse(ASFLadult$QK3 == "It depends on the types of things that they want to buy", 1, 0)
+QK3adult<- QK3_1adult+QK3_2adult
+table(QK3adult)
+1044/1410
+
 summary(ASFLse$QK3)
 QK3_1se <- ifelse(ASFLse$QK3 == "Or, less than they could buy today", 1, 0)
 QK3_2se <- ifelse(ASFLse$QK3 == "It depends on the types of things that they want to buy", 1, 0)
@@ -58,7 +70,7 @@ table(QK3eu)
 summary(ASFL$QK4)
 (52+41+33)/1418
 (16+1+5+3+1+1+1)/1418
-1264/1418
+1264/1418 #89% according to OECD
 QK4<- ifelse(ASFL$QK4 == "0", 1, 0)
 table(QK4)
 QK4se<- ifelse(ASFLse$QK4 == "0", 1, 0)
@@ -72,7 +84,7 @@ table(QK4eu)
 #QK5 - *OECD - interest plus principal
 summary(ASFL$QK5)
 (136+44+10)/1418
-1121/1418
+1121/1418 
 1-0.1339915-0.7905501
 QK5<- ifelse(ASFL$QK5 == "102", 1, 0)
 table(QK5)
@@ -87,6 +99,7 @@ table(QK5eu)
 summary(ASFL$QK6) 
 (7+26+111)/1418
 (7+26+111)
+(91+411)/1418
 QK6<- ifelse(ASFL$QK6 == "More than €110" , 1, 0)
 table(QK6)
 QK6se<- ifelse(ASFLse$QK6 == "More than €110", 1, 0)
@@ -101,8 +114,9 @@ QK56 <- QK5+QK6
 table(QK56)
 QK6n <- ifelse(QK56 == "2",1, 0)
 table(QK6n)
-702/1418
+702/1418 
 476+(411+91+13)
+476/1418
 759/1418
 515/1418
 
@@ -140,6 +154,9 @@ table(QK7_1eu)
 
 #QK7_2 - *OECD - inflation definition
 summary(ASFL$QK7_2)
+87/1418
+49/1418
+1282/1418
 QK7_2<- ifelse(ASFL$QK7_2 == "True", 1, 0)
 table(QK7_2)
 QK7_2se<- ifelse(ASFLse$QK7_2 == "True", 1, 0)
@@ -211,6 +228,7 @@ table(fin_know)
 ASFL1 <- cbind(ASFL,fin_know)
 summary(ASFL1$fin_know)
 
+
 table(ASFL1$fin_know)
 finknowd <- ifelse(ASFL1$fin_know >= "5", 1, 0)
 table(finknowd)
@@ -230,6 +248,19 @@ table(ASFL1adult$fin_know)
 #1052/(1052+8+26+62+94+168)
 249+403+404
 1056/1410
+
+summary(ASFL1adult$QK1)
+13+23+143+427+569+177+58
+(143+427)/1410
+(569)/1410
+(177+58)/1410
+summary(ASFL1adult$QK3)
+summary(ASFL1adult$QK4)
+summary(ASFL1adult$QK5)
+summary(ASFL1adult$QK6)
+summary(ASFL1adult$QK7_1)
+summary(ASFL1adult$QK7_2)
+summary(ASFL1adult$QK7_3)
 
 ASFL1main <- ASFL1adult[!(ASFL1adult$QD7 %in% above79),] 
 table(ASFL1main$fin_know)
@@ -649,7 +680,7 @@ table(ASFL3$fin_beh)
 377+299+167+62
 905/1418
 ASFL3adult <- ASFL3[!(ASFL3$QD7 %in% under18),] 
-summary(ASFL3adult$fin_beh) 
+summary(ASFL3adult$fin_beh) #OECD - average: 6.0
 summary(ASFL3adult$fin_beh2)
 summary(ASFL3adult$fin_beh3)
 table(ASFL3adult$fin_beh)
@@ -676,8 +707,8 @@ table(ASFL3e$fin_beh)
 
 ASFL3eu <-  ASFL3[(ASFL3$QD10 %in% eu),] 
 summary(ASFL3eu$fin_beh)
-table(ASFL3eu$fin_beh)
-#more than 3 (out of five)
+
+#more than 6 (out of nine)
 182+151+92+24
 449/(449+3+14+19+39+80+145)
 
@@ -694,6 +725,8 @@ ASFL3ef <- ASFL3e[(ASFL3e$QD1 %in% female),]
 
 ASFL3eum <- ASFL3eu[(ASFL3eu$QD1 %in% male),]
 ASFL3euf <- ASFL3eu[(ASFL3eu$QD1 %in% female),]
+
+
 
 
 
