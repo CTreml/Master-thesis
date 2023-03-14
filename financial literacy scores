@@ -32,6 +32,10 @@ table(QK2eu)
 ####################FINANCIAL KNOWLEDGE SCORE#############################
 #QK3 - *OECD - time value of money
 summary(ASFL$QK3)
+wpct(ASFL$QK3, weight=ASFL_full$wght, na.rm=TRUE)
+0.079752816+0.653954112 #correct
+0.002064761+0.013762686+0.042886767 #dont know/irrelevant/refused
+1-0.7337069-0.05871421 #incorrect
 (61+21+3)/1418
 (219+63)/1418
 (933+118)/1418
@@ -68,6 +72,10 @@ table(QK3eu)
 
 #QK4 - *OECD - interest paid on a loan
 summary(ASFL$QK4)
+wpct(ASFL$QK4, weight=ASFL_full$wght, na.rm=TRUE)
+0.8896527640#correct
+0.0374343030+0.0264719756+0.0234817298#dont know/irrelevant/refused
+1-0.8896527640-0.08738801 #incorrect
 (52+41+33)/1418
 (16+1+5+3+1+1+1)/1418
 1264/1418 #89% according to OECD
@@ -83,6 +91,13 @@ table(QK4eu)
 
 #QK5 - *OECD - interest plus principal
 summary(ASFL$QK5)
+wpct(ASFL$QK5, weight=ASFL_full$wght, na.rm=TRUE)
+0.7855571881#correct
+0.0958051578+0.0309178571+0.0070958973#dont know/irrelevant/refused
+1-0.1338189-0.7855572#incorrect
+0.0958051578+0.0309178571+0.0070958973 
+0.7855571881
+1-0.7855571881-0.1338189
 (136+44+10)/1418
 1121/1418 
 1-0.1339915-0.7905501
@@ -97,6 +112,10 @@ table(QK5eu)
 
 #QK6 - *OECD - compound interest 
 summary(ASFL$QK6) 
+wpct(ASFL$QK6, weight=ASFL_full$wght, na.rm=TRUE)
+0.535301109#correct
+0.004409244+0.018203732+0.076572892 #dont know/irrelevant/refused
+1-0.535301109-0.09918587#incorrect
 (7+26+111)/1418
 (7+26+111)
 (91+411)/1418
@@ -112,6 +131,10 @@ table(QK6eu)
 ###QK5 + QK6
 QK56 <- QK5+QK6
 table(QK56)
+wpct(QK56, weight=ASFL_full$wght, na.rm=TRUE)
+0.4903881#correct
+#dont know/irrelevant/refused
+#incorrect
 QK6n <- ifelse(QK56 == "2",1, 0)
 table(QK6n)
 702/1418 
@@ -140,6 +163,10 @@ table(QK6eun)
 
 #QK7_1 - *OECD - risk and return
 summary(ASFL$QK7_1)
+wpct(ASFL$QK7_1, weight=ASFL_full$wght, na.rm=TRUE)
+0.916602640#correct
+0.050442460+0.001596526#dont know/irrelevant/refused
+1-0.916602640-0.05203899#incorrect
 (62+3)/1418
 39/1418
 1314/1418
@@ -154,6 +181,10 @@ table(QK7_1eu)
 
 #QK7_2 - *OECD - inflation definition
 summary(ASFL$QK7_2)
+wpct(ASFL$QK7_2, weight=ASFL_full$wght, na.rm=TRUE)
+0.888970397 #correct
+0.061969977+0.003983608#dont know/irrelevant/refused
+1-0.888970397-0.06595359#incorrect
 87/1418
 49/1418
 1282/1418
@@ -168,6 +199,10 @@ table(QK7_2eu)
 
 #QK7_3 - *OECD - diversification
 summary(ASFL$QK7_3)
+wpct(ASFL$QK7_3, weight=ASFL_full$wght, na.rm=TRUE)
+0.61300273 #correct
+0.22363099+0.01072922#dont know/irrelevant/refused
+1-0.61300273-0.2343602#incorrect
 (325+15)/1418
 204/1418
 874/1418
@@ -182,6 +217,10 @@ table(QK7_3eu)
 
 #S58 - non-OECD - real interest
 summary(ASFL$S58)
+wpct(ASFL$S58, weight=ASFL_full$wght, na.rm=TRUE)
+0.778428892 #correct
+0.001358319+0.018599573+0.055269846#dont know/irrelevant/refused
+1-0.778428892-0.07522774#incorrect
 S58<- ifelse(ASFL$S58 == "Less than today", 1, 0)
 table(S58)
 S58se<- ifelse(ASFLse$S58 == "Less than today", 1, 0)
@@ -194,6 +233,10 @@ table(S58eu)
 
 #QK7_4add - non-OECD - overdrawing a account 
 summary(ASFL$QK7_4add)
+wpct(ASFL$QK7_4add, weight=ASFL_full$wght, na.rm=TRUE)
+0.685109119 #correct
+0.009036726 +0.141057048 #dont know/irrelevant/refused
+1-0.685109119-0.1500938#incorrect
 (204+17)/1418
 233/1418
 964/1418
@@ -208,6 +251,10 @@ table(QK7_4addeu)
 
 #EB3 - non-OECD - exchange rate
 summary(ASFL$EB3)
+wpct(ASFL$EB3, weight=ASFL_full$wght, na.rm=TRUE)
+0.691772328#correct
+0.005521473+0.013842803+0.161254056#dont know/irrelevant/refused
+1-0.691772328-0.1806183#incorrect
 (9+19+247)/1418
 (79+86)/1418
 978/1418
@@ -322,8 +369,8 @@ table(QS1_1)
 summary(QS1_1) #mean:3.181 - according to Fessler et al (2020)
 
 #money there to be spent
-summary(ASFL$QS1_3)
-QS1_3 <-ASFL$QS1_3
+summary(ASFLadult$QS1_3)
+QS1_3 <-ASFLadult$QS1_3
 QS1_3_1_rec <- ifelse(QS1_3== "Refused", 3, 0)
 QS1_3_2_rec <- ifelse(QS1_3 == "Not relevant", 3, 0)
 QS1_3_3_rec <- ifelse(QS1_3 == "Don't know", 3, 0)
@@ -362,7 +409,10 @@ fin_att
 ASFL2 <- cbind(ASFL1,fin_att)
 
 summary(ASFL2$fin_att)
+weighted.mean(fin_att, weights)
 table(ASFL2$fin_att)
+
+
 #more than 3 (out of 5)
 207+226+170+57+32+15
 707/1418 #OECD:49.0
@@ -468,6 +518,8 @@ QF3<- QF3_1+QF3_2+QF3_3+QF3_5+QF3_6+QF3_7+QF3_8
 table(QF3)
 QF3fin <- ifelse(QF3 >= "1", 1, 0)
 QF3fin #active saving - at least 1 yes
+
+
 
 ####Avoiding borrowing to make ends meet###########
 #######QF11#####################
@@ -658,6 +710,7 @@ QS2_5
 fin_beh <- QF_Budfin+QF12fin+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
 #QF12fin equal to QFMEM
 fin_beh
+weighted.mean(fin_beh2, weights)
 fin_beh2 <-QF_Budfin+QF11a+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
 fin_beh3 <-QF_Budfin+QF11b+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
 Qprodfin
@@ -674,6 +727,9 @@ ASFL3 <- cbind(ASFL2,fin_beh)
 ASFL3 <- cbind(ASFL3,fin_beh2)
 ASFL3 <- cbind(ASFL3,fin_beh3)
 summary(ASFL3$fin_beh)  #5.963
+summary(ASFL3$fin_beh2, weight=ASFL$wght)
+wpct(fin_beh, weight=ASFL_full$wght, na.rm=TRUE)
+
 table(ASFL3$fin_beh)
 #barplot
 ##more than 6 (out of nine)
@@ -725,6 +781,7 @@ ASFL3ef <- ASFL3e[(ASFL3e$QD1 %in% female),]
 
 ASFL3eum <- ASFL3eu[(ASFL3eu$QD1 %in% male),]
 ASFL3euf <- ASFL3eu[(ASFL3eu$QD1 %in% female),]
+
 
 
 
