@@ -1,5 +1,14 @@
 ########################PLOTS###########################
 
+#######################################Employment overview################################
+
+emplshare <- data.frame("Employment" = c("Self-employed", "Employed", "Apprentice", "Student", "Home", "Retired", "Unemployed", "Not working", "Other"),
+                   "amount" = c(79/1418,699/1418,5/1418,23/1418,24/1418,494/1418,50/1418,21/1418,23/1418))
+
+ggplot(emplshare, aes(x="", y=amount, fill=Employment)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) +
+  theme_void()
 ########################################FINANCIAL KNOWLEDGE#######################
 #basic financial knowledge
 finknow <- c(rep("0" , 2),rep("1" , 2) , rep("2" , 2) ,  rep("3" , 2),rep("4" , 2),rep("5" , 2),rep("6" , 2),rep("7" , 2))
@@ -31,17 +40,18 @@ barplot(finknowdetail, beside=TRUE, ylim = c(0,1), main="Financial knowledge det
 #legend("bottomright", c("full", "employed", "selfemployed"), pch=0.05)
 
 
-
+##according to Chart 4 - Fessler et al (2020)
 #self-employed - financial knowledge details #correct incorrect dont know 
 finknowdetail <- data.frame(finknow=rep(c('Time value', 'Interest on loan', 'Interest plus principal','Compound interest','Risk and return','Inflation definition','Diversification','Real interest','Overdrawing an account','Exchange rate'), each=3),
                                 status=rep(c('Correct','Incorrect','Ref/Don´t know' ), times=10),
-                                share=c(/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79,/79))
+                                share=c(30/79,40/79,9/79,30/79,40/79,9/79,30/79,40/79,9/79,30/79,40/79,9/79,30/79,40/79,9/79,30/79,40/79,9/79,30/79,40/79,9/79,30/79,40/79,9/79,30/79,40/79,9/79,30/79,40/79,9/79))
 finknowdetail$finknow<- factor(finknowdetail$finknow, levels=c('Time value', 'Interest on loan', 'Interest plus principal','Compound interest','Risk and return','Inflation definition','Diversification','Real interest','Overdrawing an account','Exchange rate'))
-finknowdetail$status<- factor(finknowdetail$status, levels=c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'))
+finknowdetail$status<- factor(finknowdetail$status, levels=c('Correct','Incorrect','Ref/Don´t know' ))
 
-ggplot(finknowsrvsactual, aes(fill=selfassessment, y=share, x=finknow)) + 
+ggplot(finknowdetail, aes(fill=status, y=share, x=finknow)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="","Percentage share",fill="")
+  labs(x="",y="Percentage share",fill="")+
+  coord_flip()
 
 #number of correct responses ##wrong
 finkowanswers <- data.frame(answers=rep(c('0','1', '2', '3','4', '5', '6','7','8','9','10'), each=3),
@@ -238,11 +248,11 @@ par(mfrow=c(1,1))
 #########################FINANCIAL RISK TAKING#############################
 
 HFCSrisk <- data.frame(status=rep(c('full', 'self-employed', 'employed'), each=4),
-                       HFCSrisk=rep(c('Substantial', 'Above average', 'Average', 'No'), times=3),
+                       Propensity=rep(c('Substantial', 'Above average', 'Average', 'No'), times=3),
                        share=c(47/1418, 115/1418,362/1418,894/1418, 8/79,6/79,29/79,36/79, 29/699,94/699,225/699,351/699))
-HFCSrisk$HFCSrisk<- factor(HFCSrisk$HFCSrisk, levels=c('Substantial', 'Above average', 'Average', 'No'))
+HFCSrisk$Propensity<- factor(HFCSrisk$Propensity, levels=c('Substantial', 'Above average', 'Average', 'No'))
 HFCSrisk$status<- factor(HFCSrisk$status, levels=c('full', 'self-employed', 'employed'))
-ggplot(HFCSrisk, aes(fill=HFCSrisk, y=share, x=status)) + 
+ggplot(HFCSrisk, aes(fill=Propensity, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity') +
   # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
   labs(y = 'Preparedness to take financial risk')
@@ -275,5 +285,6 @@ riskplot$risk<- factor(riskplot$risk, levels=c("Stocks/shares","Bonds","Crypto a
 ggplot(riskplot, aes(fill=emplstat, y=value, x=risk)) + 
   geom_bar(position="dodge", stat="identity")+
   labs(x = "",y="Percentage share", fill = "Employment status")
+
 
 
