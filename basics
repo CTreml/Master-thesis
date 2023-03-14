@@ -5,6 +5,11 @@ library(mitools)
 library(survey)
 library(srvyr)
 library(dplyr)
+#install.packages("weights")
+library(Hmisc)
+#install.packages("latticeExtra")
+library(latticeExtra)
+library(weights)
 #srvyr is a dplyr version of survey, check out the "Vignettes":
 #https://cran.r-project.org/web/packages/srvyr/index.html
 library(mice)
@@ -28,11 +33,34 @@ ASFL_org <- readstata13::read.dta13("./Questionnaire & Dataset/Data/oecd_2019_en
 
 ASFL_add <- readstata13::read.dta13("./Questionnaire & Dataset/Data/add_austria-specific.dta", generate.factors=TRUE, nonint.factors = TRUE)
 ASFL_full <- merge (ASFL_org, ASFL_add, by="id")
-ASFL <-ASFL_full
 
+
+weights <- ASFL_full$wght
+id <- ASFL_full$id
 #correct weighting
-ASFL <-svydesign(id=~id, weights=~wght, data=ASFL_full)
-ASFL <- ASFL$variables
+#ASFLo <-svydesign(id =ASFL_full$id, weights=ASFL_full$wght, strata=~??, fpc=~fpc, nest=TRUE data=ASFL_full)
+#ASFLo <-svydesign(ids =~1, weights=weights, data=ASFL_full)
+
+ASFLo <-svydesign(ids =~id, weights=~weights,nest = TRUE,data=ASFL_full)
+#ASFLo$has.strata
+#ASFLo$prob
+#ASFLo$pps
+#ASFLo$fpc
+
+
+#summary(ASFLo)
+
+ASFL <- ASFLo$variables
+#ASFL <- ASFL_full
+#https://stats.oarc.ucla.edu/r/seminars/survey-data-analysis-with-r/
+#ASFLo <- svydesign(id=~id, weights=~wght,strata=~1, nest=TRUE, survey.lonely.psu = "adjust"?, data=ASFL_full)
+
+#ASFL <- svydesign(id      = ~id,
+                          #strata  = ~strata,
+                        # weights = ~wght,
+                        #  nest    = TRUE,
+                        #  data    = ASFL_full)
+
 ##################################EMPLOYMENT##################################
 
 summary(ASFL$QD10)
@@ -55,15 +83,15 @@ retired<- ifelse(ASFL$QD10 == "Retired", 1, 0)
 home <- ifelse(ASFL$QD10 == "Looking after the home", 1, 0)
 notactive<-ifelse(ASFL$QD10 == "Not working and not looking for work", 1, 0)
 
-others <- unemployed+apprentice+student+other+retired+home+notactive
-table(others)  
+others <- apprentice+student+other+retired+home+notactive
+othersworet <- apprentice+student+other+home+notactive
   
 se <- c("Self-employed [work for myself]")
 e <- c("In paid employment [work for someone else]")
 eu <- c("In paid employment [work for someone else]","Looking for work [unemployed]")
 empl <- c("In paid employment [work for someone else]","Self-employed [work for myself]")
 oth <- c("Looking for work [unemployed]","Apprentice","Student","Other","Retired","Looking after the home", "Not working and not looking for work")
-
+othworet <- c("Looking for work [unemployed]","Apprentice","Student","Other","Looking after the home", "Not working and not looking for work")
 
 ASFLse <- ASFL[(ASFL$QD10 %in% se),] 
 summary(ASFLse)
@@ -71,11 +99,13 @@ ASFLe <- ASFL[(ASFL$QD10 %in% e),]
 summary(ASFLe)
 ASFLeu <-  ASFL[(ASFL$QD10 %in% eu),] 
 summary(ASFLeu)
-ASFLother <-  ASFL[(ASFL$QD10 %in% others),] 
+ASFLother <-  ASFL[(ASFL$QD10 %in% oth),] 
 summary(ASFLother)
 640+699+79
 ASFLempl <- ASFL[(ASFL$QD10 %in% empl),] 
 ASFLempl$QD10
+ASFLotherworet <- ASFL[(ASFL$QD10 %in% othworet),] 
+summary(ASFLotherworet)
 
 unemployed<- subset(ASFL, ASFL$QD10 == "Looking for work [unemployed]")
 student <- subset(ASFL, ASFL$QD10 == "Student")
@@ -85,7 +115,7 @@ notactive<- subset(ASFL, ASFL$QD10 == "Not working and not looking for work")
 home <- subset(ASFL, ASFL$QD10 == "Looking after the home")
 other<- subset(ASFL, ASFL$QD10 == "Other")
 
-ASFL <- cbind(ASFL,employed,selfemployed,others)
+ASFL <- cbind(ASFL,employed,selfemployed,others,othersworet)
 ##################################add_employment#########################
 summary(ASFL$QF9_10) #still working in pension to fund retirement
 summary(ASFL$st1ab) #respondent ever employed
@@ -122,12 +152,11 @@ silgen<- ASFL[(ASFL$age_group %in% silgen),]
 
 
 
-
 under18 <- c("16","17")
 above79 <- c("80","81","82","83","84","85","86","87","88","89","90","93","94","95","97")
 ASFLadult <- ASFL[!(ASFL$QD7 %in% under18),] 
 ASFLadult
-ASFLmainemploy <- ASFLadult[!(ASFLadult$QD7 %in% above79),] 
+ASFLmain <- ASFLadult[!(ASFLadult$QD7 %in% above79),] 
 
 
 ##################################GENDER##################################
@@ -160,6 +189,7 @@ ASFL <- cbind(ASFL,primary,lowersecondary,uppersecondary,university)
 #################################add_education###################################
 
 summary(ASFL$st1g) #highest attained education
+table(ASFL_org$QD9) #redefined for OECD! 
 
 summary(ASFL$st3g)
 
@@ -169,3 +199,4 @@ ASFL <- cbind(ASFL,selfassess)
 sa <- c("Very high","Quite high","About average","Quite low","Very low")
 hincome <- ASFL$QD13
 ASFL <- cbind(ASFL,hincome)
+
