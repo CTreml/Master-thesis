@@ -25,6 +25,9 @@ summary(ASFLother)
 
 
 
+
+
+
 ##################################age##################################
 summary(ASFL$QD7)
 #absolute - full sample
@@ -165,6 +168,7 @@ age
 #fullsample
 ASFL$QD9
 ASFL$Qprod
+summary(ASFL_full$QD9)
 #skip NAs
 ASFL <- ASFL %>% mutate(QD9 = ifelse(is.na(QD9), 0, QD9))
 ASFL$QD9
@@ -410,7 +414,7 @@ lowsfknow_eu <- lsfknow_eu+llsfknow_eu
 summary(ASFLeu$QK1)
 
 
-
+#self-rated knowledge 
 selfratedknow <- data.frame(status=rep(c('Full', 'Self-employed', 'Employed'), each=3),
                       selfassessment=rep(c('Low', 'Average', 'High'), times=3),
                       share=c(238/1382,573/1382,571/1382,3/75, 27/75, 45/75,92/682,291/682,299/682))
@@ -420,12 +424,23 @@ ggplot(selfratedknow, aes(fill=selfassessment, y=share, x=status)) +
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
 
+#self-rated knowledge specific 
 selfratedknow_specific <- data.frame(status=rep(c('Full', 'Self-employed', 'Employed'), each=5),
                             selfassessment=rep(c('Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=3),
                             share=c(60/1382, 178/1382,573/1382,428/1382, 143/1382,2/75, 1/75, 27/75,34/75, 11/75,17/682,75/682,291/682,219/682,80/682))
 selfratedknow_specific$selfassessment<- factor(selfratedknow_specific$selfassessment, levels=c('Very low','Quite low', 'Average', 'Quite high', 'Very high'))
 selfratedknow_specific$status<- factor(selfratedknow_specific$status, levels=c('Full', 'Self-employed', 'Employed'))
 ggplot(selfratedknow_specific, aes(fill=selfassessment, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
+
+#self-rated knowledge specific gender
+selfratedknowgender <- data.frame(gender=rep(c('Male', 'Female'), each=5),
+                                     selfassessment=rep(c('Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=2),
+                                     share=c(0/43,0/43,13/43,24/43,6/43,2/32,1/32,14/32,10/32,5/32))
+selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, levels=c('Very low','Quite low', 'Average', 'Quite high', 'Very high'))
+selfratedknowgender$gender<- factor(selfratedknowgender$gender, levels=c('Male', 'Female'))
+ggplot(selfratedknowgender, aes(fill=selfassessment, y=share, x=gender)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
        
