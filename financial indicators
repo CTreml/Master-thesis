@@ -290,8 +290,12 @@ table(ASFL4$finwellbeing)
 
 ASFL4adult <-ASFL4[!(ASFL4$QD7 %in% under18),] 
 summary(ASFL4adult$finwellbeing)#OECD: mean well-being score: 11.4
+wpct(ASFL4adult$finwellbeing, weight=ASFL4adult$wght, na.rm=TRUE)
+weighted.mean(ASFL4adult$finwellbeing, ASFL4adult$wght)
+
 ASFL4main <-ASFL4adult[!(ASFL4adult$QD7 %in% above79),] 
 summary(ASFL4main$finwellbeing)
+weighted.mean(ASFL4main$finwellbeing, ASFL4main$wght)
 
 ASFL4se <- ASFL4[(ASFL4$QD10 %in% se),] 
 summary(ASFL4se$finwellbeing)
@@ -566,8 +570,7 @@ table(credpd)
 741/(741+677) #OECD: 57%
 1/1418
 
-ASFL5adult <- ASFL5[!(ASFL5$QD7 %in% under18),] 
-ASFL5main <- ASFL5adult[!(ASFL5adult$QD7 %in% above79),] 
+
 table(ASFL5adult$credp)
 table(ASFL5main$credp)
 1341-557
@@ -576,6 +579,8 @@ table(ASFL5main$credp)
 791/1410
 1410-619
 
+ASFL5adult <- ASFL5[!(ASFL5$QD7 %in% under18),] 
+ASFL5main <- ASFL5adult[!(ASFL5adult$QD7 %in% above79),] 
 table(ASFL5adult$savinre)
 (1410-152)/1410
 table(ASFL5adult$payprod)
@@ -584,7 +589,6 @@ table(ASFL5adult$p1b10)
 (1410-339)/1410
 table(ASFL5adult$credp)
 (1410-619)/1410
-
 
 
 #self-employed
@@ -751,11 +755,8 @@ ASFL5 <- cbind(ASFL5,famfriend)
 table(famfriend)
 168/1418 #OECD:13%
 
-
-ASFL5main <- ASFL5[!(ASFL5$QD7 %in% above79),] 
-summary(ASFL5main$famfriend)
-table(ASFL5main$famfriend)
-162/1341#OECD:13%
+ASFL5adult <- ASFL5[!(ASFL5$QD7 %in% under18),]
+ASFL5main <- ASFL5adult[!(ASFL5adult$QD7 %in% above79),]
 
 #financial inclusion main set comparison
 table(ASFL5main$produse)
@@ -770,25 +771,37 @@ table(ASFL5main$p1b10)
 (1341-311)/1341
 table(ASFL5main$recentchoice)
 (1341-830)/1341
+table(ASFL5main$famfriend)
+162/1341#OECD:13%
 
-ASFL5adult <- ASFL5[!(ASFL5$QD7 %in% under18),] 
-summary(ASFL5adult$famfriend)
-table(ASFL5adult$famfriend)
-168/(1242+168)#OECD:13%
+wpct(ASFL5main$produse, weight=ASFL5main$wght, na.rm=TRUE)
+1-(0.001952660+ 0.002721399 +0.015461491 +0.019628563 +0.024045939)
+wpct(ASFL5main$savinre, weight=ASFL5main$wght, na.rm=TRUE)
+1-0.11701610 
+wpct(ASFL5main$credp, weight=ASFL5main$wght, na.rm=TRUE)
+1-0.4076340875 
+wpct(ASFL5main$payprod, weight=ASFL5main$wght, na.rm=TRUE)
+1-0.01728878 
+wpct(ASFL5main$p1b10, weight=ASFL5main$wght, na.rm=TRUE)
+wpct(ASFL5main$recentchoice, weight=ASFL5main$wght, na.rm=TRUE)
+1-0.5780947537 
+wpct(ASFL5main$famfriend, weight=ASFL5main$wght, na.rm=TRUE)
 
-#financial inclusion adult comparison
-table(ASFL5adult$produse)
-(1410-4-6-26-29-33)/1410
-table(ASFL5adult$savinre)
-(1410-152)/1410
-table(ASFL5adult$credp)
-(1410-619)/1410
-table(ASFL5adult$payprod)
-(1410-23)/1410
-table(ASFL5adult$p1b10)
-(1410-339)/1410
-table(ASFL5adult$recentchoice)
-(1410-895)/1410
+#according to OECD report page 30/32!
+wpct(ASFL5adult$produse, weight=ASFL5adult$wght, na.rm=TRUE)
+1-(0.002305288 +0.003771080 +0.016983085 +0.019485647+ 0.023967545)
+wpct(ASFL5adult$savinre, weight=ASFL5adult$wght, na.rm=TRUE)
+1-0.11581676 
+wpct(ASFL5adult$credp, weight=ASFL5adult$wght, na.rm=TRUE)
+1-0.4257491931 
+wpct(ASFL5adult$payprod, weight=ASFL5adult$wght, na.rm=TRUE)
+1-0.01703681 
+wpct(ASFL5adult$p1b10, weight=ASFL5adult$wght, na.rm=TRUE)
+wpct(ASFL5adult$recentchoice, weight=ASFL5adult$wght, na.rm=TRUE)
+1-0.5936173477 
+wpct(ASFL5adult$famfriend, weight=ASFL5adult$wght, na.rm=TRUE)
+
+
 
 #self-employed
 ASFL5se <- ASFL5[(ASFL5$QD10 %in% se),] 
@@ -1461,5 +1474,6 @@ ASFL6se <- ASFL6[(ASFL6$QD10 %in% se),]
 ASFL6e <- ASFL6[(ASFL6$QD10 %in% e),]
 ASFL6eu <- ASFL6[(ASFL6$QD10 %in% eu),]
 summary(ASFL6$finlit)
+
 
 
