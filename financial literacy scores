@@ -541,7 +541,7 @@ QF1 <- QF1_1 + QF1_a
 table(QF1)
 QF1fin <- ifelse(QF1 >= "1", 1, 0) #personally or jointly responsible QF1_a OR QF1
 
-ASFL$QF2_1
+ASFL_full$QF2_1
 QF2_1<- ifelse(ASFL$QF2_1 == "Yes", 1, 0)
 QF2_2<- ifelse(ASFL$QF2_2 == "Yes", 1, 0)
 QF2_3<- ifelse(ASFL$QF2_3 == "Yes", 1, 0)
@@ -553,10 +553,10 @@ table(ASFL$QF2_99)#Refused
 QF2 <- QF2_1 + QF2_2 + QF2_3 + QF2_4 + QF2_5 + QF2_6
 table(QF2)
 QF2fin <- ifelse(QF2 >= "2", 1, 0)
-QF2fin #keeping track of money - at least 2 Yes
+table(QF2fin) #keeping track of money - at least 2 Yes
 
 QF_Bud <- QF1fin+QF2fin
-QF_Budfin<-  ifelse(QF_Bud == "2", 1, 0)
+QF_Budfin<-  ifelse(QF_Bud == "2", 1, 0) #only if responsible and keeping track of money
 #alternative: QF_Budfin <- QF1fin*QF2fin
 table(QF_Budfin)
 QF_Budfin
@@ -573,26 +573,34 @@ QF3_8<- ifelse(ASFL$QF3_8 == "Yes", 1, 0)
 table(ASFL$QF3_97)
 table(ASFL$QF3_99)#Refused
 QF3_99<- ifelse(ASFL$QF3_99 == "Yes", 1, 0)
-
+QF3_99
 #alternative with QF3_8: 
 QF3<- QF3_1+QF3_2+QF3_3+QF3_5+QF3_6+QF3_7+QF3_8
 #QF3<- QF3_1+QF3_2+QF3_3+QF3_5+QF3_6+QF3_7
+#QF3<- QF3_1+QF3_2+QF3_3+QF3_5+QF3_6+QF3_7+QF3_8-QF3_99
 table(QF3)
 QF3fin <- ifelse(QF3 >= "1", 1, 0)
 table(QF3fin) #active saving - at least 1 yes
-ASFL2 <- cbind (ASFL2,QF3fin)
-weighted.mean(QF3fin,ASFL$wght)
+1252/1418
+ASFL2 <- cbind(ASFL2,QF3fin)
+weighted.mean(ASFL2$QF3fin,ASFL2$wght)
 ASFL2adult <- ASFL2[!(ASFL2$QD7 %in% under18),] 
 weighted.mean(ASFL2adult$QF3fin,ASFL2adult$wght)
-
-
+table(ASFL2adult$QF3fin)
+1245/1410
+ASFL2main <- ASFL2adult[!(ASFL2adult$QD7 %in% above79),] 
+weighted.mean(ASFL2main$QF3fin,ASFL2main$wght)
+table(ASFL2main$QF3fin)
+1190/1341
 
 ####Avoiding borrowing to make ends meet###########
+###did not borror OR did not face a shortfall
 #######QF11#####################
 ##preliminary check for QF12
 #not meeting costs in the past year 
 summary(ASFL$QF11)
 wpct(ASFL$QF11, weight=ASFL$wght, na.rm=TRUE)
+0.13952561 #shortfall experience#according to yes
 QF11a <-  ifelse(ASFL$QF11 == "No", 1, 0)
 table(QF11a)
 #take all refused/NA/dont know as 1 - only take those "did not borrow to make ends meet out
@@ -600,10 +608,12 @@ QF11b<-  ifelse(ASFL$QF11 == "Yes", 0, 1)
 table(QF11b)
 
 #######QF12#####################
+#Access credit by using existing contacts or resources 
+table(ASFL_full$QF12_3_1)
 table(ASFL$QF12_3_1) #recode NAs
 ASFL <- ASFL %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 0, QF12_3_1))
 ASFL$QF12_3_1
-QF12_3_1 <- ifelse(ASFL$QF12_3_1 == c("4"), 1, 0)
+QF12_3_1 <- ifelse(ASFL$QF12_3_1 == c("4"), 1, 0) #yes response
 table(QF12_3_1)
 ASFL <- ASFL %>% mutate(QF12_3_2 = ifelse(is.na(QF12_3_2), 0, QF12_3_2))
 ASFL$QF12_3_2
@@ -622,9 +632,9 @@ ASFL$QF12_3_6
 QF12_3_6 <- ifelse(ASFL$QF12_3_6 == c("4"), 1, 0)
 
 
-QF12_3 <- QF12_3_1+QF12_3_2+QF12_3_3+QF12_3_4+QF12_3_5+QF12_3_6
+QF12_3 <- QF12_3_1+QF12_3_2+QF12_3_3+QF12_3_4+QF12_3_6
 table(QF12_3)
-QF12_3fin<- ifelse(QF12_3 == "0", 1, 0)
+QF12_3fin<- ifelse(QF12_3 == "0", 1, 0) #not borrow 
 QF12_3fin
 table(QF12_3fin)
 
@@ -640,6 +650,7 @@ QF12_4 <- QF12_4_1+QF12_4_2
 QF12_4fin<- ifelse(QF12_4 == "0", 1, 0)
 table(QF12_4fin)
 
+
 ASFL <- ASFL %>% mutate(QF12_5_1 = ifelse(is.na(QF12_5_1), 0, QF12_5_1))
 ASFL$QF12_5_1
 QF12_5_1 <-ASFL$QF12_5_1<- ifelse(ASFL$QF12_5_1 == "4", 1, 0)
@@ -649,7 +660,7 @@ QF12_5_6 <-ifelse(ASFL$QF12_5_6 == "4", 1, 0)
 
 QF12_5 <- QF12_5_1+QF12_5_6
 QF12_5fin<- ifelse(QF12_5 == "0", 1, 0)
-QF12_5fin
+table(QF12_5fin)
 
 ASFL <- ASFL %>% mutate(QF12_6_1 = ifelse(is.na(QF12_6_1), 0, QF12_6_1))
 ASFL$QF12_6_1
@@ -660,10 +671,21 @@ QF12_6_2<- ifelse(ASFL$QF12_6_2 == "4", 1, 0)
 
 QF12_6 <- QF12_6_1+QF12_6_2
 QF12_6fin<- ifelse(QF12_6 == "0", 1, 0) #no at all any option
-QF12_6fin
+table(QF12_6fin)
+
+table(ASFL$QF12_7_1)
+ASFL <- ASFL %>% mutate(QF12_7_1o = ifelse(is.na(QF12_7_1o), 0, QF12_7_1o))
+table(ASFL$QF12_7_1o)
+QF12_7_1_1<- ifelse(ASFL$QF12_7_1o == "Geld von meiner Mutter", 1, 0)
+QF12_7_1_2<- ifelse(ASFL$QF12_7_1o == "Momentan helfen mir meine Eltern und Geschwister, da ich gerade arbeitslos bin. Bin auch sehr froh darüber, so kann ich auch ein bisschen sparen", 1, 0)
+QF12_7_1_3<- ifelse(ASFL$QF12_7_1o == "Verwandte um Unterstützung bitten", 1, 0)
+QF12_7 <- QF12_7_1_1+QF12_7_1_2+QF12_7_1_3
+QF12_7fin<- ifelse(QF12_7 == "0", 1, 0)
+table(QF12_7fin)
 
 
-##final QF12 ->not consider QF12_1, QF12_2
+
+##final QF12 ->not consider QF12_1, QF12_2 as not borrowing
 #alternative: QF12_1 <- QF12_3_1+QF12_3_2+QF12_3_3+QF12_3_4+QF12_3_5+QF12_3_6+QF12_4_1+QF12_4_2+QF12_5_1+QF12_5_6+QF12_6_1+QF12_6_2
 #QF12_1fin <- ifelse(QF12_1 == "0", 1, 0)
 #table(QF12_1fin)
@@ -673,16 +695,29 @@ QF12fin <- ifelse(QF12 == "4", 1, 0)  #filter out all without
 QF12fin
 table(QF12fin)
 
+QF12_a <- QF12_3fin+QF12_4fin+QF12_5fin+QF12_6fin+QF12_7fin
+QF12_afin <- ifelse(QF12_a == "5", 1, 0)  #filter out all without
+QF12_afin
+table(QF12_afin)
 ##?????????
-table(QF11a)
+table(QF11a) #noshortfall
 QFMEM1 <- QF11a+QF12fin #with QF11 as filtering
-QFMEM1fin <- ifelse(QFMEM1 >= "1", 1, 0)
-table(QFMEM1fin)
-table(QF11b)
+QFMEM1fin <- ifelse(QFMEM1 >= "1", 1, 0) #did not face a shortfall or did not borrow
+table(QFMEM1fin) #same as Q12fin
+table(QF11b) #notyestoshortfall
 QFMEM2 <- QF11b+QF12fin 
 QFMEM2fin <- ifelse(QFMEM2 >= "1", 1, 0)
-table(QFMEM2fin)
+table(QFMEM2fin) #same as QFMEM1fin #same as Q12fin
 #ASFL2 <- cbind(ASFL2,QFMEM)
+
+table(QF11a) #noshortfall
+QFMEM3 <- QF11a+QF12_afin #with QF11 as filtering
+QFMEM3fin <- ifelse(QFMEM3 >= "1", 1, 0) #did not face a shortfall or did not borrow
+table(QFMEM3fin) #same as Q12_afin
+table(QF11b) #notyestoshortfall
+QFMEM4 <- QF11b+QF12_afin 
+QFMEM4fin <- ifelse(QFMEM4 >= "1", 1, 0)
+table(QFMEM4fin) #same as QFMEM3fin #same as Q12_afin
 
 
 #try to shop around (score 0,1 or 2)
@@ -699,15 +734,19 @@ table(Qprod2fin)
 #2 for Best-buy guidance / Recommendation from independent financial advise
 ASFL <- ASFL %>% mutate(Qprod3_INT_1 = ifelse(is.na(Qprod3_INT_1), 0, Qprod3_INT_1))
 ASFL$Qprod3_INT_1
+ASFL_org$Qprod3_INT_1
 Qprod3_INT_1<- ifelse(ASFL$Qprod3_INT_1 == "5", 1, 0)
 Qprod3_INT_1
 ASFL <- ASFL %>% mutate(Qprod3_INT_2 = ifelse(is.na(Qprod3_INT_2), 0, Qprod3_INT_2))
+ASFL$Qprod3_INT_2
+ASFL_org$Qprod3_INT_2
 Qprod3_INT_2<- ifelse(ASFL$Qprod3_INT_2 == "5", 1, 0)
 Qprod3_INT_2
 
 Qprod_D2 <- Qprod3_INT_1+Qprod3_INT_2
-Qprod_D2fin<- ifelse(Qprod_D2 >= "1", 2, 0)
-table(Qprod_D2fin)
+table(Qprod_D2)
+Qprod_D2fin<- ifelse(Qprod_D2 >= "1", 2, 0) #2 if yet at any
+table(Qprod_D2fin) 
 
 #1 for information from an advert or brochure, recommendation from friends etc., information from bank staff, or other information
 ASFL$Qprod3_INT_3
@@ -722,6 +761,7 @@ Qprod3_INT_6<- ifelse(ASFL$Qprod3_INT_6 == "5", 1, 0)
 
 
 Qprod_D2_1 <- Qprod3_INT_3+Qprod3_INT_4+Qprod3_INT_5+Qprod3_INT_6
+table(Qprod_D2_1)
 Qprod_D2_1fin<- ifelse(Qprod_D2_1 >= "1", 1, 0)
 table(Qprod_D2_1fin)
 
@@ -731,8 +771,8 @@ Qprod_D1fin<- ifelse(Qprod_D1 >= "1", 1, 0)
 Qprod_D1fin
 
 Qprod <- Qprod_D1fin+ Qprod_D2fin
-Qprod
-Qprod[Qprod == "2"] <- "1" #Qprod
+table(Qprod)
+Qprod[Qprod == "2"] <- "1" #Qprod=2 in 35 cases # can only arise if  Qprod_D2_1fin AND Qprod2fin are 0 cause otherwise 3
 Qprod[Qprod == "3"] <- "2"
 Qprod
 Qprodfin <- as.numeric(Qprod)
@@ -743,6 +783,16 @@ table(Qprodfin)
 #0 indicates "'Not shopped around and no attempt make informed decisions (including no recent product choice)"
 ASFL2 <- cbind(ASFL2,Qprodfin)
 
+#alternative:
+Qprod_a <- Qprod_D1fin+ Qprod_D2fin
+table(Qprod_a)
+#Qprod=2 in 35 cases # can only arise if  Qprod_D2_1fin AND Qprod2fin are 0 cause otherwise 3
+Qprod_a[Qprod_a == "3"] <- "2"
+Qprod_a
+Qprod_afin <- as.numeric(Qprod_a)
+Qprod_afin
+table(Qprod_afin)
+
 #watch on financial affairs
 QS1_5 <-ASFL$QS1_5
 QS1_5_1 <- ifelse(QS1_5== "Completely agree", 1, 0)
@@ -751,7 +801,7 @@ QS1_5 <- QS1_5_1+QS1_5_2
 QS1_5
 #watch on finances
 wpct(ASFL$QS1_5, weight=ASFL$wght, na.rm=TRUE)
-0.452681202+0.379732221         
+0.452681202+0.379732221       #according to OECD     
 
 
 #strieving to achieve long-term goals
@@ -763,7 +813,7 @@ QS1_8 <- QS1_8_1+QS1_8_2
 QS1_8
 #long term financial goals
 wpct(ASFL$QS1_8, weight=ASFL$wght, na.rm=TRUE)
-0.157922728 +0.373263409         
+0.157922728 +0.373263409    #according to OECD     
 
 #Considered purchases
 QS2_3 <-ASFL$QS2_3
@@ -774,7 +824,7 @@ QS2_3 <- QS2_3_1+QS2_3_2
 QS2_3
 #carefully considered purchases
 wpct(ASFL$QS2_3, weight=ASFL$wght, na.rm=TRUE)
-0.346975153+0.317067745
+0.346975153+0.317067745 #according to OECD 
 
 #Paying bills on time
 QS2_5 <-ASFL$QS2_5
@@ -785,46 +835,56 @@ QS2_5 <- QS2_5_1+QS2_5_2
 QS2_5
 #paying bills on time
 wpct(ASFL$QS2_5, weight=ASFL$wght, na.rm=TRUE)
-0.595069198+0.250236243
+0.595069198+0.250236243 #according to OECD 
 
-fin_beh <- QF_Budfin+QF12fin+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
+fin_beh <- QF_Budfin+QF12fin+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5 #QF12fin alone equal to combination of QF11/QF12
+weighted.mean(fin_beh, ASFL$wght)#OECD - average: 6.0
 #QF12fin equal to QFMEM
-fin_beh
-fin_beh2 <-QF_Budfin+QF11a+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
-fin_beh3 <-QF_Budfin+QF11b+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
-Qprodfin
-QF_Budfin
-table(fin_beh)
-table(fin_beh2)
-summary(fin_beh2)
-table(fin_beh3)
-summary(fin_beh3)
-377+299+166+62
-904/1418
-weighted.mean(fin_beh, ASFL$wght)
+fin_beh2 <- QF_Budfin+QF12_afin+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5 
 weighted.mean(fin_beh2, ASFL$wght)
+fin_beh3 <-QF_Budfin+QF11a+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
 weighted.mean(fin_beh3, ASFL$wght)
+fin_beh4 <-QF_Budfin+QF11b+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
+weighted.mean(fin_beh4, ASFL$wght)
+fin_beh5 <- QF_Budfin+QF12fin+QF3fin+Qprod_afin+QS1_5+QS1_8+QS2_3+QS2_5 #QF12fin alone equal to combination of QF11/QF12
+weighted.mean(fin_beh5, ASFL$wght)
+#QF12fin equal to QFMEM
+fin_beh6 <- QF_Budfin+QF12_afin+QF3fin+Qprod_afin+QS1_5+QS1_8+QS2_3+QS2_5 
+weighted.mean(fin_beh6, ASFL$wght)
+fin_beh7 <-QF_Budfin+QF11a+QF3fin+Qprod_afin+QS1_5+QS1_8+QS2_3+QS2_5
+weighted.mean(fin_beh3, ASFL$wght)
+fin_beh8 <-QF_Budfin+QF11b+QF3fin+Qprod_afin+QS1_5+QS1_8+QS2_3+QS2_5
+weighted.mean(fin_beh4, ASFL$wght)
+
 
 ASFL3 <- cbind(ASFL2,fin_beh)
 ASFL3 <- cbind(ASFL3,fin_beh2)
 ASFL3 <- cbind(ASFL3,fin_beh3)
-summary(ASFL3$fin_beh)  #5.963
+ASFL3 <- cbind(ASFL3,fin_beh5)
+ASFL3 <- cbind(ASFL3,fin_beh6)
+summary(ASFL3$fin_beh)
 summary(ASFL3$fin_beh2, weight=ASFL$wght)
-wpct(fin_beh, weight=ASFL$wght, na.rm=TRUE)
-wpct(fin_beh, weight=ASFL$wght, na.rm=TRUE)
-
+table(fin_beh)
+table(fin_beh2)
+table(fin_beh5)
+table(fin_beh6)
+wpct(ASFL3$fin_beh, weight=ASFL3$wght, na.rm=TRUE) #OECD - 64.5%
+wpct(fin_beh2, weight=ASFL$wght, na.rm=TRUE)
+wpct(fin_beh5, weight=ASFL$wght, na.rm=TRUE)
+wpct(fin_beh6, weight=ASFL$wght, na.rm=TRUE)
 table(ASFL3$fin_beh)
 #barplot
-##more than 6 (out of nine)
+##at least 6 (out of 9)
+0.25486308+0.21527041+0.12428302+0.04918498
 377+299+167+62
 905/1418
 ASFL3adult <- ASFL3[!(ASFL3$QD7 %in% under18),] 
-summary(ASFL3adult$fin_beh) #OECD - average: 6.0
+summary(ASFL3adult$fin_beh)
 summary(ASFL3adult$fin_beh2)
 summary(ASFL3adult$fin_beh3)
 table(ASFL3adult$fin_beh)
 373+299+166+62
-900/1410  #OECD: 64.5%
+900/1410  
 table(ASFL3adult$fin_beh2)
 374+279+158+59
 870/1410
@@ -851,9 +911,6 @@ summary(ASFL3eu$fin_beh)
 #more than 6 (out of nine)
 182+151+92+24
 449/(449+3+14+19+39+80+145)
-
-
-
 
 
 
