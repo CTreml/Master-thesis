@@ -4,6 +4,12 @@
 #financial buffer - covering at least three months in case of a job loss (proxy for wealth)
 #full
 summary(ASFL$QF13)
+wpct(ASFL$QF13, weight=ASFL$wght, na.rm=TRUE)
+0.04321414+0.05915268 #dont know
+0.03223475+0.10183457 #around a week
+0.23481705#about a month
+0.21447184#about three months
+0.31427498 #six months or more
 finres1 <- ifelse(ASFL$QF13 == "Six months or more",1, 0)
 finres2 <- ifelse(ASFL$QF13 == "At least three months, but not six months",1, 0)
 finbuff <- finres1+finres2
@@ -17,6 +23,7 @@ table(finres2_f)
 
 ASFL3adult <- ASFL3[!(ASFL3$QD7 %in% under18),] 
 table(ASFL3adult$QF13) 
+wpct(ASFL3adult$QF13, weight=ASFL3adult$wght, na.rm=TRUE)
 (75+58)/1410
 (37+135)/1410
 325/1410
@@ -24,6 +31,7 @@ table(ASFL3adult$QF13)
 478/1410
 ASFL3main <- ASFL3adult[!(ASFL3adult$QD7 %in% above79),] 
 table(ASFL3main$QF13)
+wpct(ASFL3main$QF13, weight=ASFL3main$wght, na.rm=TRUE)
 (56+70)/1341
 
 
@@ -85,14 +93,17 @@ ASFL3e <- ASFL3[(ASFL3$QD10 %in% e),]
 ASFL3eu <- ASFL3[(ASFL3$QD10 %in% eu),]
 ASFL3other <- ASFL3[(ASFL3$QD10 %in% others),]
 
+
 table(ASFL3$fraud_1)
+45/1418#not weighted by OECD!
 table(ASFL3adult$fraud_1)
-45/1410
+45/1410 
 table(ASFL3se$fraud_1)
 table(ASFL3e$fraud_1)
 table(ASFL3eu$fraud_1)
 
 table(ASFL3$fraud_2)
+15/1418
 table(ASFL3adult$fraud_2)
 15/1410
 table(ASFL3se$fraud_2)
@@ -100,6 +111,7 @@ table(ASFL3e$fraud_2)
 table(ASFL3eu$fraud_2)
 
 table(ASFL3$fraud_3)
+14/1418
 table(ASFL3adult$fraud_3)
 14/1410
 table(ASFL3se$fraud_3)
@@ -107,6 +119,7 @@ table(ASFL3e$fraud_3)
 table(ASFL3eu$fraud_3)
 
 table(ASFL3$fraud_4)
+68/1418
 table(ASFL3adult$fraud_4)
 68/1410
 table(ASFL3se$fraud_4)
@@ -114,6 +127,7 @@ table(ASFL3e$fraud_4)
 table(ASFL3eu$fraud_4)
 
 table(ASFL3$fraud_5)
+30/1418
 table(ASFL3adult$fraud_5)
 30/1410
 table(ASFL3se$fraud_5)
@@ -121,6 +135,7 @@ table(ASFL3e$fraud_5)
 table(ASFL3eu$fraud_5)
 
 table(ASFL3$fraud_6)
+13/1418
 table(ASFL3adult$fraud_6)
 13/1410
 table(ASFL3se$fraud_6)
@@ -128,6 +143,7 @@ table(ASFL3e$fraud_6)
 table(ASFL3eu$fraud_6)
 
 table(ASFL3$fraud_7)
+87/1418
 table(ASFL3adult$fraud_7)
 87/1410
 table(ASFL3se$fraud_7)
@@ -135,6 +151,7 @@ table(ASFL3e$fraud_7)
 table(ASFL3eu$fraud_7)
 
 table(ASFL3$fraud_8)
+29/1418
 table(ASFL3adult$fraud_8)
 29/1410
 table(ASFL3se$fraud_8)
@@ -142,6 +159,7 @@ table(ASFL3e$fraud_8)
 table(ASFL3eu$fraud_8)
 
 table(ASFL3$fraud_9)
+11/1418
 table(ASFL3adult$fraud_9)
 11/1410
 table(ASFL3se$fraud_9)
@@ -174,7 +192,8 @@ QS2_1_2 <- ifelse(ASFL$QS2_1 == "2", 1, 0)
 finstress1 <- QS2_1_1+QS2_1_2
 table(finstress1)
 140/1418
-
+#I tend to worry about paying my normal living expense
+wpct(finstress1, weight=ASFL$wght, na.rm=TRUE)
 
 summary(ASFL$QS3_9)
 QS3_9_1 <- ifelse(ASFL$QS3_9 == "Completely", 1, 0)
@@ -182,6 +201,8 @@ QS3_9_2 <- ifelse(ASFL$QS3_9 == "2", 1, 0)
 finstress2 <- QS3_9_1+QS3_9_2
 table(finstress2)
 318/1418
+#I am concerned that my money won’t last
+wpct(finstress2, weight=ASFL$wght, na.rm=TRUE)
 
 summary(ASFL$QS3_10)
 QS3_10_1 <- ifelse(ASFL$QS3_10 == "Completely", 1, 0)
@@ -189,6 +210,8 @@ QS3_10_2 <- ifelse(ASFL$QS3_10 == "2", 1, 0)
 finstress3 <- QS3_10_1+QS3_10_2
 table(finstress3)
 509/1418
+#I am just getting by financially
+wpct(finstress3, weight=ASFL$wght, na.rm=TRUE)
 
 ASFL3 <- cbind(ASFL3,shortfall,finstress1,finstress2,finstress3)
 #sample analysis
@@ -200,8 +223,10 @@ ASFL3main <- ASFL3[!(ASFL3$QD7 %in% above79),]
 
 table(ASFL3$shortfall)
 table(ASFL3adult$shortfall)
+wpct(ASFL3adult$shortfall, weight=ASFL3adult$wght, na.rm=TRUE)
 179/1410
 table(ASFL3main$shortfall)
+wpct(ASFL3main$shortfall, weight=ASFL3main$wght, na.rm=TRUE)
 179/1341
 table(ASFL3se$shortfall)
 table(ASFL3e$shortfall)
@@ -210,6 +235,8 @@ table(ASFL3eu$shortfall)
 table(ASFL3$finstress1)
 table(ASFL3adult$finstress1)
 139/1410
+wpct(ASFL3adult$finstress1, weight=ASFL3adult$wght, na.rm=TRUE)
+wpct(ASFL3main$finstress1, weight=ASFL3main$wght, na.rm=TRUE)
 table(ASFL3se$finstress1)
 table(ASFL3e$finstress1)
 table(ASFL3eu$finstress1)
@@ -217,6 +244,8 @@ table(ASFL3eu$finstress1)
 table(ASFL3$finstress2)
 table(ASFL3adult$finstress2)
 317/1410
+wpct(ASFL3adult$finstress2, weight=ASFL3adult$wght, na.rm=TRUE)
+wpct(ASFL3main$finstress2, weight=ASFL3main$wght, na.rm=TRUE)
 table(ASFL3se$finstress2)
 table(ASFL3e$finstress2)
 table(ASFL3eu$finstress2)
@@ -224,6 +253,8 @@ table(ASFL3eu$finstress2)
 table(ASFL3$finstress3)
 table(ASFL3adult$finstress3)
 508/1410
+wpct(ASFL3adult$finstress3, weight=ASFL3adult$wght, na.rm=TRUE)
+wpct(ASFL3main$finstress3, weight=ASFL3main$wght, na.rm=TRUE)
 table(ASFL3se$finstress3)
 table(ASFL3e$finstress3)
 table(ASFL3eu$finstress3)
@@ -243,6 +274,7 @@ QS2_2_3 <- ifelse(ASFL$QS2_2 == "3", 2, 0)
 QS2_2_4 <- ifelse(ASFL$QS2_2 == "2", 1, 0)
 QS2_2 <- QS2_2_1+QS2_2_2+QS2_2_3+QS2_2_4
 table(QS2_2)
+wpct(QS2_2, weight=ASFL$wght, na.rm=TRUE)
 
 summary(ASFL$QS2_4)
 QS2_4_1 <- ifelse(ASFL$QS2_4 == "Always", 4, 0)
@@ -251,6 +283,7 @@ QS2_4_3 <- ifelse(ASFL$QS2_4 == "3", 2, 0)
 QS2_4_4 <- ifelse(ASFL$QS2_4 == "4", 1, 0)
 QS2_4<- QS2_4_1+QS2_4_2+QS2_4_3+QS2_4_4
 QS2_4
+wpct(QS2_4, weight=ASFL$wght, na.rm=TRUE)
 
 summary(ASFL$QS3_3)
 QS3_3_1 <- ifelse(ASFL$QS3_3 == "Not at all", 4, 0)
@@ -259,6 +292,7 @@ QS3_3_3 <- ifelse(ASFL$QS3_3 == "3", 2, 0)
 QS3_3_4 <- ifelse(ASFL$QS3_3 == "2", 1, 0)
 QS3_3<- QS3_3_1+QS3_3_2+QS3_3_3+QS3_3_4
 QS3_3
+wpct(QS3_3, weight=ASFL$wght, na.rm=TRUE)
 
 summary(ASFL$QS3_9)
 QS3_9_1 <- ifelse(ASFL$QS3_9 == "Not at all", 4, 0)
@@ -267,6 +301,7 @@ QS3_9_3 <- ifelse(ASFL$QS3_9 == "3", 2, 0)
 QS3_9_4 <- ifelse(ASFL$QS3_9 == "2", 1, 0)
 QS3_9 <- QS3_9_1+QS3_9_2+QS3_9_3+QS3_9_4
 QS3_9
+wpct(QS3_9, weight=ASFL$wght, na.rm=TRUE)
 
 summary(ASFL$QS3_10)
 QS3_10_1 <- ifelse(ASFL$QS3_10 == "Not at all", 4, 0)
@@ -275,6 +310,7 @@ QS3_10_3 <- ifelse(ASFL$QS3_10 == "3", 2, 0)
 QS3_10_4 <- ifelse(ASFL$QS3_10 == "2", 1, 0)
 QS3_10 <- QS3_10_1+QS3_10_2+QS3_10_3+QS3_10_4
 QS3_10
+wpct(QS3_10, weight=ASFL$wght, na.rm=TRUE)
 
 #not in OECD/INFE but Toolkit: QS1_4,7,10 ; QS2_1 ; QS3_11
 finwellbeing <- QS2_2+ QS2_4 + QS3_3 + QS3_9 + QS3_10
@@ -287,6 +323,8 @@ table(ASFL4$finwellbeing)
 9+19+25+30+40+52+63+76+81+89+95
 839/(839+579)
 579/(839+579)
+wpct(ASFL4$finwellbeing, weight=ASFL4$wght, na.rm=TRUE)
+weighted.mean(ASFL4$finwellbeing, ASFL4$wght) #11.4
 
 ASFL4adult <-ASFL4[!(ASFL4$QD7 %in% under18),] 
 summary(ASFL4adult$finwellbeing)#OECD: mean well-being score: 11.4
@@ -351,14 +389,17 @@ p1aadd5<- ifelse(ASFL$Qprod1a_add_5 == "True", 1, 0)
 
 produse <- p1a1+p1a2+p1a3+p1a5+p1a6+p1a7+p1a8+p1a9+p1a10+p1a11+p1a12+p1a13+p1a14+p1a15+p1aadd1+p1aadd2+p1aadd3+p1aadd4+p1aadd5
 table(produse)
+summary(produse)
 ASFL5 <- cbind(ASFL4,produse)
 
-#puse <- ifelse(produse >= "5", 1, 0) #????
+#puse <- ifelse(produse >= "5", 1, 0) 
 4+6+26+30+33+28+36+22+32+24+19+26+29+53+84+119+121+140+192+394#
-#aware of at least 5
+#aware of at least 5 (out of 19)
 (1418-4-6-26-30-33)/1418
-394/1418 #OECD:93
+394/1418 
 4+6+26+30+33
+wpct(ASFL5$produse, weight=ASFL5$wght, na.rm=TRUE)#OECD:93
+1-(0.002271931+0.003716514+0.016737348+0.021197696+0.023620745)
 
 #self-employed
 ASFL5se <- ASFL5[(ASFL5$QD10 %in% se),] 
@@ -423,9 +464,11 @@ savinre <- p1b1+p1b2+p1b8+p1b11+p1b12+p1badd2
 table(savinre) #internationally very high in comparison - only 50% average
 savinred <- ifelse(savinre >= "1", 1, 0)
 table(savinred)
-1265/(1265+153) #OECD: 89%
+1265/(1265+153)
 20/1418
 ASFL5 <- cbind(ASFL5,savinre)
+wpct(ASFL5$savinre, weight=ASFL5$wght, na.rm=TRUE)
+1-0.11614094 #OECD: 89%
 
 #self-employed
 ASFL5se <- ASFL5[(ASFL5$QD10 %in% se),] 
@@ -470,8 +513,10 @@ table(payprod)
 ASFL5 <- cbind(ASFL5,payprod)
 payprodd <- ifelse(payprod >= "1", 1, 0)
 table(payprodd)
-1393/(1393+25) #OECD: 98%
+1393/(1393+25) 
 26/1418
+wpct(ASFL5$payprod, weight=ASFL5$wght, na.rm=TRUE)
+1-0.02037268 #OECD: 98%
 
 #self-employed
 ASFL5se <- ASFL5[(ASFL5$QD10 %in% se),] 
@@ -501,8 +546,9 @@ ASFL$Qprod1b_10
 #full
 p1b10 <- ifelse(ASFL$Qprod1b_10 == "3", 1, 0)
 table(p1b10)  
-1073/(1073+345) #OECD:75%
+1073/(1073+345) 
 ASFL5 <- cbind(ASFL5,p1b10)
+wpct(ASFL5$p1b10, weight=ASFL5$wght, na.rm=TRUE) #OECD:75%
 
 #self-employed
 ASFL5se <- ASFL5[(ASFL5$QD10 %in% se),] 
@@ -567,17 +613,11 @@ ASFL5 <- cbind(ASFL5,credp)
 credpd <- ifelse(credp >= "1", 1, 0)
 table(credpd)  
 792/1418
-741/(741+677) #OECD: 57%
+741/(741+677) 
 1/1418
+wpct(ASFL5$credp, weight=ASFL5$wght, na.rm=TRUE)
+1-0.4320583510 #OECD: 57%
 
-
-table(ASFL5adult$credp)
-table(ASFL5main$credp)
-1341-557
-784/1341
-518+174+69+24+3+1+1+1
-791/1410
-1410-619
 
 ASFL5adult <- ASFL5[!(ASFL5$QD7 %in% under18),] 
 ASFL5main <- ASFL5adult[!(ASFL5adult$QD7 %in% above79),] 
@@ -706,11 +746,13 @@ ASFL5 <- cbind(ASFL5,recentchoice)
 recentchoiced <- ifelse(recentchoice >= "1", 1, 0)
 table(recentchoiced)
 521/(897+521)
+wpct(ASFL5$recentchoice, weight=ASFL5$wght, na.rm=TRUE)
+1-0.5886103437 #OECD: 41%
 
 ASFL5adult <- ASFL5[!(ASFL5$QD7 %in% under18),] 
 summary(ASFL5adult$recentchoice)
 table(ASFL5adult$recentchoice)
-(1410-859)/1410  #OECD: 41%
+(1410-859)/1410  
 
 
 #self-employed
@@ -737,15 +779,16 @@ table(ASFL5eu$recentchoice)
 
 
 ###turned to family/friends to borrow and save
-#QF3 and QF12 from before 
+#QF3_3 and QF12_3_1 from before <- NAs already excluded!
 #full
 #QF3_3_borrow <- ifelse(ASFL$QF3_3 == "Yes", 1, 0)
 ASFL <- ASFL %>% mutate(QF12_2_3 = ifelse(is.na(QF12_2_3), 0, QF12_2_3))
 QF12_2_3 <- ifelse(ASFL$QF12_2_3 == "4", 1, 0)
 #ASFL <- ASFL %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 0, QF12_3_1))
 #eventually only QF12_3_1
-#QF12_3_1 <- ifelse(ASFL$QF12_3_1 == "Yes", 1, 0)
+QF12_3_1 <- ifelse(ASFL$QF12_3_1 == "4", 1, 0)
 
+#famfriend <- QF3_3+QF12_3_1+QF12_2_3
 famfriend <- QF3_3+QF12_3_1+QF12_2_3
 famfriend
 table(famfriend)
@@ -753,7 +796,9 @@ famfriend[famfriend == "2"] <- "1"
 famfriend <- as.numeric(famfriend)
 ASFL5 <- cbind(ASFL5,famfriend)
 table(famfriend)
-168/1418 #OECD:13%
+table(ASFL5$famfriend)
+168/1418 
+wpct(ASFL5$famfriend, weight=ASFL$wght)#OECD:13%
 
 ASFL5adult <- ASFL5[!(ASFL5$QD7 %in% under18),]
 ASFL5main <- ASFL5adult[!(ASFL5adult$QD7 %in% above79),]
@@ -772,34 +817,23 @@ table(ASFL5main$p1b10)
 table(ASFL5main$recentchoice)
 (1341-830)/1341
 table(ASFL5main$famfriend)
-162/1341#OECD:13%
+162/1341
 
-wpct(ASFL5main$produse, weight=ASFL5main$wght, na.rm=TRUE)
-1-(0.001952660+ 0.002721399 +0.015461491 +0.019628563 +0.024045939)
-wpct(ASFL5main$savinre, weight=ASFL5main$wght, na.rm=TRUE)
-1-0.11701610 
-wpct(ASFL5main$credp, weight=ASFL5main$wght, na.rm=TRUE)
-1-0.4076340875 
-wpct(ASFL5main$payprod, weight=ASFL5main$wght, na.rm=TRUE)
-1-0.01728878 
-wpct(ASFL5main$p1b10, weight=ASFL5main$wght, na.rm=TRUE)
-wpct(ASFL5main$recentchoice, weight=ASFL5main$wght, na.rm=TRUE)
-1-0.5780947537 
-wpct(ASFL5main$famfriend, weight=ASFL5main$wght, na.rm=TRUE)
+
 
 #according to OECD report page 30/32!
-wpct(ASFL5adult$produse, weight=ASFL5adult$wght, na.rm=TRUE)
-1-(0.002305288 +0.003771080 +0.016983085 +0.019485647+ 0.023967545)
-wpct(ASFL5adult$savinre, weight=ASFL5adult$wght, na.rm=TRUE)
-1-0.11581676 
-wpct(ASFL5adult$credp, weight=ASFL5adult$wght, na.rm=TRUE)
-1-0.4257491931 
-wpct(ASFL5adult$payprod, weight=ASFL5adult$wght, na.rm=TRUE)
-1-0.01703681 
-wpct(ASFL5adult$p1b10, weight=ASFL5adult$wght, na.rm=TRUE)
-wpct(ASFL5adult$recentchoice, weight=ASFL5adult$wght, na.rm=TRUE)
-1-0.5936173477 
-wpct(ASFL5adult$famfriend, weight=ASFL5adult$wght, na.rm=TRUE)
+wpct(ASFL5$produse, weight=ASFL5$wght, na.rm=TRUE)
+1-(0.002271931+0.003716514+0.016737348+0.021197696+0.023620745)
+wpct(ASFL5$savinre, weight=ASFL5$wght, na.rm=TRUE)
+1-0.11614094  
+wpct(ASFL5$credp, weight=ASFL5$wght, na.rm=TRUE)
+1-0.4320583510  
+wpct(ASFL5$payprod, weight=ASFL5$wght, na.rm=TRUE)
+1-0.02037268  
+wpct(ASFL5$p1b10, weight=ASFL5$wght, na.rm=TRUE)
+wpct(ASFL5$recentchoice, weight=ASFL5$wght, na.rm=TRUE)
+1-0.5886103437  
+wpct(ASFL5$famfriend, weight=ASFL5$wght,na.rm=TRUE)
 
 
 
@@ -885,29 +919,39 @@ table(famfriend_main)
 (144+18)/1341
 
 
-table(ASFLadult$produse)
 
 
-
-#################financial indicators gender comparison##########################
+#################financial indicators GENDER COMPARISON##########################
 #full
 ASFL5m <- ASFL5[(ASFL5$QD1 %in% male),] 
 ASFL5f <- ASFL5[(ASFL5$QD1 %in% female),] 
 
 summary(ASFL5m$fin_know)
+weighted.mean(ASFL5m$fin_know, ASFL5m$wght)
 summary(ASFL5f$fin_know)
+weighted.mean(ASFL5f$fin_know, ASFL5f$wght)
 table(ASFL5m$fin_know)
+wpct(ASFL5m$fin_know, weight=ASFL5m$wght, na.rm=TRUE)
 table(ASFL5f$fin_know)
+wpct(ASFL5f$fin_know, weight=ASFL5f$wght, na.rm=TRUE)
 
 summary(ASFL5m$fin_beh)
+weighted.mean(ASFL5m$fin_beh, ASFL5m$wght)
 summary(ASFL5f$fin_beh)
+weighted.mean(ASFL5f$fin_beh, ASFL5f$wght)
 table(ASFL5m$fin_beh)
+wpct(ASFL5m$fin_beh, weight=ASFL5m$wght, na.rm=TRUE)
 table(ASFL5f$fin_beh)
+wpct(ASFL5f$fin_beh, weight=ASFL5f$wght, na.rm=TRUE)
 
 summary(ASFL5m$fin_att)
+weighted.mean(ASFL5m$fin_att, ASFL5m$wght)
 summary(ASFL5f$fin_att)
+weighted.mean(ASFL5f$fin_att, ASFL5f$wght)
 table(ASFL5m$fin_att)
+wpct(ASFL5m$fin_att, weight=ASFL5m$wght, na.rm=TRUE)
 table(ASFL5f$fin_att)
+wpct(ASFL5f$fin_att, weight=ASFL5f$wght, na.rm=TRUE)
 
 summary(ASFL5m$produse)
 summary(ASFL5f$produse)
@@ -1080,7 +1124,7 @@ table(ASFL5ef$finwellbeing)
 
 
 
-#################financial indicators age comparison##########################
+#################financial indicators AGE COMPARISON##########################
 #full
 youngmillf <- c("16-28")
 oldmillf <- c("29-38")
