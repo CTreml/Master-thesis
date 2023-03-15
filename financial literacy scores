@@ -2,6 +2,11 @@
 #QK1 - self-rated knowledge #does not add to financial literacy score
 #see: descriptive statistics
 summary(ASFL$QK1)
+wpct(ASFL$QK1, weight=ASFL$wght, na.rm=TRUE)
+0.095532863+0.299779639#high
+0.404055791 #average
+0.128320735+0.047541960 #low
+0.009471324+0.015297688#dont know
 
 ASFLsem <- ASFLse[(ASFLse$QD1 %in% male),]
 ASFLsef <- ASFLse[(ASFLse$QD1 %in% female),]
@@ -15,8 +20,8 @@ summary(ASFLeu$QK1)
 
 #QK2 - equal splitting #does not add to financial literacy score
 summary(ASFL$QK2)
-QK2<- ifelse(ASFL$QK2 == "200", 1, 0)
-table(QK2)
+QK2f<- ifelse(ASFL$QK2 == "200", 1, 0)
+table(QK2f)
 summary(ASFLse$QK2)
 QK2se<- ifelse(ASFLse$QK2 == "200", 1, 0)
 table(QK2se)
@@ -41,8 +46,8 @@ wpct(ASFL$QK3, weight=ASFL$wght, na.rm=TRUE)
 (933+118)/1418
 QK3_1 <- ifelse(ASFL$QK3 == "Or, less than they could buy today", 1, 0)
 QK3_2 <- ifelse(ASFL$QK3 == "It depends on the types of things that they want to buy", 1, 0)
-QK3<- QK3_1+QK3_2
-table(QK3)
+QK3f<- QK3_1+QK3_2
+table(QK3f)
 1051/1418 #both options
 933/1418 #only one option
 
@@ -79,8 +84,8 @@ wpct(ASFL$QK4, weight=ASFL$wght, na.rm=TRUE)
 (52+41+33)/1418
 (16+1+5+3+1+1+1)/1418
 1264/1418 #89% according to OECD
-QK4<- ifelse(ASFL$QK4 == "0", 1, 0)
-table(QK4)
+QK4f<- ifelse(ASFL$QK4 == "0", 1, 0)
+table(QK4f)
 QK4se<- ifelse(ASFLse$QK4 == "0", 1, 0)
 table(QK4se)
 QK4e<- ifelse(ASFLe$QK4 == "0", 1, 0)
@@ -101,8 +106,8 @@ wpct(ASFL$QK5, weight=ASFL$wght, na.rm=TRUE)
 (136+44+10)/1418
 1121/1418 
 1-0.1339915-0.7905501
-QK5<- ifelse(ASFL$QK5 == "102", 1, 0)
-table(QK5)
+QK5f<- ifelse(ASFL$QK5 == "102", 1, 0)
+table(QK5f)
 QK5se<- ifelse(ASFLse$QK5 == "102", 1, 0)
 table(QK5se)
 QK5e<- ifelse(ASFLe$QK5 == "102", 1, 0)
@@ -119,8 +124,8 @@ wpct(ASFL$QK6, weight=ASFL$wght, na.rm=TRUE)
 (7+26+111)/1418
 (7+26+111)
 (91+411)/1418
-QK6<- ifelse(ASFL$QK6 == "More than €110" , 1, 0)
-table(QK6)
+QK6f<- ifelse(ASFL$QK6 == "More than €110" , 1, 0)
+table(QK6f)
 QK6se<- ifelse(ASFLse$QK6 == "More than €110", 1, 0)
 table(QK6se)
 QK6e<- ifelse(ASFLe$QK6 == "More than €110", 1, 0)
@@ -129,14 +134,14 @@ QK6eu<- ifelse(ASFLeu$QK6 == "More than €110", 1, 0)
 table(QK6eu)
 
 ###QK5 + QK6
-QK56 <- QK5+QK6
-table(QK56)
-wpct(QK56, weight=ASFL$wght, na.rm=TRUE)
+QK56f <- QK5f+QK6f
+table(QK56f)
+wpct(QK56f, weight=ASFL$wght, na.rm=TRUE)
 0.4903881#correct
 #dont know/irrelevant/refused
 #incorrect
-QK6n <- ifelse(QK56 == "2",1, 0)
-table(QK6n)
+QK6fn <- ifelse(QK56f == "2",1, 0)
+table(QK6fn)
 702/1418 
 476+(411+91+13)
 476/1418
@@ -170,8 +175,8 @@ wpct(ASFL$QK7_1, weight=ASFL$wght, na.rm=TRUE)
 (62+3)/1418
 39/1418
 1314/1418
-QK7_1<- ifelse(ASFL$QK7_1 == "True", 1, 0)
-table(QK7_1)
+QK7_1f<- ifelse(ASFL$QK7_1 == "True", 1, 0)
+table(QK7_1f)
 QK7_1se<- ifelse(ASFLse$QK7_1 == "True", 1, 0)
 table(QK7_1se)
 QK7_1e<- ifelse(ASFLe$QK7_1 == "True", 1, 0)
@@ -188,8 +193,8 @@ wpct(ASFL$QK7_2, weight=ASFL$wght, na.rm=TRUE)
 87/1418
 49/1418
 1282/1418
-QK7_2<- ifelse(ASFL$QK7_2 == "True", 1, 0)
-table(QK7_2)
+QK7_2f<- ifelse(ASFL$QK7_2 == "True", 1, 0)
+table(QK7_2f)
 QK7_2se<- ifelse(ASFLse$QK7_2 == "True", 1, 0)
 table(QK7_2se)
 QK7_2e<- ifelse(ASFLe$QK7_2 == "True", 1, 0)
@@ -206,8 +211,8 @@ wpct(ASFL$QK7_3, weight=ASFL$wght, na.rm=TRUE)
 (325+15)/1418
 204/1418
 874/1418
-QK7_3<- ifelse(ASFL$QK7_3 == "True", 1, 0)
-table(QK7_3)
+QK7_3f<- ifelse(ASFL$QK7_3 == "True", 1, 0)
+table(QK7_3f)
 QK7_3se<- ifelse(ASFLse$QK7_3 == "True", 1, 0)
 table(QK7_3se)
 QK7_3e<- ifelse(ASFLe$QK7_3 == "True", 1, 0)
@@ -221,8 +226,8 @@ wpct(ASFL$S58, weight=ASFL$wght, na.rm=TRUE)
 0.778428892 #correct
 0.001358319+0.018599573+0.055269846#dont know/irrelevant/refused
 1-0.778428892-0.07522774#incorrect
-S58<- ifelse(ASFL$S58 == "Less than today", 1, 0)
-table(S58)
+S58f<- ifelse(ASFL$S58 == "Less than today", 1, 0)
+table(S58f)
 S58se<- ifelse(ASFLse$S58 == "Less than today", 1, 0)
 table(S58se)
 S58e<- ifelse(ASFLe$S58 == "Less than today", 1, 0)
@@ -240,8 +245,8 @@ wpct(ASFL$QK7_4add, weight=ASFL$wght, na.rm=TRUE)
 (204+17)/1418
 233/1418
 964/1418
-QK7_4add<- ifelse(ASFL$QK7_4add == "False", 1, 0)
-table(QK7_4add)
+QK7_4addf<- ifelse(ASFL$QK7_4add == "False", 1, 0)
+table(QK7_4addf)
 QK7_4addse<- ifelse(ASFLse$QK7_4add == "False", 1, 0)
 table(QK7_4addse)
 QK7_4adde<- ifelse(ASFLe$QK7_4add == "False", 1, 0)
@@ -258,8 +263,8 @@ wpct(ASFL$EB3, weight=ASFL$wght, na.rm=TRUE)
 (9+19+247)/1418
 (79+86)/1418
 978/1418
-EB3<- ifelse(ASFL$EB3 == "Increases", 1, 0)
-table(EB3)
+EB3f<- ifelse(ASFL$EB3 == "Increases", 1, 0)
+table(EB3f)
 EB3se<- ifelse(ASFLse$EB3 == "Increases", 1, 0)
 table(EB3se)
 EB3e<- ifelse(ASFLe$EB3 == "Increases", 1, 0)
@@ -267,62 +272,118 @@ table(EB3e)
 EB3eu<- ifelse(ASFLeu$EB3 == "Increases", 1, 0)
 table(EB3eu)
 
-
+ASFL1 <- cbind(ASFL,QK3f,QK4f,QK5f,QK6fn,QK7_1f,QK7_2f,QK7_3f,S58f,QK7_4addf,EB3f)
 #create financial knowledge score (score 0-7).
 #old: QK3_1+QK4+QK5+QK6+QK7_1+QK7_2+QK7_3
-fin_know <- (QK3+QK4+QK5+QK6n+QK7_1+QK7_2+QK7_3)
+fin_know <- (QK3f+QK4f+QK5f+QK6fn+QK7_1f+QK7_2f+QK7_3f)
 table(fin_know)
-ASFL1 <- cbind(ASFL,fin_know)
+ASFL1 <- cbind(ASFL1,fin_know)
+wpct(ASFL1$fin_know, weight=ASFL1$wght, na.rm=TRUE)
 summary(ASFL1$fin_know)
+weighted.mean(ASFL1$fin_know,ASFL1$wght)
 
 
 table(ASFL1$fin_know)
 finknowd <- ifelse(ASFL1$fin_know >= "5", 1, 0)
+ASFL1 <- cbind(ASFL1,finknowd)
+wpct(ASFL1$finknowd, weight=ASFL1$wght, na.rm=TRUE) #0.7357643 
 table(finknowd)
-#average:
-#old: 5.322/7 #76.0%
-5.365/7
+#mean
+5.317881/7 #75.9% 76.0%
+5.365/7 #unweighted
 #at least 5 (out of 7)
-#old: 270+428+360
-#1058/(1058+8+26+63+95+168) ###74.6 - in OECD presentation: 73.6 -> maybe due to weights?
-252+405+405
-1062/1418
+0.7357643
+1062/1418 ###74.9 #unweighted
+
 
 #OECD
 ASFL1adult <- ASFL1[!(ASFL1$QD7 %in% under18),] 
 table(ASFL1adult$fin_know)
+wpct(ASFL1adult$fin_know, weight=ASFL1adult$wght, na.rm=TRUE)
+weighted.mean(ASFL1adult$fin_know, ASFL1adult$wght)
 #old:267+425+360
 #1052/(1052+8+26+62+94+168)
 249+403+404
 1056/1410
 
+#check for OECD score #adult above age 18
 summary(ASFL1adult$QK1)
 13+23+143+427+569+177+58
-(143+427)/1410
-(569)/1410
-(177+58)/1410
+(143+427)/1410 #high
+(569)/1410 #average
+(177+58)/1410 #low
+wpct(ASFL1adult$QK1, weight=ASFL1adult$wght, na.rm=TRUE)
+0.096935477+0.302151642#high
+0.402999839#average
+0.128599129+0.044181243 #low
+0.009610382+0.015522289#dont know
 summary(ASFL1adult$QK3)
+wpct(ASFL1adult$QK3, weight=ASFL1adult$wght, na.rm=TRUE)
+0.651809128+0.079593696
 summary(ASFL1adult$QK4)
+wpct(ASFL1adult$QK4, weight=ASFL1adult$wght, na.rm=TRUE)
+0.8896382572      
 summary(ASFL1adult$QK5)
+wpct(ASFL1adult$QK5, weight=ASFL1adult$wght, na.rm=TRUE)
+0.7860437136 
 summary(ASFL1adult$QK6)
+wpct(ASFL1adult$QK6, weight=ASFL1adult$wght, na.rm=TRUE)
+wpct(ASFL1adult$QK6fn, weight=ASFL1adult$wght, na.rm=TRUE)
 summary(ASFL1adult$QK7_1)
+wpct(ASFL1adult$QK7_1, weight=ASFL1adult$wght, na.rm=TRUE)
 summary(ASFL1adult$QK7_2)
+wpct(ASFL1adult$QK7_2, weight=ASFL1adult$wght, na.rm=TRUE)
 summary(ASFL1adult$QK7_3)
+wpct(ASFL1adult$QK7_3, weight=ASFL1adult$wght, na.rm=TRUE)
 
+#main 18-79 year old
 ASFL1main <- ASFL1adult[!(ASFL1adult$QD7 %in% above79),] 
 table(ASFL1main$fin_know)
-#old: 254+409+349
-#1012/(1012+6+23+59+88+153)
-236+389+391
-1016/1341 #75.76
+wpct(ASFL1main$fin_know, weight=ASFL1main$wght, na.rm=TRUE)
+weighted.mean(ASFL1main$fin_know, ASFL1main$wght)
+#mean
+5.347977/7 #76.4%
+#at least 5 (out of 7)
+0.170608406+ 0.280616308 +0.290353450 #74.2%
+
+summary(ASFL1main$QK1)
+12+22+137+411+544+162+53
+(137+411)/1341 #high
+(544)/1341 #average
+(162+53)/1341 #low
+wpct(ASFL1main$QK1, weight=ASFL1main$wght, na.rm=TRUE)
+0.30560506+0.09732298 #high
+0.40411618#average
+0.12579388+0.04252627 #low
+0.00924055+0.01539509#dont know
+summary(ASFL1main$QK3f)
+weighted.mean(ASFL1main$QK3f, ASFL1main$wght)
+wpct(ASFL1main$QK3, weight=ASFLmain$wght, na.rm=TRUE)
+0.656081600+0.080013628 
+summary(ASFL1main$QK4)
+wpct(ASFL1main$QK4, weight=ASFL1main$wght, na.rm=TRUE)
+0.8925266117
+summary(ASFL1main$QK5)
+wpct(ASFL1main$QK5, weight=ASFL1main$wght, na.rm=TRUE)
+0.7889027086
+summary(ASFL1main$QK6)
+wpct(ASFL1main$QK6, weight=ASFL1main$wght, na.rm=TRUE)
+wpct(ASFL1main$QK6fn, weight=ASFL1main$wght, na.rm=TRUE)
+summary(ASFL1main$QK7_1)
+wpct(ASFL1main$QK7_1, weight=ASFL1main$wght, na.rm=TRUE)
+summary(ASFL1main$QK7_2)
+wpct(ASFL1main$QK7_2, weight=ASFL1main$wght, na.rm=TRUE)
+summary(ASFL1main$QK7_3)
+wpct(ASFL1main$QK7_3, weight=ASFL1main$wght, na.rm=TRUE)
 
 ##############austria specific additional financial knowledge!
 
 #old: QK3_1+QK4+QK5+QK6+QK7_1+QK7_2+QK7_3+S58+QK7_4add+EB3
-fin_know_add <- (QK3+QK4+QK5+QK6n+QK7_1+QK7_2+QK7_3+S58+QK7_4add+EB3)
+fin_know_add <- (QK3f+QK4f+QK5f+QK6fn+QK7_1f+QK7_2f+QK7_3f+S58f+QK7_4addf+EB3f)
 table(fin_know_add)
 ASFL1 <- cbind(ASFL1,fin_know_add)
 summary(ASFL1$fin_know_add)
+wpct(ASFL1$fin_know_add, weight=ASFL1$wght, na.rm=TRUE)
 
 ASFL1se <- ASFL1[(ASFL1$QD10 %in% se),] 
 table(ASFL1se$fin_know)
@@ -363,14 +424,17 @@ QS1_1_2 <- ifelse(QS1_1 == "2",2, 0)
 QS1_1_3 <- ifelse(QS1_1 == "3",3, 0)
 QS1_1_4 <- ifelse(QS1_1 == "4",4, 0)
 QS1_1_5 <- ifelse(QS1_1 == "Completely disagree",5, 0)
-QS1_1 <- QS1_1_1_rec+QS1_1_2_rec+QS1_1_3_rec+QS1_1_1+QS1_1_2+QS1_1_3+QS1_1_4+QS1_1_5
-QS1_1
-table(QS1_1)
-summary(QS1_1) #mean:3.181 - according to Fessler et al (2020)
+QS1_1f <- QS1_1_1_rec+QS1_1_2_rec+QS1_1_3_rec+QS1_1_1+QS1_1_2+QS1_1_3+QS1_1_4+QS1_1_5
+QS1_1f
+table(QS1_1f)
+summary(QS1_1f) #mean:3.181 - according to Fessler et al (2020)
+ASFL1 <- cbind(ASFL1, QS1_1f)
+weighted.mean(ASFL1$QS1_1f, ASFL1$wght)
+round(3.146552,1)
 
 #money there to be spent
-summary(ASFLadult$QS1_3)
-QS1_3 <-ASFLadult$QS1_3
+summary(ASFL$QS1_3)
+QS1_3 <-ASFL$QS1_3
 QS1_3_1_rec <- ifelse(QS1_3== "Refused", 3, 0)
 QS1_3_2_rec <- ifelse(QS1_3 == "Not relevant", 3, 0)
 QS1_3_3_rec <- ifelse(QS1_3 == "Don't know", 3, 0)
@@ -380,10 +444,12 @@ QS1_3_2 <- ifelse(QS1_3 == "2",2, 0)
 QS1_3_3 <- ifelse(QS1_3 == "3",3, 0)
 QS1_3_4 <- ifelse(QS1_3 == "4",4, 0)
 QS1_3_5 <- ifelse(QS1_3 == "Completely disagree",5, 0)
-QS1_3 <- QS1_3_1_rec+QS1_3_2_rec+QS1_3_3_rec+QS1_3_1+QS1_3_2+QS1_3_3+QS1_3_4+QS1_3_5
-QS1_3
-table(QS1_3)
-summary(QS1_3)
+QS1_3f <- QS1_3_1_rec+QS1_3_2_rec+QS1_3_3_rec+QS1_3_1+QS1_3_2+QS1_3_3+QS1_3_4+QS1_3_5
+QS1_3f
+table(QS1_3f)
+summary(QS1_3f)
+ASFL1 <- cbind(ASFL1, QS1_3f)
+weighted.mean(QS1_3f, ASFL1$wght)
 
 
 #live for today and let tommorow take care of itself
@@ -398,27 +464,33 @@ QS3_11_2 <- ifelse(QS3_11 == "2",2, 0)
 QS3_11_3 <- ifelse(QS3_11 == "3",3, 0)
 QS3_11_4 <- ifelse(QS3_11 == "4",4, 0)
 QS3_11_5 <- ifelse(QS3_11 == "Not at all",5, 0)
-QS3_11 <- QS3_11_1_rec+QS3_11_2_rec+QS3_11_3_rec+QS3_11_1+QS3_11_2+QS3_11_3+QS3_11_4+QS3_11_5
-QS3_11
-table(QS3_11)
-summary(QS3_11) #mean:3.642 - according to Fessler et al (2020)
+QS3_11f <- QS3_11_1_rec+QS3_11_2_rec+QS3_11_3_rec+QS3_11_1+QS3_11_2+QS3_11_3+QS3_11_4+QS3_11_5
+QS3_11f
+table(QS3_11f)
+summary(QS3_11f) #mean:3.642 - according to Fessler et al (2020)
+ASFL1 <- cbind(ASFL1, QS3_11f)
+weighted.mean(QS3_11f, ASFL1$wght)
 
-
-fin_att <- (QS1_1+QS1_3+QS3_11)/3
+fin_att <- (QS1_1f+QS1_3f+QS3_11f)/3
 fin_att
 ASFL2 <- cbind(ASFL1,fin_att)
 
+#mean
 summary(ASFL2$fin_att)
 weighted.mean(fin_att, weights)
-table(ASFL2$fin_att)
 
+table(ASFL2$fin_att)
+wpct(ASFL2$fin_att, weight=ASFL2$wght, na.rm=TRUE)
 
 #more than 3 (out of 5)
-207+226+170+57+32+15
-707/1418 #OECD:49.0
+207+226+170+57+32+15 #unweighted
+707/1418 
+0.148183723+0.151596509+0.121536208+0.038304679+0.021414687+0.008899529#OECD:49.0
 
 #onlyadults
 ASFL2adult <- ASFL2[!(ASFL2$QD7 %in% under18),] 
+wpct(ASFL2adult$fin_att, weight=ASFL2adult$wght, na.rm=TRUE)
+0.184653457+0.145079737+0.091673142+0.048912949+0.014408293+0.003372505 
 summary(ASFL2adult$fin_att)
 table(ASFL2adult$fin_att)
 #more than 3 (out of 5) 
@@ -426,6 +498,8 @@ table(ASFL2adult$fin_att)
 704/1410 #OECD: 49.0%
 
 ASFL2main <- ASFL2adult[!(ASFL2adult$QD7 %in% above79),] 
+wpct(ASFL2main$fin_att, weight=ASFL2main$wght, na.rm=TRUE)
+0.188410068+0.146791486+0.088319304+0.050920375+0.014999620+0.003510915 
 summary(ASFL2main$fin_att)
 table(ASFL2main$fin_att)
 201+217+163+56+32+12
@@ -453,20 +527,7 @@ table(ASFL2eu$fin_att)
 378/(378+13+14+30+59+48+88+119)
 378/749
 
-###gender differences 
-ASFL2m <- ASFL2[(ASFL2$QD1 %in% male),]
-summary(ASFL2m$fin_att)
-ASFL2f <- ASFL2[(ASFL2$QD1 %in% female),]
-summary(ASFL2f$fin_att) #according to Fessler et al(2020)
 
-ASFL2sem <- ASFL2se[(ASFL2se$QD1 %in% male),]
-ASFL2sef <- ASFL2se[(ASFL2se$QD1 %in% female),]
-
-ASFL2em <- ASFL2e[(ASFL2e$QD1 %in% male),]
-ASFL2ef <- ASFL2e[(ASFL2e$QD1 %in% female),]
-
-ASFL2eum <- ASFL2eu[(ASFL2eu$QD1 %in% male),]
-ASFL2euf <- ASFL2eu[(ASFL2eu$QD1 %in% female),]
 
 ####################FINANCIAL BEHAVIOUR SCORE#######################
 ###########Budgeting#################
@@ -511,20 +572,27 @@ QF3_7<- ifelse(ASFL$QF3_7 == "Yes", 1, 0)
 QF3_8<- ifelse(ASFL$QF3_8 == "Yes", 1, 0)
 table(ASFL$QF3_97)
 table(ASFL$QF3_99)#Refused
+QF3_99<- ifelse(ASFL$QF3_99 == "Yes", 1, 0)
 
 #alternative with QF3_8: 
 QF3<- QF3_1+QF3_2+QF3_3+QF3_5+QF3_6+QF3_7+QF3_8
 #QF3<- QF3_1+QF3_2+QF3_3+QF3_5+QF3_6+QF3_7
 table(QF3)
 QF3fin <- ifelse(QF3 >= "1", 1, 0)
-QF3fin #active saving - at least 1 yes
+table(QF3fin) #active saving - at least 1 yes
+ASFL2 <- cbind (ASFL2,QF3fin)
+weighted.mean(QF3fin,ASFL$wght)
+ASFL2adult <- ASFL2[!(ASFL2$QD7 %in% under18),] 
+weighted.mean(ASFL2adult$QF3fin,ASFL2adult$wght)
 
 
 
 ####Avoiding borrowing to make ends meet###########
 #######QF11#####################
 ##preliminary check for QF12
+#not meeting costs in the past year 
 summary(ASFL$QF11)
+wpct(ASFL$QF11, weight=ASFL$wght, na.rm=TRUE)
 QF11a <-  ifelse(ASFL$QF11 == "No", 1, 0)
 table(QF11a)
 #take all refused/NA/dont know as 1 - only take those "did not borrow to make ends meet out
@@ -681,6 +749,10 @@ QS1_5_1 <- ifelse(QS1_5== "Completely agree", 1, 0)
 QS1_5_2 <- ifelse(QS1_5 == "2", 1, 0)
 QS1_5 <- QS1_5_1+QS1_5_2
 QS1_5
+#watch on finances
+wpct(ASFL$QS1_5, weight=ASFL$wght, na.rm=TRUE)
+0.452681202+0.379732221         
+
 
 #strieving to achieve long-term goals
 QS1_8 <-ASFL$QS1_8
@@ -689,6 +761,9 @@ QS1_8_1 <- ifelse(QS1_8 == "Completely agree", 1, 0)
 QS1_8_2 <- ifelse(QS1_8 == "2", 1, 0)
 QS1_8 <- QS1_8_1+QS1_8_2
 QS1_8
+#long term financial goals
+wpct(ASFL$QS1_8, weight=ASFL$wght, na.rm=TRUE)
+0.157922728 +0.373263409         
 
 #Considered purchases
 QS2_3 <-ASFL$QS2_3
@@ -697,6 +772,9 @@ QS2_3_1 <- ifelse(QS2_3 == "Always", 1, 0)
 QS2_3_2 <- ifelse(QS2_3 == "2", 1, 0)
 QS2_3 <- QS2_3_1+QS2_3_2
 QS2_3
+#carefully considered purchases
+wpct(ASFL$QS2_3, weight=ASFL$wght, na.rm=TRUE)
+0.346975153+0.317067745
 
 #Paying bills on time
 QS2_5 <-ASFL$QS2_5
@@ -705,12 +783,13 @@ QS2_5_1 <- ifelse(QS2_5 == "Always", 1, 0)
 QS2_5_2 <- ifelse(QS2_5 == "2", 1, 0)
 QS2_5 <- QS2_5_1+QS2_5_2
 QS2_5
-
+#paying bills on time
+wpct(ASFL$QS2_5, weight=ASFL$wght, na.rm=TRUE)
+0.595069198+0.250236243
 
 fin_beh <- QF_Budfin+QF12fin+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
 #QF12fin equal to QFMEM
 fin_beh
-weighted.mean(fin_beh2, weights)
 fin_beh2 <-QF_Budfin+QF11a+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
 fin_beh3 <-QF_Budfin+QF11b+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
 Qprodfin
@@ -722,12 +801,16 @@ table(fin_beh3)
 summary(fin_beh3)
 377+299+166+62
 904/1418
+weighted.mean(fin_beh, ASFL$wght)
+weighted.mean(fin_beh2, ASFL$wght)
+weighted.mean(fin_beh3, ASFL$wght)
 
 ASFL3 <- cbind(ASFL2,fin_beh)
 ASFL3 <- cbind(ASFL3,fin_beh2)
 ASFL3 <- cbind(ASFL3,fin_beh3)
 summary(ASFL3$fin_beh)  #5.963
 summary(ASFL3$fin_beh2, weight=ASFL$wght)
+wpct(fin_beh, weight=ASFL$wght, na.rm=TRUE)
 wpct(fin_beh, weight=ASFL$wght, na.rm=TRUE)
 
 table(ASFL3$fin_beh)
@@ -757,6 +840,7 @@ table(ASFL3se$fin_beh)
 ASFL3e <- ASFL3[(ASFL3$QD10 %in% e),] 
 summary(ASFL3e$fin_beh)
 table(ASFL3e$fin_beh)
+
 #more than 6 (out of nine)
 176+148+89+23
 436/(436+2+8+15+31+71+136)
@@ -768,19 +852,8 @@ summary(ASFL3eu$fin_beh)
 182+151+92+24
 449/(449+3+14+19+39+80+145)
 
-ASFL3m <- ASFL3[(ASFL3$QD1 %in% male),]
-summary(ASFL3m$fin_beh2)
-ASFL3f <- ASFL3[(ASFL3$QD1 %in% female),]
-summary(ASFL3f$fin_beh3)
 
-ASFL3sem <- ASFL3se[(ASFL3se$QD1 %in% male),]
-ASFL3sef <- ASFL3se[(ASFL3se$QD1 %in% female),]
 
-ASFL3em <- ASFL3e[(ASFL3e$QD1 %in% male),]
-ASFL3ef <- ASFL3e[(ASFL3e$QD1 %in% female),]
-
-ASFL3eum <- ASFL3eu[(ASFL3eu$QD1 %in% male),]
-ASFL3euf <- ASFL3eu[(ASFL3eu$QD1 %in% female),]
 
 
 
