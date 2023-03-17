@@ -44,6 +44,32 @@ wpct(ASFL$QK3, weight=ASFL$wght, na.rm=TRUE)
 (61+21+3)/1418
 (219+63)/1418
 (933+118)/1418
+
+summary(ASFLse$QK3)
+wpct(ASFLse$QK3, weight=ASFLse$wght, na.rm=TRUE) #0.8812004,0.06277662,0.05602298
+0.77712780 +0.10407263 #correct
+1-(0.05602298+0.8812004)#incorrect 
+0.05602298 #dont know/irrelevant
+
+summary(ASFLe$QK3)
+wpct(ASFLe$QK3, weight=ASFLe$wght, na.rm=TRUE)#0.7227266,0.2387096,0.03856385
+0.650157593 +0.072568991 #correct
+1-(0.7227266+0.03856385)#incorrect 
+0.001668598 +0.008530523 +0.028364729 #dont know/irrelevant
+
+summary(ASFLoth$QK3)
+wpct(ASFLoth$QK3, weight=ASFLoth$wght, na.rm=TRUE)#0.7288287,0.1860751,0.08509625
+0.085890743+0.642937970#correct
+1-(0.7288287+0.08509625)#incorrect 
+0.002843489 +0.022301557+0.059951203#dont know/irrelevant
+
+summary(ASFLothworet$QK3)
+wpct(ASFLothworet$QK3, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+
+
 QK3_1 <- ifelse(ASFL$QK3 == "Or, less than they could buy today", 1, 0)
 QK3_2 <- ifelse(ASFL$QK3 == "It depends on the types of things that they want to buy", 1, 0)
 QK3f<- QK3_1+QK3_2
@@ -84,6 +110,31 @@ wpct(ASFL$QK4, weight=ASFL$wght, na.rm=TRUE)
 (52+41+33)/1418
 (16+1+5+3+1+1+1)/1418
 1264/1418 #89% according to OECD
+
+summary(ASFLse$QK4)
+wpct(ASFLse$QK4, weight=ASFLse$wght, na.rm=TRUE)#0.970574832,0.007966968,0.0214582
+0.970574832 #correct
+0.007966968 #incorrect 
+0.006653903+0.014804297#dont know/irrelevant
+
+summary(ASFLe$QK4)
+wpct(ASFLe$QK4, weight=ASFLe$wght, na.rm=TRUE)#0.897261034,0.03466621,0.06807276
+0.897261034#correct
+1-(0.897261034+0.06807276)#incorrect 
+0.021111471+0.021588658+0.025372634#dont know/irrelevant
+
+summary(ASFLoth$QK4)
+wpct(ASFLoth$QK4, weight=ASFLoth$wght, na.rm=TRUE)#0.8693630648,0.009771735,0.1208652      
+0.8693630648  #correct
+1-(0.1208652+0.8693630648)#incorrect 
+0.0578566151+0.0353428495+0.0276657225#dont know/irrelevant
+
+summary(ASFLothworet$QK4)
+wpct(ASFLothworet$QK4, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+
 QK4f<- ifelse(ASFL$QK4 == "0", 1, 0)
 table(QK4f)
 QK4se<- ifelse(ASFLse$QK4 == "0", 1, 0)
@@ -106,6 +157,31 @@ wpct(ASFL$QK5, weight=ASFL$wght, na.rm=TRUE)
 (136+44+10)/1418
 1121/1418 
 1-0.1339915-0.7905501
+
+summary(ASFLse$QK5)
+wpct(ASFLse$QK5, weight=ASFLse$wght, na.rm=TRUE)#0.911007520,0.025367278,0.0636252
+0.911007520       #correct
+0.025367278 #incorrect 
+0.0636252#dont know/irrelevant
+
+summary(ASFLe$QK5)
+wpct(ASFLe$QK5, weight=ASFLe$wght, na.rm=TRUE)#0.7892900880,0.1056407,0.1050692
+0.7892900880#correct
+1-(0.1050692+0.7892900880)#incorrect 
+0.0712881232+0.0279016771+0.0058794117#dont know/irrelevant
+
+summary(ASFLoth$QK5)
+wpct(ASFLoth$QK5, weight=ASFLoth$wght, na.rm=TRUE)#0.7645187980,0.0554447,0.1800365      
+0.7645187980#correct
+1-(0.1800365+0.7645187980)#incorrect 
+0.1328077169+0.0388111377+0.0084176501#dont know/irrelevant
+
+summary(ASFLothworet$QK5)
+wpct(ASFLothworet$QK5, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+
 QK5f<- ifelse(ASFL$QK5 == "102", 1, 0)
 table(QK5f)
 QK5se<- ifelse(ASFLse$QK5 == "102", 1, 0)
@@ -114,16 +190,45 @@ QK5e<- ifelse(ASFLe$QK5 == "102", 1, 0)
 table(QK5e)
 QK5eu<- ifelse(ASFLeu$QK5 == "102", 1, 0)
 table(QK5eu)
+QK5oth<- ifelse(ASFLoth$QK5 == "102", 1, 0)
+table(QK5oth)
+QK5othworet<- ifelse(ASFLothworet$QK5 == "102", 1, 0)
+table(QK5othworet)
 
 #QK6 - *OECD - compound interest 
 summary(ASFL$QK6) 
-wpct(ASFL$QK6, weight=ASFL$wght, na.rm=TRUE)
+wpct(ASFL$QK6, weight=ASFL$wght, na.rm=TRUE)#0.4903881,0.365513,0.1440989
 0.535301109#correct
 0.004409244+0.018203732+0.076572892 #dont know/irrelevant/refused
 1-0.535301109-0.09918587#incorrect
 (7+26+111)/1418
 (7+26+111)
 (91+411)/1418
+
+summary(ASFLse$QK6)
+wpct(ASFLse$QK6, weight=ASFLse$wght, na.rm=TRUE)
+#correct
+0.178534126 +0.130571101 #incorrect 
+#dont know/irrelevant
+
+summary(ASFLe$QK6)
+wpct(ASFLe$QK6, weight=ASFLe$wght, na.rm=TRUE)  
+#correct
+0.280932800+0.063492648+0.007347740  #incorrect 
+#dont know/irrelevant
+
+summary(ASFLoth$QK6)
+wpct(ASFLoth$QK6, weight=ASFLoth$wght, na.rm=TRUE)
+#correct
+0.324732739 +0.053209114 +0.012614148 #incorrect 
+#dont know/irrelevant
+
+summary(ASFLothworet$QK6)
+wpct(ASFLothworet$QK6, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+
 QK6f<- ifelse(ASFL$QK6 == "More than €110" , 1, 0)
 table(QK6f)
 QK6se<- ifelse(ASFLse$QK6 == "More than €110", 1, 0)
@@ -132,11 +237,16 @@ QK6e<- ifelse(ASFLe$QK6 == "More than €110", 1, 0)
 table(QK6e)
 QK6eu<- ifelse(ASFLeu$QK6 == "More than €110", 1, 0)
 table(QK6eu)
+QK6oth<- ifelse(ASFLoth$QK6 == "More than €110", 1, 0)
+table(QK6oth)
+QK6othworet<- ifelse(ASFLothworet$QK6 == "More than €110", 1, 0)
+table(QK6othworet)
 
 ###QK5 + QK6
 QK56f <- QK5f+QK6f
 table(QK56f)
 wpct(QK56f, weight=ASFL$wght, na.rm=TRUE)
+
 0.4903881#correct
 #dont know/irrelevant/refused
 #incorrect
@@ -150,31 +260,74 @@ table(QK6fn)
 
 QK56se <- QK5se+QK6se
 table(QK56se)
-QK6sen <- ifelse(QK56se == "2",1, 0)
-table(QK6sen)
+wpct(QK56se, weight=ASFLse$wght, na.rm=TRUE)
+QK6sen <- ifelse(QK56se == "2",1, 0) 
+table(QK6sen) #0.64042716,0.3091052,0.05046764
 53/79
+1-(0.64042716 +0.3091052)
 
 QK56e <- QK5e+QK6e
 table(QK56e)
-QK6en <- ifelse(QK56e == "2",1, 0)
+wpct(QK56e, weight=ASFLe$wght, na.rm=TRUE)
+QK6en <- ifelse(QK56e == "2",1, 0) #0.5221745,0.3517732,0.1274378
 table(QK6en)
 365/699
+1-(0.5207890 +0.3517732)
 
 QK56eu <- QK5eu+QK6eu
 table(QK56eu)
+wpct(QK56eu, weight=ASFLeu$wght, na.rm=TRUE)
 QK6eun <- ifelse(QK56eu == "2",1, 0)
 table(QK6eun)
 379/749
 
+QK56oth <- QK5oth+QK6oth
+table(QK56oth)
+wpct(QK56oth, weight=ASFLoth$wght, na.rm=TRUE)
+QK6othn <- ifelse(QK56oth == "2",1, 0)#0.4317166,0.390556,0.1777274
+table(QK6othn)
+1-(0.4317166+0.390556)
+
+QK56othworet <- QK5othworet+QK6othworet
+table(QK56othworet)
+wpct(QK56othworet, weight=ASFLothworet$wght, na.rm=TRUE)
+QK6othworetn <- ifelse(QK56othworet == "2",1, 0)
+table(QK6othworetn)
+
 #QK7_1 - *OECD - risk and return
 summary(ASFL$QK7_1)
-wpct(ASFL$QK7_1, weight=ASFL$wght, na.rm=TRUE)
+wpct(ASFL$QK7_1, weight=ASFL$wght, na.rm=TRUE)#0.9166026,0.03135837,0.05203899
 0.916602640#correct
 0.050442460+0.001596526#dont know/irrelevant/refused
 1-0.916602640-0.05203899#incorrect
 (62+3)/1418
 39/1418
 1314/1418
+
+summary(ASFLse$QK7_1)
+wpct(ASFLse$QK7_1, weight=ASFLse$wght, na.rm=TRUE)#0.90143273,0.03396225, 0.06460503 
+0.90143273 #correct
+0.03396225 #incorrect 
+0.06460503 #dont know/irrelevant
+
+summary(ASFLe$QK7_1)
+wpct(ASFLe$QK7_1, weight=ASFLe$wght, na.rm=TRUE)#0.9070270072 ,0.0443046011 ,0.04866839
+0.9070270072 #correct
+0.0443046011 #incorrect 
+1-(0.0443046011 +0.9070270072)#dont know/irrelevant
+
+summary(ASFLoth$QK7_1)
+wpct(ASFLoth$QK7_1, weight=ASFLoth$wght, na.rm=TRUE)#0.930935147,0.014295340,0.05476951
+0.930935147 #correct
+0.014295340#incorrect 
+1-(0.014295340+0.930935147)#dont know/irrelevant
+
+summary(ASFLothworet$QK7_1)
+wpct(ASFLothworet$QK7_1, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+
 QK7_1f<- ifelse(ASFL$QK7_1 == "True", 1, 0)
 table(QK7_1f)
 QK7_1se<- ifelse(ASFLse$QK7_1 == "True", 1, 0)
@@ -186,13 +339,38 @@ table(QK7_1eu)
 
 #QK7_2 - *OECD - inflation definition
 summary(ASFL$QK7_2)
-wpct(ASFL$QK7_2, weight=ASFL$wght, na.rm=TRUE)
+wpct(ASFL$QK7_2, weight=ASFL$wght, na.rm=TRUE)#0.8889704,0.04507601,0.06595359
 0.888970397 #correct
 0.061969977+0.003983608#dont know/irrelevant/refused
 1-0.888970397-0.06595359#incorrect
 87/1418
 49/1418
 1282/1418
+
+summary(ASFLse$QK7_2)
+wpct(ASFLse$QK7_2, weight=ASFLse$wght, na.rm=TRUE)#0.91822943,0.03238426,0.04938631 
+0.91822943 #correct
+0.03238426 #incorrect 
+0.04938631 #dont know/irrelevant
+
+summary(ASFLe$QK7_2)
+wpct(ASFLe$QK7_2, weight=ASFLe$wght, na.rm=TRUE)#0.887358506,0.052169972 ,0.06047152
+0.887358506 #correct
+0.052169972 #incorrect 
+1-(0.052169972 +0.887358506)#dont know/irrelevant
+
+summary(ASFLoth$QK7_2)
+wpct(ASFLoth$QK7_2, weight=ASFLoth$wght, na.rm=TRUE)#0.887270979,0.037551181 ,0.07517784
+0.887270979 #correct
+0.037551181 #incorrect 
+1-(0.887270979+0.037551181 ) #dont know/irrelevant
+
+summary(ASFLothworet$QK7_2)
+wpct(ASFLothworet$QK7_2, weight=ASFLothworet$wght, na.rm=TRUE)#0.809610297,0.080652478,0.1097372
+0.809610297#correct
+0.080652478 #incorrect 
+1-(0.809610297+0.080652478)#dont know/irrelevant
+
 QK7_2f<- ifelse(ASFL$QK7_2 == "True", 1, 0)
 table(QK7_2f)
 QK7_2se<- ifelse(ASFLse$QK7_2 == "True", 1, 0)
@@ -204,13 +382,39 @@ table(QK7_2eu)
 
 #QK7_3 - *OECD - diversification
 summary(ASFL$QK7_3)
-wpct(ASFL$QK7_3, weight=ASFL$wght, na.rm=TRUE)
+wpct(ASFL$QK7_3, weight=ASFL$wght, na.rm=TRUE)#0.61300273,0.1526371,0.2343602
 0.61300273 #correct
 0.22363099+0.01072922#dont know/irrelevant/refused
 1-0.61300273-0.2343602#incorrect
 (325+15)/1418
 204/1418
 874/1418
+
+summary(ASFLse$QK7_3)
+wpct(ASFLse$QK7_3, weight=ASFLse$wght, na.rm=TRUE)#0.77142812,0.13102772,0.09754416 
+0.77142812 #correct
+0.13102772 #incorrect 
+0.09754416 #dont know/irrelevant
+
+summary(ASFLe$QK7_3)
+wpct(ASFLe$QK7_3, weight=ASFLe$wght, na.rm=TRUE)#0.667234442,0.162267278,0.1704983
+0.667234442 #correct
+0.162267278 #incorrect 
+1-(0.667234442 +0.162267278 )#dont know/irrelevant
+
+summary(ASFLoth$QK7_3)
+wpct(ASFLoth$QK7_3, weight=ASFLoth$wght, na.rm=TRUE)#0.52245783,0.14298805,0.3345541
+0.52245783 #correct
+0.14298805 #incorrect 
+1-(0.52245783+0.14298805 ) #dont know/irrelevant
+
+summary(ASFLothworet$QK7_3)
+wpct(ASFLothworet$QK7_3, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+
+
 QK7_3f<- ifelse(ASFL$QK7_3 == "True", 1, 0)
 table(QK7_3f)
 QK7_3se<- ifelse(ASFLse$QK7_3 == "True", 1, 0)
@@ -222,10 +426,35 @@ table(QK7_3eu)
 
 #S58 - non-OECD - real interest
 summary(ASFL$S58)
-wpct(ASFL$S58, weight=ASFL$wght, na.rm=TRUE)
+wpct(ASFL$S58, weight=ASFL$wght, na.rm=TRUE)#0.778428892,0.1463434,0.07522774
 0.778428892 #correct
 0.001358319+0.018599573+0.055269846#dont know/irrelevant/refused
 1-0.778428892-0.07522774#incorrect
+
+summary(ASFLse$S58)
+wpct(ASFLse$S58, weight=ASFLse$wght, na.rm=TRUE)#0.93873646,0.01444696,0.04681658      
+0.93873646 #correct
+0.01444696      #incorrect 
+0.04681658      #dont know/irrelevant
+
+summary(ASFLe$S58)
+wpct(ASFLe$S58, weight=ASFLe$wght, na.rm=TRUE)#0.77005123,0.1758667,0.05408207
+0.77005123#correct
+0.04638901+0.12947764      #incorrect 
+1-(0.77005123+0.1758667)#dont know/irrelevant
+
+summary(ASFLoth$S58)
+wpct(ASFLoth$S58, weight=ASFLoth$wght, na.rm=TRUE)#0.768531697 ,0.1252482,0.1062201
+0.768531697 #correct
+0.096712743+0.028535412        #incorrect 
+1-(0.768531697 +0.1252482) #dont know/irrelevant
+
+summary(ASFLothworet$S58)
+wpct(ASFLothworet$S58, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+
 S58f<- ifelse(ASFL$S58 == "Less than today", 1, 0)
 table(S58f)
 S58se<- ifelse(ASFLse$S58 == "Less than today", 1, 0)
@@ -238,13 +467,39 @@ table(S58eu)
 
 #QK7_4add - non-OECD - overdrawing a account 
 summary(ASFL$QK7_4add)
-wpct(ASFL$QK7_4add, weight=ASFL$wght, na.rm=TRUE)
+wpct(ASFL$QK7_4add, weight=ASFL$wght, na.rm=TRUE)#0.685109119,0.1647971,0.1500938
 0.685109119 #correct
 0.009036726 +0.141057048 #dont know/irrelevant/refused
 1-0.685109119-0.1500938#incorrect
 (204+17)/1418
 233/1418
 964/1418
+
+summary(ASFLse$QK7_4add)
+wpct(ASFLse$QK7_4add, weight=ASFLse$wght, na.rm=TRUE)#0.7227731 ,0.1404427 ,0.1367842 
+0.7227731 #correct
+0.1404427 #incorrect 
+0.1367842 #dont know/irrelevant
+
+summary(ASFLe$QK7_4add)
+wpct(ASFLe$QK7_4add, weight=ASFLe$wght, na.rm=TRUE)#0.740998033 ,0.174713123,0.08428884
+0.740998033 #correct
+0.174713123 #incorrect 
+1-(0.174713123 +0.740998033 )#dont know/irrelevant
+
+summary(ASFLoth$QK7_4add)
+wpct(ASFLoth$QK7_4add, weight=ASFLoth$wght, na.rm=TRUE)#0.60803253 ,0.15513368 ,0.2368338
+0.60803253 #correct
+0.15513368 #incorrect 
+1-(0.60803253+0.15513368 )#dont know/irrelevant
+
+summary(ASFLothworet$QK7_4add)
+wpct(ASFLothworet$QK7_4add, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+
+
 QK7_4addf<- ifelse(ASFL$QK7_4add == "False", 1, 0)
 table(QK7_4addf)
 QK7_4addse<- ifelse(ASFLse$QK7_4add == "False", 1, 0)
@@ -256,13 +511,38 @@ table(QK7_4addeu)
 
 #EB3 - non-OECD - exchange rate
 summary(ASFL$EB3)
-wpct(ASFL$EB3, weight=ASFL$wght, na.rm=TRUE)
+wpct(ASFL$EB3, weight=ASFL$wght, na.rm=TRUE)#0.6917723,0.1276094,0.1806183
 0.691772328#correct
 0.005521473+0.013842803+0.161254056#dont know/irrelevant/refused
 1-0.691772328-0.1806183#incorrect
 (9+19+247)/1418
 (79+86)/1418
 978/1418
+
+summary(ASFLse$EB3)
+wpct(ASFLse$EB3, weight=ASFLse$wght, na.rm=TRUE)#0.87447672,0.04876289,0.07676039             
+0.87447672             #correct
+1-(0.87447672+0.07676039)#incorrect 
+0.07676039             #dont know/irrelevant
+
+summary(ASFLe$EB3)
+wpct(ASFLe$EB3, weight=ASFLe$wght, na.rm=TRUE)#0.703229118 ,0.159618,0.1371529
+0.703229118 #correct
+0.083257430            +0.076360531 #incorrect 
+1-(0.159618+0.703229118)#dont know/irrelevant
+
+summary(ASFLoth$EB3)
+wpct(ASFLoth$EB3, weight=ASFLoth$wght, na.rm=TRUE)#0.653354147,0.09644592,0.2501999
+0.653354147 #correct
+0.038369373+0.058076548#incorrect 
+1-(0.653354147+0.09644592)#dont know/irrelevant
+
+summary(ASFLothworet$EB3)
+wpct(ASFLothworet$EB3, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+
 EB3f<- ifelse(ASFL$EB3 == "Increases", 1, 0)
 table(EB3f)
 EB3se<- ifelse(ASFLse$EB3 == "Increases", 1, 0)
@@ -282,6 +562,8 @@ wpct(ASFL1$fin_know, weight=ASFL1$wght, na.rm=TRUE)
 summary(ASFL1$fin_know)
 weighted.mean(ASFL1$fin_know,ASFL1$wght)
 
+wpct(ASFL1$fin_know, weight=ASFL1$wght, na.rm=TRUE)
+
 
 table(ASFL1$fin_know)
 finknowd <- ifelse(ASFL1$fin_know >= "5", 1, 0)
@@ -296,7 +578,6 @@ table(finknowd)
 1062/1418 ###74.9 #unweighted
 
 
-#OECD
 ASFL1adult <- ASFL1[!(ASFL1$QD7 %in% under18),] 
 table(ASFL1adult$fin_know)
 wpct(ASFL1adult$fin_know, weight=ASFL1adult$wght, na.rm=TRUE)
@@ -387,15 +668,20 @@ wpct(ASFL1$fin_know_add, weight=ASFL1$wght, na.rm=TRUE)
 
 ASFL1se <- ASFL1[(ASFL1$QD10 %in% se),] 
 table(ASFL1se$fin_know)
+wpct(ASFL1se$fin_know, weight=ASFL1se$wght, na.rm=TRUE)
 summary(ASFL1se$fin_know)
 table(ASFL1se$fin_know_add)
+wpct(ASFL1se$fin_know_add, weight=ASFL1se$wght, na.rm=TRUE)
 summary(ASFL1se$fin_know_add)
 
 ASFL1e <- ASFL1[(ASFL1$QD10 %in% e),] 
 table(ASFL1e$fin_know)
+wpct(ASFL1e$fin_know, weight=ASFL1e$wght, na.rm=TRUE)
 summary(ASFL1e$fin_know)
 table(ASFL1e$fin_know_add)
+wpct(ASFL1e$fin_know_add, weight=ASFL1e$wght, na.rm=TRUE)
 summary(ASFL1e$fin_know_add)
+
 ASFL1eu <-  ASFL1[(ASFL1$QD10 %in% eu),] 
 table(ASFL1eu$fin_know)
 summary(ASFL1eu$fin_know)
@@ -561,6 +847,7 @@ QF_Budfin<-  ifelse(QF_Bud == "2", 1, 0) #only if responsible and keeping track 
 table(QF_Budfin)
 QF_Budfin
 
+
 ####QF3 - Active saving#############
 QF3_1<- ifelse(ASFL$QF3_1 == "Yes", 1, 0)
 QF3_2<- ifelse(ASFL$QF3_2 == "Yes", 1, 0)
@@ -580,6 +867,7 @@ QF3<- QF3_1+QF3_2+QF3_3+QF3_5+QF3_6+QF3_7+QF3_8
 #QF3<- QF3_1+QF3_2+QF3_3+QF3_5+QF3_6+QF3_7+QF3_8-QF3_99
 table(QF3)
 QF3fin <- ifelse(QF3 >= "1", 1, 0)
+#alternative: QF3fin <- ifelse(QF3 > "0", 1, 0)
 table(QF3fin) #active saving - at least 1 yes
 1252/1418
 ASFL2 <- cbind(ASFL2,QF3fin)
@@ -729,7 +1017,7 @@ ASFL$Qprod2
 Qprod2_1<- ifelse(ASFL$Qprod2 == c("4"), 1, 0)
 Qprod2_2<- ifelse(ASFL$Qprod2 == c("7"), 1, 0)
 Qprod2fin <- Qprod2_1+Qprod2_2
-table(Qprod2fin)
+table(Qprod2fin) #always 1 
 
 #2 for Best-buy guidance / Recommendation from independent financial advise
 ASFL <- ASFL %>% mutate(Qprod3_INT_1 = ifelse(is.na(Qprod3_INT_1), 0, Qprod3_INT_1))
@@ -745,7 +1033,7 @@ Qprod3_INT_2
 
 Qprod_D2 <- Qprod3_INT_1+Qprod3_INT_2
 table(Qprod_D2)
-Qprod_D2fin<- ifelse(Qprod_D2 >= "1", 2, 0) #2 if yet at any
+Qprod_D2fin<- ifelse(Qprod_D2 >= "1", 2, 0) #2 if yet at any (Best-buy guidance / Recommendation from independent financial adviser
 table(Qprod_D2fin) 
 
 #1 for information from an advert or brochure, recommendation from friends etc., information from bank staff, or other information
@@ -839,6 +1127,7 @@ wpct(ASFL$QS2_5, weight=ASFL$wght, na.rm=TRUE)
 
 fin_beh <- QF_Budfin+QF12fin+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5 #QF12fin alone equal to combination of QF11/QF12
 weighted.mean(fin_beh, ASFL$wght)#OECD - average: 6.0
+wpct(ASFL$QS2_5, weight=ASFL$wght, na.rm=TRUE)
 #QF12fin equal to QFMEM
 fin_beh2 <- QF_Budfin+QF12_afin+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5 
 weighted.mean(fin_beh2, ASFL$wght)
@@ -857,22 +1146,22 @@ fin_beh8 <-QF_Budfin+QF11b+QF3fin+Qprod_afin+QS1_5+QS1_8+QS2_3+QS2_5
 weighted.mean(fin_beh4, ASFL$wght)
 
 
-ASFL3 <- cbind(ASFL2,fin_beh)
-ASFL3 <- cbind(ASFL3,fin_beh2)
-ASFL3 <- cbind(ASFL3,fin_beh3)
-ASFL3 <- cbind(ASFL3,fin_beh5)
-ASFL3 <- cbind(ASFL3,fin_beh6)
+ASFL3 <- cbind(ASFL2,fin_beh,fin_beh2,fin_beh3,fin_beh4,fin_beh5,fin_beh6,fin_beh7,fin_beh8)
 summary(ASFL3$fin_beh)
 summary(ASFL3$fin_beh2, weight=ASFL$wght)
 table(fin_beh)
 table(fin_beh2)
 table(fin_beh5)
 table(fin_beh6)
-wpct(ASFL3$fin_beh, weight=ASFL3$wght, na.rm=TRUE) #OECD - 64.5%
+wpct(ASFL3$fin_beh, weight=ASFL3$wght, na.rm=TRUE) 
+0.25486308+0.21527041+0.12428302+0.04918498#OECD - 64.5%
 wpct(fin_beh2, weight=ASFL$wght, na.rm=TRUE)
-wpct(fin_beh5, weight=ASFL$wght, na.rm=TRUE)
-wpct(fin_beh6, weight=ASFL$wght, na.rm=TRUE)
+0.25486308+0.21634672+0.12320672+0.04918498
+wpct(ASFL3$fin_beh5, weight=ASFL3$wght, na.rm=TRUE)
+0.25560486 +0.21135350+0.11980179+0.06006615
+wpct(ASFL3$fin_beh6, weight=ASFL3$wght, na.rm=TRUE)
 table(ASFL3$fin_beh)
+0.25560486+0.21242980+0.11872548+0.06006615
 #barplot
 ##at least 6 (out of 9)
 0.25486308+0.21527041+0.12428302+0.04918498
@@ -912,6 +1201,21 @@ summary(ASFL3eu$fin_beh)
 182+151+92+24
 449/(449+3+14+19+39+80+145)
 
+############financial scores according to financial cushion
+ASFL3b3months <- ASFL3[(ASFL3$QF13 %in% b3months),] 
+summary(ASFL3b3months)
+ASFL3a3months <- ASFL3[(ASFL3$QF13 %in% a3months),] 
+summary(ASFL3a3months)
+weighted.mean(ASFL3b3months$fin_know,ASFL3b3months$wght) #OECD:5.8
+weighted.mean(ASFL3a3months$fin_know,ASFL3a3months$wght) #OECD:5.8
 
+weighted.mean(ASFL3b3months$fin_know_add,ASFL3b3months$wght) 
+weighted.mean(ASFL3a3months$fin_know_add,ASFL3a3months$wght) 
+
+weighted.mean(ASFL3b3months$fin_att,ASFL3b3months$wght) #OECD:2.9
+weighted.mean(ASFL3a3months$fin_att,ASFL3a3months$wght) #OECD:3.2
+
+weighted.mean(ASFL3b3months$fin_beh,ASFL3b3months$wght) #OECD:5.4
+weighted.mean(ASFL3a3months$fin_beh,ASFL3a3months$wght) #OECD:6.4
 
 
