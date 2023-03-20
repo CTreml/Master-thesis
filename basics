@@ -85,6 +85,7 @@ notactive<-ifelse(ASFL$QD10 == "Not working and not looking for work", 1, 0)
 
 others <- apprentice+student+other+retired+home+notactive
 othersworet <- apprentice+student+other+home+notactive
+
   
 se <- c("Self-employed [work for myself]")
 e <- c("In paid employment [work for someone else]")
@@ -92,6 +93,13 @@ eu <- c("In paid employment [work for someone else]","Looking for work [unemploy
 empl <- c("In paid employment [work for someone else]","Self-employed [work for myself]")
 oth <- c("Looking for work [unemployed]","Apprentice","Student","Other","Retired","Looking after the home", "Not working and not looking for work")
 othworet <- c("Looking for work [unemployed]","Apprentice","Student","Other","Looking after the home", "Not working and not looking for work")
+ret <- c("Retired")
+stud <- c("Student","Apprentice")
+
+#QF9_11 - Retirement funding - From the revenues of a business that you own - as a possible robustness check
+ASFL$QF9_11
+entrepreneurs <- c("Yes")
+ASFLentrepreneurs <- ASFL[(ASFL$QF9_11 %in% entrepreneurs),] 
 
 ASFLse <- ASFL[(ASFL$QD10 %in% se),] 
 summary(ASFLse)
@@ -99,13 +107,20 @@ ASFLe <- ASFL[(ASFL$QD10 %in% e),]
 summary(ASFLe)
 ASFLeu <-  ASFL[(ASFL$QD10 %in% eu),] 
 summary(ASFLeu)
-ASFLother <-  ASFL[(ASFL$QD10 %in% oth),] 
-summary(ASFLother)
+ASFLoth <-  ASFL[(ASFL$QD10 %in% oth),] 
+summary(ASFLoth)
 640+699+79
 ASFLempl <- ASFL[(ASFL$QD10 %in% empl),] 
 ASFLempl$QD10
-ASFLotherworet <- ASFL[(ASFL$QD10 %in% othworet),] 
-summary(ASFLotherworet)
+ASFLothworet <-  ASFL[(ASFL$QD10 %in% othworet),] 
+summary(ASFLothworet)
+ASFLothworet <-  ASFL[(ASFL$QD10 %in% othworet),] 
+summary(ASFLothworet)
+
+ASFLstud <-  ASFL[(ASFL$QD10 %in% stud),] 
+summary(ASFLstud)
+ASFLret <-  ASFL[(ASFL$QD10 %in% ret),] 
+summary(ASFLret)
 
 unemployed<- subset(ASFL, ASFL$QD10 == "Looking for work [unemployed]")
 student <- subset(ASFL, ASFL$QD10 == "Student")
@@ -131,6 +146,7 @@ oldmilld<- ifelse(ASFL$age_group == "29-38", 1, 0)
 genxd <- ifelse(ASFL$age_group == "39-58", 1, 0)
 babyboomd <- ifelse(ASFL$age_group == "59-74", 1, 0)
 silgend<- ifelse(ASFL$age_group == ">75", 1, 0)
+table(silgend)
 
 summary(ASFL$age_group)
 ASFL <- cbind(ASFL,youngmilld,oldmilld,genxd,babyboomd,silgend)
@@ -154,7 +170,7 @@ silgen<- ASFL[(ASFL$age_group %in% silgen),]
 
 under18 <- c("16","17")
 above79 <- c("80","81","82","83","84","85","86","87","88","89","90","93","94","95","97")
-ASFLadult <- ASFL[!(ASFL$QD7 %in% under18),] 
+ASFLadult <- ASFL[!(ASFL$QD7 %in% under18),]
 ASFLadult
 ASFLmain <- ASFLadult[!(ASFLadult$QD7 %in% above79),] 
 
@@ -162,7 +178,7 @@ ASFLmain <- ASFLadult[!(ASFLadult$QD7 %in% above79),]
 ##################################GENDER##################################
 gender <- ASFL$QD1
 maled<- ifelse(ASFL$QD1 == "Male", 1, 0)
-femaled <- ifelse(ASFL$QD1 == "Female", 1, 0)
+femaled <- ifelse(ASFL$QD1 == "2", 1, 0)
 
 male <- c("Male")
 female <- c("2")
@@ -199,4 +215,14 @@ ASFL <- cbind(ASFL,selfassess)
 sa <- c("Very high","Quite high","About average","Quite low","Very low")
 hincome <- ASFL$QD13
 ASFL <- cbind(ASFL,hincome)
+
+##################################FINANCIAL RESILIENCE##################################
+table(ASFL$QF13)
+b3months<- c("Less than a week","At least a week, but not one month","At least one month, but not three months") #count refused and dont know??
+b3months2 <- c("Refused","Don't know","Less than a week","At least a week, but not one month","At least one month, but not three months")
+a3months<- c("At least three months, but not six months","Six months or more")
+ASFLb3months <- ASFL[(ASFL$QF13 %in% b3months),] 
+summary(ASFLb3months)
+ASFLa3months <- ASFL[(ASFL$QF13 %in% a3months),] 
+summary(ASFLa3months)
 
