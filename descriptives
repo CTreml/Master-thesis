@@ -525,6 +525,12 @@ lsfknow_f<- ifelse(ASFL$QK1 == "Quite low", 1, 0)
 llsfknow_f<- ifelse(ASFL$QK1 == "Very low", 1, 0)
 lowsfknow_f <- lsfknow_f+llsfknow_f
 summary(ASFL$QK1)
+wpct(ASFL$QK1, weight=ASFL$wght, na.rm=TRUE)
+(143+428)/1418
+0.095532863+0.299779639 #high
+0.404055791 #about average
+0.128320735+0.047541960    #low
+0.015297688   +0.009471324   #dont know
 13+23+143+428+573+178+60
 
 
@@ -538,9 +544,12 @@ lsfknow_se<- ifelse(ASFLse$QK1 == "Quite low", 1, 0)
 llsfknow_se<- ifelse(ASFLse$QK1 == "Very low", 1, 0)
 lowsfknow_se <- lsfknow_se+llsfknow_se
 summary(ASFLse$QK1)
+wpct(ASFLse$QK1, weight=ASFLse$wght, na.rm=TRUE)
 2+2+11+34+27+1+2 
 summary(ASFLsem$QK1)
+wpct(ASFLsem$QK1, weight=ASFLsem$wght, na.rm=TRUE)
 summary(ASFLsef$QK1)
+wpct(ASFLsef$QK1, weight=ASFLsef$wght, na.rm=TRUE)
 
 #employed
 selfassess_e <- ASFLe$QK1
@@ -552,6 +561,7 @@ lsfknow_e<- ifelse(ASFLe$QK1 == "Quite low", 1, 0)
 llsfknow_e<- ifelse(ASFLe$QK1 == "Very low", 1, 0)
 lowsfknow_e <- lsfknow_e+llsfknow_e
 summary(ASFLe$QK1)
+wpct(ASFLe$QK1, weight=ASFLe$wght, na.rm=TRUE)
 4+13+80+219+291+75+17
 
 
@@ -565,6 +575,7 @@ lsfknow_eu<- ifelse(ASFLeu$QK1 == "Quite low", 1, 0)
 llsfknow_eu<- ifelse(ASFLeu$QK1 == "Very low", 1, 0)
 lowsfknow_eu <- lsfknow_eu+llsfknow_eu
 summary(ASFLeu$QK1)
+wpct(ASFLeu$QK1, weight=ASFLeu$wght, na.rm=TRUE)
 
 #others
 selfassess_oth <- ASFLoth$QK1
@@ -576,6 +587,7 @@ lsfknow_oth<- ifelse(ASFLoth$QK1 == "Quite low", 1, 0)
 llsfknow_oth<- ifelse(ASFLoth$QK1 == "Very low", 1, 0)
 lowsfknow_oth <- lsfknow_oth+llsfknow_oth
 summary(ASFLoth$QK1)
+wpct(ASFLoth$QK1, weight=ASFLoth$wght, na.rm=TRUE)
 7+8+52+175+255+102+41
 
 #others without retired
@@ -588,9 +600,11 @@ lsfknow_othworet<- ifelse(ASFLothworet$QK1 == "Quite low", 1, 0)
 llsfknow_othworet<- ifelse(ASFLothworet$QK1 == "Very low", 1, 0)
 lowsfknow_othworet <- lsfknow_othworet+llsfknow_othworet
 summary(ASFLothworet$QK1)
+wpct(ASFLothworet$QK1, weight=ASFLothworet$wght, na.rm=TRUE)
 
 
 #self-rated knowledge 
+#unweighted
 selfratedknow <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=3),
                       selfassessment=rep(c('Low', 'Average', 'High'), times=3),
                       share=c(3/75,27/75,45/75,92/682,291/682,299/682, 143/625,255/625, 227/625))
@@ -599,24 +613,54 @@ selfratedknow$status<- factor(selfratedknow$status, levels=c('Self-employed', 'E
 ggplot(selfratedknow, aes(fill=selfassessment, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
+#weighted
+selfratedknow <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=4),
+                            selfassessment=rep(c('Don´t know','Low', 'Average', 'High'), times=3),
+                            share=c(0.04768587,0.04254538,0.34443552,0.5653332,0.02188622,0.1390004,0.4149923,0.4241211,0.02553137,0.2407209,0.3976323,0.3361154))
+selfratedknow$selfassessment<- factor(selfratedknow$selfassessment, levels=c('Don´t know','Low', 'Average', 'High'))
+selfratedknow$status<- factor(selfratedknow$status, levels=c('Self-employed', 'Employed','Others'))
+ggplot(selfratedknow, aes(fill=selfassessment, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
 
 #self-rated knowledge specific 
+#unweighted
+selfratedknow_specific <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=6),
+                            selfassessment=rep(c('Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=3),
+                            share=c(4/79,2/79, 1/79, 27/79,34/79, 11/79,17/699,17/699,79/699,291/699,219/699,80/699,15/640,41/640,102/640,255/640,175/640,52/640))
+selfratedknow_specific$selfassessment<- factor(selfratedknow_specific$selfassessment, levels=c('Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'))
+selfratedknow_specific$status<- factor(selfratedknow_specific$status, levels=c('Self-employed', 'Employed','Others'))
+ggplot(selfratedknow_specific, aes(fill=selfassessment, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
+#weighted
 selfratedknow_specific <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=5),
-                            selfassessment=rep(c('Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=3),
-                            share=c(2/75, 1/75, 27/75,34/75, 11/75,17/682,75/682,291/682,219/682,80/682,41/625,102/625,255/625,175/625,52/625))
-selfratedknow_specific$selfassessment<- factor(selfratedknow_specific$selfassessment, levels=c('Very low','Quite low', 'Average', 'Quite high', 'Very high'))
+                                     selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Don´t know'), times=3),
+                                     share=c(0.11731588,0.44801736,0.34443552,0.01013686,0.03240852,0.04768587,0.109634073,0.314487009,0.414992278,0.115507818,0.023492600,0.02188622,0.07449853,0.26161683,0.39763232,0.16015121,0.08056974,0.02553137))
+selfratedknow_specific$selfassessment<- factor(selfratedknow_specific$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Don´t know'))
 selfratedknow_specific$status<- factor(selfratedknow_specific$status, levels=c('Self-employed', 'Employed','Others'))
 ggplot(selfratedknow_specific, aes(fill=selfassessment, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
 
 #self-rated knowledge specific gender
-selfratedknowgender <- data.frame(gender=rep(c('Male', 'Female'), each=5),
-                                     selfassessment=rep(c('Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=2),
-                                     share=c(0/43,0/43,13/43,24/43,6/43,2/32,1/32,14/32,10/32,5/32))
-selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, levels=c('Very low','Quite low', 'Average', 'Quite high', 'Very high'))
+#unweighted
+selfratedknowgender <- data.frame(gender=rep(c('Male', 'Female'), each=6),
+                                     selfassessment=rep(c('Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=2),
+                                     share=c(2/45,0/45,0/45,13/45,24/45,6/45,2/34,2/34,1/34,14/34,10/34,5/34))
+selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, levels=c('Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'))
 selfratedknowgender$gender<- factor(selfratedknowgender$gender, levels=c('Male', 'Female'))
 ggplot(selfratedknowgender, aes(fill=selfassessment, y=share, x=gender)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
-         
+
+#weighted
+selfratedknowgender <- data.frame(gender=rep(c('Male', 'Female'), each=6),
+                                  selfassessment=rep(c('Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=2),
+                                  share=c(0.03034502,0,0,0.29503202,0.55073307,,0.12388988,0.07317521,0.08004583,0.02503704,0.41705377,0.29703540,0.10765274))
+
+selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, levels=c('Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'))
+selfratedknowgender$gender<- factor(selfratedknowgender$gender, levels=c('Male', 'Female'))
+ggplot(selfratedknowgender, aes(fill=selfassessment, y=share, x=gender)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
