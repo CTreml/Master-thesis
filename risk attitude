@@ -30,8 +30,10 @@ table(ASFL7se$HFCSrisk)
 wpct(ASFL7se$HFCSrisk, weight=ASFL7se$wght, na.rm=TRUE)
 ASFL7sem <- ASFL7se[(ASFL7se$QD1 %in% male),]
 summary(ASFL7sem$HFCS1)
+wpct(ASFL7sem$HFCS1, weight=ASFL7sem$wght, na.rm=TRUE)
 ASFL7sef <- ASFL7se[(ASFL7se$QD1 %in% female),] 
 summary(ASFL7sef$HFCS1)
+wpct(ASFL7sef$HFCS1, weight=ASFL7sef$wght, na.rm=TRUE)
 
 #employed
 summary(ASFLe$HFCS1)
@@ -57,6 +59,12 @@ ASFL7othworet <- ASFL7[(ASFL7$QD10 %in% othworet),]
 summary(ASFL7othworet$HFCSrisk)
 table(ASFL7othworet$HFCSrisk)
 
+wpct(ASFL7$HFCS1, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$HFCS1, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7e$HFCS1, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7eu$HFCS1, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$HFCS1, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$HFCS1, weight=ASFL7othworet$wght, na.rm=TRUE)
 
 ###############designed risk variable#################################
 #######Risky financial assets - recently chosen or used in the last year for active saving###########################
@@ -120,6 +128,8 @@ ASFL7 <- cbind(ASFL7,riskscored)
 #sample analysis
 
 ASFL7se <- ASFL7[(ASFL7$QD10 %in% se),]
+ASFL7sem <- ASFL7se[(ASFL7se$QD1 %in% male),]
+ASFL7sef <- ASFL7se[(ASFL7se$QD1 %in% female),]
 ASFL7e <- ASFL7[(ASFL7$QD10 %in% e),]
 ASFL7eu <- ASFL7[(ASFL7$QD10 %in% eu),]
 ASFL7oth <- ASFL7[(ASFL7$QD10 %in% oth),]
@@ -131,37 +141,91 @@ table(ASFL7se$stockshared)
 table(ASFL7e$stockshared)
 table(ASFL7eu$stockshared)
 table(ASFL7oth$stockshared)
+wpct(ASFL7$stockshared, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$stockshared, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7sem$stockshared, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$stockshared, weight=ASFL7sef$wght, na.rm=TRUE)
+
+
+wpct(ASFL7e$stockshared, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7eu$stockshared, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$stockshared, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$stockshared, weight=ASFL7othworet$wght, na.rm=TRUE)
 
 table(ASFL7$bondd)
 table(ASFL7se$bondd)
 table(ASFL7e$bondd)
 table(ASFL7eu$bondd)
 table(ASFL7oth$bondd)
+wpct(ASFL7$bondd, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$bondd, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7sem$bondd, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$bondd, weight=ASFL7sef$wght, na.rm=TRUE)
+
+wpct(ASFL7e$bondd, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7eu$bondd, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$bondd, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$bondd, weight=ASFL7othworet$wght, na.rm=TRUE)
 
 table(ASFL7$cryptod)
 table(ASFL7se$cryptod)
 table(ASFL7e$cryptod)
 table(ASFL7eu$cryptod)
 table(ASFL7oth$cryptod)
+wpct(ASFL7$cryptod, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$cryptod, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7sem$cryptod, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$cryptod, weight=ASFL7sef$wght, na.rm=TRUE)
+
+wpct(ASFL7e$cryptod, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7eu$cryptod, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$cryptod, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$cryptod, weight=ASFL7othworet$wght, na.rm=TRUE)
 
 table(ASFL7$riskyassetsd)
 table(ASFL7se$riskyassetsd)
 table(ASFL7e$riskyassetsd)
 table(ASFL7eu$riskyassetsd)
 table(ASFL7oth$riskyassetsd)
+wpct(ASFL7$riskyassetsd, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$riskyassetsd, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7sem$riskyassetsd, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$riskyassetsd, weight=ASFL7sef$wght, na.rm=TRUE)
+
+wpct(ASFL7e$riskyassetsd, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7eu$riskyassetsd, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$riskyassetsd, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$riskyassetsd, weight=ASFL7othworet$wght, na.rm=TRUE)
 
 table(ASFL7$QS1_2risk)
 table(ASFL7se$QS1_2risk)
 table(ASFL7e$QS1_2risk)
 table(ASFL7eu$QS1_2risk)
 table(ASFL7oth$QS1_2risk)
+wpct(ASFL7$QS1_2risk, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$QS1_2risk, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7sem$QS1_2risk, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$QS1_2risk, weight=ASFL7sef$wght, na.rm=TRUE)
+
+wpct(ASFL7e$QS1_2risk, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7eu$QS1_2risk, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$QS1_2risk, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$QS1_2risk, weight=ASFL7othworet$wght, na.rm=TRUE)
 
 table(ASFL7$HFCSrisk)
 table(ASFL7se$HFCSrisk)
 table(ASFL7e$HFCSrisk)
 table(ASFL7eu$HFCSrisk)
 table(ASFL7oth$HFCSrisk)
+wpct(ASFL7$HFCSrisk, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$HFCSrisk, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7sem$HFCSrisk, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$HFCSrisk, weight=ASFL7sef$wght, na.rm=TRUE)
 
+wpct(ASFL7e$HFCSrisk, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7eu$HFCSrisk, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$HFCSrisk, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$HFCSrisk, weight=ASFL7othworet$wght, na.rm=TRUE)
 
 
 
@@ -176,30 +240,37 @@ finbuff
 summary(ASFL$LR1)
 LR1 <- ifelse(ASFL$LR1 == "No",1, 0)
 table(LR1)
+wpct(ASFL$LR1, weight=ASFL$wght, na.rm=TRUE)
 #self-employed
 summary(ASFLse$LR1)
 LR1se <- ifelse(ASFLse$LR1 == "No",1, 0)
 table(LR1se)
+wpct(ASFLse$LR1, weight=ASFLse$wght, na.rm=TRUE)
 #employed
 summary(ASFLe$LR1)
 LR1e <- ifelse(ASFLe$LR1 == "No",1, 0)
 table(LR1e)
+wpct(ASFLe$LR1, weight=ASFLe$wght, na.rm=TRUE)
 #employed + unemployed
 summary(ASFLeu$LR1)
 LR1eu <- ifelse(ASFLeu$LR1 == "No",1, 0)
 table(LR1eu)
+wpct(ASFLeu$LR1, weight=ASFLeu$wght, na.rm=TRUE)
 #others
 summary(ASFLoth$LR1)
 LR1oth <- ifelse(ASFLoth$LR1 == "No",1, 0)
 table(LR1oth)
+wpct(ASFLoth$LR1, weight=ASFLoth$wght, na.rm=TRUE)
 #others without retired
 summary(ASFLothworet$LR1)
 LR1othworet <- ifelse(ASFLothworet$LR1 == "No",1, 0)
 table(LR1othworet)
+wpct(ASFLothworet$LR1, weight=ASFLothworet$wght, na.rm=TRUE)
 
 
-#########################FINANCIAL RISK TAKING#############################
-
+#########################PLOTS - FINANCIAL RISK TAKING#############################
+#HFCS risk
+#unweighted 
 HFCSrisk <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=4),
                        Propensity=rep(c('Substantial', 'Above average', 'Average', 'No'), times=3),
                        share=c(8/79,6/79,29/79,36/79, 29/699,94/699,225/699,351/699,10/640,15/640,108/640,507/640))
@@ -210,7 +281,19 @@ ggplot(HFCSrisk, aes(fill=Propensity, y=share, x=status)) +
   # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
   labs(x="",y = 'Percentage share',fill="Risk taking propensity")
 
+#weighted
+HFCSrisk <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=4),
+                       Propensity=rep(c('Substantial', 'Above average', 'Average', 'No'), times=3),
+                       share=c(0.09569008 ,0.08783484 ,0.37851258 ,0.43796251 ,0.0436851 ,0.1492514,0.3258391 ,0.4812244 ,0.02066627 ,0.03485215 ,0.16327701 ,0.78120456  ))
+HFCSrisk$Propensity<- factor(HFCSrisk$Propensity, levels=c('Substantial', 'Above average', 'Average', 'No'))
+HFCSrisk$status<- factor(HFCSrisk$status, levels=c('Self-employed', 'Employed','Others'))
+ggplot(HFCSrisk, aes(fill=Propensity, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity') +
+  # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
+  labs(x="",y = 'Percentage share',fill="Risk taking propensity")
+
 #self-employed gender comparison
+#unweighted
 HFCSriskgender <- data.frame(status=rep(c('Male', 'Female'), each=4),
                              HFCSrisk=rep(c('Substantial', 'Above average', 'Average', 'No'), times=2),
                              share=c(7/45,5/45,17/45,16/45, 1/34,1/34,12/34,20/34))
@@ -220,10 +303,20 @@ ggplot(HFCSriskgender, aes(fill=HFCSrisk, y=share, x=status)) +
   geom_bar(position='stack', stat='identity') +
   # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
   labs(x="",y = 'Percentage share',fill="Risk taking propensity")
+#weighted
+HFCSriskgender <- data.frame(status=rep(c('Male', 'Female'), each=4),
+                             HFCSrisk=rep(c('Substantial', 'Above average', 'Average', 'No'), times=2),
+                             share=c(0.1423696,0.1174501,0.4206140,0.3195663 ,0.02707574 ,0.04430336 ,0.31662770 ,0.61199320 ))
+HFCSriskgender$HFCSrisk<- factor(HFCSriskgender$HFCSrisk, levels=c('Substantial', 'Above average', 'Average', 'No'))
+HFCSriskgender$status<- factor(HFCSriskgender$status, levels=c('Male', 'Female'))
+ggplot(HFCSriskgender, aes(fill=HFCSrisk, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity') +
+  # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
+  labs(x="",y = 'Percentage share',fill="Risk taking propensity")
 
 ########risk attitude variable
-
 #risk attitude comparison
+#unweighted
 risk <- c(rep("Stocks/shares" , 3) , rep("Bonds" , 3) ,  rep("Crypto assets" , 3),rep("Risk willingness" , 3) , rep("Risk propensity" , 3) )
 emplstat <- rep(c("Self-employed" , "Employed","Others" ) , 5)
 value <- abs(c(18/79,91/699,50/640,9/79,57/699,51/640,4/79,32/699,3/640,24/79,185/699,82/640,14/79,123/699,25/640))
@@ -233,3 +326,28 @@ riskplot$emplstat<- factor(riskplot$emplstat, levels=c('Self-employed', 'Employe
 ggplot(riskplot, aes(fill=emplstat, y=value, x=risk)) + 
   geom_bar(position="dodge", stat="identity")+
   labs(x = "",y="Percentage share", fill = "Employment status")
+#weighted
+risk <- c(rep("Stocks/shares" , 3) , rep("Bonds" , 3) ,  rep("Crypto assets" , 3),rep("Risk willingness" , 3) , rep("Risk propensity" , 3) )
+emplstat <- rep(c("Self-employed" , "Employed","Others" ) , 5)
+value <- abs(c(0.2355855 ,0.1363495 ,0.07738877 ,0.1235186,0.0873412,0.07328655,0.05656405,0.05389279,0.006713771,0.2959996 ,0.2799093 ,0.1448818 ,0.1835249 ,0.1929365,0.05551843 ))
+riskplot<- data.frame(risk,emplstat,value)
+riskplot$risk<- factor(riskplot$risk, levels=c("Stocks/shares","Bonds","Crypto assets","Risk willingness","Risk propensity"))
+riskplot$emplstat<- factor(riskplot$emplstat, levels=c('Self-employed', 'Employed','Others'))
+ggplot(riskplot, aes(fill=emplstat, y=value, x=risk)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x = "",y="Percentage share", fill = "Employment status")
+
+
+#weighted gender risk attitude differences 
+#weighted
+risk <- c(rep("Stocks/shares" , 2) , rep("Bonds" , 2) ,  rep("Crypto assets" , 2),rep("Risk willingness" , 2) , rep("Risk propensity" , 2) )
+gender <- rep(c("Male" , "Female" ) , 5)
+value <- abs(c(0.3244025 ,0.1050333 ,0.2075505 , 0, 0.08051489 ,0.0213587 ,0.4324312 ,0.09545857 ,0.2598197 ,0.0713791 ))
+riskplot<- data.frame(risk,gender,value)
+riskplot$risk<- factor(riskplot$risk, levels=c("Stocks/shares","Bonds","Crypto assets","Risk willingness","Risk propensity"))
+riskplot$gender<- factor(riskplot$gender, levels=c("Male" , "Female"))
+ggplot(riskplot, aes(fill=gender, y=value, x=risk)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x = "",y="Percentage share", fill = "Gender")
+
+
