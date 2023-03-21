@@ -307,6 +307,17 @@ ggplot(wellbeingplotspecific, aes(fill=gender, y=value, x=wellbeing)) +
   geom_bar(position="dodge", stat="identity")+
   labs(x="",y="Percentage share",fill="Gender")
 
+#age differences 
+finwellbeing <- c(rep("Financial wellbeing", 3) )
+emplstat <- rep(c("Old millenials" , "Generation X" ,"Baby boomers" ) , 1)
+value <- abs(c(12.88026,12.52651,13.61381))
+finwellbeingcomp <- data.frame(finwellbeing,emplstat,value)
+finwellbeingcomp$emplstat<- factor(finwellbeingcomp$emplstat, levels=c("Old millenials" , "Generation X" ,"Baby boomers"))
+
+ggplot(finwellbeingcomp, aes(fill=emplstat, y=value, x=finwellbeing)) + 
+  geom_bar(position="dodge", stat="identity") + ylim(0, 21)+
+  labs(x="",y="Absolute score",fill="Employment status")
+
 ###############FINANCIAL RESILIENCE######################
 #financial resilience comparison 
 ##availabilit of financial cushion in case of loss of income
@@ -409,6 +420,20 @@ finstressplot$gender <- factor(finstressplot$gender, levels=c("Male","Female"))
 ggplot(finstressplot, aes(fill=gender, y=value, x=fistr)) + 
   geom_bar(position="dodge", stat="identity")+
   labs(x="",y="Percentage share",fill="")
+
+
+####################FINANCIAL LITERACY SCORE#####################
+#weighted
+finlit <- c(rep("Financial literacy" , 3) )
+emplstat <- rep(c("Self-employed" , "Employed" ,"Others") , 1)
+value <- abs(c(16.09504,14.6821,13.73543))
+finlitcomp <- data.frame(finlit,emplstat,value)
+finlitcomp$emplstat<- factor(finlitcomp$emplstat, levels=c('Self-employed', 'Employed','Others'))
+
+ggplot(finlitcomp, aes(fill=emplstat, y=value, x=finlit)) + 
+  geom_bar(position="dodge", stat="identity") + ylim(0, 21)+
+  labs(x="",y="Absolute score",fill="Employment status")
+
 
 ####################SELF-ASSESSMENT & ACTUAL KNOWLEDGE#####################
 #graph according to Fessler et al (2020) - probably difficult for self-employed! 
@@ -679,3 +704,4 @@ finknowsrvsactualoth$selfassessment<- factor(finknowsrvsactualoth$selfassessment
 ggplot(finknowsrvsactualoth, aes(fill=selfassessment, y=share, x=finknow)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
+
