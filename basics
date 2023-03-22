@@ -64,27 +64,27 @@ ASFL <- ASFLo$variables
 ##################################EMPLOYMENT##################################
 
 summary(ASFL$QD10)
-selfemployed<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
+selfemployedd<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
 ##alternative: QF9_11 ##own business as a retirement funding option
 summary(ASFL$QF9_11)
-retirefundbusiness <- ifelse(ASFL$QF9_11 == "Yes", 1, 0)
-table(retirefundbusiness)
-summary(selfemployed)
+retirefundbusinessd <- ifelse(ASFL$QF9_11 == "Yes", 1, 0)
+table(retirefundbusinessd)
+summary(selfemployedd)
 
-employed<- ifelse(ASFL$QD10 == "In paid employment [work for someone else]", 1, 0) #maybe keep those looking for work?
-unemployed<- ifelse(ASFL$QD10 == "Looking for work [unemployed]", 1, 0)
-employed
-summary(employed)
+employedd<- ifelse(ASFL$QD10 == "In paid employment [work for someone else]", 1, 0) #maybe keep those looking for work?
+unemployedd<- ifelse(ASFL$QD10 == "Looking for work [unemployed]", 1, 0)
 
-apprentice<- ifelse(ASFL$QD10 == "Apprentice", 1, 0)
-student<- ifelse(ASFL$QD10 == "Student", 1, 0)
-other<- ifelse(ASFL$QD10 == "Other", 1, 0)
-retired<- ifelse(ASFL$QD10 == "Retired", 1, 0)
-home <- ifelse(ASFL$QD10 == "Looking after the home", 1, 0)
-notactive<-ifelse(ASFL$QD10 == "Not working and not looking for work", 1, 0)
 
-others <- apprentice+student+other+retired+home+notactive
-othersworet <- apprentice+student+other+home+notactive
+apprenticed<- ifelse(ASFL$QD10 == "Apprentice", 1, 0)
+studentd<- ifelse(ASFL$QD10 == "Student", 1, 0)
+otherd<- ifelse(ASFL$QD10 == "Other", 1, 0)
+retiredd<- ifelse(ASFL$QD10 == "Retired", 1, 0)
+homed <- ifelse(ASFL$QD10 == "Looking after the home", 1, 0)
+notactived<-ifelse(ASFL$QD10 == "Not working and not looking for work", 1, 0)
+
+othersd <- unemployedd+apprenticed+studentd+otherd+retiredd+homed+notactived
+othersworetd <- unemployedd+apprenticed+studentd+otherd+homed+notactived
+otherswounempld <- apprenticed+studentd+otherd+retiredd+homed+notactived
 
   
 se <- c("Self-employed [work for myself]")
@@ -100,6 +100,8 @@ stud <- c("Student","Apprentice")
 ASFL$QF9_11
 entrepreneurs <- c("Yes")
 ASFLentrepreneurs <- ASFL[(ASFL$QF9_11 %in% entrepreneurs),] 
+entrepreneursd<-ifelse(ASFL$QF9_11 == "Yes", 1, 0)
+
 
 ASFLse <- ASFL[(ASFL$QD10 %in% se),] 
 summary(ASFLse)
@@ -130,7 +132,7 @@ notactive<- subset(ASFL, ASFL$QD10 == "Not working and not looking for work")
 home <- subset(ASFL, ASFL$QD10 == "Looking after the home")
 other<- subset(ASFL, ASFL$QD10 == "Other")
 
-ASFL <- cbind(ASFL,employed,selfemployed,others,othersworet)
+ASFL <- cbind(ASFL,employedd,selfemployedd,entrepreneursd,othersd,othersworetd,otherswounempld,otherd,apprenticed,studentd,retiredd,notactived,homed,unemployedd)
 ##################################add_employment#########################
 summary(ASFL$QF9_10) #still working in pension to fund retirement
 summary(ASFL$st1ab) #respondent ever employed
@@ -189,18 +191,18 @@ ASFL <- cbind(ASFL,maled,femaled)
 ####maybe change definition! 
 ASFL <- ASFL %>% mutate(QD9 = ifelse(is.na(QD9), 0, QD9))
 ASFL$QD9
-ASFL["education"] = cut(as.numeric(as.character(ASFL$QD9)), c(2, 3, 4, 5, Inf), c("universitary", "upper secondary", "Lower secondary", "Primary"), include.lowest=TRUE)
+ASFL["education"] = cut(as.numeric(as.character(ASFL$QD9)), c(2, 3, 4, 5, Inf), c("Universitary", "Upper secondary", "Lower secondary", "Primary"), include.lowest=TRUE)
 
-primary_1 <- ifelse(ASFL$QD9 == "7", 1, 0)
-primary_2 <- ifelse(ASFL$QD9 == "6", 1, 0)
-primary <- primary_1+primary_2
-lowersecondary<- ifelse(ASFL$QD9 == "5", 1, 0)
-uppersecondary<- ifelse(ASFL$QD9 == "4", 1, 0)
-university_1<- ifelse(ASFL$QD9 == "2", 1, 0)
-university_2<- ifelse(ASFL$QD9 == "3", 1, 0)
-university <- university_1+university_2
+primary_1d <- ifelse(ASFL$QD9 == "7", 1, 0)
+primary_2d <- ifelse(ASFL$QD9 == "6", 1, 0)
+primaryd <- primary_1d+primary_2d
+lowersecondaryd<- ifelse(ASFL$QD9 == "5", 1, 0)
+uppersecondaryd<- ifelse(ASFL$QD9 == "4", 1, 0)
+university_1d<- ifelse(ASFL$QD9 == "2", 1, 0)
+university_2d<- ifelse(ASFL$QD9 == "3", 1, 0)
+universityd <- university_1d+university_2d
 
-ASFL <- cbind(ASFL,primary,lowersecondary,uppersecondary,university)
+ASFL <- cbind(ASFL,primaryd,lowersecondaryd,uppersecondaryd,universityd)
 
 #################################add_education###################################
 
@@ -211,10 +213,23 @@ summary(ASFL$st3g)
 
 #################################SELF-ASSESSMENT##############################
 selfassess <- ASFL$QK1
-ASFL <- cbind(ASFL,selfassess)
+
 sa <- c("Very high","Quite high","About average","Quite low","Very low")
+vhighselfassessd<- ifelse(ASFL$QK1 == "Very high", 1, 0)
+qhighselfassessd<- ifelse(ASFL$QK1 == "Quite high", 1, 0)
+highselfassess <- qhighselfassessd+vhighselfassessd
+averageselfassessd<- ifelse(ASFL$QK1 == "About average", 1, 0)
+qlowselfassessd<- ifelse(ASFL$QK1 == "Quite low", 1, 0)
+vlowselfassessd<- ifelse(ASFL$QK1 == "Very low", 1, 0)
+lowselfassess <- qlowselfassessd+vlowselfassessd
+ASFL <- cbind(ASFL,selfassess,vhighselfassessd,qhighselfassessd,highselfassess,averageselfassessd,qlowselfassessd,vlowselfassessd,lowselfassess) 
+
+#################################HOUSEHOLD INCOME##############################
 hincome <- ASFL$QD13
-ASFL <- cbind(ASFL,hincome)
+hincomehighd<- ifelse(ASFL$QD13 == "Y or more a month", 1, 0) 
+hincomemiddled<- ifelse(ASFL$QD13 == "Between X and Y a month", 1, 0) 
+hincomelowd <- ifelse(ASFL$QD13 == "Up to X a month", 1, 0) 
+ASFL <- cbind(ASFL,hincome,hincomehighd,hincomemiddled,hincomelowd) 
 
 ##################################FINANCIAL RESILIENCE##################################
 table(ASFL$QF13)
@@ -225,4 +240,13 @@ ASFLb3months <- ASFL[(ASFL$QF13 %in% b3months),]
 summary(ASFLb3months)
 ASFLa3months <- ASFL[(ASFL$QF13 %in% a3months),] 
 summary(ASFLa3months)
+
+lessweekfinbuffd <-ifelse(ASFL$QF13 == "Less than a week", 1, 0)
+weekfinbuffd <-ifelse(ASFL$QF13 == "At least a week, but not one month", 1, 0)
+monthfinbuffd <-ifelse(ASFL$QF13 == "At least one month, but not three months", 1, 0)
+lowfinbuffd <- lessweekfinbuffd+weekfinbuffd+monthfinbuffd
+threemonthfinbuffd <-ifelse(ASFL$QF13 == "At least three months, but not six months", 1, 0)
+sixmonthfinbuffd <-ifelse(ASFL$QF13 == "Six months or more", 1, 0)
+highfinbuffd <-threemonthfinbuffd+sixmonthfinbuffd
+ASFL <- cbind(ASFL,lessweekfinbuffd,weekfinbuffd,monthfinbuffd,lowfinbuffd,threemonthfinbuffd,sixmonthfinbuffd,highfinbuffd) 
 
