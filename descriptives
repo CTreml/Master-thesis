@@ -546,6 +546,8 @@ lowsfknow_se <- lsfknow_se+llsfknow_se
 summary(ASFLse$QK1)
 wpct(ASFLse$QK1, weight=ASFLse$wght, na.rm=TRUE)
 2+2+11+34+27+1+2 
+ASFLsem <- ASFLse[(ASFLse$QD1 %in% male),] 
+ASFLsef <- ASFLse[(ASFLse$QD1 %in% female),] 
 summary(ASFLsem$QK1)
 wpct(ASFLsem$QK1, weight=ASFLsem$wght, na.rm=TRUE)
 summary(ASFLsef$QK1)
