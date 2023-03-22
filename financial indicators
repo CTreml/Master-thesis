@@ -101,7 +101,7 @@ ASFL3 <- cbind(ASFL3,fraud_1,fraud_2,fraud_3,fraud_4,fraud_5,fraud_6,fraud_7,fra
 ASFL3se <- ASFL3[(ASFL3$QD10 %in% se),]
 ASFL3e <- ASFL3[(ASFL3$QD10 %in% e),]
 ASFL3eu <- ASFL3[(ASFL3$QD10 %in% eu),]
-ASFL3other <- ASFL3[(ASFL3$QD10 %in% others),]
+ASFL3other <- ASFL3[(ASFL3$QD10 %in% oth),]
 
 
 table(ASFL3$fraud_1)
@@ -937,51 +937,7 @@ table(famfriend_main)
 114/1341
 (144+18)/1341
 
-#################total financial inclusion comparison############################
-ASFL5se <- ASFL5[(ASFL5$QD10 %in% se),]
-wpct(ASFL5se$produse, weight=ASFL5se$wght, na.rm=TRUE)
-wpct(ASFL5se$savinre, weight=ASFL5se$wght, na.rm=TRUE)
-wpct(ASFL5se$credp, weight=ASFL5se$wght, na.rm=TRUE)
-wpct(ASFL5se$payprod, weight=ASFL5se$wght, na.rm=TRUE)
-wpct(ASFL5se$p1b10, weight=ASFL5se$wght, na.rm=TRUE)
-wpct(ASFL5se$recentchoice, weight=ASFL5se$wght, na.rm=TRUE)
-wpct(ASFL5se$famfriend, weight=ASFL5se$wght,na.rm=TRUE)
-
-ASFL5sem <- ASFL5se[(ASFL5se$QD1 %in% male),]
-wpct(ASFL5sem$produse, weight=ASFL5sem$wght, na.rm=TRUE)
-wpct(ASFL5sem$savinre, weight=ASFL5sem$wght, na.rm=TRUE)
-wpct(ASFL5sem$credp, weight=ASFL5sem$wght, na.rm=TRUE)
-wpct(ASFL5sem$payprod, weight=ASFL5sem$wght, na.rm=TRUE)
-wpct(ASFL5sem$p1b10, weight=ASFL5sem$wght, na.rm=TRUE)
-wpct(ASFL5sem$recentchoice, weight=ASFL5sem$wght, na.rm=TRUE)
-wpct(ASFL5sem$famfriend, weight=ASFL5sem$wght,na.rm=TRUE)
-ASFL5sef <- ASFL5se[(ASFL5se$QD1 %in% female),]
-wpct(ASFL5sef$produse, weight=ASFL5sef$wght, na.rm=TRUE)
-wpct(ASFL5sef$savinre, weight=ASFL5sef$wght, na.rm=TRUE)
-wpct(ASFL5sef$credp, weight=ASFL5sef$wght, na.rm=TRUE)
-wpct(ASFL5sef$payprod, weight=ASFL5sef$wght, na.rm=TRUE)
-wpct(ASFL5sef$p1b10, weight=ASFL5sef$wght, na.rm=TRUE)
-wpct(ASFL5sef$recentchoice, weight=ASFL5sef$wght, na.rm=TRUE)
-wpct(ASFL5sef$famfriend, weight=ASFL5sef$wght,na.rm=TRUE)
-
-ASFL5e <- ASFL5[(ASFL5$QD10 %in% e),]
-wpct(ASFL5e$produse, weight=ASFL5e$wght, na.rm=TRUE)
-wpct(ASFL5e$savinre, weight=ASFL5e$wght, na.rm=TRUE)
-wpct(ASFL5e$credp, weight=ASFL5e$wght, na.rm=TRUE)
-wpct(ASFL5e$payprod, weight=ASFL5e$wght, na.rm=TRUE)
-wpct(ASFL5e$p1b10, weight=ASFL5e$wght, na.rm=TRUE)
-wpct(ASFL5e$recentchoice, weight=ASFL5e$wght, na.rm=TRUE)
-wpct(ASFL5e$famfriend, weight=ASFL5e$wght,na.rm=TRUE)
-
-ASFL5oth <- ASFL5[(ASFL5$QD10 %in% oth),]
-wpct(ASFL5oth$produse, weight=ASFL5oth$wght, na.rm=TRUE)
-wpct(ASFL5oth$savinre, weight=ASFL5oth$wght, na.rm=TRUE)
-wpct(ASFL5oth$credp, weight=ASFL5oth$wght, na.rm=TRUE)
-wpct(ASFL5oth$payprod, weight=ASFL5oth$wght, na.rm=TRUE)
-wpct(ASFL5oth$p1b10, weight=ASFL5oth$wght, na.rm=TRUE)
-wpct(ASFL5oth$recentchoice, weight=ASFL5oth$wght, na.rm=TRUE)
-wpct(ASFL5oth$famfriend, weight=ASFL5oth$wght,na.rm=TRUE)
-
+#################TOTAL FINANCIAL SCORE DIFFERENCES############################
 #################total financial resilience comparison############################
 ASFL3se <- ASFL3[(ASFL3$QD10 %in% se),]
 ASFL3sea3months <- ASFL3se[(ASFL3se$QF13 %in% a3months),]
@@ -1041,6 +997,51 @@ weighted.mean(ASFL3seb3months$fin_beh,ASFL3seb3months$wght)
 weighted.mean(ASFL3sea3months$fin_att,ASFL3sea3months$wght)
 weighted.mean(ASFL3seb3months$fin_att,ASFL3seb3months$wght)
 
+#################total financial inclusion comparison############################
+ASFL5se <- ASFL5[(ASFL5$QD10 %in% se),]
+wpct(ASFL5se$produse, weight=ASFL5se$wght, na.rm=TRUE)
+wpct(ASFL5se$savinre, weight=ASFL5se$wght, na.rm=TRUE)
+wpct(ASFL5se$credp, weight=ASFL5se$wght, na.rm=TRUE)
+wpct(ASFL5se$payprod, weight=ASFL5se$wght, na.rm=TRUE)
+wpct(ASFL5se$p1b10, weight=ASFL5se$wght, na.rm=TRUE)
+wpct(ASFL5se$recentchoice, weight=ASFL5se$wght, na.rm=TRUE)
+wpct(ASFL5se$famfriend, weight=ASFL5se$wght,na.rm=TRUE)
+
+ASFL5sem <- ASFL5se[(ASFL5se$QD1 %in% male),]
+wpct(ASFL5sem$produse, weight=ASFL5sem$wght, na.rm=TRUE)
+wpct(ASFL5sem$savinre, weight=ASFL5sem$wght, na.rm=TRUE)
+wpct(ASFL5sem$credp, weight=ASFL5sem$wght, na.rm=TRUE)
+wpct(ASFL5sem$payprod, weight=ASFL5sem$wght, na.rm=TRUE)
+wpct(ASFL5sem$p1b10, weight=ASFL5sem$wght, na.rm=TRUE)
+wpct(ASFL5sem$recentchoice, weight=ASFL5sem$wght, na.rm=TRUE)
+wpct(ASFL5sem$famfriend, weight=ASFL5sem$wght,na.rm=TRUE)
+ASFL5sef <- ASFL5se[(ASFL5se$QD1 %in% female),]
+wpct(ASFL5sef$produse, weight=ASFL5sef$wght, na.rm=TRUE)
+wpct(ASFL5sef$savinre, weight=ASFL5sef$wght, na.rm=TRUE)
+wpct(ASFL5sef$credp, weight=ASFL5sef$wght, na.rm=TRUE)
+wpct(ASFL5sef$payprod, weight=ASFL5sef$wght, na.rm=TRUE)
+wpct(ASFL5sef$p1b10, weight=ASFL5sef$wght, na.rm=TRUE)
+wpct(ASFL5sef$recentchoice, weight=ASFL5sef$wght, na.rm=TRUE)
+wpct(ASFL5sef$famfriend, weight=ASFL5sef$wght,na.rm=TRUE)
+
+ASFL5e <- ASFL5[(ASFL5$QD10 %in% e),]
+wpct(ASFL5e$produse, weight=ASFL5e$wght, na.rm=TRUE)
+wpct(ASFL5e$savinre, weight=ASFL5e$wght, na.rm=TRUE)
+wpct(ASFL5e$credp, weight=ASFL5e$wght, na.rm=TRUE)
+wpct(ASFL5e$payprod, weight=ASFL5e$wght, na.rm=TRUE)
+wpct(ASFL5e$p1b10, weight=ASFL5e$wght, na.rm=TRUE)
+wpct(ASFL5e$recentchoice, weight=ASFL5e$wght, na.rm=TRUE)
+wpct(ASFL5e$famfriend, weight=ASFL5e$wght,na.rm=TRUE)
+
+ASFL5oth <- ASFL5[(ASFL5$QD10 %in% oth),]
+wpct(ASFL5oth$produse, weight=ASFL5oth$wght, na.rm=TRUE)
+wpct(ASFL5oth$savinre, weight=ASFL5oth$wght, na.rm=TRUE)
+wpct(ASFL5oth$credp, weight=ASFL5oth$wght, na.rm=TRUE)
+wpct(ASFL5oth$payprod, weight=ASFL5oth$wght, na.rm=TRUE)
+wpct(ASFL5oth$p1b10, weight=ASFL5oth$wght, na.rm=TRUE)
+wpct(ASFL5oth$recentchoice, weight=ASFL5oth$wght, na.rm=TRUE)
+wpct(ASFL5oth$famfriend, weight=ASFL5oth$wght,na.rm=TRUE)
+
 #################total financial well-being comparison############################
 ASFL5sem <- ASFL5se[(ASFL5se$QD1 %in% male),]
 ASFL5sef <- ASFL5se[(ASFL5se$QD1 %in% female),]
@@ -1087,6 +1088,17 @@ wpct(ASFL5oth$finwellbeing2, weight=ASFL5oth$wght,na.rm=TRUE)
 wpct(ASFL5oth$finwellbeing3, weight=ASFL5oth$wght,na.rm=TRUE)
 wpct(ASFL5oth$finwellbeing4, weight=ASFL5oth$wght,na.rm=TRUE)
 wpct(ASFL5oth$finwellbeing5, weight=ASFL5oth$wght,na.rm=TRUE)
+
+
+
+#youngmillse<- ASFL5se[(ASFL5se$age_group %in% youngmill),] 
+oldmillse<- ASFL5se[(ASFL5se$age_group %in% oldmill),] 
+weighted.mean(oldmillse$finwellbeing,oldmillse$wght)
+genxse <- ASFL5se[(ASFL5se$age_group %in% genx),] 
+weighted.mean(genxse$finwellbeing,genxse$wght)
+babyboomse <- ASFL5se[(ASFL5se$age_group %in% babyboom),]
+weighted.mean(babyboomse$finwellbeing,babyboomse$wght)
+#silgense<- ASFL5se[(ASFL5se$age_group %in% silgen),] 
 
 
 
@@ -1478,16 +1490,36 @@ table(ASFL5e_silgen$finwellbeing)
 #############################full financial literacy score (without additional indicators)#########################
 finlit <- fin_know+fin_att+fin_beh
 summary(finlit)
+table(finlit)
 weighted.mean(finlit, ASFL$wght) #OECD: 14.4
-
 ASFL6 <- cbind(ASFL5, finlit)
+
+#dummyvariables 
+lowfinlitd <- ifelse(ASFL6$finlit <= "16", 1, 0)
+#averagefinlitd1 <- ifelse(ASFL6$finlit > "12", 1, 0) & ifelse(ASFL6$finlit <= "17", 1, 0) #Alternative
+highfinlitd<- ifelse(ASFL6$finlit > "16", 1, 0)
+
+ASFL6 <- cbind(ASFL6, lowfinlitd,highfinlitd)
+
 ASFL6se <- ASFL6[(ASFL6$QD10 %in% se),]
+weighted.mean(ASFL6se$finlit, ASFL6se$wght)
+wpct(ASFL6se$finlit, weight=ASFL6se$wght, na.rm=TRUE)
 ASFL6e <- ASFL6[(ASFL6$QD10 %in% e),]
+weighted.mean(ASFL6e$finlit, ASFL6e$wght)
+wpct(ASFL6e$finlit, weight=ASFL6e$wght, na.rm=TRUE)
 ASFL6eu <- ASFL6[(ASFL6$QD10 %in% eu),]
+ASFL6oth <- ASFL6[(ASFL6$QD10 %in% oth),]
+weighted.mean(ASFL6oth$finlit, ASFL6oth$wght)
+wpct(ASFL6oth$finlit, weight=ASFL6oth$wght, na.rm=TRUE)
+ASFL6othworet <- ASFL6[(ASFL6$QD10 %in% othworet),]
+
+
 
 ASFL6m <- ASFL6[(ASFL6$QD1 %in% male),]
 ASFL6f <- ASFL6[(ASFL6$QD1 %in% female),]
 weighted.mean(ASFL6m$finlit, ASFL6m$wght) #14.6
 weighted.mean(ASFL6f$finlit, ASFL6f$wght) #14.2
+
+
 
 
