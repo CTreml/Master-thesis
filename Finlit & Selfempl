@@ -26,6 +26,12 @@ library(xtable)
 library(stargazer)
 #install.packages("forcats")
 library(forcats)
+#install.packages("estimatr")
+library(estimatr)
+#install.packages("lmtest")
+library(lmtest)
+#install.packages("sandwich")
+library(sandwich)
 
 #setting the working directory
 setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
