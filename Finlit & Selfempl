@@ -165,11 +165,11 @@ female <- c("2")
 ASFL <- cbind(ASFL,maled,femaled)
 
 ##################################EDUCATION##################################
-####maybe change definition! 
+#################################old_education###################################
 ASFL <- ASFL %>% mutate(QD9 = ifelse(is.na(QD9), 0, QD9))
 ASFL$QD9
 table(ASFL$QD9)
-ASFL["education"] = cut(as.numeric(as.character(ASFL$QD9)), c(2, 3, 4, 5, Inf), c("Universitary", "Upper secondary", "Lower secondary", "Primary"), include.lowest=TRUE)
+ASFL["educationspecific"] = cut(as.numeric(as.character(ASFL$QD9)), c(2, 3, 4, 5, Inf), c("Universitary", "Upper secondary", "Lower secondary", "Primary"), include.lowest=TRUE)
 
 primary_1d <- ifelse(ASFL$QD9 == "7", 1, 0)
 primary_2d <- ifelse(ASFL$QD9 == "6", 1, 0)
@@ -181,6 +181,13 @@ university_2d<- ifelse(ASFL$QD9 == "3", 1, 0)
 universityd <- university_1d+university_2d
 
 ASFL <- cbind(ASFL,primaryd,lowersecondaryd,uppersecondaryd,universityd)
+
+#################################new_education###################################
+ASFL["education"] = cut(as.numeric(as.character(ASFL$QD9)), c(2,4,Inf), c("University", "Non-university"), include.lowest=TRUE)
+table(ASFL$education)
+unieduc<- ifelse(ASFL$education == "University", 1, 0)
+nonunieduc<- ifelse(ASFL$education == "Non-university", 1, 0)
+ASFL <- cbind(ASFL,unieduc,nonunieduc)
 
 #################################add_education###################################
 
@@ -202,6 +209,17 @@ llsfknow<- ifelse(ASFL$QK1 == "Very low", 1, 0)
 lowsfknow <- lsfknow+llsfknow
 ASFL <- cbind(ASFL,selfassess,hhsfknow,hsfknow,highsfknow,asfknow,lsfknow,llsfknow,lowsfknow) 
 
+#################################LIVING COMMUNITY TYPE##############################
+table(ASFL$QD3)
+villaged <- ifelse(ASFL$QD3 == "A village, hamlet or rural area (fewer than 3 000 people)", 1, 0)
+smalltownd<- ifelse(ASFL$QD3 == "A small town (3 000 to about 15 000 people)", 1, 0)
+largetownd<- ifelse(ASFL$QD3 == "A town (15 000 to about 100 000 people)", 1, 0)
+townd <- smalltownd+largetownd
+smallcityd<- ifelse(ASFL$QD3 == "A city (100 000 to about 1 000 000 people)", 1, 0)
+largecityd<- ifelse(ASFL$QD3 == "A large city (with over 1 000 000 people)", 1, 0)
+cityd<- smallcityd+largecityd
+
+ASFL <- cbind (ASFL, villaged, townd, cityd)
 #################################HOUSEHOLD INCOME##############################
 hincome <- ASFL$QD13
 table(ASFL$QD13)
@@ -214,13 +232,21 @@ ASFL <- cbind(ASFL,hincome,hincomehighd,hincomemiddled,hincomelowd)
 table(ASFL$QD5_1)
 singled <- ifelse(ASFL$QD5_1 == "Yes", 1, 0)
 ASFL<- cbind(ASFL, singled)
+table(ASFL$QD5_ad) #only those stating that they are not living alone
 table(ASFL$QD5_3)
 table(ASFL$QD5_4)
+table(ASFL$QD5_ch) #only those stating that they are not living alone asked for amount of children
 cb18d <- ifelse(ASFL$QD5_3 == "Yes", 1, 0)
 ca18d <- ifelse(ASFL$QD5_4 == "Yes", 1, 0)
 child <- cb18d+ca18d
 childd <- ifelse(child  >= "1", 1, 0)
 ASFL <- cbind(ASFL, childd,cb18d,ca18d)
+singleparentb18d <- ifelse(ASFL$QD5_ad == "1", 1, 0) #notlivingalone but only 1 person (including respondent themselve) above 18
+singleparent_2_1 <- ifelse(ASFL$QD5_ad == "2", 1, 0)
+singleparent_2_2 <-ca18d+singleparent_2_1
+singleparent_2 <- ifelse(singleparent_2_2 == "2", 1, 0)
+singleparentd <- singleparentb18d+singleparent_2
+ASFL <- cbind(ASFL, singleparentb18d,singleparentd)
 ##################################FINANCIAL RESILIENCE##################################
 finbuff <- ASFL$QD13
 table(ASFL$QF13)
@@ -266,6 +292,8 @@ ASFLe <- ASFL[(ASFL$QD10 %in% e),]
 summary(ASFLe$QD7)
 ASFLoth <-  ASFL[(ASFL$QD10 %in% oth),] 
 summary(ASFLoth$QD7)
+ASFLothworet <-  ASFL[(ASFL$QD10 %in% othworet),] 
+summary(ASFLothworet$QD7)
 
 #age group comparison
 #full sample
@@ -402,21 +430,7 @@ ggplot(genderplot, aes(fill=gender, y=value, x=emplstat)) +
 
 
 ##################################EDUCATION##################################
-#fullsample
-ASFL$QD9
-ASFL <- ASFL %>% mutate(QD9 = ifelse(is.na(QD9), 0, QD9))
-ASFL$QD9
-ASFL["education"] = cut(as.numeric(as.character(ASFL$QD9)), c(2, 3, 4, 5, Inf), c("universitary", "upper secondary", "lower secondary", "primary"), include.lowest=TRUE)
-primary_f_1 <- ifelse(ASFL$QD9 == "7", 1, 0)
-primary_f_2 <- ifelse(ASFL$QD9 == "6", 1, 0)
-primary_f <- primary_f_1+primary_f_2
-lowersecondary_f<- ifelse(ASFL$QD9 == "5", 1, 0)
-uppersecondary_f<- ifelse(ASFL$QD9 == "4", 1, 0)
-university_f_1<- ifelse(ASFL$QD9 == "2", 1, 0)
-university_f_2<- ifelse(ASFL$QD9 == "3", 1, 0)
-university_f <- university_f_1+university_f_2
-table(ASFL$QD9)
-#191/1382 , 809/1382 , 220/1382, 162/1382
+#oldeduc
 
 #selfemployed
 ASFLse$QD9
@@ -499,6 +513,36 @@ ggplot(educomp, aes(fill=education, y=share, x=status)) +
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Education")
 
+#####new education variable
+#self-employed 
+table(ASFLse$education)
+unieducse <- ifelse(ASFLse$education == "University", 1, 0)
+nonunieducse <- ifelse(ASFLse$education == "Non-university", 1, 0)
+
+#employed 
+table(ASFLe$education)
+unieduce <- ifelse(ASFLe$education == "University", 1, 0)
+nonunieduce <- ifelse(ASFLe$education == "Non-university", 1, 0)
+
+#others 
+table(ASFLoth$education)
+unieduce <- ifelse(ASFLoth$education == "University", 1, 0)
+nonunieduce <- ifelse(ASFLoth$education == "Non-university", 1, 0)
+#othersworetired
+table(ASFLothworet$education)
+unieducothworet <- ifelse(ASFLothworet$education == "University", 1, 0)
+nonunieducothworet <- ifelse(ASFLothworet$education == "Non-university", 1, 0)
+
+#comparison plots
+educomp <- data.frame(status=rep(c('Self-employed', 'Employed'), each=2),
+                      education=rep(c('Non-university', 'University'), times=2),
+                      share=c(34/77, 43/77,235/685, 450/685))
+educomp$status<- factor(educomp$status, levels=c('Self-employed', 'Employed'))
+educomp$education<- factor(educomp$education, levels=c('Non-university', 'University'))
+ggplot(educomp, aes(fill=education, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Education")
+
 ##################################HOUSEHOLD SIZE##################################
 #full
 table(ASFL$QD5_1)
@@ -507,11 +551,15 @@ single_f <- ifelse(ASFL$QD5_1 == "Yes", 1, 0)
 #self-employed
 table(ASFLse$QD5_1)
 23/(56+23)
+table(ASFLse$QD5_2)
+table(ASFLse$QD5_ad)
 single_se <- ifelse(ASFLse$QD5_1 == "Yes", 1, 0)
 #employed
 table(ASFLe$QD5_1)
-single_e <- ifelse(ASFLe$QD5_1 == "Yes", 1, 0)
 196/(503+196)
+table(ASFLe$QD5_2)
+table(ASFLe$QD5_ad)
+single_e <- ifelse(ASFLe$QD5_1 == "Yes", 1, 0)
 #e+u
 table(ASFLeu$QD5_1)
 single_eu <- ifelse(ASFLeu$QD5_1 == "Yes", 1, 0)
@@ -541,6 +589,9 @@ table(child_f)
 351/(1418)
 
 #self-employed
+table(ASFLse$QD5_ch)
+singleparentse <- ifelse(ASFLse$singleparentd == "1", 1, 0)
+singleparentu18se <- ifelse(ASFLse$QD5_ad == "1", 1, 0)
 cb18_se <- ifelse(ASFLse$QD5_3 == "Yes", 1, 0)
 ca18_se <- ifelse(ASFLse$QD5_4 == "Yes", 1, 0)
 child_se <- cb18_se+ca18_se
@@ -551,6 +602,9 @@ table(child_se)
 29/79
 
 #employed
+table(ASFLe$QD5_ch)
+singleparente <- ifelse(ASFLe$singleparentd == "1", 1, 0)
+singleparentu18e <- ifelse(ASFLe$QD5_ad == "1", 1, 0)
 cb18_e <- ifelse(ASFLe$QD5_3 == "Yes", 1, 0)
 ca18_e <- ifelse(ASFLe$QD5_4 == "Yes", 1, 0)
 child_e <- cb18_e+ca18_e
@@ -599,6 +653,59 @@ householdplot$emplstat<- factor(householdplot$emplstat, levels=c('Self-employed'
 ggplot(householdplot, aes(fill=emplstat, y=value, x=household)) + 
   geom_bar(position="dodge", stat="identity")+
   labs(x = "",y="Percentage share", fill = "Employment status")
+#################################LIVING COMMUNITY TYPE##############################
+#self-employed 
+table(ASFLse$QD3)
+village_se <- ifelse(ASFLse$QD3 == "A village, hamlet or rural area (fewer than 3 000 people)", 1, 0)
+smalltown_se<- ifelse(ASFLse$QD3 == "A small town (3 000 to about 15 000 people)", 1, 0)
+largetown_se<- ifelse(ASFLse$QD3 == "A town (15 000 to about 100 000 people)", 1, 0)
+town_se <- smalltown_se+largetown_se
+smallcity_se<- ifelse(ASFLse$QD3 == "A city (100 000 to about 1 000 000 people)", 1, 0)
+largecity_se<- ifelse(ASFLse$QD3 == "A large city (with over 1 000 000 people)", 1, 0)
+city_se<- smallcity_se+largecity_se
+
+
+#employed 
+table(ASFLe$QD3)
+village_e <- ifelse(ASFLe$QD3 == "A village, hamlet or rural area (fewer than 3 000 people)", 1, 0)
+smalltown_e<- ifelse(ASFLe$QD3 == "A small town (3 000 to about 15 000 people)", 1, 0)
+largetown_e<- ifelse(ASFLe$QD3 == "A town (15 000 to about 100 000 people)", 1, 0)
+town_e <- smalltown_e+largetown_e
+smallcity_e<- ifelse(ASFLe$QD3 == "A city (100 000 to about 1 000 000 people)", 1, 0)
+largecity_e<- ifelse(ASFLe$QD3 == "A large city (with over 1 000 000 people)", 1, 0)
+city_e<- smallcity_e+largecity_e
+
+#others
+table(ASFLoth$QD3)
+village_oth <- ifelse(ASFLoth$QD3 == "A village, hamlet or rural area (fewer than 3 000 people)", 1, 0)
+smalltown_oth<- ifelse(ASFLoth$QD3 == "A small town (3 000 to about 15 000 people)", 1, 0)
+largetown_oth<- ifelse(ASFLoth$QD3 == "A town (15 000 to about 100 000 people)", 1, 0)
+town_oth <- smalltown_oth+largetown_oth
+smallcity_oth<- ifelse(ASFLoth$QD3 == "A city (100 000 to about 1 000 000 people)", 1, 0)
+largecity_oth<- ifelse(ASFLoth$QD3 == "A large city (with over 1 000 000 people)", 1, 0)
+city_oth<- smallcity_oth+largecity_oth
+
+#othersworetired
+table(ASFLothworet$QD3)
+village_othworet <- ifelse(ASFLothworet$QD3 == "A village, hamlet or rural area (fewer than 3 000 people)", 1, 0)
+smalltown_othworet<- ifelse(ASFLothworet$QD3 == "A small town (3 000 to about 15 000 people)", 1, 0)
+largetown_othworet<- ifelse(ASFLothworet$QD3 == "A town (15 000 to about 100 000 people)", 1, 0)
+town_othworet <- smalltown_othworet+largetown_othworet
+smallcity_othworet<- ifelse(ASFLothworet$QD3 == "A city (100 000 to about 1 000 000 people)", 1, 0)
+largecity_othworet<- ifelse(ASFLothworet$QD3 == "A large city (with over 1 000 000 people)", 1, 0)
+city_othworet<- smallcity_othworet+largecity_othworet
+
+####living community comparison plot
+###stacked bar chart 
+livingcomm <- data.frame(status=rep(c('Self-employed', 'Employed'), each=3),
+                          community=rep(c("Village","Town","City"), times=2),
+                          share=c(20/79,25/79,34/79,198/699,258/699,243/699))
+livingcomm$status<- factor(livingcomm$status, levels=c('Self-employed', 'Employed'))
+livingcomm$community<- factor(livingcomm$community, levels=c("Village","Town","City"))
+ggplot(livingcomm, aes(fill=community, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Living community")
+
 
 ##################################HOUSEHOLD INCOME##################################
 #after tax
@@ -2592,9 +2699,10 @@ wpct(ASFL5oth$finwellbeing5, weight=ASFL5oth$wght,na.rm=TRUE)
 
 #############################MAIN FINANCIAL LITERACY SCORE (without additional indicators)#########################
 finlit <- fin_know+fin_att+fin_beh
+finlitadd <- fin_know_add+fin_att+fin_beh
 summary(finlit)
 table(finlit)
-ASFL6 <- cbind(ASFL5, finlit)
+ASFL6 <- cbind(ASFL5, finlit, finlitadd)
 weighted.mean(ASFL6$finlit, ASFL6$wght) #14.4 - according to OECD (2020)
 wpct(ASFL6$finlit, weight=ASFL6$wght,na.rm=TRUE)
 finlitr <- round(ASFL6$finlit)
@@ -2602,6 +2710,12 @@ ASFL6 <- cbind(ASFL6, finlitr)
 wpct(ASFL6$finlitr, weight=ASFL6$wght, na.rm=TRUE)
 weighted.mean(ASFL6$finlitr, ASFL6$wght)
 
+weighted.mean(ASFL6$finlitadd, ASFL6$wght) #14.4 - according to OECD (2020)
+wpct(ASFL6$finlitadd, weight=ASFL6$wght,na.rm=TRUE)
+finlitaddr <- round(ASFL6$finlitadd)
+ASFL6 <- cbind(ASFL6, finlitaddr)
+wpct(ASFL6$finlitaddr, weight=ASFL6$wght, na.rm=TRUE)
+weighted.mean(ASFL6$finlitaddr, ASFL6$wght)
 #dummy variables 
 ASFL6 <- ASFL6 %>% mutate(finlit_group = case_when(finlit >=17  & finlit <= 20.66666666666667 ~ 'high',
                                                    finlit >=14   & finlit <17  ~ 'average',
@@ -2615,17 +2729,26 @@ table(ASFL6$highfinlitd)
 table(ASFL6$averagefinlitd)
 table(ASFL6$lowfinlitd)
 
+
+
 ###main financial literacy indicator comparison
 ASFL6se <- ASFL6[(ASFL6$QD10 %in% se),]
 weighted.mean(ASFL6se$finlit, ASFL6se$wght)
+weighted.mean(ASFL6se$finlitadd, ASFL6se$wght)
 wpct(ASFL6se$finlit, weight=ASFL6se$wght, na.rm=TRUE)
+wpct(ASFL6se$finlitadd, weight=ASFL6se$wght, na.rm=TRUE)
 ASFL6e <- ASFL6[(ASFL6$QD10 %in% e),]
 weighted.mean(ASFL6e$finlit, ASFL6e$wght)
+weighted.mean(ASFL6e$finlitadd, ASFL6e$wght)
 wpct(ASFL6e$finlit, weight=ASFL6e$wght, na.rm=TRUE)
+wpct(ASFL6e$finlitadd, weight=ASFL6e$wght, na.rm=TRUE)
 ASFL6eu <- ASFL6[(ASFL6$QD10 %in% eu),]
 ASFL6oth <- ASFL6[(ASFL6$QD10 %in% oth),]
 weighted.mean(ASFL6oth$finlit, ASFL6oth$wght)
+weighted.mean(ASFL6oth$finlitadd, ASFL6oth$wght)
 wpct(ASFL6oth$finlit, weight=ASFL6oth$wght, na.rm=TRUE)
+wpct(ASFL6oth$finlitadd, weight=ASFL6oth$wght, na.rm=TRUE)
+wpct(ASFL6oth$finlitadd, weight=ASFL6oth$wght, na.rm=TRUE)
 ASFL6othworet <- ASFL6[(ASFL6$QD10 %in% othworet),]
 
 ASFL6m <- ASFL6[(ASFL6$QD1 %in% male),]
@@ -2784,7 +2907,6 @@ wpct(ASFL7e$HFCSriskd, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$HFCSriskd, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$HFCSriskd, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$HFCSriskd, weight=ASFL7othworet$wght, na.rm=TRUE)
-
 
 
 
