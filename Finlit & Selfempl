@@ -123,6 +123,7 @@ summary(ASFL$st3ab) #person contributing most to household income ever employed
 age<-ASFL$QD7
 summary(ASFL$QD7)
 age2 <- age^2
+rootage <- sqrt(ASFL$QD7)
 ASFL["age_group"] = cut(as.numeric(as.character(ASFL$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
 table(ASFL$age_group)
 youngmilld<- ifelse(ASFL$age_group == "16-28", 1, 0)
@@ -228,6 +229,14 @@ hincomemiddled<- ifelse(ASFL$QD13 == "Between X and Y a month", 1, 0)
 hincomelowd <- ifelse(ASFL$QD13 == "Up to X a month", 1, 0) 
 ASFL <- cbind(ASFL,hincome,hincomehighd,hincomemiddled,hincomelowd) 
 
+incomeequ <- subset(ASFL, select=c("QD13", "QD5_ad"))
+incomeequ
+partnerhincome <- ifelse(incomeequ$QD5_ad == "2", 1, 0) 
+partnerhincome<- subset(incomeequ, incomeequ$QD5_ad == "2")
+table(partnerhincome)
+table(ASFL$QD13)
+table(incomeequ$QD5_ad)
+table(incomeequ$QD13)
 #################################HOUSEHOLD SIZE & CHILDREN##############################
 table(ASFL$QD5_1)
 singled <- ifelse(ASFL$QD5_1 == "Yes", 1, 0)
@@ -247,6 +256,7 @@ singleparent_2_2 <-ca18d+singleparent_2_1
 singleparent_2 <- ifelse(singleparent_2_2 == "2", 1, 0)
 singleparentd <- singleparentb18d+singleparent_2
 ASFL <- cbind(ASFL, singleparentb18d,singleparentd)
+table(ASFL$singleparentd)
 ##################################FINANCIAL RESILIENCE##################################
 finbuff <- ASFL$QD13
 table(ASFL$QF13)
@@ -286,14 +296,20 @@ ggplot(emplshare2, aes(x="", y=amount, fill=Employment)) +
 
 ##################################AGE##################################
 #absolute comparison
+summary(ASFL$QD7)
 ASFLse <- ASFL[(ASFL$QD10 %in% se),] 
 summary(ASFLse$QD7)
 ASFLe <- ASFL[(ASFL$QD10 %in% e),] 
 summary(ASFLe$QD7)
+ASFLeu <- ASFL[(ASFL$QD10 %in% eu),] 
+summary(ASFLeu$QD7)
 ASFLoth <-  ASFL[(ASFL$QD10 %in% oth),] 
 summary(ASFLoth$QD7)
 ASFLothworet <-  ASFL[(ASFL$QD10 %in% othworet),] 
 summary(ASFLothworet$QD7)
+ASFLret <-  ASFL[(ASFL$QD10 %in% ret),] 
+summary(ASFLret$QD7)
+
 
 #age group comparison
 #full sample
@@ -352,7 +368,6 @@ summary(ASFLoth$age_group)
 #44/640,30/640,66/640,308/640,192/640
 
 #othersworetired
-#others
 ASFLothworet$QD7
 ASFLothworet["age_group"] = cut(as.numeric(as.character(ASFLothworet$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
 youngmill_eu<- ifelse(ASFLothworet$age_group == "16-28", 1, 0)
@@ -363,9 +378,28 @@ silentgen_eu<- ifelse(ASFLothworet$age_group == ">75", 1, 0)
 summary(ASFLothworet$age_group)
 #44/149,30/149,43/149,18/149,11/149
 
+#retired
+ASFLret$QD7
+ASFLret["age_group"] = cut(as.numeric(as.character(ASFLret$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
+youngmill_eu<- ifelse(ASFLret$age_group == "16-28", 1, 0)
+oldmill_eu<- ifelse(ASFLret$age_group == "29-38", 1, 0)
+genx_eu <- ifelse(ASFLret$age_group == "39-58", 1, 0)
+babyboom_eu <- ifelse(ASFLret$age_group == "59-74", 1, 0)
+silentgen_eu<- ifelse(ASFLret$age_group == ">75", 1, 0)
+summary(ASFLret$age_group)
+#44/149,30/149,43/149,18/149,11/149
+
 
 ###age group comparison plot 
-###stacked bar chart 
+gencomp <- data.frame(status=rep(c('Self-employed', 'Employed'), each=5),
+                      age=rep(c('Young millenials', 'Old millenials', 'Generation X', 'Baby boomers', 'Silent generation ' ), times=2),
+                      share=c(0/79,5/79,63/79,11/79,0/79, 114/699,163/699,386/699,35/699,1/699))
+gencomp$status<- factor(gencomp$status, levels=c('Self-employed', 'Employed'))
+gencomp$age<- factor(gencomp$age, levels=c('Young millenials', 'Old millenials', 'Generation X', 'Baby boomers', 'Silent generation '))
+ggplot(gencomp, aes(fill=age, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Employment status")
+###with others
 gencomp <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=5),
                       age=rep(c('Young millenials', 'Old millenials', 'Generation X', 'Baby boomers', 'Silent generation ' ), times=3),
                       share=c(0/79,5/79,63/79,11/79,0/79, 114/699,163/699,386/699,35/699,1/699,44/640,30/640,66/640,308/640,192/640))
@@ -398,6 +432,7 @@ female_e
 male_e <- ifelse(ASFLe$QD1 == "1", 1, 0)
 male_e
 #e+u
+table(ASFLeu$QD1)
 female_eu <- ifelse(ASFLeu$QD1 == "2", 1, 0)
 female_eu
 male_eu <- ifelse(ASFLeu$QD1 == "1", 1, 0)
@@ -416,8 +451,22 @@ female_othworet
 male_othworet <- ifelse(ASFLothworet$QD1 == "1", 1, 0)
 male_othworet
 
+#retired
+table(ASFLret$QD1)
 
-#gender comparison plot
+
+
+#gender comparison plot 
+emplstat <- c(rep("Self-employed" , 2) , rep("Employed" , 2) )
+gender <- rep(c("Male" , "Female" ) , 2)
+value <- abs(c(45/79,34/79,346/699,353/699))
+genderplot<- data.frame(gender,emplstat,value)
+
+genderplot$emplstat<- factor(genderplot$emplstat, levels=c('Self-employed', 'Employed'))
+genderplot$gender<- factor(genderplot$gender, levels=c('Male','Female'))
+ggplot(genderplot, aes(fill=gender, y=value, x=emplstat)) + 
+  geom_bar(position="dodge", stat="identity")+ labs(x="" ,y="Percentage share",fill="Gender")
+#with others
 emplstat <- c(rep("Self-employed" , 2) , rep("Employed" , 2) ,  rep("Others" , 2) )
 gender <- rep(c("Male" , "Female" ) , 3)
 value <- abs(c(45/79,34/79,346/699,353/699,277/640,363/640))
@@ -514,6 +563,7 @@ ggplot(educomp, aes(fill=education, y=share, x=status)) +
   labs(x="",y="Percentage share",fill="Education")
 
 #####new education variable
+
 #self-employed 
 table(ASFLse$education)
 unieducse <- ifelse(ASFLse$education == "University", 1, 0)
@@ -524,6 +574,9 @@ table(ASFLe$education)
 unieduce <- ifelse(ASFLe$education == "University", 1, 0)
 nonunieduce <- ifelse(ASFLe$education == "Non-university", 1, 0)
 
+#e+u
+table(ASFLeu$education)
+
 #others 
 table(ASFLoth$education)
 unieduce <- ifelse(ASFLoth$education == "University", 1, 0)
@@ -532,6 +585,8 @@ nonunieduce <- ifelse(ASFLoth$education == "Non-university", 1, 0)
 table(ASFLothworet$education)
 unieducothworet <- ifelse(ASFLothworet$education == "University", 1, 0)
 nonunieducothworet <- ifelse(ASFLothworet$education == "Non-university", 1, 0)
+#retired
+table(ASFLret$education)
 
 #comparison plots
 educomp <- data.frame(status=rep(c('Self-employed', 'Employed'), each=2),
@@ -572,13 +627,15 @@ single_oth <- ifelse(ASFLoth$QD5_1 == "Yes", 1, 0)
 table(ASFLothworet$QD5_1)
 single_othworet <- ifelse(ASFLothworet$QD5_1 == "Yes", 1, 0)
 50/(50+96)
+#retired
+table(ASFLret$QD5_1)
 
 
 
 ##################################children##################################
 #full
-table(ASFL$QD5_3)
-table(ASFL$QD5_4)
+table(ASFL$QD5_3) #children below 18
+table(ASFL$QD5_4)  #children above 18
 cb18_f <- ifelse(ASFL$QD5_3 == "Yes", 1, 0)
 ca18_f <- ifelse(ASFL$QD5_4 == "Yes", 1, 0)
 child_f <- cb18_f+ca18_f
@@ -589,7 +646,10 @@ table(child_f)
 351/(1418)
 
 #self-employed
+table(ASFLse$QD5_3)
+table(ASFLse$QD5_4)
 table(ASFLse$QD5_ch)
+table(ASFLse$singleparentd)
 singleparentse <- ifelse(ASFLse$singleparentd == "1", 1, 0)
 singleparentu18se <- ifelse(ASFLse$QD5_ad == "1", 1, 0)
 cb18_se <- ifelse(ASFLse$QD5_3 == "Yes", 1, 0)
@@ -602,7 +662,10 @@ table(child_se)
 29/79
 
 #employed
+table(ASFLe$QD5_3)
+table(ASFLe$QD5_4)
 table(ASFLe$QD5_ch)
+table(ASFLe$singleparentd)
 singleparente <- ifelse(ASFLe$singleparentd == "1", 1, 0)
 singleparentu18e <- ifelse(ASFLe$QD5_ad == "1", 1, 0)
 cb18_e <- ifelse(ASFLe$QD5_3 == "Yes", 1, 0)
@@ -614,6 +677,10 @@ table(ca18_e)
 table(child_e)
 245/699
 #e+u
+table(ASFLeu$QD5_3)
+table(ASFLeu$QD5_4)
+table(ASFLeu$QD5_ch)
+table(ASFLeu$singleparentd)
 cb18_eu <- ifelse(ASFLeu$QD5_3 == "Yes", 1, 0)
 ca18_eu <- ifelse(ASFLeu$QD5_4 == "Yes", 1, 0)
 child_eu <- cb18_eu+ca18_eu
@@ -624,6 +691,10 @@ table(child_eu)
 245/699
 
 #others
+table(ASFLoth$QD5_3)
+table(ASFLoth$QD5_4)
+table(ASFLoth$QD5_ch)
+table(ASFLoth$singleparentd)
 cb18_oth <- ifelse(ASFLoth$QD5_3 == "Yes", 1, 0)
 ca18_oth <- ifelse(ASFLoth$QD5_4 == "Yes", 1, 0)
 child_oth <- cb18_oth+ca18_oth
@@ -634,6 +705,10 @@ table(child_oth)
 77/640
 
 #others without retired
+table(ASFLothworet$QD5_3)
+table(ASFLothworet$QD5_4)
+table(ASFLothworet$QD5_ch)
+table(ASFLothworet$singleparentd)
 cb18_othworet <- ifelse(ASFLothworet$QD5_3 == "Yes", 1, 0)
 ca18_othworet <- ifelse(ASFLothworet$QD5_4 == "Yes", 1, 0)
 child_othworet <- cb18_othworet+ca18_othworet
@@ -643,7 +718,24 @@ table(ca18_othworet)
 table(child_othworet)
 55/146
 
+#retired
+table(ASFLret$QD5_3)
+table(ASFLret$QD5_4)
+table(ASFLret$QD5_ch)
+table(ASFLret$singleparentd)
+
 #sole and with children comparison plot
+household <- c(rep("Single household" , 2) , rep("Children" , 2), rep("Single parent" , 2))
+emplstat <- rep(c("Self-employed" , "Employed" ) , 3)
+value <- abs(c(23/79,196/699,29/79,245/699,3/79,34/699))
+householdplot<- data.frame(household,emplstat,value)
+householdplot$household<- factor(householdplot$household, levels=c("Single household","Children","Single parent"))
+householdplot$emplstat<- factor(householdplot$emplstat, levels=c('Self-employed', 'Employed'))
+ggplot(householdplot, aes(fill=emplstat, y=value, x=household)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x = "",y="Percentage share", fill = "Employment status")
+
+#with others
 household <- c(rep("Single household" , 3) , rep("Children" , 3) )
 emplstat <- rep(c("Self-employed" , "Employed","Others" ) , 2)
 value <- abs(c(23/79,196/699,252/640,29/79,245/699,77/640))
@@ -654,6 +746,7 @@ ggplot(householdplot, aes(fill=emplstat, y=value, x=household)) +
   geom_bar(position="dodge", stat="identity")+
   labs(x = "",y="Percentage share", fill = "Employment status")
 #################################LIVING COMMUNITY TYPE##############################
+
 #self-employed 
 table(ASFLse$QD3)
 village_se <- ifelse(ASFLse$QD3 == "A village, hamlet or rural area (fewer than 3 000 people)", 1, 0)
@@ -675,6 +768,8 @@ smallcity_e<- ifelse(ASFLe$QD3 == "A city (100 000 to about 1 000 000 people)", 
 largecity_e<- ifelse(ASFLe$QD3 == "A large city (with over 1 000 000 people)", 1, 0)
 city_e<- smallcity_e+largecity_e
 
+#e+u
+table(ASFLeu$QD3)
 #others
 table(ASFLoth$QD3)
 village_oth <- ifelse(ASFLoth$QD3 == "A village, hamlet or rural area (fewer than 3 000 people)", 1, 0)
@@ -694,6 +789,9 @@ town_othworet <- smalltown_othworet+largetown_othworet
 smallcity_othworet<- ifelse(ASFLothworet$QD3 == "A city (100 000 to about 1 000 000 people)", 1, 0)
 largecity_othworet<- ifelse(ASFLothworet$QD3 == "A large city (with over 1 000 000 people)", 1, 0)
 city_othworet<- smallcity_othworet+largecity_othworet
+
+#retired
+table(ASFLret$QD3)
 
 ####living community comparison plot
 ###stacked bar chart 
@@ -718,7 +816,7 @@ table(ASFL$QD13)
 # 482/1302,508/1302,312/1302
 
 #self-employed
-ASFLse$QD13
+table(ASFLse$QD13)
 below2000_se<- ifelse(ASFLse$QD13 == "Up to X a month", 1, 0)
 between_se<- ifelse(ASFLse$QD13 == "Between X and Y a month", 1, 0)
 above3300_se<- ifelse(ASFLse$QD13 == "Y or more a month", 1, 0)
@@ -726,21 +824,22 @@ table(ASFLse$QD13)
 #15/69, 18/69, 36/69 
 
 #employed
-ASFLe$QD13
+table(ASFLe$QD13)
 below2000_e<- ifelse(ASFLe$QD13 == "Up to X a month", 1, 0)
 between_e<- ifelse(ASFLe$QD13 == "Between X and Y a month", 1, 0)
 above3300_e<- ifelse(ASFLe$QD13 == "Y or more a month", 1, 0)
 table(ASFLe$QD13)
 #171/647,264/647,212/647
+
 #e+u
-ASFLeu$QD13
+table(ASFLeu$QD13)
 below2000_eu<- ifelse(ASFLeu$QD13 == "Up to X a month", 1, 0)
 between_eu<- ifelse(ASFLeu$QD13 == "Between X and Y a month", 1, 0)
 above3300_eu<- ifelse(ASFLeu$QD13 == "Y or more a month", 1, 0)
 table(ASFLeu$QD13)
 
 #others
-ASFLoth$QD13
+table(ASFLoth$QD13)
 below2000_oth<- ifelse(ASFLoth$QD13 == "Up to X a month", 1, 0)
 between_oth<- ifelse(ASFLoth$QD13 == "Between X and Y a month", 1, 0)
 above3300_oth<- ifelse(ASFLoth$QD13 == "Y or more a month", 1, 0)
@@ -748,15 +847,27 @@ table(ASFLoth$QD13)
 #296/586,226/586,64/586 
 
 #others without retired
-ASFLothworet$QD13
+table(ASFLothworet$QD13)
 below2000_othworet<- ifelse(ASFLothworet$QD13 == "Up to X a month", 1, 0)
 between_othworet<- ifelse(ASFLothworet$QD13 == "Between X and Y a month", 1, 0)
 above3300_othworet<- ifelse(ASFLothworet$QD13 == "Y or more a month", 1, 0)
 table(ASFLothworet$QD13)
 #75/126,39/126,12/126
 
-####household income comparison plot
-###stacked bar chart 
+#retired
+table(ASFLret$QD13)
+
+####household income comparison plot 
+hincomecomp <- data.frame(status=rep(c('Self-employed', 'Employed'), each=3),
+                          income=rep(c('Up to 2.000', 'Between 2.000 and 3.000', '3.000 or more'), times=2),
+                          share=c(15/69, 18/69, 36/69,171/647,264/647,212/647))
+hincomecomp$status<- factor(hincomecomp$status, levels=c('Self-employed', 'Employed'))
+hincomecomp$income<- factor(hincomecomp$income, levels=c('Up to 2.000', 'Between 2.000 and 3.000', '3.000 or more'))
+ggplot(hincomecomp, aes(fill=income, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Household income in euros")
+
+###with others
 hincomecomp <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=3),
                           income=rep(c('Up to 2.000', 'Between 2.000 and 3.000', '3.000 or more'), times=3),
                           share=c(15/69, 18/69, 36/69,171/647,264/647,212/647,296/586,226/586,64/586))
@@ -854,6 +965,8 @@ lowsfknow_othworet <- lsfknow_othworet+llsfknow_othworet
 summary(ASFLothworet$QK1)
 wpct(ASFLothworet$QK1, weight=ASFLothworet$wght, na.rm=TRUE)
 
+summary(ASFLret$QK1)
+
 #self-rated knowledge simple comparison plot
 #unweighted
 selfratedknow <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=3),
@@ -864,12 +977,22 @@ selfratedknow$status<- factor(selfratedknow$status, levels=c('Self-employed', 'E
 ggplot(selfratedknow, aes(fill=selfassessment, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
-#weighted
+#weighted with others
 selfratedknow <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=4),
                             selfassessment=rep(c('Don´t know','Low', 'Average', 'High'), times=3),
                             share=c(0.04768587,0.04254538,0.34443552,0.5653332,0.02188622,0.1390004,0.4149923,0.4241211,0.02553137,0.2407209,0.3976323,0.3361154))
 selfratedknow$selfassessment<- factor(selfratedknow$selfassessment, levels=c('Don´t know','Low', 'Average', 'High'))
 selfratedknow$status<- factor(selfratedknow$status, levels=c('Self-employed', 'Employed','Others'))
+ggplot(selfratedknow, aes(fill=selfassessment, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
+
+#weighted
+selfratedknow <- data.frame(status=rep(c('Self-employed', 'Employed'), each=4),
+                            selfassessment=rep(c('Don´t know','Low', 'Average', 'High'), times=2),
+                            share=c(0.04768587,0.04254538,0.34443552,0.5653332,0.02188622,0.1390004,0.4149923,0.4241211))
+selfratedknow$selfassessment<- factor(selfratedknow$selfassessment, levels=c('Don´t know','Low', 'Average', 'High'))
+selfratedknow$status<- factor(selfratedknow$status, levels=c('Self-employed', 'Employed'))
 ggplot(selfratedknow, aes(fill=selfassessment, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
@@ -884,12 +1007,22 @@ selfratedknow_specific$status<- factor(selfratedknow_specific$status, levels=c('
 ggplot(selfratedknow_specific, aes(fill=selfassessment, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
-#weighted
+#weighted with others
 selfratedknow_specific <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=6),
                                      selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Don´t know'), times=3),
                                      share=c(0.11731588,0.44801736,0.34443552,0.01013686,0.03240852,0.04768587,0.109634073,0.314487009,0.414992278,0.115507818,0.023492600,0.02188622,0.07449853,0.26161683,0.39763232,0.16015121,0.08056974,0.02553137))
 selfratedknow_specific$selfassessment<- factor(selfratedknow_specific$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Don´t know'))
 selfratedknow_specific$status<- factor(selfratedknow_specific$status, levels=c('Self-employed', 'Employed','Others'))
+ggplot(selfratedknow_specific, aes(fill=selfassessment, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
+
+#weighted
+selfratedknow_specific <- data.frame(status=rep(c('Self-employed', 'Employed'), each=6),
+                                     selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Don´t know'), times=2),
+                                     share=c(0.11731588,0.44801736,0.34443552,0.01013686,0.03240852,0.04768587,0.109634073,0.314487009,0.414992278,0.115507818,0.023492600,0.02188622))
+selfratedknow_specific$selfassessment<- factor(selfratedknow_specific$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Don´t know'))
+selfratedknow_specific$status<- factor(selfratedknow_specific$status, levels=c('Self-employed', 'Employed'))
 ggplot(selfratedknow_specific, aes(fill=selfassessment, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
@@ -2761,16 +2894,20 @@ weighted.mean(ASFL6f$finlit, ASFL6f$wght) #14.2
 HFCSrisk <- ASFL$HFCS1
 table(ASFL$HFCS1)
 wpct(ASFL$HFCS1, weight=ASFL$wght, na.rm=TRUE)
-risk1<- ifelse(ASFL$HFCS1 == "I am prepared to take substantial financial risks expecting to earn substantial returns", 1, 0)
-risk2<- ifelse(ASFL$HFCS1 == "I am prepared to take above average financial risks expecting to earn above average returns", 1, 0)
-HFCSriskd <- risk1 + risk2
-risk3<- ifelse(ASFL$HFCS1 == "I am prepared to take average financial risks expecting to earn average returns", 1, 0)
-risk4<- ifelse(ASFL$HFCS1 == "I am not willing to take any financial risk", 1, 0)
-HFCSnriskd <- risk3 + risk4
+HFCSrisk1<- ifelse(ASFL$HFCS1 == "I am prepared to take substantial financial risks expecting to earn substantial returns", 1, 0)
+HFCSrisk2<- ifelse(ASFL$HFCS1 == "I am prepared to take above average financial risks expecting to earn above average returns", 1, 0)
+HFCSriskd <- HFCSrisk1 + HFCSrisk2
+HFCSrisk3<- ifelse(ASFL$HFCS1 == "I am prepared to take average financial risks expecting to earn average returns", 1, 0)
+HFCSrisk4<- ifelse(ASFL$HFCS1 == "I am not willing to take any financial risk", 1, 0)
+HFCSnriskd <- HFCSrisk3 + HFCSrisk4
 table(HFCSriskd)
 table(HFCSnriskd)
-ASFL7 <- cbind(ASFL6,HFCSrisk,HFCSriskd,HFCSnriskd)
-
+#alternative - only "no" as no
+HFCSriskad <- HFCSrisk1 +HFCSrisk2+HFCSrisk3
+HFCSnriskad <- HFCSrisk4
+table(HFCSriskad)
+table(HFCSnriskad)
+ASFL7 <- cbind(ASFL6,HFCSrisk,HFCSriskd,HFCSnriskd,HFCSriskad,HFCSnriskad)
 
 ###############designed risk variable#################################
 #######Risky financial assets - recently chosen or used in the last year for active saving###########################
@@ -2820,7 +2957,7 @@ table(QS1_2nrisk)
 table(QS1_2neithernor)
 ASFL7 <- cbind(ASFL7,QS1_2risk)
 
-
+#problematic to but into one score - HFCS and assets separately
 riskscore <- bondd+stockshared+cryptod+HFCSriskd+QS1_2risk
 table(riskscore)
 highriskscored <- ifelse(riskscore >= "2", 1, 0)
@@ -2836,12 +2973,16 @@ ASFL7e <- ASFL7[(ASFL7$QD10 %in% e),]
 ASFL7eu <- ASFL7[(ASFL7$QD10 %in% eu),]
 ASFL7oth <- ASFL7[(ASFL7$QD10 %in% oth),]
 ASFL7othworet <- ASFL7[(ASFL7$QD10 %in% othworet),]
+ASFL7ret <- ASFL7[(ASFL7$QD10 %in% ret),]
 
+wpct(ASFL7$HFCS1, weight=ASFL7$wght, na.rm=TRUE)
 wpct(ASFL7se$HFCS1, weight=ASFL7se$wght, na.rm=TRUE)
 wpct(ASFL7e$HFCS1, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$HFCS1, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$HFCS1, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$HFCS1, weight=ASFL7othworet$wght, na.rm=TRUE)
+wpct(ASFL7ret$HFCS1, weight=ASFL7ret$wght, na.rm=TRUE)
+
 
 wpct(ASFL7$stockshared, weight=ASFL7$wght, na.rm=TRUE)
 wpct(ASFL7se$stockshared, weight=ASFL7se$wght, na.rm=TRUE)
@@ -2908,9 +3049,14 @@ wpct(ASFL7eu$HFCSriskd, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$HFCSriskd, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$HFCSriskd, weight=ASFL7othworet$wght, na.rm=TRUE)
 
+wpct(ASFL7$HFCSriskad, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$HFCSriskad, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7sem$HFCSriskad, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$HFCSriskad, weight=ASFL7sef$wght, na.rm=TRUE)
 
-
-
-
+wpct(ASFL7e$HFCSriskad, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7eu$HFCSriskad, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$HFCSriskad, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$HFCSriskad, weight=ASFL7othworet$wght, na.rm=TRUE)
 
 
