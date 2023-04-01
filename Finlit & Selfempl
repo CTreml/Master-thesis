@@ -1,38 +1,12 @@
-#########################DATA##########################################
-#loading packages
-library(ggplot2)
-library(survey)
-library(mitools)
-library(survey)
-library(srvyr)
+.libPaths()
 library(dplyr)
-#install.packages("weights")
-library(Hmisc)
-#install.packages("latticeExtra")
-library(latticeExtra)
-library(weights)
-#srvyr is a dplyr version of survey, check out the "Vignettes":
-#https://cran.r-project.org/web/packages/srvyr/index.html
-library(mice)
-library(tidyverse)
-library(oaxaca)
-library(devtools)
-#install_github('djalmapessoa/convey')
-library(convey)
-library(haven)
-library(foreign)
-library(xtable)
-#install.packages("stargazer")
-library(stargazer)
-#install.packages("forcats")
-library(forcats)
-#install.packages("estimatr")
-library(estimatr)
-#install.packages("lmtest")
-library(lmtest)
-#install.packages("sandwich")
 library(sandwich)
 library(ggplot2)
+library(weights)
+library(xtable)
+library(lmtest)
+library(ggalluvial)
+
 
 #setting the working directory
 setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
@@ -199,7 +173,17 @@ summary(ASFL$st3g)
 
 #################################SELF-ASSESSMENT##############################
 selfassess <- ASFL$QK1
+table(selfassess)
 table(ASFL$QK1)
+ASFL <- ASFL %>% mutate(saknow_group = case_when(selfassess == "Very high" ~ "High",
+                                                 selfassess == "Quite high" ~ "High",
+                                                 selfassess == "About average" ~ "Average",
+                                                 selfassess == "Very low" ~ "Low",
+                                                 selfassess == "Quite low" ~ "Low",
+                                                 selfassess == "Refused" ~ "Refusal",
+                                                 selfassess == "Don't know" ~ "Refusal"))
+                                                 
+table(ASFL$saknow_group)
 
 hhsfknow<- ifelse(ASFL$QK1 == "Very high", 1, 0)
 hsfknow<- ifelse(ASFL$QK1 == "Quite high", 1, 0)
@@ -258,10 +242,19 @@ singleparentd <- singleparentb18d+singleparent_2
 ASFL <- cbind(ASFL, singleparentb18d,singleparentd)
 table(ASFL$singleparentd)
 ##################################FINANCIAL RESILIENCE##################################
-finbuff <- ASFL$QD13
-table(ASFL$QF13)
+finbuff <- ASFL$QF13
+table(finbuff)
 lfinbuff<- c("Less than a week","At least a week, but not one month","At least one month, but not three months") 
 hfinbuff<- c("At least three months, but not six months","Six months or more")
+
+ASFL <- ASFL %>% mutate(finbuff_group = case_when(finbuff == "Less than a week" ~ 'Low',
+                                                 finbuff == "At least a week, but not one month" ~ 'Low',
+                                                 finbuff == "At least one month, but not three months" ~ 'Average',
+                                                 finbuff == "At least three months, but not six months" ~ 'High',
+                                                 finbuff == "Six months or more" ~ 'High', 
+                                                 finbuff == "Don't know" ~ 'Refusal',
+                                                 finbuff == "Refused" ~ 'Refusal'))
+table(ASFL$finbuff_group)
 
 lessweekfinbuffd <-ifelse(ASFL$QF13 == "Less than a week", 1, 0)
 weekfinbuffd <-ifelse(ASFL$QF13 == "At least a week, but not one month", 1, 0)
@@ -1261,7 +1254,7 @@ wpct(ASFLothworet$QK6, weight=ASFLothworet$wght, na.rm=TRUE)
 #correct
 #incorrect 
 #dont know/irrelevant
-
+ASFL$QK6
 QK6f<- ifelse(ASFL$QK6 == "More than €110" , 1, 0)
 table(QK6f)
 QK6se<- ifelse(ASFLse$QK6 == "More than €110", 1, 0)
@@ -1576,14 +1569,14 @@ weighted.mean(ASFL1$fin_know,ASFL1$wght)#5.3 - according to OECD (2020)
 wpct(ASFL1$fin_know, weight=ASFL1$wght, na.rm=TRUE)
 
 #dummyvariables
-ASFL1 <- ASFL1 %>% mutate(fin_know_group = case_when(fin_know >= 6  & fin_know <= 7 ~ 'high',
-                                                        fin_know >= 4  & fin_know <6  ~ 'average',
-                                                        fin_know >= 0  & fin_know < 4 ~ 'low'))
+ASFL1 <- ASFL1 %>% mutate(fin_know_group = case_when(fin_know >= 6  & fin_know <= 7 ~ 'High',
+                                                        fin_know >= 4  & fin_know <6  ~ 'Average',
+                                                        fin_know >= 0  & fin_know < 4 ~ 'Low'))
+table(ASFL1$fin_know_group)
 
-
-highfinknowd <- ifelse(ASFL1$fin_know_group == "high", 1, 0)
-averagefinknowd <- ifelse(ASFL1$fin_know_group == "average", 1, 0)
-lowfinknowd <- ifelse(ASFL1$fin_know_group == "low", 1, 0)
+highfinknowd <- ifelse(ASFL1$fin_know_group == "High", 1, 0)
+averagefinknowd <- ifelse(ASFL1$fin_know_group == "Average", 1, 0)
+lowfinknowd <- ifelse(ASFL1$fin_know_group == "Low", 1, 0)
 ASFL1 <- cbind(ASFL1,lowfinknowd,averagefinknowd,highfinknowd)
 ##############austria specific additional financial knowledge!
 
@@ -1595,9 +1588,11 @@ weighted.mean(ASFL1$fin_know_add,ASFL1$wght)
 wpct(ASFL1$fin_know_add, weight=ASFL1$wght, na.rm=TRUE)
 
 #dummyvariables
-ASFL1 <- ASFL1 %>% mutate(fin_know_add_group = case_when(fin_know_add >= 8  & fin_know_add <= 10 ~ 'high',
-                                                         fin_know_add >= 5  & fin_know_add <8  ~ 'average',
-                                                         fin_know_add >= 0  & fin_know_add < 5 ~ 'low'))
+ASFL1 <- ASFL1 %>% mutate(fin_know_add_group = case_when(fin_know_add >= 8  & fin_know_add <= 10 ~ 'High',
+                                                         fin_know_add >= 5  & fin_know_add <8  ~ 'Average',
+                                                         fin_know_add >= 0  & fin_know_add < 5 ~ 'Low'))
+
+table(ASFL1$fin_know_add)
 
 highfinknowaddd <- ifelse(ASFL1$fin_know_add_group == "high", 1, 0)
 averagefinknowaddd <- ifelse(ASFL1$fin_know_add_group == "average", 1, 0)
@@ -2317,7 +2312,7 @@ QS3_9_2 <- ifelse(ASFL$QS3_9 == "2", 1, 0)
 finstress2 <- QS3_9_1+QS3_9_2
 finwellbeing3 <-QS3_9_1+QS3_9_2
 table(finstress2)
-#I am concerned that my money won’t last
+#I am concerned that my money won't last
 wpct(finstress2, weight=ASFL$wght, na.rm=TRUE)
 
 summary(ASFL$QS3_10)
@@ -2398,6 +2393,12 @@ table(ASFL4$finwellbeing)
 weighted.mean(ASFL4$finwellbeing, ASFL4$wght) #11.4
 wpct(ASFL4$finwellbeing, weight=ASFL4$wght, na.rm=TRUE)
 
+
+#dummyvariables
+ASFL4 <- ASFL4 %>% mutate(fin_wellbeing_group = case_when(finwellbeing >= 16  & finwellbeing <= 20 ~ 'High',
+                                                          finwellbeing >= 10  & finwellbeing <16  ~ 'Average',
+                                                          finwellbeing >= 0  & finwellbeing < 10 ~ 'Low'))
+table(ASFL4$fin_wellbeing_group)
 
 ################FINANCIAL INCLUSION ##############################
 ####product use
@@ -2909,6 +2910,13 @@ table(HFCSriskad)
 table(HFCSnriskad)
 ASFL7 <- cbind(ASFL6,HFCSrisk,HFCSriskd,HFCSnriskd,HFCSriskad,HFCSnriskad)
 
+ASFL <- ASFL %>% mutate(HFCSrisk_group = case_when(HFCSrisk == "I am prepared to take substantial financial risks expecting to earn substantial returns" ~"Substantial" ,
+                                                  HFCSrisk == "I am prepared to take above average financial risks expecting to earn above average returns" ~ "High",
+                                                  HFCSrisk == "I am prepared to take average financial risks expecting to earn average returns" ~ "Average",
+                                                  HFCSrisk == "I am not willing to take any financial risk" ~ "No"))
+table(ASFL$HFCSrisk_group)
+
+
 ###############designed risk variable#################################
 #######Risky financial assets - recently chosen or used in the last year for active saving###########################
 #######Stock, shares & bonds#################
@@ -3058,5 +3066,6 @@ wpct(ASFL7e$HFCSriskad, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$HFCSriskad, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$HFCSriskad, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$HFCSriskad, weight=ASFL7othworet$wght, na.rm=TRUE)
+
 
 
