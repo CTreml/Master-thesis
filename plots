@@ -1,11 +1,22 @@
 ########################PLOTS###########################
 #dev.off() ... fixes problems in plotting!
 ###############################OECD self-employment#################################
-OECD_se <- read.csv2("./additional, data, information/Self employment 2021_OECD.csv")
+#OECD_se <- read.csv2("./additional, data, information/Self employment 2021_OECD.csv")
 
 
 ########################################FINANCIAL KNOWLEDGE#######################
-#basic financial knowledge
+#basic financial knowledge 
+finknow <- c(rep("0" , 2),rep("1" ,2) , rep("2" , 2) ,  rep("3" , 2),rep("4" , 2),rep("5" , 2),rep("6" , 2),rep("7" , 2))
+emplstat <- rep(c("Self-employed" , "Employed" ) , 8)
+value <- abs(c(0,0.00814261,0.02025315,0.02193322,0.02347651,0.04273161,0.02656343,0.07215542,0.02564542,0.11685606,0.14809457,0.14000963,0.28741922,0.28684853,0.46854770,0.31132292))
+finknowOECD<- data.frame(finknow,emplstat,value)
+finknowOECD$finknow<- factor(finknowOECD$finknow, levels=c('0', '1', '2','3','4','5','6','7'))
+finknowOECD$emplstat<- factor(finknowOECD$emplstat, levels=c("Self-employed" , "Employed" ))
+ggplot(finknowOECD, aes(fill=emplstat, y=value, x=finknow)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="Employment status")
+
+#with others
 finknow <- c(rep("0" , 3),rep("1" ,3) , rep("2" , 3) ,  rep("3" , 3),rep("4" , 3),rep("5" , 3),rep("6" , 3),rep("7" , 3))
 emplstat <- rep(c("Self-employed" , "Employed" ,"Others") , 8)
 value <- abs(c(0,0.00814261,0.01467382,0.02025315,0.02193322,0.02020513,0.02347651,0.04273161,0.08327829,0.02656343,0.07215542,0.12396553,0.02564542,0.11685606,0.13736222,0.14809457,0.14000963,0.23310136,0.28741922,0.28684853,0.24387044,0.46854770,0.31132292,0.14354320))
@@ -40,6 +51,17 @@ ggplot(finknowOECD, aes( y=value, x=finknow)) +
   labs(x="",y="Percentage share")
 
 #enlarged financial knowledge
+finknow <- c(rep("0" , 2),rep("1" , 2) , rep("2" ,2) ,  rep("3" , 2),rep("4" , 2),rep("5" , 2),rep("6" , 2),rep("7" , 2),rep("8" , 2),rep("9" , 2),rep("10" , 2))
+emplstat <- rep(c("Self-employed" , "Employed" ) , 11)
+value <- abs(c(0,0.001926869,0.020253150,0.012413192,0.014446959,0.020341872,0.026563430,0.031332812,0.009029548,0.061954325,0.014725101,0.063976149,0.010920319,0.083720361,0.050575388,0.080004069, 0.185755832,0.201836482, 0.291193550,0.210809532,0.376536723,0.231684336))
+finknowadd<- data.frame(finknow,emplstat,value)
+finknowadd$emplstat<- factor(finknowadd$emplstat, levels=c("Self-employed" , "Employed" ))
+finknowadd$finknow<- factor(finknowadd$finknow, levels=c('0','1', '2', '3','4','5','6','7','8','9','10'))
+ggplot(finknowadd, aes(fill=emplstat, y=value, x=finknow)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="Employment status")
+
+#withothers
 finknow <- c(rep("0" , 3),rep("1" , 3) , rep("2" ,3) ,  rep("3" , 3),rep("4" , 3),rep("5" , 3),rep("6" , 3),rep("7" , 3),rep("8" , 3),rep("9" , 3),rep("10" , 3))
 emplstat <- rep(c("Self-employed" , "Employed","Others" ) , 11)
 value <- abs(c(0,0.001926869,0.01467382,0.020253150,0.012413192,0.01016100,0.014446959,0.020341872,0.05408728,0.026563430,0.031332812,0.04010726,0.009029548,0.061954325,0.07489545,0.014725101,0.063976149,0.11872104,0.010920319,0.083720361,0.11530524,0.050575388,0.080004069,0.18337436, 0.185755832,0.201836482, 0.15489591, 0.291193550,0.210809532,0.13064049,0.376536723,0.231684336,0.10313815))
@@ -117,6 +139,17 @@ ggplot(finknowdetailgenderse, aes(fill=status, y=share, x=finknow)) +
 
 ###################################FINANCIAL ATTITUDE############################################
 #rounded share
+finatt <- c(rep("1" ,2) , rep("2" , 2) ,  rep("3" , 2),rep("4" , 2),rep("5" , 2))
+emplstat <- rep(c("Self-employed" , "Employed" ) , 5)
+value <- abs(c(0.009898962,(0.019702185+0.015250336), (0.017642861+0.049240888+0.037445602), (0.030863270+0.080344159+0.066798590) ,(0.128762416+0.162110230+0.147164521),(0.111915009+0.160942769+0.166338157),(0.249522741+0.112254614+0.022341435), (0.156959210+0.130576429+0.038484449),0.063615729,(0.013488896+0.008336541)))
+
+finatt<- data.frame(finatt,emplstat,value)
+finatt$emplstat<- factor(finatt$emplstat, levels=c("Self-employed" , "Employed" ))
+ggplot(finatt, aes(fill=emplstat, y=value, x=finatt)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="Employment status")
+
+#rounded share with others
 finatt <- c(rep("1" ,3) , rep("2" , 3) ,  rep("3" , 3),rep("4" , 3),rep("5" , 3))
 emplstat <- rep(c("Self-employed" , "Employed" ,"Others") , 5)
 value <- abs(c(0.009898962,(0.019702185+0.015250336),(0.01730153+0.02424159), (0.017642861+0.049240888+0.037445602), (0.030863270+0.080344159+0.066798590),(0.04200623+0.07964025+0.08219096)  ,(0.128762416+0.162110230+0.147164521),(0.111915009+0.160942769+0.166338157),(0.13937421+0.17020607+0.12486003), (0.156959210+ 0.130576429+0.038484449),( 0.11105601+0.04013580+0.13201014), (0.249522741+0.112254614+0.022341435),  0.063615729 ,(0.02619993+0.01077725),(0.02619993+0.01077725)))
@@ -142,6 +175,17 @@ ggplot(finatt, aes(fill=emplstat, y=value, x=finatt)) +
 
 
 ###################################FINANCIAL BEHAVIOUR############################################
+finbeh <- c(rep("0" ,2),rep("1" ,2) , rep("2" , 2) ,  rep("3" , 2),rep("4" , 2),rep("5" , 2),rep("6" , 2),rep("7" , 2),rep("8" , 2),rep("9" , 2))
+emplstat <- rep(c("Self-employed" , "Employed" ) , 10)
+value <- abs(c(0,0.002086541  ,0,0.009026878  ,0,0.023383445 ,0,0.044876836  , 0.03301144 ,0.076993411 ,0.10728803 , 0.155255602  ,0.25663641 ,0.207614159  ,0.32160377 ,0.256683235  ,0.19495995 ,0.156425619  ,0.08650040 ,0.067654273  ))
+
+finbeh<- data.frame(finbeh,emplstat,value)
+finbeh$emplstat<- factor(finbeh$emplstat, levels=c("Self-employed" , "Employed"  ))
+ggplot(finbeh, aes(fill=emplstat, y=value, x=finbeh)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="Employment status")
+
+#with others
 finbeh <- c(rep("0" ,3),rep("1" ,3) , rep("2" , 3) ,  rep("3" , 3),rep("4" , 3),rep("5" , 3),rep("6" , 3),rep("7" , 3),rep("8" , 3),rep("9" , 3))
 emplstat <- rep(c("Self-employed" , "Employed" ,"Others") , 10)
 value <- abs(c(0,0.002086541 ,0.004837057 ,0,0.009026878 ,0.015155604 ,0,0.023383445,0.027879708 ,0,0.044876836 ,0.033709211 , 0.03301144 ,0.076993411 ,0.125883821,0.10728803 , 0.155255602 ,0.234715811 ,0.25663641 ,0.207614159 ,0.315679231 ,0.32160377 ,0.256683235 ,0.148020779 ,0.19495995 ,0.156425619 ,0.073619369 ,0.08650040 ,0.067654273 ,0.020499409 ))
@@ -167,17 +211,17 @@ labs(x="",y="Percentage share",fill="")
              
 
 ##########relation between gender/age and level of financial knowledge#############
-plot(ASFL1m$QD7, ASFL1m$fin_know, pch=20)
-lines(lowess(ASFL1m$fin_know,ASFL1m$QD7), col="red")
-agegroupsfemale <- plot(ASFL1f$QD7_a, ASFL1f$fin_know) 
+#plot(ASFL1m$QD7, ASFL1m$fin_know, pch=20)
+#lines(lowess(ASFL1m$fin_know,ASFL1m$QD7), col="red")
+#agegroupsfemale <- plot(ASFL1f$QD7_a, ASFL1f$fin_know) 
 
 
-finknowgender = data.frame(x=ASFL1m$QD7, y=ASFL1m$fin_know)
-library(ggplot2)
-ggplot(finknowgender, aes(x=ASFL1m$QD7, y=ASFL1m$fin_know)) + 
-    geom_point(alpha = 0.4) +
-    stat_summary_bin(fun.y='mean', bins=15,
-                     color='orange', size=2, geom='point')
+#finknowgender = data.frame(x=ASFL1m$QD7, y=ASFL1m$fin_know)
+#library(ggplot2)
+#ggplot(finknowgender, aes(x=ASFL1m$QD7, y=ASFL1m$fin_know)) + 
+    #geom_point(alpha = 0.4) +
+   # stat_summary_bin(fun.y='mean', bins=15,
+                    # color='orange', size=2, geom='point')
 
 
 #gender comparison main financial literacy scores 
@@ -248,7 +292,7 @@ ggplot(financialinclusionplot2, aes(fill=emplstat, y=value, x=finincl2)) +
   geom_bar(position="dodge", stat="identity")+
   labs(x="",y="Percentage share",fill="Employment status")
 
-#weighted 
+#weighted with others
 finincl1 <- c(rep("Awareness" , 3) , rep("Recent purchase" , 3) , rep("Family & Friends" , 3) )
 emplstat <- rep(c("Self-employed" , "Employed" ,"Others") , 3)
 value <- abs(c((1-0.009898962-0.021408774),(1-0.013245258- 0.010562546 -0.028141207),(1-0.005500922- 0.007719099- 0.023412552- 0.034910974 -0.020833509),(1-0.46595312),(1-0.4686712937),(1-0.759425470),0.07881445 ,0.1335889 ,0.1300615))
@@ -258,7 +302,19 @@ financialinclusionplot1$emplstat<- factor(financialinclusionplot1$emplstat, leve
 ggplot(financialinclusionplot1, aes(fill=emplstat, y=value, x=finincl1)) + 
   geom_bar(position="dodge", stat="identity")+
   labs(x="",y="Percentage share",fill="Employment status")
+#weighted
+finincl1 <- c(rep("Awareness" , 2) , rep("Recent purchase" , 2) , rep("Family & Friends" , 2) )
+emplstat <- rep(c("Self-employed" , "Employed" ) , 3)
+value <- abs(c((1-0.009898962-0.021408774),(1-0.013245258- 0.010562546 -0.028141207),(1-0.46595312),(1-0.4686712937),0.07881445 ,0.1335889 ))
+financialinclusionplot1 <- data.frame(finincl1,emplstat,value)
+financialinclusionplot1$finincl1<- factor(financialinclusionplot1$finincl1, levels=c('Awareness', 'Recent purchase', 'Family & Friends'))
+financialinclusionplot1$emplstat<- factor(financialinclusionplot1$emplstat, levels=c('Self-employed', 'Employed'))
+ggplot(financialinclusionplot1, aes(fill=emplstat, y=value, x=finincl1)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="Employment status")
 
+
+#with others
 finincl2 <- c(rep("Saving,Investment,Retirement" , 3) , rep("Payment" , 3) , rep("Insurance" , 3) , rep("Credit" , 3))
 emplstat <- rep(c("Self-employed" , "Employed" ,"Others" ) , 4)
 value <- abs(c((1-0.09229320 ),(1-0.08266264 ),(1-0.162477257 ),1,(1-0.009812379 ),(1-0.036649870 ),0.8830564 ,0.8075743 ,0.645458 ,(1-0.13404446 ),(1-0.2872825616 ),(1-0.6576287329 )))
@@ -268,7 +324,16 @@ financialinclusionplot2$emplstat<- factor(financialinclusionplot2$emplstat, leve
 ggplot(financialinclusionplot2, aes(fill=emplstat, y=value, x=finincl2)) + 
   geom_bar(position="dodge", stat="identity")+
   labs(x="",y="Percentage share",fill="Employment status")
-
+#finincl2
+finincl2 <- c(rep("Saving,Investment,Retirement" , 2) , rep("Payment" , 2) , rep("Insurance" , 2) , rep("Credit" , 2))
+emplstat <- rep(c("Self-employed" , "Employed"  ) , 4)
+value <- abs(c((1-0.09229320 ),(1-0.08266264 ),1,(1-0.009812379 ),0.8830564 ,0.8075743  ,(1-0.13404446 ),(1-0.2872825616 )))
+financialinclusionplot2 <- data.frame(finincl2,emplstat,value)
+financialinclusionplot2$finincl2<- factor(financialinclusionplot2$finincl2, levels=c('Saving,Investment,Retirement','Payment','Insurance','Credit'))
+financialinclusionplot2$emplstat<- factor(financialinclusionplot2$emplstat, levels=c('Self-employed', 'Employed'))
+ggplot(financialinclusionplot2, aes(fill=emplstat, y=value, x=finincl2)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="Employment status")
 #weighted gender specific
 finincl1 <- c(rep("Awareness" , 2) , rep("Recent purchase" , 2) , rep("Family & Friends" , 2) )
 gender <- rep(c("Male" , "Female" ) , 3)
@@ -333,12 +398,24 @@ ggplot(financialwellbeing, aes(fill=emplstat, y=value, x=finwell)) +
 
 #specific weighted
 #complete or at least high agreement 
+#with others
 wellbeing <- c(rep("Modest role of finances in life" , 3),  rep("Saving possibility" , 3),rep("No unaffordable wishes" , 3) , rep("Few financial concerns" , 3) , rep("Not just getting by" ,3) )
 emplstat <- rep(c("Self-employed" , "Employed","Others" ) , 5)
 value <- abs(c((1-0.4034880),(1-0.4184430 ),(1-0.3629664 ),(1-0.5439856 ),(1-0.5721883 ),(1-0.5508373 ),(1-0.5311104 ),(1-0.5964242 ),(1-0.6330155 ),(1-0.3706735 ),(1-0.4379736 ),(1-0.4625186 ),(1-0.4542531 ),(1-0.5839444 ),(1-0.6582571 )))
 wellbeingplotspecific <- data.frame(wellbeing,emplstat,value)
 wellbeingplotspecific$wellbeing<- factor(wellbeingplotspecific$wellbeing, levels=c("Modest role of finances in life","Saving possibility" ,"No unaffordable wishes" ,"Few financial concerns","Not just getting by" ))
 wellbeingplotspecific$emplstat<- factor(wellbeingplotspecific$emplstat, levels=c( "Self-employed" , "Employed","Others"))
+ggplot(wellbeingplotspecific, aes(fill=emplstat, y=value, x=wellbeing)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="Employment status")
+
+#specific weighted
+wellbeing <- c(rep("Modest role of finances in life" , 2),  rep("Saving possibility" , 2),rep("No unaffordable wishes" , 2) , rep("Few financial concerns" , 2) , rep("Not just getting by" ,2) )
+emplstat <- rep(c("Self-employed" , "Employed" ) , 5)
+value <- abs(c((1-0.4034880),(1-0.4184430 ),(1-0.5439856 ),(1-0.5721883 ),(1-0.5311104 ),(1-0.5964242 ),(1-0.3706735 ),(1-0.4379736 ),(1-0.4542531 ),(1-0.5839444 )))
+wellbeingplotspecific <- data.frame(wellbeing,emplstat,value)
+wellbeingplotspecific$wellbeing<- factor(wellbeingplotspecific$wellbeing, levels=c("Modest role of finances in life","Saving possibility" ,"No unaffordable wishes" ,"Few financial concerns","Not just getting by" ))
+wellbeingplotspecific$emplstat<- factor(wellbeingplotspecific$emplstat, levels=c( "Self-employed" , "Employed"))
 ggplot(wellbeingplotspecific, aes(fill=emplstat, y=value, x=wellbeing)) + 
   geom_bar(position="dodge", stat="identity")+
   labs(x="",y="Percentage share",fill="Employment status")
@@ -370,7 +447,7 @@ ggplot(finwellbeingcomp, aes(fill=emplstat, y=value, x=finwellbeing)) +
 ##availabilit of financial cushion in case of loss of income
 #count refused as don´t know according to OECD!
 
-#weighted
+#weighted with others
 finrescomparison <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=5),
                                finrel=rep(c('Don´t know/Ref', 'About a week','About a month','About three months','Six months or above'), times=3),
                                share=c((0.009029548+0.061925979),0.078420722,0.185704480,0.212421271,0.452498000,( 0.03132441+0.05386017),(0.01497427 +0.10388377),0.27961888,0.23325797,0.28308054,( 0.06299426+0.06563211),(0.05870180+0.10221345),0.18328151,0.19046530,0.33671156 ))
@@ -379,7 +456,15 @@ finrescomparison$status<- factor(finrescomparison$status, levels=c('Self-employe
 ggplot(finrescomparison, aes(fill=finrel, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Financial cushion")
-
+#weighted
+finrescomparison <- data.frame(status=rep(c('Self-employed', 'Employed'), each=5),
+                               finrel=rep(c('Don´t know/Ref', 'About a week','About a month','About three months','Six months or above'), times=2),
+                               share=c((0.009029548+0.061925979),0.078420722,0.185704480,0.212421271,0.452498000,( 0.03132441+0.05386017),(0.01497427 +0.10388377),0.27961888,0.23325797,0.28308054 ))
+finrescomparison$finrel<- factor(finrescomparison$finrel, levels=c('Don´t know/Ref', 'About a week','About a month','About three months','Six months or above'))
+finrescomparison$status<- factor(finrescomparison$status, levels=c('Self-employed', 'Employed'))
+ggplot(finrescomparison, aes(fill=finrel, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Financial cushion")
 
 #only self employed
 finrescomparison <- data.frame(status=rep(c('Self-employed'), each=5),
@@ -436,7 +521,7 @@ ggplot(finstressplot, aes(fill=emplstat, y=value, x=fistr)) +
   geom_bar(position="dodge", stat="identity")+
   labs(x="",y="Percentage share",fill="Employment status")
 
-#weighted
+#weighted with others
 fistr <- c(rep("Shortfall" , 3) , rep("Expense worries" ,3) , rep("Financial concern" , 3) , rep("´Just getting by´" , 3) )
 emplstat <- rep(c("Self-employed" , "Employed","Others" ) , 4)
 value <- abs(c(0.05375387  ,0.1341993 ,0.157494 ,0.04711364 ,0.1048933 ,0.1183116 ,0.1532124 ,0.2029604 ,0.2782313 ,0.2506294 ,0.3234968 ,0.4289455 ))
@@ -447,6 +532,16 @@ ggplot(finstressplot, aes(fill=emplstat, y=value, x=fistr)) +
   geom_bar(position="dodge", stat="identity")+
   labs(x="",y="Percentage share",fill="Employment status")
 
+#weighted
+fistr <- c(rep("Shortfall" , 2) , rep("Expense worries" ,2) , rep("Financial concern" , 2) , rep("´Just getting by´" , 2) )
+emplstat <- rep(c("Self-employed" , "Employed" ) , 4)
+value <- abs(c(0.05375387  ,0.1341993  ,0.04711364 ,0.1048933  ,0.1532124 ,0.2029604  ,0.2506294 ,0.3234968  ))
+finstressplot <- data.frame(fistr,emplstat,value)
+finstressplot$fistr<- factor(finstressplot$fistr, levels=c('Shortfall', 'Expense worries', 'Financial concern','´Just getting by´'))
+finstressplot$emplstat<- factor(finstressplot$emplstat, levels=c( "Self-employed" , "Employed"))
+ggplot(finstressplot, aes(fill=emplstat, y=value, x=fistr)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="Employment status")
 
 #only self-employed
 fistr <- c(rep("Shortfall" , 1) , rep("Expense worries" ,1) , rep("Financial concern" , 1) , rep("´Just getting by´" , 1) )
@@ -471,12 +566,22 @@ ggplot(finstressplot, aes(fill=gender, y=value, x=fistr)) +
 
 
 ####################FINANCIAL LITERACY SCORE#####################
-#weighted
+#weightedwith others
 finlit <- c(rep("Financial literacy" , 3) )
 emplstat <- rep(c("Self-employed" , "Employed" ,"Others") , 1)
 value <- abs(c(16.09504,14.6821,13.73543))
 finlitcomp <- data.frame(finlit,emplstat,value)
 finlitcomp$emplstat<- factor(finlitcomp$emplstat, levels=c('Self-employed', 'Employed','Others'))
+
+ggplot(finlitcomp, aes(fill=emplstat, y=value, x=finlit)) + 
+  geom_bar(position="dodge", stat="identity") + ylim(0, 21)+
+  labs(x="",y="Absolute score",fill="Employment status")
+#weighted
+finlit <- c(rep("Financial literacy" , 2) )
+emplstat <- rep(c("Self-employed" , "Employed" ) , 1)
+value <- abs(c(16.09504,14.6821))
+finlitcomp <- data.frame(finlit,emplstat,value)
+finlitcomp$emplstat<- factor(finlitcomp$emplstat, levels=c('Self-employed', 'Employed'))
 
 ggplot(finlitcomp, aes(fill=emplstat, y=value, x=finlit)) + 
   geom_bar(position="dodge", stat="identity") + ylim(0, 21)+
@@ -766,7 +871,7 @@ ggplot(HFCSrisk, aes(fill=Propensity, y=share, x=status)) +
   # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
   labs(x="",y = 'Percentage share',fill="Risk taking propensity")
 
-#weighted
+#weighted with others
 HFCSrisk <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=4),
                        Propensity=rep(c('Substantial', 'Above average', 'Average', 'No'), times=3),
                        share=c(0.09569008 ,0.08783484 ,0.37851258 ,0.43796251 ,0.0436851 ,0.1492514,0.3258391 ,0.4812244 ,0.02066627 ,0.03485215 ,0.16327701 ,0.78120456  ))
@@ -776,6 +881,18 @@ ggplot(HFCSrisk, aes(fill=Propensity, y=share, x=status)) +
   geom_bar(position='stack', stat='identity') +
   # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
   labs(x="",y = 'Percentage share',fill="Risk taking propensity")
+
+#weighted
+HFCSrisk <- data.frame(status=rep(c('Self-employed', 'Employed'), each=4),
+                       Propensity=rep(c('Substantial', 'Above average', 'Average', 'No'), times=2),
+                       share=c(0.09569008 ,0.08783484 ,0.37851258 ,0.43796251 ,0.0436851 ,0.1492514,0.3258391 ,0.4812244   ))
+HFCSrisk$Propensity<- factor(HFCSrisk$Propensity, levels=c('Substantial', 'Above average', 'Average', 'No'))
+HFCSrisk$status<- factor(HFCSrisk$status, levels=c('Self-employed', 'Employed'))
+ggplot(HFCSrisk, aes(fill=Propensity, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity') +
+  # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
+  labs(x="",y = 'Percentage share',fill="Risk taking propensity")
+
 
 #self-employed gender comparison
 #unweighted
@@ -811,13 +928,27 @@ riskplot$emplstat<- factor(riskplot$emplstat, levels=c('Self-employed', 'Employe
 ggplot(riskplot, aes(fill=emplstat, y=value, x=risk)) + 
   geom_bar(position="dodge", stat="identity")+
   labs(x = "",y="Percentage share", fill = "Employment status")
-#weighted
+
+#weighted with others
+
 risk <- c(rep("Stocks/shares" , 3) , rep("Bonds" , 3) ,  rep("Crypto assets" , 3),rep("Risk willingness" , 3) , rep("Risk propensity" , 3) )
 emplstat <- rep(c("Self-employed" , "Employed","Others" ) , 5)
 value <- abs(c(0.2355855 ,0.1363495 ,0.07738877 ,0.1235186,0.0873412,0.07328655,0.05656405,0.05389279,0.006713771,0.2959996 ,0.2799093 ,0.1448818 ,0.1835249 ,0.1929365,0.05551843 ))
 riskplot<- data.frame(risk,emplstat,value)
 riskplot$risk<- factor(riskplot$risk, levels=c("Stocks/shares","Bonds","Crypto assets","Risk willingness","Risk propensity"))
 riskplot$emplstat<- factor(riskplot$emplstat, levels=c('Self-employed', 'Employed','Others'))
+ggplot(riskplot, aes(fill=emplstat, y=value, x=risk)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x = "",y="Percentage share", fill = "Employment status")
+
+
+#weighted
+risk <- c(rep("Stocks/shares" , 2) , rep("Bonds" , 2) ,  rep("Crypto assets" , 2),rep("Risk willingness" , 2) , rep("Risk propensity" , 2) )
+emplstat <- rep(c("Self-employed" , "Employed" ) , 5)
+value <- abs(c(0.2355855 ,0.1363495  ,0.1235186,0.0873412,0.05656405,0.05389279,0.2959996 ,0.2799093  ,0.1835249 ,0.1929365 ))
+riskplot<- data.frame(risk,emplstat,value)
+riskplot$risk<- factor(riskplot$risk, levels=c("Stocks/shares","Bonds","Crypto assets","Risk willingness","Risk propensity"))
+riskplot$emplstat<- factor(riskplot$emplstat, levels=c('Self-employed', 'Employed'))
 ggplot(riskplot, aes(fill=emplstat, y=value, x=risk)) + 
   geom_bar(position="dodge", stat="identity")+
   labs(x = "",y="Percentage share", fill = "Employment status")
@@ -834,3 +965,108 @@ riskplot$gender<- factor(riskplot$gender, levels=c("Male" , "Female"))
 ggplot(riskplot, aes(fill=gender, y=value, x=risk)) + 
   geom_bar(position="dodge", stat="identity")+
   labs(x = "",y="Percentage share", fill = "Gender")
+
+
+
+#####################SANKEY-PLOTS################################
+library(ggplot2)
+library(ggalluvial)
+# Create the Sankey plot#theory:
+skeypl2 <- ggplot(data = frequencies,
+                  aes(axis1 = personality,   # First variable on the X-axis
+                      axis2 = field, # Second variable on the X-axis
+                      axis3 = gender,   # Third variable on the X-axis
+                      y = n)) +
+  geom_alluvium(aes(fill = gender)) +
+  geom_stratum() +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()
+skeypl2
+
+library(ggalluvial)
+#sankey plot - self assessed and actual financial knowledge
+selfassessfinknow <- ggplot(data = ASFL7se,
+                            aes(axis1 = saknow_group,# First variable on the X-axis
+                                axis2 = fin_know_group, 
+                                y = frequency(fin_know_group))) +
+  geom_alluvium(aes(fill = saknow_group)) +
+  geom_stratum() +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()
+
+selfassessfinknow
+
+
+#sankey plot - financial buffer (resilience) and financial knowledge
+finbufffinknow <- ggplot(data = ASFL7se,
+                         aes(axis1 = finbuff_group,# First variable on the X-axis
+                             axis2 = fin_know_group, 
+                             y = frequency(finbuff_group))) +
+  geom_alluvium(aes(fill = fin_know_group)) +
+  geom_stratum() +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()
+
+finbufffinknow
+
+#sankey plot - financial buffer (resilience) and financial behavior
+finbufffinknow <- ggplot(data = ASFL7se,
+                         aes(axis1 = finbuff_group,# First variable on the X-axis
+                             axis2 = fin_beh_group, 
+                             y = frequency(finbuff_group))) +
+  geom_alluvium(aes(fill = fin_beh_group)) +
+  geom_stratum() +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()
+
+finbufffineh
+
+#sankey plot - financial buffer (resilience) and financial literacy
+finbufffinlit <- ggplot(data = ASFL7se,
+                        aes(axis1 = finbuff_group,# First variable on the X-axis
+                            axis2 = finlit_group, 
+                            y = frequency(finbuff_group))) +
+  geom_alluvium(aes(fill = finlit_group)) +
+  geom_stratum() +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()
+
+finbufffinlit
+
+#sankey plot - financial buffer (resilience) and financial literacy
+finwellinlit <- ggplot(data = ASFL7se,
+                        aes(axis1 = fin_wellbeing_group,# First variable on the X-axis
+                            axis2 = finlit_group, 
+                            y = frequency(fin_wellbeing_group))) +
+  geom_alluvium(aes(fill = fin_wellbeing_group)) +
+  geom_stratum() +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()
+
+finwellinlit
+
+#sankey plot - financial risk and financial literacy
+riskfinlit <- ggplot(data = ASFL7se,
+                        aes(axis1 = HFCSrisk_group,# First variable on the X-axis
+                            axis2 = finlit_group, 
+                            y = frequency(HFCSrisk_group))) +
+  geom_alluvium(aes(fill = finlit_group)) +
+  geom_stratum() +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()
+
+riskfinlit
