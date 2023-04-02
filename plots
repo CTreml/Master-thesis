@@ -599,10 +599,10 @@ f4 <- c("4")
 f5 <- c("5")
 f6 <- c("6")
 f7 <- c("7")
-sa1 <- c("Don't know","Refused")
-sa2 <- c("Quite low","Very low")
-sa3 <- c("Average")
-sa4 <- c("Quite high","Very high")
+sa1a <- c("Don't know","Refused")
+sa2a <- c("Quite low","Very low")
+sa3a <- c("Average")
+sa4a <- c("Quite high","Very high")
 
 sa1 <- c("Don't know","Refused")
 sa2 <- c("Very low")
@@ -642,7 +642,7 @@ ggplot(finknowsrvsactual, aes(fill=selfassessment, y=share, x=finknow)) +
 
 
 #self-employed
-table(ASFL6e$fin_know)
+table(ASFL6se$fin_know)
 f1 <- c("1")
 f2 <- c("2")
 f3 <- c("3")
@@ -765,6 +765,76 @@ finknowsrvsactualseadd$finknow<- factor(finknowsrvsactualseadd$finknow, levels=c
 finknowsrvsactualseadd$selfassessment<- factor(finknowsrvsactualseadd$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
 
 ggplot(finknowsrvsactualseadd, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
+
+
+###gender comparison self-assessed versus actual financial knowledge  - OECD share 
+#males
+table(ASFL7sem$fin_know)
+ASFL7semf1 <- ASFL7sem[(ASFL7sem$fin_know %in% f1),] 
+table(ASFL7semf1$QK1)
+wpct(ASFL7semf1$QK1, weight=ASFL7semf1$wght, na.rm=TRUE)
+ASFL7semf2 <- ASFL7sem[(ASFL7sem$fin_know %in% f2),] 
+table(ASFL7semf2$QK1)
+wpct(ASFL7semf2$QK1, weight=ASFL7semf2$wght, na.rm=TRUE)
+ASFL7semf3 <- ASFL7sem[(ASFL7sem$fin_know %in% f3),] 
+table(ASFL7semf3$QK1)
+wpct(ASFL7semf3$QK1, weight=ASFL7semf3$wght, na.rm=TRUE)
+ASFL7semf4 <- ASFL7sem[(ASFL7sem$fin_know %in% f4),] 
+table(ASFL7semf4$QK1)
+wpct(ASFL7semf4$QK1, weight=ASFL7semf4$wght, na.rm=TRUE)
+ASFL7semf5 <- ASFL7sem[(ASFL7sem$fin_know %in% f5),] 
+table(ASFL7semf5$QK1)
+wpct(ASFL7semf5$QK1, weight=ASFL7semf5$wght, na.rm=TRUE)
+ASFL7semf6 <- ASFL7sem[(ASFL7sem$fin_know %in% f6),] 
+table(ASFL7semf6$QK1)
+wpct(ASFL7semf6$QK1, weight=ASFL7semf6$wght, na.rm=TRUE)
+ASFL7semf7 <- ASFL7sem[(ASFL7sem$fin_know %in% f7),]
+table(ASFL7semf7$QK1)
+wpct(ASFL7semf7$QK1, weight=ASFL7semf7$wght, na.rm=TRUE)
+
+finknowsrvsactualsemales <- data.frame(finknow=rep(c('1', '2', '3','4','5','6','7'), each=6),
+                                  selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=7),
+                                  share=c(0,0,0,0,0,0,  0.6153794,0,0,0,0,0.3846206     ,0,0,0,0,0,0     ,1,0,0,0,0,0,   0,0.47004873,0.43142287,0,0,0.09852841       ,0,0.7099677,0.2900323,0,0,0,   0.1594925 ,0.5504949,0.2900126,0,0,0))
+finknowsrvsactualsemales$finknow<- factor(finknowsrvsactualsemales$finknow, levels=c('1', '2', '3','4','5','6','7'))
+finknowsrvsactualsemales$selfassessment<- factor(finknowsrvsactualsemales$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+
+ggplot(finknowsrvsactualsemales, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
+
+#females
+table(ASFL7sef$fin_know)
+ASFL7seff1 <- ASFL7sef[(ASFL7sef$fin_know %in% f1),] 
+table(ASFL7seff1$QK1)
+wpct(ASFL7seff1$QK1, weight=ASFL7seff1$wght, na.rm=TRUE)
+ASFL7seff2 <- ASFL7sef[(ASFL7sef$fin_know %in% f2),] 
+table(ASFL7seff2$QK1)
+wpct(ASFL7seff2$QK1, weight=ASFL7seff2$wght, na.rm=TRUE)
+ASFL7seff3 <- ASFL7sef[(ASFL7sef$fin_know %in% f3),] 
+table(ASFL7seff3$QK1)
+wpct(ASFL7seff3$QK1, weight=ASFL7seff3$wght, na.rm=TRUE)
+ASFL7seff4 <- ASFL7sef[(ASFL7sef$fin_know %in% f4),] 
+table(ASFL7seff4$QK1)
+wpct(ASFL7seff4$QK1, weight=ASFL7seff4$wght, na.rm=TRUE)
+ASFL7seff5 <- ASFL7sef[(ASFL7sef$fin_know %in% f5),] 
+table(ASFL7seff5$QK1)
+wpct(ASFL7seff5$QK1, weight=ASFL7seff5$wght, na.rm=TRUE)
+ASFL7seff6 <- ASFL7sef[(ASFL7sef$fin_know %in% f6),] 
+table(ASFL7seff6$QK1)
+wpct(ASFL7seff6$QK1, weight=ASFL7seff6$wght, na.rm=TRUE)
+ASFL7seff7 <- ASFL7sef[(ASFL7sef$fin_know %in% f7),]
+table(ASFL7seff7$QK1)
+wpct(ASFL7seff7$QK1, weight=ASFL7seff7$wght, na.rm=TRUE)
+
+finknowsrvsactualsefemales <- data.frame(finknow=rep(c('1', '2', '3','4','5','6','7'), each=6),
+                                       selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=7),
+                                       share=c(0,0,0,0,1,0,  0,0,0,0,0,0     ,0,0,0,0,0.4575978,0.5424022      ,0,0,1,0,0,0,   0,0.3177529,0.2330821,0.1795709,0,0.2695941       ,0.2882284,0.1868723,0.5248993 ,0,0,0,   0.05170461,0.48154196 ,0.46675343,0,0,0))
+finknowsrvsactualsefemales$finknow<- factor(finknowsrvsactualsefemales$finknow, levels=c('1', '2', '3','4','5','6','7'))
+finknowsrvsactualsefemales$selfassessment<- factor(finknowsrvsactualsefemales$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+
+ggplot(finknowsrvsactualsefemales, aes(fill=selfassessment, y=share, x=finknow)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
 
@@ -1001,6 +1071,12 @@ selfassessfinknow <- ggplot(data = ASFL7se,
 selfassessfinknow
 
 
+w.plot(ASFL7se$fin_know,ASFL7se$numericsaknow, 0.2, ASFL7se$wght, lwd=1, ylab="Self assessed financial knowledge", xlab="Measured financial knowledge")
+#gender differences!!
+w.plot(ASFL7sef$fin_know,ASFL7sef$numericsaknow, 0.2, ASFL7sef$wght, lwd=1)
+w.plot(ASFL7sem$fin_know,ASFL7sem$numericsaknow, 0.2, ASFL7sem$wght, lwd=1)
+
+ggplot(ASFL7se, aes(fin_know,numericsaknow, size=frequency())) + geom_point()
 #sankey plot - financial buffer (resilience) and financial knowledge
 finbufffinknow <- ggplot(data = ASFL7se,
                          aes(axis1 = finbuff_group,# First variable on the X-axis
@@ -1062,7 +1138,7 @@ riskfinlit <- ggplot(data = ASFL7se,
                         aes(axis1 = HFCSrisk_group,# First variable on the X-axis
                             axis2 = finlit_group, 
                             y = frequency(HFCSrisk_group))) +
-  geom_alluvium(aes(fill = finlit_group)) +
+  geom_alluvium(aes(fill = HFCSrisk_group)) +
   geom_stratum() +
   geom_text(stat = "stratum",
             aes(label = after_stat(stratum))) +
@@ -1070,3 +1146,84 @@ riskfinlit <- ggplot(data = ASFL7se,
   theme_void()
 
 riskfinlit
+
+riskfinknow <- ggplot(data = ASFL7se,
+                     aes(axis1 = HFCSrisk_group,# First variable on the X-axis
+                         axis2 = fin_know_group, 
+                         y = frequency(HFCSrisk_group))) +
+  geom_alluvium(aes(fill = HFCSrisk_group)) +
+  geom_stratum() +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()
+
+riskfinknow
+
+
+######################LINEAR REGRESSION analysis
+#regression plot
+
+ggplot(mtcars, aes(x = hp, y = mpg)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, size = 0.5) +
+  labs(x = "", y = "",
+       title = "")
+
+ggplot(ASFL7se, aes(x = age, y = finlit)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "age", y = "finlit")
+
+
+
+
+#finwellbeingtest
+ggplot(ASFL7, aes(x = finwellbeing, y = finlit)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "wellbeing", y = "finlit")
+cor.test(ASFL7$finwellbeing, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
+
+library(dplyr)
+ASFL7$maled <- factor(ASFL7$maled)
+ASFL7$maled <- recode(ASFL7$maled, "1" = "Male", "0" = "Female")
+
+finwellbeinggender <- lm(finlit ~ finwellbeing + maled, data = ASFL7se)
+summary(finwellbeinggender)
+library(broom)
+ggplot(augment(finwellbeinggender), aes(x = finwellbeing, y = finlit, color = maled)) +
+  geom_point() +
+  geom_line(aes(y = .fitted), size = ) 
+
+
+install.packages("Weighted.Desc.Stat")
+library(Weighted.Desc.Stat)
+ggplot(ASFL7, aes(x = finwellbeing, y = fin_know)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "wellbeing", y = "finknow")
+cor.test(ASFL7$finwellbeing, ASFL7$fin_know, data=ASFL7, weights=ASFL7$wght)
+qplot(finwellbeing, finlit, data = ASFL7se, size = I(2))
+#weighted scatter plot
+w.plot(finwellbeing, finlit, 0.2, ASFL$wght, lwd=1)
+
+
+ggplot(ASFL7se, aes(finwellbeing, finlit), size = 2) + geom_point()
+
+#weighted scatter plot risk attitude / risky assets
+w.plot(ASFL7se$riskyassets, ASFL7se$finlit, 0.2, ASFL7se$wght, lwd=1)
+w.plot(ASFL7se$numericHFCSrisk, ASFL7se$finlit, 0.2, ASFL7se$wght, lwd=1)
+w.plot( ASFL7se$finlit,ASFL7se$riskyassets, 0.2, ASFL7se$wght, lwd=1)
+w.plot( ASFL7se$fin_know,ASFL7se$riskyassets, 0.2, ASFL7se$wght, lwd=1)
+w.plot( ASFL7se$fin_beh,ASFL7se$riskyassets, 0.2, ASFL7se$wght, lwd=1)
+w.plot(ASFL7se$numericHFCSrisk, ASFL7se$fin_know, 0.2, ASFL7se$wght, lwd=1)
+w.plot(ASFL7se$numericHFCSrisk, ASFL7se$QD1, 0.2, ASFL7se$wght, lwd=1)
+w.plot(ASFL7se$fin_beh,ASFL7se$numericHFCSrisk, 0.2, ASFL7se$wght, lwd=1)
+cor.test(ASFL7se$numericHFCSrisk, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$numericHFCSrisk, ASFL7se$QD1, data=ASFL7se, weights=ASFL7se$wght) 
+cor.test(ASFL7se$riskyassets, ASFL7se$QD1, data=ASFL7se, weights=ASFL7se$wght) #correlation between gender and financial risk taking
+cor.test(ASFL7se$numericHFCSrisk, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$numericHFCSrisk, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght) #high correlation!!
+cor.test(ASFL7se$riskyassets, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght) #high correlation!! 
+w.plot(ASFL7se$riskyassets, ASFL7se$fin_know, 0.2, ASFL7se$wght, lwd=1)
