@@ -261,13 +261,25 @@ ggplot(finlitcomparisongender, aes(fill=agegroup, y=value, x=finlitcomparison)) 
   labs(x = "",y="Percentage share", fill = "Age group")
 
 #education comparison main financial literacy scores 
-#weighted
+#weighted old
 finlitcomparison <- c(rep("Financial knowledge" , 4) , rep("Financial behaviour" , 4) , rep("Financial attitude" , 4) )
 education <- rep(c("Primary" , "Lower secondary", "Upper secondary", "University" ) , 3)
 value <- abs(c(5.810818,5.635405,6.055423,6.657436,5.507917,6.79402,6.331562,7.363234,2.759301,3.358433,3.134587,3.390024))
 finlitcomparisongender<- data.frame(finlitcomparison,education,value)
 finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Financial knowledge","Financial behaviour","Financial attitude"))
 finlitcomparisongender$education<- factor(finlitcomparisongender$education, levels=c("Primary" , "Lower secondary", "Upper secondary", "University" ))
+ggplot(finlitcomparisongender, aes(fill=education, y=value, x=finlitcomparison)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x = "",y="Percentage share", fill = "Educational level")
+
+#education comparison main financial literacy scores 
+#weighted new
+finlitcomparison <- c(rep("Financial knowledge" , 2) , rep("Financial behaviour" , 2) , rep("Financial attitude" , 2) )
+education <- rep(c("Lower education", "Higher education" ) , 3)
+value <- abs(c(5.651829,6.448447,6.673599,7.005088,3.302335,3.301349))
+finlitcomparisongender<- data.frame(finlitcomparison,education,value)
+finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Financial knowledge","Financial behaviour","Financial attitude"))
+finlitcomparisongender$education<- factor(finlitcomparisongender$education, levels=c("Lower education", "Higher education" ))
 ggplot(finlitcomparisongender, aes(fill=education, y=value, x=finlitcomparison)) + 
   geom_bar(position="dodge", stat="identity")+
   labs(x = "",y="Percentage share", fill = "Educational level")
@@ -1091,6 +1103,7 @@ finbufffinknow <- ggplot(data = ASFL7se,
 
 finbufffinknow
 
+
 #sankey plot - financial buffer (resilience) and financial behavior
 finbufffinknow <- ggplot(data = ASFL7se,
                          aes(axis1 = finbuff_group,# First variable on the X-axis
@@ -1197,8 +1210,6 @@ ggplot(augment(finwellbeinggender), aes(x = finwellbeing, y = finlit, color = ma
   geom_line(aes(y = .fitted), size = ) 
 
 
-install.packages("Weighted.Desc.Stat")
-library(Weighted.Desc.Stat)
 ggplot(ASFL7, aes(x = finwellbeing, y = fin_know)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
@@ -1227,3 +1238,8 @@ cor.test(ASFL7se$numericHFCSrisk, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7s
 cor.test(ASFL7se$numericHFCSrisk, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght) #high correlation!!
 cor.test(ASFL7se$riskyassets, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght) #high correlation!! 
 w.plot(ASFL7se$riskyassets, ASFL7se$fin_know, 0.2, ASFL7se$wght, lwd=1)
+
+
+w.plot(ASFL7$finlit, ASFL7$selfemployedd, 0.2, ASFL7$wght, lwd=1)
+w.plot(ASFL7m$finlit, ASFL7m$selfemployedd, 0.2, ASFL7m$wght, lwd=1)
+w.plot(ASFL7f$finlit, ASFL7f$selfemployedd, 0.2, ASFL7f$wght, lwd=1)
