@@ -9,6 +9,7 @@ library(ggalluvial)
 library(foreign)
 library(reshape2)
 library(nnet)
+library(Weighted.Desc.Stat)
 
 #setting the working directory
 setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
@@ -22,6 +23,7 @@ ASFL <- ASFL_full
 ##################################EMPLOYMENT##################################
 table(ASFL$QD10)
 selfemployedd<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
+selfemployedd <- as.numeric(selfemployedd)
 ##alternative: QF9_11 ##own business as a retirement funding option
 summary(ASFL$QF9_11)
 retirefundbusinessd <- ifelse(ASFL$QF9_11 == "Yes", 1, 0)
@@ -29,6 +31,7 @@ table(retirefundbusinessd)
 table(selfemployedd)
 
 employedd<- ifelse(ASFL$QD10 == "In paid employment [work for someone else]", 1, 0) #maybe keep those looking for work?
+employedd <- as.numeric(employedd)
 unemployedd<- ifelse(ASFL$QD10 == "Looking for work [unemployed]", 1, 0)
 
 
@@ -42,12 +45,13 @@ notactived<-ifelse(ASFL$QD10 == "Not working and not looking for work", 1, 0)
 othersd <- unemployedd+apprenticed+studentd+otherd+retiredd+homed+notactived
 othersworetd <- unemployedd+apprenticed+studentd+otherd+homed+notactived
 otherswounempld <- apprenticed+studentd+otherd+retiredd+homed+notactived
-
+otherswounemplretd <- apprenticed+studentd+otherd+homed+notactived
 
 se <- c("Self-employed [work for myself]")
 e <- c("In paid employment [work for someone else]")
 eu <- c("In paid employment [work for someone else]","Looking for work [unemployed]")
 empl <- c("In paid employment [work for someone else]","Self-employed [work for myself]")
+unempl <- c("Looking for work [unemployed]")
 oth <- c("Looking for work [unemployed]","Apprentice","Student","Other","Retired","Looking after the home", "Not working and not looking for work")
 othworet <- c("Looking for work [unemployed]","Apprentice","Student","Other","Looking after the home", "Not working and not looking for work")
 ret <- c("Retired")
@@ -166,6 +170,7 @@ higheduc<- ifelse(ASFL$education == "Higher", 1, 0)
 loweduc<- ifelse(ASFL$education == "Lower", 1, 0)
 ASFL <- cbind(ASFL,higheduc,loweduc)
 
+
 #################################add_education###################################
 
 summary(ASFL$st1g) #highest attained education
@@ -196,15 +201,15 @@ llsfknow<- ifelse(ASFL$QK1 == "Very low", 1, 0)
 lowsfknow <- lsfknow+llsfknow
 ASFL <- cbind(ASFL,selfassess,hhsfknow,hsfknow,highsfknow,asfknow,lsfknow,llsfknow,lowsfknow) 
 
-nsa1<- ifelse(ASFL$QK1 == "Very high", 5, 0)
-nsa2<- ifelse(ASFL$QK1 == "Quite high", 4, 0)
-nsa3<- ifelse(ASFL$QK1 == "About average", 3, 0)
-nsa4<- ifelse(ASFL$QK1 == "Quite low", 2, 0)
-nsa5<- ifelse(ASFL$QK1 == "Very low", 1, 0)
-nsa6<- ifelse(ASFL$QK1 == "Don't know", 3, 0)
-nsa7<- ifelse(ASFL$QK1 == "Refused", 3, 0)
+numericsaknow1<- ifelse(ASFL$QK1 == "Very high", 5, 0)
+numericsaknow2<- ifelse(ASFL$QK1 == "Quite high", 4, 0)
+numericsaknow3<- ifelse(ASFL$QK1 == "About average", 3, 0)
+numericsaknow4<- ifelse(ASFL$QK1 == "Quite low", 2, 0)
+numericsaknow5<- ifelse(ASFL$QK1 == "Very low", 1, 0)
+numericsaknow6<- ifelse(ASFL$QK1 == "Don't know", 3, 0)
+numericsaknow7<- ifelse(ASFL$QK1 == "Refused", 3, 0)
 
-numericsaknow<- nsa1+nsa2+nsa3+nsa4+nsa5+nsa6+nsa7
+numericsaknow<- numericsaknow1+numericsaknow2+numericsaknow3+numericsaknow4+numericsaknow5+numericsaknow6+numericsaknow7
 table(numericsaknow) #higher score indicates higher self-assessment
 ASFL <- cbind(ASFL,numericsaknow) 
 
@@ -269,6 +274,19 @@ ASFL <- ASFL %>% mutate(finbuff_group = case_when(finbuff == "Less than a week" 
                                                  finbuff == "Don't know" ~ 'Refusal',
                                                  finbuff == "Refused" ~ 'Refusal'))
 table(ASFL$finbuff_group)
+
+numericfinbuff1<- ifelse(ASFL$QF13 == "Refusal", 3, 0)
+numericfinbuff2<- ifelse(ASFL$QF13 == "Don't know", 3, 0)
+numericfinbuff3<- ifelse(ASFL$QF13 == "At least one month, but not three months", 3, 0)
+numericfinbuff4<- ifelse(ASFL$QF13 == "Less than a week", 1, 0)
+numericfinbuff5<- ifelse(ASFL$QF13 == "At least a week, but not one month", 2, 0)
+numericfinbuff6<- ifelse(ASFL$QF13 == "At least three months, but not six months", 4, 0)
+numericfinbuff7<- ifelse(ASFL$QF13 == "Six months or more", 5, 0)
+
+numericfinbuff <- numericfinbuff1+numericfinbuff2+numericfinbuff3+numericfinbuff4+numericfinbuff5+numericfinbuff6+numericfinbuff7
+table(numericfinbuff)
+ASFL <- cbind(ASFL,numericfinbuff)
+
 
 lessweekfinbuffd <-ifelse(ASFL$QF13 == "Less than a week", 1, 0)
 weekfinbuffd <-ifelse(ASFL$QF13 == "At least a week, but not one month", 1, 0)
@@ -2940,7 +2958,7 @@ HFCSriskad <- HFCSrisk1 +HFCSrisk2+HFCSrisk3
 HFCSnriskad <- HFCSrisk4
 table(HFCSriskad)
 table(HFCSnriskad)
-ASFL7 <- cbind(ASFL6,HFCSrisk,HFCSriskd,HFCSnriskd,HFCSriskad,HFCSnriskad)
+ASFL7 <- cbind(ASFL6,HFCSrisk,HFCSrisk1,HFCSrisk2,HFCSrisk3,HFCSrisk4,HFCSriskd,HFCSnriskd,HFCSriskad,HFCSnriskad)
 
 ASFL7 <- ASFL7 %>% mutate(HFCSrisk_group = case_when(HFCSrisk == "I am prepared to take substantial financial risks expecting to earn substantial returns" ~"Substantialrisk" ,
                                                   HFCSrisk == "I am prepared to take above average financial risks expecting to earn above average returns" ~ "Highrisk",
@@ -3013,6 +3031,8 @@ highriskscored <- ifelse(riskscore >= "2", 1, 0)
 lowriskscored <- ifelse(riskscore < "2", 1, 0)
 
 ASFL7 <- cbind(ASFL7,highriskscored,lowriskscored)
+ASFL7m <- ASFL7[(ASFL7$QD1 %in% male),]
+ASFL7f <- ASFL7[(ASFL7$QD1 %in% female),]
 
 ####financial risk taking sample comparison 
 ASFL7se <- ASFL7[(ASFL7$QD10 %in% se),]
@@ -3107,8 +3127,6 @@ wpct(ASFL7e$HFCSriskad, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$HFCSriskad, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$HFCSriskad, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$HFCSriskad, weight=ASFL7othworet$wght, na.rm=TRUE)
-
-
 
 
 
