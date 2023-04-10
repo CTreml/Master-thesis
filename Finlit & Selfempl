@@ -10,6 +10,8 @@ library(foreign)
 library(reshape2)
 library(nnet)
 library(Weighted.Desc.Stat)
+library(aod)
+library(AICcmodavg)
 
 #setting the working directory
 setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
@@ -138,12 +140,13 @@ ASFLmain<- subset(ASFLadult, ASFLadult$QD7 <= "79")
 gender <- ASFL$QD1
 table(ASFL$QD1)
 maled<- ifelse(ASFL$QD1 == "1", 1, 0)
+genderd<- ifelse(ASFL$QD1 == "1", 1, 0) #to avoid problems with the maled dummy in later analysis
 femaled <- ifelse(ASFL$QD1 == "2", 1, 0)
 
 male <- c("1")
 female <- c("2")
 
-ASFL <- cbind(ASFL,maled,femaled)
+ASFL <- cbind(ASFL,maled,femaled,genderd)
 
 ##################################EDUCATION##################################
 #################################old_education###################################
@@ -1122,6 +1125,8 @@ wpct(ASFLse$QK3, weight=ASFLse$wght, na.rm=TRUE) #0.8812004,0.06277662,0.0560229
 0.77712780 +0.10407263 #correct
 1-(0.05602298+0.8812004)#incorrect 
 0.05602298 #dont know/irrelevant
+wpct(ASFLsem$QK3, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$QK3, weight=ASFLsef$wght, na.rm=TRUE)
 
 summary(ASFLe$QK3)
 wpct(ASFLe$QK3, weight=ASFLe$wght, na.rm=TRUE)#0.7227266,0.2387096,0.03856385
@@ -1179,6 +1184,8 @@ wpct(ASFLse$QK4, weight=ASFLse$wght, na.rm=TRUE)#0.970574832,0.007966968,0.02145
 0.970574832 #correct
 0.007966968 #incorrect 
 0.006653903+0.014804297#dont know/irrelevant
+wpct(ASFLsem$QK4, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$QK4, weight=ASFLsef$wght, na.rm=TRUE)
 
 table(ASFLe$QK4)
 wpct(ASFLe$QK4, weight=ASFLe$wght, na.rm=TRUE)#0.897261034,0.03466621,0.06807276
@@ -1220,6 +1227,8 @@ wpct(ASFLse$QK5, weight=ASFLse$wght, na.rm=TRUE)#0.911007520,0.025367278,0.06362
 0.911007520       #correct
 0.025367278 #incorrect 
 0.0636252#dont know/irrelevant
+wpct(ASFLsem$QK5, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$QK5, weight=ASFLsef$wght, na.rm=TRUE)
 
 summary(ASFLe$QK5)
 wpct(ASFLe$QK5, weight=ASFLe$wght, na.rm=TRUE)#0.7892900880,0.1056407,0.1050692
@@ -1243,6 +1252,10 @@ QK5f<- ifelse(ASFL$QK5 == "102", 1, 0)
 table(QK5f)
 QK5se<- ifelse(ASFLse$QK5 == "102", 1, 0)
 table(QK5se)
+QK5sem<- ifelse(ASFLsem$QK5 == "102", 1, 0)
+QK5sef<- ifelse(ASFLsef$QK5 == "102", 1, 0)
+  
+
 QK5e<- ifelse(ASFLe$QK5 == "102", 1, 0)
 table(QK5e)
 QK5eu<- ifelse(ASFLeu$QK5 == "102", 1, 0)
@@ -1267,6 +1280,10 @@ wpct(ASFLse$QK6, weight=ASFLse$wght, na.rm=TRUE)
 #correct
 0.178534126 +0.130571101 #incorrect 
 #dont know/irrelevant
+wpct(ASFLsem$QK6, weight=ASFLsem$wght, na.rm=TRUE)
+0.16649831+0.18025887 
+wpct(ASFLsef$QK6, weight=ASFLsef$wght, na.rm=TRUE)
+0.19622559+0.05753498
 
 summary(ASFLe$QK6)
 wpct(ASFLe$QK6, weight=ASFLe$wght, na.rm=TRUE)  
@@ -1290,6 +1307,8 @@ QK6f<- ifelse(ASFL$QK6 == "More than €110" , 1, 0)
 table(QK6f)
 QK6se<- ifelse(ASFLse$QK6 == "More than €110", 1, 0)
 table(QK6se)
+QK6sem<- ifelse(ASFLsem$QK6 == "More than €110", 1, 0)
+QK6sef<- ifelse(ASFLsef$QK6 == "More than €110", 1, 0)
 QK6e<- ifelse(ASFLe$QK6 == "More than €110", 1, 0)
 table(QK6e)
 QK6eu<- ifelse(ASFLeu$QK6 == "More than €110", 1, 0)
@@ -1309,12 +1328,21 @@ table(QK6fn)
 702/1418 
 
 QK56se <- QK5se+QK6se
+QK56sem <- QK5sem+QK6sem
+QK56sef <- QK5sef+QK6sef
 table(QK56se)
 wpct(QK56se, weight=ASFLse$wght, na.rm=TRUE)
+wpct(QK56sem, weight=ASFLsem$wght, na.rm=TRUE)
+0.62289779 #correct
+wpct(QK56sef, weight=ASFLsef$wght, na.rm=TRUE)
+0.6661936 #correct
 QK6sen <- ifelse(QK56se == "2",1, 0) 
+QK6semn <- ifelse(QK56sem == "2",1, 0)
+QK6sefn <- ifelse(QK56sef == "2",1, 0)
 table(QK6sen) #0.64042716,0.3091052,0.05046764
 53/79
 1-(0.64042716 +0.3091052)
+
 
 QK56e <- QK5e+QK6e
 table(QK56e)
@@ -1356,6 +1384,9 @@ wpct(ASFLse$QK7_1, weight=ASFLse$wght, na.rm=TRUE)#0.90143273,0.03396225, 0.0646
 0.90143273 #correct
 0.03396225 #incorrect 
 0.06460503 #dont know/irrelevant
+wpct(ASFLsem$QK7_1, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$QK7_1, weight=ASFLsef$wght, na.rm=TRUE)
+
 
 table(ASFLe$QK7_1)
 wpct(ASFLe$QK7_1, weight=ASFLe$wght, na.rm=TRUE)#0.9070270072 ,0.0443046011 ,0.04866839
@@ -1398,6 +1429,8 @@ wpct(ASFLse$QK7_2, weight=ASFLse$wght, na.rm=TRUE)#0.91822943,0.03238426,0.04938
 0.91822943 #correct
 0.03238426 #incorrect 
 0.04938631 #dont know/irrelevant
+wpct(ASFLsem$QK7_2, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$QK7_2, weight=ASFLsef$wght, na.rm=TRUE)
 
 table(ASFLe$QK7_2)
 wpct(ASFLe$QK7_2, weight=ASFLe$wght, na.rm=TRUE)#0.887358506,0.052169972 ,0.06047152
@@ -1438,6 +1471,8 @@ wpct(ASFLse$QK7_3, weight=ASFLse$wght, na.rm=TRUE)#0.77142812,0.13102772,0.09754
 0.77142812 #correct
 0.13102772 #incorrect 
 0.09754416 #dont know/irrelevant
+wpct(ASFLsem$QK7_3, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$QK7_3, weight=ASFLsef$wght, na.rm=TRUE)
 
 table(ASFLe$QK7_3)
 wpct(ASFLe$QK7_3, weight=ASFLe$wght, na.rm=TRUE)#0.667234442,0.162267278,0.1704983
@@ -1479,6 +1514,8 @@ wpct(ASFLse$S58, weight=ASFLse$wght, na.rm=TRUE)#0.93873646,0.01444696,0.0468165
 0.93873646 #correct
 0.01444696      #incorrect 
 0.04681658      #dont know/irrelevant
+wpct(ASFLsem$S58, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$S58, weight=ASFLsef$wght, na.rm=TRUE)
 
 table(ASFLe$S58)
 wpct(ASFLe$S58, weight=ASFLe$wght, na.rm=TRUE)#0.77005123,0.1758667,0.05408207
@@ -1520,6 +1557,8 @@ wpct(ASFLse$QK7_4add, weight=ASFLse$wght, na.rm=TRUE)#0.7227731 ,0.1404427 ,0.13
 0.7227731 #correct
 0.1404427 #incorrect 
 0.1367842 #dont know/irrelevant
+wpct(ASFLsem$QK7_4add, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$QK7_4add, weight=ASFLsef$wght, na.rm=TRUE)
 
 table(ASFLe$QK7_4add)
 wpct(ASFLe$QK7_4add, weight=ASFLe$wght, na.rm=TRUE)#0.740998033 ,0.174713123,0.08428884
@@ -1561,6 +1600,8 @@ wpct(ASFLse$EB3, weight=ASFLse$wght, na.rm=TRUE)#0.87447672,0.04876289,0.0767603
 0.87447672             #correct
 1-(0.87447672+0.07676039)#incorrect 
 0.07676039             #dont know/irrelevant
+wpct(ASFLsem$EB3, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$EB3, weight=ASFLsef$wght, na.rm=TRUE)
 
 table(ASFLe$EB3)
 wpct(ASFLe$EB3, weight=ASFLe$wght, na.rm=TRUE)#0.703229118 ,0.159618,0.1371529
@@ -2958,7 +2999,18 @@ HFCSriskad <- HFCSrisk1 +HFCSrisk2+HFCSrisk3
 HFCSnriskad <- HFCSrisk4
 table(HFCSriskad)
 table(HFCSnriskad)
+riskad <- c("I am prepared to take substantial financial risks expecting to earn substantial returns","I am prepared to take above average financial risks expecting to earn above average returns","I am prepared to take average financial risks expecting to earn average returns")
+riskd <- c("I am prepared to take substantial financial risks expecting to earn substantial returns","I am prepared to take above average financial risks expecting to earn above average returns")
+nriskad <- c("I am not willing to take any financial risk")
+nriskd <- c("I am prepared to take average financial risks expecting to earn average returns","I am not willing to take any financial risk")
+
+
+
+HFCSnriskad <- HFCSrisk4
+table(HFCSriskad)
+table(HFCSnriskad)
 ASFL7 <- cbind(ASFL6,HFCSrisk,HFCSrisk1,HFCSrisk2,HFCSrisk3,HFCSrisk4,HFCSriskd,HFCSnriskd,HFCSriskad,HFCSnriskad)
+
 
 ASFL7 <- ASFL7 %>% mutate(HFCSrisk_group = case_when(HFCSrisk == "I am prepared to take substantial financial risks expecting to earn substantial returns" ~"Substantialrisk" ,
                                                   HFCSrisk == "I am prepared to take above average financial risks expecting to earn above average returns" ~ "Highrisk",
@@ -3031,14 +3083,30 @@ highriskscored <- ifelse(riskscore >= "2", 1, 0)
 lowriskscored <- ifelse(riskscore < "2", 1, 0)
 
 ASFL7 <- cbind(ASFL7,highriskscored,lowriskscored)
+ASFL7risk <-  ASFL7[(ASFL7$HFCS1 %in% riskad),]
+ASFL7nrisk <-  ASFL7[(ASFL7$HFCS1 %in% nriskad),]
 ASFL7m <- ASFL7[(ASFL7$QD1 %in% male),]
 ASFL7f <- ASFL7[(ASFL7$QD1 %in% female),]
+ASFL7mrisk <- ASFL7m[(ASFL7m$HFCS1 %in% riskad),]
+ASFL7mnrisk <- ASFL7m[(ASFL7m$HFCS1 %in% nriskad),]
+ASFL7frisk <- ASFL7f[(ASFL7f$HFCS1 %in% riskad),]
+ASFL7fnrisk <- ASFL7f[(ASFL7f$HFCS1 %in% nriskad),]
 
 ####financial risk taking sample comparison 
 ASFL7se <- ASFL7[(ASFL7$QD10 %in% se),]
 ASFL7sem <- ASFL7se[(ASFL7se$QD1 %in% male),]
+ASFL7semrisk <- ASFL7sem[(ASFL7sem$HFCS1 %in% riskad),]
+ASFL7semnrisk <- ASFL7sem[(ASFL7sem$HFCS1 %in% nriskad),]
 ASFL7sef <- ASFL7se[(ASFL7se$QD1 %in% female),]
+ASFL7sefrisk <- ASFL7sef[(ASFL7sef$HFCS1 %in% riskad),]
+ASFL7sefnrisk <- ASFL7sef[(ASFL7sef$HFCS1 %in% nriskad),]
 ASFL7e <- ASFL7[(ASFL7$QD10 %in% e),]
+ASFL7em <- ASFL7e[(ASFL7e$QD1 %in% male),]
+ASFL7emrisk <- ASFL7em[(ASFL7em$HFCS1 %in% riskad),]
+ASFL7emnrisk <- ASFL7em[(ASFL7em$HFCS1 %in% nriskad),]
+ASFL7ef <- ASFL7e[(ASFL7e$QD1 %in% female),]
+ASFL7efrisk <- ASFL7ef[(ASFL7ef$HFCS1 %in% riskad),]
+ASFL7efnrisk <- ASFL7ef[(ASFL7ef$HFCS1 %in% nriskad),]
 ASFL7eu <- ASFL7[(ASFL7$QD10 %in% eu),]
 ASFL7oth <- ASFL7[(ASFL7$QD10 %in% oth),]
 ASFL7othworet <- ASFL7[(ASFL7$QD10 %in% othworet),]
@@ -3046,9 +3114,12 @@ ASFL7ret <- ASFL7[(ASFL7$QD10 %in% ret),]
 
 wpct(ASFL7$HFCS1, weight=ASFL7$wght, na.rm=TRUE)
 wpct(ASFL7se$HFCS1, weight=ASFL7se$wght, na.rm=TRUE)
+table(ASFL7se$HFCS1)
 wpct(ASFL7e$HFCS1, weight=ASFL7e$wght, na.rm=TRUE)
+table(ASFL7e$HFCS1)
 wpct(ASFL7eu$HFCS1, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$HFCS1, weight=ASFL7oth$wght, na.rm=TRUE)
+table(ASFL7oth$HFCS1)
 wpct(ASFL7othworet$HFCS1, weight=ASFL7othworet$wght, na.rm=TRUE)
 wpct(ASFL7ret$HFCS1, weight=ASFL7ret$wght, na.rm=TRUE)
 
@@ -3127,6 +3198,8 @@ wpct(ASFL7e$HFCSriskad, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$HFCSriskad, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$HFCSriskad, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$HFCSriskad, weight=ASFL7othworet$wght, na.rm=TRUE)
+
+
 
 
 
