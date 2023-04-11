@@ -115,7 +115,7 @@ babyboomd <- ifelse(ASFL$age_group == "59-74", 1, 0)
 silgend<- ifelse(ASFL$age_group == ">75", 1, 0)
 
 summary(ASFL$age_group)
-ASFL <- cbind(ASFL,age,youngmilld,oldmilld,genxd,babyboomd,silgend)
+ASFL <- cbind(ASFL,age,youngmilld,oldmilld,genxd,babyboomd,silgend,age2,rootage)
 
 youngmill <- c("16-28")
 oldmill <- c("29-38")
@@ -617,10 +617,10 @@ table(ASFLret$education)
 
 #comparison plots
 educomp <- data.frame(status=rep(c('Self-employed', 'Employed'), each=2),
-                      education=rep(c('Lower', 'Higher'), times=2),
+                      education=rep(c('Higher', 'Lower'), times=2),
                       share=c(34/77, 43/77,235/685, 450/685))
 educomp$status<- factor(educomp$status, levels=c('Self-employed', 'Employed'))
-educomp$education<- factor(educomp$education, levels=c('Lower', 'Higher'))
+educomp$education<- factor(educomp$education, levels=c('Higher', 'Lower'))
 ggplot(educomp, aes(fill=education, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Education")
@@ -3198,7 +3198,6 @@ wpct(ASFL7e$HFCSriskad, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$HFCSriskad, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$HFCSriskad, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$HFCSriskad, weight=ASFL7othworet$wght, na.rm=TRUE)
-
 
 
 
