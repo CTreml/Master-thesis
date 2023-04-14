@@ -127,7 +127,7 @@ ggplot(finknowdetailoth, aes(fill=status, y=share, x=finknow)) +
 #GENDER SPECIFIC
 finknowdetailgenderse <- data.frame(finknow=rep(c('Time value* Male','Time value* Female', 'Interest on loan* Male','Interest on loan* Female','Interest plus principal* Male','Interest plus principal* Female','Compound interest* Male','Compound interest* Female','Risk and return* Male','Risk and return* Female','Inflation definition* Male','Inflation definition* Female','Diversification* Male','Diversification* Female','Real interest Male','Real interest Female','Overdrawing an account Male','Overdrawing an account Female','Exchange rate Male','Exchange rate Female'), each=3),
                                status=rep(c('Correct','Incorrect','Ref/Don´t know' ), times=20),
-                               share=c(0.7288287,0.1860751,0.08509625,0.2,0.2,0.2,0.8693630648,0.009771735,0.1208652,0,0,0,0.7645187980,0.0554447,0.1800365,0,0,0,0.4317166,0.390556,0.1777274,0,0,0,0.930935147,0.014295340,0.05476951,0,0,0,0.887270979,0.037551181,0.07517784,0,0,0,0.52245783,0.14298805,0.3345541,0,0,0,0.768531697,0.1252482,0.1062201,0,0,0,0.60803253,0.15513368 ,0.2368338,0,0,0,0.653354147,0.09644592,0.2501999,0,0,0))
+                               share=c(0.83180017,(1-0.01546969-0.83180017),0.01546969,0.69676483,0.11563233,(1-0.11563233-0.69676483),0.98482749,0,0.01517251,0.94962483,0.01967762,(0.01426306+0.01643448),0.92702989 ,0.04262509 ,(0.01517251+0.01517251),0.8874562 ,0,0.1125438,0.62289779,0.3467572,(1-0.3467572-0.62289779),0.6661936 ,0.2537606,(1-0.6661936-0.2537606),0.94293263,0.05706737,0,0.840432,0,0.159568,0.97572452,0.02427548,0,0.83371732,0.04430336,0.12197932,0.81016060,0.17466689,0.01517251,0.71449519,0.06688245,0.21862236,0.97572452,0.02427548,0,0.8843677,0,0.1156323,0.79478339,0.13380348,0.07141313,0.6169251,0.1502016,0.2328732,0.94007636,0.05992364,0,0.77805172,0.03235769,0.18959059))
 
 finknowdetailgenderse$finknow<- factor(finknowdetailgenderse$finknow, levels=c('Time value* Male','Time value* Female', 'Interest on loan* Male','Interest on loan* Female','Interest plus principal* Male','Interest plus principal* Female','Compound interest* Male','Compound interest* Female','Risk and return* Male','Risk and return* Female','Inflation definition* Male','Inflation definition* Female','Diversification* Male','Diversification* Female','Real interest Male','Real interest Female','Overdrawing an account Male','Overdrawing an account Female','Exchange rate Male','Exchange rate Female'))
 finknowdetailgenderse$status<- factor(finknowdetailgenderse$status, levels=c('Correct','Incorrect','Ref/Don´t know' ))
@@ -246,6 +246,8 @@ finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitco
 finlitcomparisongender$gender<- factor(finlitcomparisongender$gender, levels=c("Male" , "Female"))
 ggplot(finlitcomparisongender, aes(fill=gender, y=value, x=finlitcomparison)) + 
   geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
   labs(x = "",y="Percentage share", fill = "Gender")
 
 #age group comparison main financial literacy scores 
@@ -282,6 +284,8 @@ finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitco
 finlitcomparisongender$education<- factor(finlitcomparisongender$education, levels=c("Lower education", "Higher education" ))
 ggplot(finlitcomparisongender, aes(fill=education, y=value, x=finlitcomparison)) + 
   geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("green",
+                             "purple"))+
   labs(x = "",y="Percentage share", fill = "Educational level")
 
 ###############FINANCIAL INCLUSION######################
@@ -355,6 +359,8 @@ financialinclusionplot1$finincl1<- factor(financialinclusionplot1$finincl1, leve
 financialinclusionplot1$gender<- factor(financialinclusionplot1$gender, levels=c("Male" , "Female"))
 ggplot(financialinclusionplot1, aes(fill=gender, y=value, x=finincl1)) + 
   geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
   labs(x="",y="Percentage share",fill="Gender")
 
 finincl2 <- c(rep("Saving,Investment,Retirement" , 2) , rep("Payment" , 2) , rep("Insurance" , 2) , rep("Credit" , 2))
@@ -365,6 +371,8 @@ financialinclusionplot2$finincl2<- factor(financialinclusionplot2$finincl2, leve
 financialinclusionplot2$gender<- factor(financialinclusionplot2$gender, levels=c("Male" , "Female" ))
 ggplot(financialinclusionplot2, aes(fill=gender, y=value, x=finincl2)) + 
   geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
   labs(x="",y="Percentage share",fill="Gender")
 
 #weighted only self employed 
@@ -441,6 +449,8 @@ wellbeingplotspecific$wellbeing<- factor(wellbeingplotspecific$wellbeing, levels
 wellbeingplotspecific$gender<- factor(wellbeingplotspecific$gender, levels=c( "Male","Female"))
 ggplot(wellbeingplotspecific, aes(fill=gender, y=value, x=wellbeing)) + 
   geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
   labs(x="",y="Percentage share",fill="Gender")
 
 #age differences 
@@ -574,6 +584,8 @@ finstressplot$fistr<- factor(finstressplot$fistr, levels=c('Shortfall', 'Expense
 finstressplot$gender <- factor(finstressplot$gender, levels=c("Male","Female"))
 ggplot(finstressplot, aes(fill=gender, y=value, x=fistr)) + 
   geom_bar(position="dodge", stat="identity")+
+scale_fill_manual(values=c("grey",
+                           "orange"))+
   labs(x="",y="Percentage share",fill="")
 
 
@@ -1046,6 +1058,8 @@ riskplot$risk<- factor(riskplot$risk, levels=c("Stocks/shares","Bonds","Crypto a
 riskplot$gender<- factor(riskplot$gender, levels=c("Male" , "Female"))
 ggplot(riskplot, aes(fill=gender, y=value, x=risk)) + 
   geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
   labs(x = "",y="Percentage share", fill = "Gender")
 
 
@@ -1069,7 +1083,8 @@ skeypl2
 
 library(ggalluvial)
 #sankey plot - self assessed and actual financial knowledge
-selfassessfinknow <- ggplot(data = ASFL7se,
+#self-employed
+selfassessfinknowse <- ggplot(data = ASFL7se,
                             aes(axis1 = saknow_group,# First variable on the X-axis
                                 axis2 = fin_know_group, 
                                 y = frequency(fin_know_group))) +
@@ -1080,8 +1095,27 @@ selfassessfinknow <- ggplot(data = ASFL7se,
   scale_fill_viridis_d() +
   theme_void()
 
-selfassessfinknow
+selfassessfinknowse
 
+#scatter plot
+ggplot(ASFL7) +
+  aes(y = saknow_group, x = fin_know) +
+  geom_point(position = position_jitter(width = 0.1, height = 0)) 
+
+
+#employed
+selfassessfinknowe <- ggplot(data = ASFL7e,
+                            aes(axis1 = saknow_group,# First variable on the X-axis
+                                axis2 = fin_know_group, 
+                                y = frequency(fin_know_group))) +
+  geom_alluvium(aes(fill = saknow_group)) +
+  geom_stratum() +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()
+
+selfassessfinknowe
 
 w.plot(ASFL7se$fin_know,ASFL7se$numericsaknow, 0.2, ASFL7se$wght, lwd=1, ylab="Self assessed financial knowledge", xlab="Measured financial knowledge")
 #gender differences!!
@@ -1175,39 +1209,59 @@ riskfinknow
 
 
 ######################LINEAR REGRESSION analysis
-#regression plot
-
+#theory regression plot
 ggplot(mtcars, aes(x = hp, y = mpg)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE, size = 0.5) +
   labs(x = "", y = "",
        title = "")
-
+#agefinlit
+cor.test(ASFL7$age, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 ggplot(ASFL7se, aes(x = age, y = finlit)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
   labs(x = "age", y = "finlit")
 
 
-
-
-#finwellbeingtest
+#wellbeingfinlit
+cor.test(ASFL7$finwellbeing, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 ggplot(ASFL7, aes(x = finwellbeing, y = finlit)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
-  labs(x = "wellbeing", y = "finlit")
-cor.test(ASFL7$finwellbeing, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
+  labs(x = "Well-being", y = "Financial literacy")
+
+cor.test(ASFL7se$finwellbeing, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
+ggplot(ASFL7se, aes(x = finwellbeing, y = finlit)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Well-being", y = "Financial literacy")
+
+#wellbeingfincushion
+cor.test(ASFL7$finwellbeing, ASFL7$numericfinbuff, data=ASFL7, weights=ASFL7$wght)
+ggplot(ASFL7, aes(x = finwellbeing, y = numericfinbuff)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Well-being", y = "Financial cushion")
+
+cor.test(ASFL7se$finwellbeing, ASFL7se$numericfinbuff, data=ASFL7se, weights=ASFL7se$wght)
+ggplot(ASFL7se, aes(x = finwellbeing, y = numericfinbuff)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Well-being", y = "Financial cushion")
+
+
+
 
 library(dplyr)
-ASFL7$maled <- factor(ASFL7$maled)
-ASFL7$maled <- recode(ASFL7$maled, "1" = "Male", "0" = "Female")
+ASFL7$genderd <- factor(ASFL7$genderd)
+ASFL7$genderd <- recode(ASFL7$genderd, "1" = "Male", "0" = "Female")
 
-finwellbeinggender <- lm(finlit ~ finwellbeing + maled, data = ASFL7se)
+finwellbeinggender <- lm(finlit ~ finwellbeing + genderd, data = ASFL7se)
 summary(finwellbeinggender)
 library(broom)
 ggplot(augment(finwellbeinggender), aes(x = finwellbeing, y = finlit, color = maled)) +
   geom_point() +
-  geom_line(aes(y = .fitted), size = ) 
+  geom_line(aes(y = .fitted), size = I(2)) 
 
 
 ggplot(ASFL7, aes(x = finwellbeing, y = fin_know)) +
