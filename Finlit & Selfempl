@@ -493,7 +493,11 @@ genderplot<- data.frame(gender,emplstat,value)
 genderplot$emplstat<- factor(genderplot$emplstat, levels=c('Self-employed', 'Employed'))
 genderplot$gender<- factor(genderplot$gender, levels=c('Male','Female'))
 ggplot(genderplot, aes(fill=gender, y=value, x=emplstat)) + 
-  geom_bar(position="dodge", stat="identity")+ labs(x="" ,y="Percentage share",fill="Gender")
+  geom_bar(position="dodge", stat="identity")+ 
+scale_fill_manual(values=c("grey",
+                           "orange"))+
+  labs(x="" ,y="Percentage share",fill="Gender")
+
 #with others
 emplstat <- c(rep("Self-employed" , 2) , rep("Employed" , 2) ,  rep("Others" , 2) )
 gender <- rep(c("Male" , "Female" ) , 3)
@@ -2157,6 +2161,13 @@ wpct(ASFL3oth$fin_know, weight=ASFL3oth$wght, na.rm=TRUE)
 weighted.mean(ASFL3oth$fin_know_add, ASFL3oth$wght)
 wpct(ASFL3oth$fin_know_add, weight=ASFL3oth$wght, na.rm=TRUE)
 
+weighted.mean(ASFL3othworet$fin_know, ASFL3othworet$wght)
+weighted.mean(ASFL3othworet$fin_know_add, ASFL3othworet$wght)
+weighted.mean(ASFL3ret$fin_know, ASFL3ret$wght)
+weighted.mean(ASFL3ret$fin_know_add, ASFL3ret$wght)
+weighted.mean(ASFL3entrepreneurs$fin_know, ASFL3entrepreneurs$wght)
+weighted.mean(ASFL3entrepreneurs$fin_know_add, ASFL3entrepreneurs$wght)
+
 #################FINANCIAL BEHAVIOUR############################
 weighted.mean(ASFL3se$fin_beh, ASFL3se$wght)
 wpct(ASFL3se$fin_beh, weight=ASFL3se$wght, na.rm=TRUE)
@@ -2193,6 +2204,22 @@ wpct(ASFL3oth$fin_beh, weight=ASFL3oth$wght, na.rm=TRUE)
 wpct(ASFL3oth$highfinbehd, weight=ASFL3oth$wght, na.rm=TRUE)
 0.315679231 +0.148020779+ 0.073619369 +0.020499409
 
+weighted.mean(ASFL3othworet$fin_beh, ASFL3othworet$wght)
+wpct(ASFL3othworet$fin_beh, weight=ASFL3othworet$wght, na.rm=TRUE)
+#at least 6 (out of 9)
+wpct(ASFL3othworet$highfinbehd, weight=ASFL3othworet$wght, na.rm=TRUE)
+0.23166765+0.10562645+ 0.12766133 +0.03626127 
+weighted.mean(ASFL3ret$fin_beh, ASFL3ret$wght)
+wpct(ASFL3ret$fin_beh, weight=ASFL3ret$wght, na.rm=TRUE)
+#at least 6 (out of 9)
+wpct(ASFL3ret$highfinbehd, weight=ASFL3ret$wght, na.rm=TRUE)
+0.353916248+ 0.167316125 +0.049022722 +0.013325559
+
+weighted.mean(ASFL3entrepreneurs$fin_beh, ASFL3entrepreneurs$wght)
+wpct(ASFL3entrepreneurs$fin_beh, weight=ASFL3entrepreneurs$wght, na.rm=TRUE)
+#at least 6 (out of 9)
+wpct(ASFL3entrepreneurs$highfinbehd, weight=ASFL3entrepreneurs$wght, na.rm=TRUE)
+0.27275762+ 0.14895857 +0.07713576 
 
 #################FINANCIAL ATTITUDE############################
 weighted.mean(ASFL3se$fin_att, ASFL3se$wght)
@@ -2230,6 +2257,9 @@ wpct(ASFL3oth$fin_att, weight=ASFL3oth$wght, na.rm=TRUE)
 wpct(ASFL3oth$highfinattd, weight=ASFL3oth$wght, na.rm=TRUE)
 0.12486003+0.13201014+0.11105601+ 0.04013580+0.02619993+0.01077725
 
+weighted.mean(ASFL3othworet$fin_att, ASFL3othworet$wght)
+weighted.mean(ASFL3ret$fin_att, ASFL3ret$wght)
+weighted.mean(ASFL3entrepreneurs$fin_att, ASFL3entrepreneurs$wght)
 #########################ADDITIONAL FINANCIAL LITERACY INDICATORS##########################################
 
 ################FINANCIAL RESILIENCE#######################################
@@ -2783,6 +2813,30 @@ wpct(ASFL5oth$finstress1, weight=ASFL5oth$wght, na.rm=TRUE)
 wpct(ASFL5oth$finstress2, weight=ASFL5oth$wght, na.rm=TRUE)
 wpct(ASFL5oth$finstress3, weight=ASFL5oth$wght, na.rm=TRUE)
 
+
+wpct(ASFL5othworet$highfinbuffd, weight=ASFL5othworet$wght, na.rm=TRUE)
+wpct(ASFL5othworet$sixmonthfinbuffd, weight=ASFL5othworet$wght, na.rm=TRUE)
+wpct(ASFL5othworet$shortfall, weight=ASFL5othworet$wght, na.rm=TRUE)
+wpct(ASFL5othworet$finstress1, weight=ASFL5othworet$wght, na.rm=TRUE)
+wpct(ASFL5othworet$finstress2, weight=ASFL5othworet$wght, na.rm=TRUE)
+wpct(ASFL5othworet$finstress3, weight=ASFL5othworet$wght, na.rm=TRUE)
+
+
+wpct(ASFL5ret$highfinbuffd, weight=ASFL5ret$wght, na.rm=TRUE)
+wpct(ASFL5ret$sixmonthfinbuffd, weight=ASFL5ret$wght, na.rm=TRUE)
+wpct(ASFL5ret$shortfall, weight=ASFL5ret$wght, na.rm=TRUE)
+wpct(ASFL5ret$finstress1, weight=ASFL5ret$wght, na.rm=TRUE)
+wpct(ASFL5ret$finstress2, weight=ASFL5ret$wght, na.rm=TRUE)
+wpct(ASFL5ret$finstress3, weight=ASFL5ret$wght, na.rm=TRUE)
+
+
+wpct(ASFL5entrepreneurs$highfinbuffd, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL5entrepreneurs$sixmonthfinbuffd, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL5entrepreneurs$shortfall, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL5entrepreneurs$finstress1, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL5entrepreneurs$finstress2, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL5entrepreneurs$finstress3, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+
 ###financial resilience specific below or above three months
 
 weighted.mean(ASFL5sehfinbuff$fin_know,ASFL5sehfinbuff$wght)
@@ -2877,6 +2931,53 @@ wpct(ASFL5oth$recentchoice, weight=ASFL5oth$wght, na.rm=TRUE)
 1-0.759425470 
 wpct(ASFL5oth$famfriend, weight=ASFL5oth$wght,na.rm=TRUE)
 
+ASFL5othworet <- ASFL5[(ASFL5$QD10 %in% othworet),]
+wpct(ASFL5othworet$produse, weight=ASFL5othworet$wght, na.rm=TRUE)
+1-0.014309649 -0.016596644 -0.028121471 -0.033892776- 0.021953299
+wpct(ASFL5othworet$savinre, weight=ASFL5othworet$wght, na.rm=TRUE)
+1-  0.30774273 
+wpct(ASFL5othworet$payprod, weight=ASFL5othworet$wght, na.rm=TRUE)
+1- 0.086388782 
+wpct(ASFL5othworet$p1b10, weight=ASFL5othworet$wght, na.rm=TRUE)
+wpct(ASFL5othworet$credp, weight=ASFL5othworet$wght, na.rm=TRUE)
+1- 0.72332066 
+wpct(ASFL5othworet$finprodholding, weight=ASFL5othworet$wght, na.rm=TRUE)
+weighted.mean(ASFL5othworet$finprodholding, ASFL5othworet$wght)
+wpct(ASFL5othworet$recentchoice, weight=ASFL5othworet$wght, na.rm=TRUE)
+1- 0.524159000 
+wpct(ASFL5othworet$famfriend, weight=ASFL5othworet$wght,na.rm=TRUE)
+
+ASFL5ret <- ASFL5[(ASFL5$QD10 %in% ret),]
+wpct(ASFL5ret$produse, weight=ASFL5ret$wght, na.rm=TRUE)
+1-0.001491719 -0.003678575- 0.021269336- 0.035374397- 0.020323848
+wpct(ASFL5ret$savinre, weight=ASFL5ret$wght, na.rm=TRUE)
+1-0.09636115   
+wpct(ASFL5ret$payprod, weight=ASFL5ret$wght, na.rm=TRUE)
+1- 0.01401171 
+wpct(ASFL5ret$p1b10, weight=ASFL5ret$wght, na.rm=TRUE)
+wpct(ASFL5ret$credp, weight=ASFL5ret$wght, na.rm=TRUE)
+1- 0.627729720 
+wpct(ASFL5ret$finprodholding, weight=ASFL5ret$wght, na.rm=TRUE)
+weighted.mean(ASFL5ret$finprodholding, ASFL5ret$wght)
+wpct(ASFL5ret$recentchoice, weight=ASFL5ret$wght, na.rm=TRUE)
+1- 0.86650461 
+wpct(ASFL5ret$famfriend, weight=ASFL5ret$wght,na.rm=TRUE)
+
+ASFL5entrepreneurs <- ASFL5[(ASFL5$QF9_11 %in% entrepreneurs),]
+wpct(ASFL5entrepreneurs$produse, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+1-0.04087746- 0.02257407
+wpct(ASFL5entrepreneurs$savinre, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+1-  0.16960143 
+wpct(ASFL5entrepreneurs$payprod, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL5entrepreneurs$p1b10, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL5entrepreneurs$credp, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+1- 0.33198734 
+wpct(ASFL5entrepreneurs$finprodholding, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+weighted.mean(ASFL5entrepreneurs$finprodholding, ASFL5entrepreneurs$wght)
+wpct(ASFL5entrepreneurs$recentchoice, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+1- 0.72953345 
+wpct(ASFL5entrepreneurs$famfriend, weight=ASFL5entrepreneurs$wght,na.rm=TRUE)
+
 #################total financial well-being comparison############################
 wpct(ASFL5se$finwellbeing, weight=ASFL5se$wght,na.rm=TRUE)
 weighted.mean(ASFL5se$finwellbeing, ASFL5se$wght)
@@ -2889,6 +2990,12 @@ wpct(ASFL5e$finwellbeing, weight=ASFL5e$wght,na.rm=TRUE)
 weighted.mean(ASFL5e$finwellbeing, ASFL5e$wght)
 wpct(ASFL5oth$finwellbeing, weight=ASFL5oth$wght,na.rm=TRUE)
 weighted.mean(ASFL5oth$finwellbeing, ASFL5oth$wght)
+wpct(ASFL5othworet$finwellbeing, weight=ASFL5othworet$wght,na.rm=TRUE)
+weighted.mean(ASFL5othworet$finwellbeing, ASFL5othworet$wght)
+wpct(ASFL5ret$finwellbeing, weight=ASFL5ret$wght,na.rm=TRUE)
+weighted.mean(ASFL5ret$finwellbeing, ASFL5ret$wght)
+wpct(ASFL5entrepreneurs$finwellbeing, weight=ASFL5entrepreneurs$wght,na.rm=TRUE)
+weighted.mean(ASFL5entrepreneurs$finwellbeing, ASFL5entrepreneurs$wght)
 
 #adopted financial well-being score
 wpct(ASFL5se$finwellbeing1, weight=ASFL5se$wght,na.rm=TRUE)
@@ -2973,8 +3080,21 @@ weighted.mean(ASFL6oth$finlit, ASFL6oth$wght)
 weighted.mean(ASFL6oth$finlitadd, ASFL6oth$wght)
 wpct(ASFL6oth$finlit, weight=ASFL6oth$wght, na.rm=TRUE)
 wpct(ASFL6oth$finlitadd, weight=ASFL6oth$wght, na.rm=TRUE)
-wpct(ASFL6oth$finlitadd, weight=ASFL6oth$wght, na.rm=TRUE)
 ASFL6othworet <- ASFL6[(ASFL6$QD10 %in% othworet),]
+weighted.mean(ASFL6othworet$finlit, ASFL6othworet$wght)
+weighted.mean(ASFL6othworet$finlitadd, ASFL6othworet$wght)
+wpct(ASFL6othworet$finlit, weight=ASFL6othworet$wght, na.rm=TRUE)
+wpct(ASFL6othworet$finlitadd, weight=ASFL6othworet$wght, na.rm=TRUE)
+ASFL6ret <- ASFL6[(ASFL6$QD10 %in% ret),]
+weighted.mean(ASFL6ret$finlit, ASFL6ret$wght)
+weighted.mean(ASFL6ret$finlitadd, ASFL6ret$wght)
+wpct(ASFL6ret$finlit, weight=ASFL6ret$wght, na.rm=TRUE)
+wpct(ASFL6ret$finlitadd, weight=ASFL6ret$wght, na.rm=TRUE)
+ASFL6entrepreneurs <- ASFL6[(ASFL6$QF9_11 %in% entrepreneurs),]
+weighted.mean(ASFL6entrepreneurs$finlit, ASFL6entrepreneurs$wght)
+weighted.mean(ASFL6entrepreneurs$finlitadd, ASFL6entrepreneurs$wght)
+wpct(ASFL6entrepreneurs$finlit, weight=ASFL6entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL6entrepreneurs$finlitadd, weight=ASFL6entrepreneurs$wght, na.rm=TRUE)
 
 ASFL6m <- ASFL6[(ASFL6$QD1 %in% male),]
 ASFL6f <- ASFL6[(ASFL6$QD1 %in% female),]
@@ -3198,6 +3318,7 @@ wpct(ASFL7e$HFCSriskad, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$HFCSriskad, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$HFCSriskad, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$HFCSriskad, weight=ASFL7othworet$wght, na.rm=TRUE)
+
 
 
 
