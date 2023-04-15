@@ -17,8 +17,8 @@ cor.test(ASFL7$childd, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$singleparentd, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 
 #financial literacy - self-employed
-cor.test(ASFL7se$selfemployedd, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
-cor.test(ASFL7se$employedd, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$selfemployedd, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$employedd, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
 cor.test(ASFL7se$age, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
 cor.test(ASFL7se$maled, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
 #cor.test(ASFL7se$loweduc, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
@@ -1125,69 +1125,140 @@ summary(finattriske)
 coeftest(finattriske, vcov = vcovHC(finattriske, type = "HC0"))
 
 #always exclude one group - otherwise: perfect collinearity (zB:maled + femaled = 1)-> error would not occur for variables with missings but exclude one! 
-finlitselfemploymentfull <- glm(finlit ~ selfemployedd + employedd + age + maled + higheduc+ townd+cityd + childd + singled +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
-summary(finlitselfemploymentfull)
-xtable(finlitselfemploymentfull, type = "latex", file = "finlitselfemploymentfull", digits=3)
-residfinlitselfemploymentfull <- finlitselfemploymentfull$residuals
-shapiro.test(residfinlitselfemploymentfull)
-coeftest(finlitselfemploymentfull, vcov = vcovHC(finlitselfemploymentfull, type = "HC0"))
+finlitmodelfull <- glm(finlit ~ selfemployedd + employedd + age + maled + higheduc+ townd+cityd + childd + singled +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodelfull)
+xtable(finlitmodelfull, type = "latex", file = "finlitmodelfull", digits=3)
+shapiro.test(finlitmodelfull$residuals)
+coeftest(finlitmodelfull, vcov = vcovHC(finlitmodelfull, type = "HC0"))
 #model testing
 #wald.test(Sigma = vcov(model), b = coef(model), Terms = 3:4)-p> .05, we fail to reject the null hypothesis of the Wald test.=> tested regression coefficients are both equal to zero.-> exclude from analysis
-wald.test(Sigma = vcov(finlitselfemploymentfull), b = coef(finlitselfemploymentfull), Terms = 7)
-wald.test(Sigma = vcov(finlitselfemploymentfull), b = coef(finlitselfemploymentfull), Terms = 8)
-wald.test(Sigma = vcov(finlitselfemploymentfull), b = coef(finlitselfemploymentfull), Terms = 9)
-wald.test(Sigma = vcov(finlitselfemploymentfull), b = coef(finlitselfemploymentfull), Terms = 10)
-wald.test(Sigma = vcov(finlitselfemploymentfull), b = coef(finlitselfemploymentfull), Terms = 7:10)
-wald.test(Sigma = vcov(finlitselfemploymentfull), b = coef(finlitselfemploymentfull), Terms = 5)
-wald.test(Sigma = vcov(finlitselfemploymentfull), b = coef(finlitselfemploymentfull), Terms = 13)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 7)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 8)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 9)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 10)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 7:10)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 5)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 13)
 
 
-finlitselfemploymentfull2 <- glm(finlit ~ selfemployedd + employedd + age + maled + higheduc+ childd+ singled +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
-summary(finlitselfemploymentfull2)
-finlitfull2 <- glm(finlit ~  age + maled + higheduc+ childd+ singled +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7se, weights=ASFL7se$wght)
-summary(finlitfull2)
-finlitselfemploymentfull3 <- glm(finlit ~ selfemployedd + employedd + age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
-summary(finlitselfemploymentfull3)
-stargazer(finlitselfemploymentfull3, type="text", out="finlitselfemploymentfull3.htm")
-shapiro.test(finlitselfemploymentfull3$residuals)
-coeftest(finlitselfemploymentfull3, vcov = vcovHC(finlitselfemploymentfull3, type = "HC0"))
-finlitselfemploymentfull4 <- glm(finlit ~ selfemployedd + employedd + age  + higheduc +hincomemiddled+hincomehighd+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
-summary(finlitselfemploymentfull4)
+finlitmodel2 <- glm(finlit ~ selfemployedd + employedd + age + maled + higheduc+ childd+ singled +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodel2)
+stargazer(finlitmodel2, type="text", out="finlitmodel2.htm")
+coeftest(finlitmodel2, vcov = vcovHC(finlitmodel2, type = "HC0"))
+finlitmodel <- glm(finlit ~ selfemployedd + employedd + age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodel)
+stargazer(finlitmodel, type="text", out="finlitmodel.htm")
+coeftest(finlitmodel, vcov = vcovHC(finlitmodel, type = "HC0"))
+finlitmodel4 <- glm(finlit ~ selfemployedd + employedd + age  + higheduc +hincomemiddled+hincomehighd+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodel4)
+stargazer(finlitmodel4, type="text", out="finlitmodel4.htm")
+shapiro.test(finlitmodel4$residuals)
+coeftest(finlitmodel4, vcov = vcovHC(finlitmodel, type = "HC0"))
 
-finlitselfemploymentfull3a <- glm(finlit ~ age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
-summary(finlitselfemploymentfull3a)
-shapiro.test(finlitselfemploymentfull3a$residuals)
-coeftest(finlitselfemploymentfull3a, vcov = vcovHC(finlitselfemploymentfull3a, type = "HC0"))
+finlitmodel_alternative <- glm(finlit ~ age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodel_alternative)
+shapiro.test(finlitmodel_alternative$residuals)
+coeftest(finlitmodel_alternative, vcov = vcovHC(finlitmodel_alternative, type = "HC0"))
 
 
 
 ############model comparison
-modelcomp <- list(finlitselfemploymentfull, finlitselfemploymentfull2, finlitselfemploymentfull3)
+modelcomp <- list(finlitmodelfull, finlitmodel2, finlitmodel)
+model.names <- c("1", "2", "3")
+modelcomp <- aictab(modelcomp, modnames = model.names)
+modelcomp
+xtable(modelcomp, type = "latex", file = "modelcomp", digits=3)
+
+modelcomp2 <- list(finlitmodelfull, finlitmodel2, finlitmodel,finlitmodel_alternative)
+model.names2 <- c("1", "2", "3", "4")
+aictab(modelcomp2, modnames = model.names2)
+
+#for individual components full sample
+finknowmodelfull <- glm(fin_know ~ selfemployedd + employedd + age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+summary(finknowmodelfull)
+coeftest(finknowmodelfull, vcov = vcovHC(finknowmodelfull, type = "HC0"))
+stargazer(finknowmodelfull, type="text", out="finknowmodelfull.htm") 
+finbehmodelfull <- glm(fin_beh ~ selfemployedd + employedd + age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+summary(finbehmodelfull)
+coeftest(finbehmodelfull, vcov = vcovHC(finbehmodelfull, type = "HC0"))
+stargazer(finbehmodelfull, type="text", out="finbehmodelfull.htm") 
+finattmodelfull <- glm(fin_att ~ selfemployedd + employedd + age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+summary(finattmodelfull)
+coeftest(finattmodelfull, vcov = vcovHC(finattmodelfull, type = "HC0"))
+stargazer(finattmodelfull, type="text", out="finattmodelfull.htm") 
+
+
+#final model for self-employed 
+finlitmodelfullse <- glm(finlit ~ age + maled + higheduc+ townd+cityd + childd + singled +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitmodelfullse)
+coeftest(finlitmodelfullse, vcov = vcovHC(finlitmodelfullse, type = "HC0"))
+stargazer(finlitmodelfullse, type="text", out="finlitmodelfullse.htm") 
+
+finlitmodel2se <- glm(finlit ~ age + maled + higheduc+ childd + singled +hincomemiddled+hincomehighd+HFCSriskad+ riskyassetsd , data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitmodel2se)
+coeftest(finlitmodel2se, vcov = vcovHC(finlitmodel2se, type = "HC0"))
+stargazer(finlitmodel2se, type="text", out="finlitmodel2se.htm") 
+
+finlitmodelse <- glm(finlit ~ age + maled + higheduc+hincomemiddled+hincomehighd+HFCSriskad+ riskyassetsd , data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitmodelse)
+coeftest(finlitmodelse, vcov = vcovHC(finlitmodelse, type = "HC0"))
+stargazer(finlitmodelse, type="text", out="finlitmodelse.htm") 
+
+modelcomp <- list(finlitmodelfullse, finlitmodel2se, finlitmodelse)
 model.names <- c("1", "2", "3")
 modelcomp <- aictab(modelcomp, modnames = model.names)
 xtable(modelcomp, type = "latex", file = "modelcomp", digits=3)
 
-modelcomp2 <- list(finlitselfemploymentfull, finlitselfemploymentfull2, finlitselfemploymentfull3, finlitselfemploymentfull4)
-model.names2 <- c("1", "2", "3", "4")
-aictab(modelcomp2, modnames = model.names2)
+#for individual components selfemployed
+finknowmodelse <- glm(fin_know ~ age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7se, weights=ASFL7se$wght)
+summary(finknowmodelse)
+coeftest(finknowmodelse, vcov = vcovHC(finknowmodelse, type = "HC0"))
+stargazer(finknowmodelse, type="text", out="finknowmodelse.htm") 
+finbehmodelse <- glm(fin_beh ~ age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7se, weights=ASFL7se$wght)
+summary(finbehmodelse)
+coeftest(finbehmodelse, vcov = vcovHC(finbehmodelse, type = "HC0"))
+stargazer(finbehmodelse, type="text", out="finbehmodelse.htm") 
+finattmodelse <- glm(fin_att ~  age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7se, weights=ASFL7se$wght)
+summary(finattmodelse)
+coeftest(finattmodelse, vcov = vcovHC(finattmodelse, type = "HC0"))
+stargazer(finattmodelse, type="text", out="finattmodelse.htm")
 
-#for individual components
-finknowselfemploymentfull3 <- glm(fin_know ~ selfemployedd + employedd + age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
-summary(finknowselfemploymentfull3)
-finbehselfemploymentfull3 <- glm(fin_beh ~ selfemployedd + employedd + age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
-summary(finbehselfemploymentfull3)
-finattselfemploymentfull3 <- glm(fin_att ~ selfemployedd + employedd + age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
-summary(finattselfemploymentfull3)
 
-
-#final model for self-employed 
-finlitfullsesample <- glm(finlit ~ age + maled + higheduc+hincomemiddled+hincomehighd+HFCSriskad+ riskyassetsd , data=ASFL7se, weights=ASFL7se$wght)
-summary(finlitfullsesample)
-coeftest(finlitfullsesample, vcov = vcovHC(finlitfullsesample, type = "HC0"))
 #final model for employed 
-finlitfullesample <- glm(finlit ~age + maled + higheduc+hincomemiddled+hincomehighd+HFCSriskad+ riskyassetsd , data=ASFL7e, weights=ASFL7e$wght)
-summary(finlitfullesample)
-coeftest(finlitfullesample, vcov = vcovHC(finlitfullesample, type = "HC0"))
+finlitmodelfulle <- glm(finlit ~ age + maled + higheduc+ townd+cityd + childd + singled +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7e, weights=ASFL7e$wght)
+summary(finlitmodelfulle)
+coeftest(finlitmodelfulle, vcov = vcovHC(finlitmodelfulle, type = "HC0"))
+stargazer(finlitmodelfulle, type="text", out="finlitmodelfulle.htm") 
+
+finlitmodel2e <- glm(finlit ~ age + maled + higheduc+ childd + singled +hincomemiddled+hincomehighd+HFCSriskad+ riskyassetsd , data=ASFL7e, weights=ASFL7e$wght)
+summary(finlitmodel2e)
+coeftest(finlitmodel2e, vcov = vcovHC(finlitmodel2e, type = "HC0"))
+stargazer(finlitmodel2e, type="text", out="finlitmodel2e.htm") 
+
+finlitmodele <- glm(finlit ~ age + maled + higheduc+hincomemiddled+hincomehighd+HFCSriskad+ riskyassetsd , data=ASFL7e, weights=ASFL7e$wght)
+summary(finlitmodele)
+coeftest(finlitmodele, vcov = vcovHC(finlitmodele, type = "HC0"))
+stargazer(finlitmodele, type="text", out="finlitmodele.htm") 
+
+modelcomp <- list(finlitmodelfulle, finlitmodel2e, finlitmodele)
+model.names <- c("1", "2", "3")
+modelcomp <- aictab(modelcomp, modnames = model.names)
+modelcomp
+xtable(modelcomp, type = "latex", file = "modelcomp", digits=3)
+
+#for individual components employed
+finknowmodele <- glm(fin_know ~ age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7e, weights=ASFL7e$wght)
+summary(finknowmodele)
+coeftest(finknowmodele, vcov = vcovHC(finknowmodele, type = "HC0"))
+stargazer(finknowmodele, type="text", out="finknowmodele.htm") 
+finbehmodele <- glm(fin_beh ~ age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7e, weights=ASFL7e$wght)
+summary(finbehmodele)
+coeftest(finbehmodele, vcov = vcovHC(finbehmodele, type = "HC0"))
+stargazer(finbehmodele, type="text", out="finbehmodele.htm") 
+finattmodele <- glm(fin_att ~  age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7e, weights=ASFL7e$wght)
+summary(finattmodele)
+coeftest(finattmodele, vcov = vcovHC(finattmodele, type = "HC0"))
+stargazer(finattmodele, type="text", out="finattmodele.htm")
 
 
 
@@ -1234,7 +1305,7 @@ se
 p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
 p
 
-library(stargazer)
+
 stargazer(multinomialfinlitselfemployment, type="text", out="multinomialfinlitselfemployment.htm") # type="html"otherwise!
 
 multinomialfinlitselfemployment3 <- multinom(finlit_group ~ selfemployedd + employedd + age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd, data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
@@ -1244,4 +1315,11 @@ se <- summary(multinomialfinlitselfemployment3)$coefficients/summary(multinomial
 se
 p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
 p
+stargazer(multinomialfinlitselfemployment3, type="text", out="multinomialfinlitselfemployment3.htm") 
+#not applicable! coeftest(multinomialfinlitselfemployment3, vcov = vcovHC(multinomialfinlitselfemployment3, type = "HC0"))
+
+multinomialfinlitselfemployment3se <- multinom(finlit_group ~  age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd, data = ASFL7se, weights=ASFL7se$wght,Hess = TRUE, trace = FALSE)
+
+summary(multinomialfinlitselfemployment3se)
+stargazer(multinomialfinlitselfemployment3se, type="text", out="multinomialfinlitselfemploymentse.htm")
 
