@@ -508,6 +508,8 @@ finresplot$status<- factor(finresplot$status, levels=c("Less than three months" 
 finresplot$finrescomparison<- factor(finresplot$finrescomparison, levels=c("Financial knowledge", "Financial behaviour", "Financial attitude"))
 ggplot(finresplot, aes(fill=status, y=value, x=finrescomparison)) + 
   geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("pink",
+                             "lightblue"))+
   labs(x="",y="Mean score",fill="Financial cushion")
 
 finstressconcern <- c(rep("Shortfall" , 2) , rep("Expense worries" , 2) , rep("Financial concern" , 2) , rep("´Just getting by´" , 2) )
@@ -518,6 +520,8 @@ finstressconcernplot$status<- factor(finstressconcernplot$status, levels=c("Less
 finstressconcernplot$finstressconcern<- factor(finstressconcernplot$finstressconcern, levels=c('Shortfall', 'Expense worries', 'Financial concern','´Just getting by´'))
 ggplot(finstressconcernplot, aes(fill=status, y=value, x=finstressconcern)) + 
   geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("pink",
+                             "lightblue"))+
   labs(x="",y="Percentage share",fill="Financial cushion")
 
 #weighted gender specific se
@@ -1097,6 +1101,11 @@ selfassessfinknowse <- ggplot(data = ASFL7se,
 
 selfassessfinknowse
 
+cor.test(ASFL7se$numericsaknow, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$highsfknow, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$lowsfknow, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7$numericsaknow, ASFL7$fin_know, data=ASFL7, weights=ASFL7$wght)
+cor.test(ASFL7$highsfknow, ASFL7$fin_know, data=ASFL7, weights=ASFL7$wght)
 #scatter plot
 ggplot(ASFL7) +
   aes(y = saknow_group, x = fin_know) +
@@ -1206,8 +1215,93 @@ riskfinknow <- ggplot(data = ASFL7se,
   theme_void()
 
 riskfinknow
+###interaction plot risk financial literacy 
+interaction.plot(x.factor = ASFL7se$HFCSriskad, #x-axis variable
+                 trace.factor = ASFL7se$maled, #variable for lines
+                 response = ASFL7se$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Financial literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Gender")
+interaction.plot(x.factor = ASFL7se$riskyassetsd, #x-axis variable
+                 trace.factor = ASFL7se$maled, #variable for lines
+                 response = ASFL7se$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Financial literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Gender")
 
+interaction.plot(x.factor = ASFL7$HFCSriskad, #x-axis variable
+                 trace.factor = ASFL7$maled, #variable for lines
+                 response = ASFL7$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Financial literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Gender")
+interaction.plot(x.factor = ASFL7$riskyassetsd, #x-axis variable
+                 trace.factor = ASFL7$maled, #variable for lines
+                 response = ASFL7$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Financial literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Gender")
 
+interaction.plot(x.factor = ASFL7e$HFCSriskad, #x-axis variable
+  
+                 trace.factor = ASFL7e$maled, #variable for lines
+                 response = ASFL7e$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Financial literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Gender")
+interaction.plot(x.factor = ASFL7e$riskyassetsd, #x-axis variable
+                 trace.factor = ASFL7e$maled, #variable for lines
+                 response = ASFL7e$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Financial literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Gender")
+interaction.plot(x.factor = ASFL7$riskyassetsd, #x-axis variable
+                 trace.factor = ASFL7$maled, #variable for lines
+                 response = ASFL7$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Financial literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Gender")
+##age effect investigation
+
+###interaction plot risk financial literacy 
+interaction.plot(x.factor = ASFL7se$age, #x-axis variable
+                 trace.factor = ASFL7se$selfemployedd, #variable for lines
+                 response = ASFL7se$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Financial literacy",
+                 xlab = "Age",
+                 col = c("grey", "orange"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Gender")
 ######################LINEAR REGRESSION analysis
 #theory regression plot
 ggplot(mtcars, aes(x = hp, y = mpg)) +
@@ -1217,7 +1311,16 @@ ggplot(mtcars, aes(x = hp, y = mpg)) +
        title = "")
 #agefinlit
 cor.test(ASFL7$age, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
+ggplot(ASFL7, aes(x = age , y = fin_know)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "age", y = "finlit")
+
 ggplot(ASFL7se, aes(x = age, y = finlit)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "age", y = "finlit")
+ggplot(ASFL7e, aes(x = age, y = finlit)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
   labs(x = "age", y = "finlit")
@@ -1237,17 +1340,17 @@ ggplot(ASFL7se, aes(x = finwellbeing, y = finlit)) +
   labs(x = "Well-being", y = "Financial literacy")
 
 #wellbeingfincushion
-cor.test(ASFL7$finwellbeing, ASFL7$numericfinbuff, data=ASFL7, weights=ASFL7$wght)
-ggplot(ASFL7, aes(x = finwellbeing, y = numericfinbuff)) +
+cor.test( ASFL7$numericfinbuff,ASFL7$finwellbeing, data=ASFL7, weights=ASFL7$wght)
+ggplot(ASFL7, aes(x = numericfinbuff , y =finwellbeing )) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
-  labs(x = "Well-being", y = "Financial cushion")
+  labs(y = "Well-being", x = "Financial cushion")
 
 cor.test(ASFL7se$finwellbeing, ASFL7se$numericfinbuff, data=ASFL7se, weights=ASFL7se$wght)
-ggplot(ASFL7se, aes(x = finwellbeing, y = numericfinbuff)) +
+ggplot(ASFL7se, aes(x = numericfinbuff , y =finwellbeing )) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
-  labs(x = "Well-being", y = "Financial cushion")
+  labs(y = "Well-being", x = "Financial cushion")
 
 
 
