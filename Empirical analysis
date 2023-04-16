@@ -1,5 +1,5 @@
 ########################Correlation plot############################
-#financial literacy - full
+###financial literacy - full
 cor.test(ASFL7$selfemployedd, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$employedd, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$age, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
@@ -16,7 +16,12 @@ cor.test(ASFL7$singled, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$childd, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$singleparentd, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 
-#financial literacy - self-employed
+#intuitive -> runs into finlit! 
+cor.test(ASFL7$fin_know, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
+cor.test(ASFL7$fin_beh, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
+cor.test(ASFL7$fin_att, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
+
+###financial literacy - self-employed
 #cor.test(ASFL7se$selfemployedd, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
 #cor.test(ASFL7se$employedd, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
 cor.test(ASFL7se$age, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
@@ -33,22 +38,42 @@ cor.test(ASFL7se$singled, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
 cor.test(ASFL7se$childd, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
 cor.test(ASFL7se$singleparentd, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
 
-#intuitive -> runs into finlit! 
-cor.test(ASFL7$fin_know, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
-cor.test(ASFL7$fin_beh, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
-cor.test(ASFL7$fin_att, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
-
 cor.test(ASFL7se$fin_know, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
 cor.test(ASFL7se$fin_beh, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
 cor.test(ASFL7se$fin_att, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
 
-#not running into finlit but financial skills likely to be correlated to financial knowledge
+###financial literacy - employed
+#cor.test(ASFL7e$selfemployedd, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$employedd, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$age, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$maled, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$loweduc, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$higheduc, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$villaged, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$townd, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$cityd, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$hincomelowd, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$hincomemiddled, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$hincomehighd, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$singled, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$childd, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$singleparentd, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+
+cor.test(ASFL7e$fin_know, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$fin_beh, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$fin_att, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+
+cor.test(ASFL7e$fin_know, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$fin_beh, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$fin_att, ASFL7e$finlit, data=ASFL7e, weights=ASFL7e$wght)
+
+###not running into finlit but financial skills likely to be correlated to financial knowledge
+#full sample
 cor.test(ASFL7$numericsaknow, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$numericfinbuff, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$produse, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$finprodholding, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$finwellbeing, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
-
 #risk
 cor.test(ASFL7$numericHFCSrisk, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 #cor.test(ASFL7$HFCSriskd, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
@@ -56,8 +81,19 @@ cor.test(ASFL7$HFCSriskad, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 #cor.test(ASFL7$riskyassets, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$riskyassetsd, ASFL7$finlit, data=ASFL7, weights=ASFL7$wght)
 
+#self-employed
+cor.test(ASFL7se$numericsaknow, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$numericfinbuff, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$produse, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$finprodholding, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$finwellbeing, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$numericHFCSrisk, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$HFCSriskd, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$HFCSriskad, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$riskyassets, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$riskyassetsd, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
 
-#########self-assessment
+#########self-employment - full sample
 #socioeconomic characteristics
 cor.test(ASFL7$selfemployedd, ASFL7$selfemployedd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$employedd, ASFL7$selfemployedd, data=ASFL7, weights=ASFL7$wght)
@@ -134,19 +170,54 @@ cor.test(ASFL7$HFCSriskad, ASFL7$fin_know, data=ASFL7, weights=ASFL7$wght)
 #cor.test(ASFL7$riskyassets, ASFL7$fin_know, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$riskyassetsd, ASFL7$fin_know, data=ASFL7, weights=ASFL7$wght)
 
+#########financial knowledge #self-employed
+#socioeconomic characteristics
+cor.test(ASFL7se$finlit, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$selfemployedd, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$employedd, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$age, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$maled, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$loweduc, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$higheduc, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$villaged, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$townd, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$cityd, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$hincomelowd, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$hincomemiddled, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$hincomehighd, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$singled, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$childd, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$singleparentd, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+
+
+cor.test(ASFL7se$selfemployedd, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$fin_beh, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$fin_att, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+
+
+#not running into finlit but financial skills likely to be correlated to financial knowledge!!
+cor.test(ASFL7se$numericsaknow, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$numericfinbuff, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$produse, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$finprodholding, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$finwellbeing, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+
+#risk
+cor.test(ASFL7se$numericHFCSrisk, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$HFCSriskd, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$HFCSriskad, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$riskyassets, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$riskyassetsd, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
 
 ###riskevaluation restricted on sample of self-employed
-cor.test(ASFL7se$, ASFL7se$, data=ASFL7se, weights=ASFL7se$wght)
-
 cor.test(ASFL7se$numericHFCSrisk, ASFL7se$finlit, data=ASFL7se, weights=ASFL7se$wght)
 cor.test(ASFL7se$riskyassets, ASFL7se$maled, data=ASFL7se, weights=ASFL7se$wght) #correlation between gender and financial risk taking
 cor.test(ASFL7se$numericHFCSrisk, ASFL7se$selfemployedd, data=ASFL7se, weights=ASFL7se$wght)
 cor.test(ASFL7se$numericHFCSrisk, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght) #high correlation!!
 cor.test(ASFL7se$riskyassets, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght) #high correlation!! 
 
-
 ##########################additional 
-#########financial behaviour
+#########financial behaviour######full sample
 #socioeconomic characteristics
 cor.test(ASFL7$selfemployedd, ASFL7$fin_beh, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$employedd, ASFL7$fin_beh, data=ASFL7, weights=ASFL7$wght)
@@ -184,7 +255,81 @@ cor.test(ASFL7$HFCSriskad, ASFL7$fin_beh, data=ASFL7, weights=ASFL7$wght)
 #cor.test(ASFL7$riskyassets, ASFL7$fin_beh, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$riskyassetsd, ASFL7$fin_beh, data=ASFL7, weights=ASFL7$wght)
 
-#########financial attitude
+#########financial behaviour-self employedd
+#socioeconomic characteristics
+#cor.test(ASFL7se$selfemployedd, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$employedd, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$age, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$maled, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$loweduc, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$higheduc, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$villaged, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$townd, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$cityd, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$hincomelowd, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$hincomemiddled, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$hincomehighd, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$singled, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$childd, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$singleparentd, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+
+
+cor.test(ASFL7se$fin_beh, ASFL7se$fin_know, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$fin_beh, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$fin_att, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+
+
+#not running into finlit but financial skills likely to be correlated to financial knowledge!!
+cor.test(ASFL7se$numericsaknow, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$numericfinbuff, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$produse, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$finprodholding, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$finwellbeing, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+
+#risk
+cor.test(ASFL7se$numericHFCSrisk, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$HFCSriskd, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$HFCSriskad, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$riskyassets, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$riskyassetsd, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+
+#########financial behaviour-self employedd
+#socioeconomic characteristics
+cor.test(ASFL7e$selfemployedd, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$employedd, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$age, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$maled, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$loweduc, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$higheduc, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$villaged, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$townd, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$cityd, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$hincomelowd, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$hincomemiddled, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$hincomehighd, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$singled, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$childd, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$singleparentd, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+
+cor.test(ASFL7e$fin_beh, ASFL7e$fin_know, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$fin_beh, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$fin_att, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+
+#not running into finlit but financial skills likely to be correlated to financial knowledge!!
+cor.test(ASFL7e$numericsaknow, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$numericfinbuff, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$produse, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$finprodholding, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$finwellbeing, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+
+#risk
+cor.test(ASFL7e$numericHFCSrisk, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$HFCSriskd, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$HFCSriskad, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$riskyassets, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$riskyassetsd, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+
+#########financial attitude - full sample
 #socioeconomic characteristics
 cor.test(ASFL7$selfemployedd, ASFL7$fin_att, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$employedd, ASFL7$fin_att, data=ASFL7, weights=ASFL7$wght)
@@ -222,6 +367,81 @@ cor.test(ASFL7$HFCSriskad, ASFL7$fin_att, data=ASFL7, weights=ASFL7$wght)
 #cor.test(ASFL7$riskyassets, ASFL7$fin_att, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$riskyassetsd, ASFL7$fin_att, data=ASFL7, weights=ASFL7$wght)
 
+#########financial attitude - self-employed
+#socioeconomic characteristics
+cor.test(ASFL7se$selfemployedd, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$employedd, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$age, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$maled, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$loweduc, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$higheduc, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$villaged, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$townd, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$cityd, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$hincomelowd, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$hincomemiddled, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$hincomehighd, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$singled, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$childd, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$singleparentd, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+
+
+cor.test(ASFL7se$fin_att, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$fin_att, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$fin_att, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+
+
+#not running into finlit but financial skills likely to be correlated to financial knowledge!!
+cor.test(ASFL7se$numericsaknow, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$numericfinbuff, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$produse, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$finprodholding, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$finwellbeing, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+
+#risk
+cor.test(ASFL7se$numericHFCSrisk, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$HFCSriskd, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$HFCSriskad, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$riskyassets, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$riskyassetsd, ASFL7se$fin_att, data=ASFL7se, weights=ASFL7se$wght)
+
+#########financial attitude -employed
+#socioeconomic characteristics
+cor.test(ASFL7e$selfemployedd, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$employedd, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$age, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$maled, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$loweduc, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$higheduc, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$villaged, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$townd, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$cityd, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$hincomelowd, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$hincomemiddled, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$hincomehighd, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$singled, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$childd, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$singleparentd, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+
+
+cor.test(ASFL7e$fin_att, ASFL7e$fin_know, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$fin_att, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$fin_att, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+
+
+#not running into finlit but financial skills likely to be correlated to financial knowledge!!
+cor.test(ASFL7e$numericsaknow, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$numericfinbuff, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$produse, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$finprodholding, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$finwellbeing, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+
+#risk
+cor.test(ASFL7e$numericHFCSrisk, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$HFCSriskd, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$HFCSriskad, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$riskyassets, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$riskyassetsd, ASFL7e$fin_att, data=ASFL7e, weights=ASFL7e$wght)
 #########employment 
 #socioeconomic characteristics
 cor.test(ASFL7$selfemployedd, ASFL7$employedd, data=ASFL7, weights=ASFL7$wght)
@@ -354,7 +574,7 @@ cor.test(ASFL7se$HFCSriskad, ASFL7se$numericfinbuff, data=ASFL7se, weights=ASFL7
 #cor.test(ASFL7se$riskyassets, ASFL7se$numericfinbuff, data=ASFL7se, weights=ASFL7se$wght)
 cor.test(ASFL7se$riskyassetsd, ASFL7se$numericfinbuff, data=ASFL7se, weights=ASFL7se$wght)
 
-#########risk taking propensity
+#########risk taking propensity - full sample 
 #socioeconomic characteristics
 cor.test(ASFL7$selfemployedd, ASFL7$HFCSriskad, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7m$selfemployedd, ASFL7m$HFCSriskad, data=ASFL7m, weights=ASFL7m$wght)
@@ -380,6 +600,7 @@ cor.test(ASFL7$finlit, ASFL7$HFCSriskad, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$fin_know, ASFL7$HFCSriskad, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$fin_beh, ASFL7$HFCSriskad, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$fin_att, ASFL7$HFCSriskad, data=ASFL7, weights=ASFL7$wght)
+
 
 #not running into finlit but financial skills likely to be correlated to financial knowledge!!
 cor.test(ASFL7$numericsaknow, ASFL7$HFCSriskad, data=ASFL7, weights=ASFL7$wght)
@@ -418,12 +639,15 @@ cor.test(ASFL7$fin_beh, ASFL7$HFCSriskd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$fin_att, ASFL7$HFCSriskd, data=ASFL7, weights=ASFL7$wght)
 
 
-#not running into finlit but financial skills likely to be correlated to financial knowledge!!
+###not running into finlit but financial skills likely to be correlated to financial knowledge!!
+#full sample
 cor.test(ASFL7$numericsaknow, ASFL7$HFCSriskd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$numericfinbuff, ASFL7$HFCSriskd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$produse, ASFL7$HFCSriskd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$finprodholding, ASFL7$HFCSriskd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$finwellbeing, ASFL7$HFCSriskd, data=ASFL7, weights=ASFL7$wght)
+
+
 
 #risk
 cor.test(ASFL7$HFCSriskd, ASFL7$numericHFCSrisk, data=ASFL7, weights=ASFL7$wght)
@@ -456,19 +680,164 @@ cor.test(ASFL7$fin_beh, ASFL7$riskyassetsd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$fin_att, ASFL7$riskyassetsd, data=ASFL7, weights=ASFL7$wght)
 
 
-#not running into finlit but financial skills likely to be correlated to financial knowledge!!
-cor.test(ASFL7$numericsaknow, ASFL7$riskyassetsd, data=ASFL7, weights=ASFL7$wght)
-cor.test(ASFL7$numericfinbuff, ASFL7$riskyassetsd, data=ASFL7, weights=ASFL7$wght)
-cor.test(ASFL7$produse, ASFL7$riskyassetsd, data=ASFL7, weights=ASFL7$wght)
-cor.test(ASFL7$finprodholding, ASFL7$riskyassetsd, data=ASFL7, weights=ASFL7$wght)
-cor.test(ASFL7$finwellbeing, ASFL7$riskyassetsd, data=ASFL7, weights=ASFL7$wght)
-
 #risk
 cor.test(ASFL7$numericHFCSrisk, ASFL7$riskyassetsd, data=ASFL7, weights=ASFL7$wght)
 #cor.test(ASFL7$HFCSriskd, ASFL7$riskyassetsd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$HFCSriskd, ASFL7$riskyassetsd, data=ASFL7, weights=ASFL7$wght)
 #cor.test(ASFL7$riskyassets, ASFL7$riskyassetsd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$riskyassetsd, ASFL7$riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+
+#########risk taking propensity - self-employed
+#socioeconomic characteristics
+#cor.test(ASFL7se$selfemployedd, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7sem$selfemployedd, ASFL7sem$HFCSriskad, data=ASFL7sem, weights=ASFL7sem$wght)
+cor.test(ASFL7sef$selfemployedd, ASFL7sef$HFCSriskad, data=ASFL7sef, weights=ASFL7sef$wght)
+
+cor.test(ASFL7se$employedd, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$age, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$maled, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$loweduc, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$higheduc, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$villaged, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$townd, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$cityd, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$hincomelowd, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$hincomemiddled, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$hincomehighd, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$singled, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$childd, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$singleparentd, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+
+
+cor.test(ASFL7se$finlit, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$fin_know, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$fin_beh, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$fin_att, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+
+
+#not running into finlit but financial skills likely to be correlated to financial knowledge!!
+cor.test(ASFL7se$numericsaknow, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$numericfinbuff, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$produse, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$finprodholding, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$finwellbeing, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+
+#risk
+cor.test(ASFL7se$HFCSriskad, ASFL7se$numericHFCSrisk, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$HFCSriskd, ASFL7se$numericHFCSrisk, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$HFCSriskad, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$riskyassets, ASFL7se$numericHFCSrisk, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$riskyassetsd, ASFL7se$HFCSriskad, data=ASFL7se, weights=ASFL7se$wght)
+#########risk taking
+cor.test(ASFL7se$selfemployedd, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$employedd, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$age, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$maled, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$loweduc, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$higheduc, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$villaged, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$townd, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$cityd, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$hincomelowd, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$hincomemiddled, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$hincomehighd, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$singled, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$childd, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$singleparentd, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+
+
+cor.test(ASFL7se$fin_know, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$fin_beh, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$fin_att, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+
+#risk
+cor.test(ASFL7se$numericHFCSrisk, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$HFCSriskd, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$HFCSriskd, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$riskyassets, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$riskyassetsd, ASFL7se$riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+
+cor.test(ASFL7e$numericsaknow, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$numericfinbuff, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$produse, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$finprodholding, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$finwellbeing, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+
+#########risk taking propensity - employed
+#socioeconomic characteristics
+#cor.test(ASFL7e$selfemployedd, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7em$selfemployedd, ASFL7em$HFCSriskad, data=ASFL7em, weights=ASFL7em$wght)
+cor.test(ASFL7ef$selfemployedd, ASFL7ef$HFCSriskad, data=ASFL7ef, weights=ASFL7ef$wght)
+
+cor.test(ASFL7e$employedd, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$age, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$maled, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$loweduc, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$higheduc, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$villaged, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$townd, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$cityd, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$hincomelowd, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$hincomemiddled, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$hincomehighd, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$singled, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$childd, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$singleparentd, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+
+
+cor.test(ASFL7e$finlit, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$fin_know, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$fin_beh, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$fin_att, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+
+
+#not running into finlit but financial skills likely to be correlated to financial knowledge!!
+cor.test(ASFL7e$numericsaknow, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$numericfinbuff, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$produse, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$finprodholding, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$finwellbeing, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+
+#risk
+cor.test(ASFL7e$HFCSriskad, ASFL7e$numericHFCSrisk, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$HFCSriskd, ASFL7e$numericHFCSrisk, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$HFCSriskad, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$riskyassets, ASFL7e$numericHFCSrisk, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$riskyassetsd, ASFL7e$HFCSriskad, data=ASFL7e, weights=ASFL7e$wght)
+#########risk taking
+cor.test(ASFL7e$selfemployedd, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$employedd, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$age, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$maled, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$loweduc, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$higheduc, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$villaged, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$townd, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$cityd, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$hincomelowd, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$hincomemiddled, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$hincomehighd, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$singled, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$childd, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$singleparentd, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+
+
+cor.test(ASFL7e$fin_know, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$fin_beh, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$fin_att, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+
+#risk
+cor.test(ASFL7e$numericHFCSrisk, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$HFCSriskd, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$HFCSriskd, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+#cor.test(ASFL7e$riskyassets, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$riskyassetsd, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+
+cor.test(ASFL7e$numericsaknow, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$numericfinbuff, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$produse, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$finprodholding, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+cor.test(ASFL7e$finwellbeing, ASFL7e$riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
 
 #########produse
 #socioeconomic characteristics
@@ -758,9 +1127,7 @@ ks.test(residfinlitselfemployed, 'pnorm')
 #in case of heteroskedasticity 
 coeftest(finlitselfemployed, vcov = vcovHC(finlitselfemployed, type = "HC0")) #"HC" (or equivalently "HC0") gives White's estimator
 
-
-
-#for individual indicators
+#for individual employment groups
 finlitemployed <- glm(finlit ~ employedd , data=ASFL7, weights=ASFL7$wght)
 summary(finlitemployed)
 coeftest(finlitemployed, vcov = vcovHC(finlitemployed, type = "HC0"))
@@ -956,6 +1323,7 @@ coeftest(finattage2, vcov = vcovHC(finattage2, type = "HC0"))
 selfemplgender <- glm(selfemployedd ~ maled,  data=ASFL7se, weights=ASFL7se$wght, family="binomial")
 summary(selfemplgender)
 coeftest(selfemplgender, vcov = vcovHC(selfemplgender, type = "HC0"))
+exp(coef(selfemplgender))
 emplgender <- glm(employedd ~ maled,  data=ASFL7, weights=ASFL7$wght, family="binomial")
 summary(emplgender)
 coeftest(emplgender, vcov = vcovHC(emplgender, type = "HC0"))
@@ -1061,6 +1429,15 @@ coeftest(finlitrisk, vcov = vcovHC(finlitrisk, type = "HC0"))
 finlitrisk2 <- glm(finlit ~ HFCSriskad,data=ASFL7, weights=ASFL7$wght) #reasonable to include dummy, where only "no" indications are counted as no
 summary(finlitrisk2)  
 coeftest(finlitrisk2, vcov = vcovHC(finlitrisk2, type = "HC0"))
+
+finlitriskgen <- glm(finlit ~ HFCSriskad + maled,data=ASFL7, weights=ASFL7$wght) #reasonable to include dummy, where only "no" indications are counted as no
+summary(finlitriskgen)  
+coeftest(finlitriskgen, vcov = vcovHC(finlitriskgen, type = "HC0"))
+finlitriskgen <- glm(finlit ~ HFCSriskad + maled + HFCSriskad*maled,data=ASFL7, weights=ASFL7$wght) #reasonable to include dummy, where only "no" indications are counted as no
+summary(finlitriskgen)  
+coeftest(finlitriskgen, vcov = vcovHC(finlitriskgen, type = "HC0"))
+
+
 finlitrisk2se <- glm(finlit ~ HFCSriskad,data=ASFL7se, weights=ASFL7se$wght) #reasonable to include dummy, where only "no" indications are counted as no
 summary(finlitrisk2se)  
 coeftest(finlitrisk2se, vcov = vcovHC(finlitrisk2se, type = "HC0"))
@@ -1153,15 +1530,23 @@ finlitmodel4 <- glm(finlit ~ selfemployedd + employedd + age  + higheduc +hincom
 summary(finlitmodel4)
 stargazer(finlitmodel4, type="text", out="finlitmodel4.htm")
 shapiro.test(finlitmodel4$residuals)
-coeftest(finlitmodel4, vcov = vcovHC(finlitmodel, type = "HC0"))
+coeftest(finlitmodel4, vcov = vcovHC(finlitmodel4, type = "HC0"))
 
 finlitmodel_alternative <- glm(finlit ~ age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
 summary(finlitmodel_alternative)
 shapiro.test(finlitmodel_alternative$residuals)
 coeftest(finlitmodel_alternative, vcov = vcovHC(finlitmodel_alternative, type = "HC0"))
+stargazer(finlitmodel_alternative, type="text", out="finlitmodel_alternative.htm")
 
 
-
+finlitmodelinteractgenrisk <- glm(finlit ~ selfemployedd + employedd + age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ HFCSriskad*maled+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodelinteractgenrisk)
+stargazer(finlitmodelinteractgenrisk, type="text", out="finlitmodelinteractgenrisk.htm")
+coeftest(finlitmodelinteractgenrisk, vcov = vcovHC(finlitmodelinteractgenrisk, type = "HC0"))
+finlitmodelinteractgenrisk2 <- glm(finlit ~ selfemployedd + employedd + age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ HFCSriskad*maled+ riskyassetsd +riskyassetsd*maled, data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodelinteractgenrisk2)
+stargazer(finlitmodelinteractgenrisk2, type="text", out="finlitmodelinteractgenrisk2.htm")
+coeftest(finlitmodelinteractgenrisk2, vcov = vcovHC(finlitmodelinteractgenrisk2, type = "HC0"))
 ############model comparison
 modelcomp <- list(finlitmodelfull, finlitmodel2, finlitmodel)
 model.names <- c("1", "2", "3")
@@ -1169,22 +1554,26 @@ modelcomp <- aictab(modelcomp, modnames = model.names)
 modelcomp
 xtable(modelcomp, type = "latex", file = "modelcomp", digits=3)
 
-modelcomp2 <- list(finlitmodelfull, finlitmodel2, finlitmodel,finlitmodel_alternative)
+modelcomp2 <- list(finlitmodelfull, finlitmodel2, finlitmodel,finlitmodel4)
 model.names2 <- c("1", "2", "3", "4")
-aictab(modelcomp2, modnames = model.names2)
+modelcomp2 <-aictab(modelcomp2, modnames = model.names2)
+xtable(modelcomp2, type = "latex", file = "modelcomp2", digits=3)
 
 #for individual components full sample
 finknowmodelfull <- glm(fin_know ~ selfemployedd + employedd + age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
 summary(finknowmodelfull)
 coeftest(finknowmodelfull, vcov = vcovHC(finknowmodelfull, type = "HC0"))
-stargazer(finknowmodelfull, type="text", out="finknowmodelfull.htm") 
+stargazer(finknowmodelfull, type="text", out="finknowmodelfull.htm")
+xtable(finknowmodelfull, type = "latex", file = "finknowmodelfull", digits=3)
 finbehmodelfull <- glm(fin_beh ~ selfemployedd + employedd + age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
 summary(finbehmodelfull)
 coeftest(finbehmodelfull, vcov = vcovHC(finbehmodelfull, type = "HC0"))
+xtable(finbehmodelfull, type = "latex", file = "finbehmodelfull", digits=3)
 stargazer(finbehmodelfull, type="text", out="finbehmodelfull.htm") 
 finattmodelfull <- glm(fin_att ~ selfemployedd + employedd + age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
 summary(finattmodelfull)
 coeftest(finattmodelfull, vcov = vcovHC(finattmodelfull, type = "HC0"))
+xtable(finattmodelfull, type = "latex", file = "finattmodelfull", digits=3)
 stargazer(finattmodelfull, type="text", out="finattmodelfull.htm") 
 
 
@@ -1199,6 +1588,11 @@ summary(finlitmodel2se)
 coeftest(finlitmodel2se, vcov = vcovHC(finlitmodel2se, type = "HC0"))
 stargazer(finlitmodel2se, type="text", out="finlitmodel2se.htm") 
 
+finlitmodelse4 <- glm(finlit ~ age  + higheduc+hincomemiddled+hincomehighd+ riskyassetsd , data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitmodelse4)
+coeftest(finlitmodelse4, vcov = vcovHC(finlitmodelse4, type = "HC0"))
+stargazer(finlitmodelse, type="text", out="finlitmodelse.htm") 
+
 finlitmodelse <- glm(finlit ~ age + maled + higheduc+hincomemiddled+hincomehighd+HFCSriskad+ riskyassetsd , data=ASFL7se, weights=ASFL7se$wght)
 summary(finlitmodelse)
 coeftest(finlitmodelse, vcov = vcovHC(finlitmodelse, type = "HC0"))
@@ -1208,6 +1602,11 @@ modelcomp <- list(finlitmodelfullse, finlitmodel2se, finlitmodelse)
 model.names <- c("1", "2", "3")
 modelcomp <- aictab(modelcomp, modnames = model.names)
 xtable(modelcomp, type = "latex", file = "modelcomp", digits=3)
+
+finlitmodelinteractsegenrisk <- glm(finlit ~  age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ HFCSriskad*maled +riskyassetsd , data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitmodelinteractsegenrisk)
+stargazer(finlitmodelinteractgenrisk, type="text", out="finlitmodelinteractgenrisk.htm")
+coeftest(finlitmodelinteractgenrisk, vcov = vcovHC(finlitmodelinteractgenrisk, type = "HC0"))
 
 #for individual components selfemployed
 finknowmodelse <- glm(fin_know ~ age + maled + higheduc +hincomemiddled+hincomehighd+ HFCSriskad+ riskyassetsd , data=ASFL7se, weights=ASFL7se$wght)
@@ -1277,22 +1676,17 @@ summary(selfemployedfinlit)
 residselfemployedfinlit <- selfemployedfinlit$residuals
 shapiro.test(residselfemployedfinlit)
 coeftest(selfemployedfinlit, vcov = vcovHC(selfemployedfinlit, type = "HC0"))
+exp(coef(selfemployedfinlit))
+
+employedfinlit <- glm(employedd ~ finlit , data=ASFL7, family="binomial"(logit), weights=ASFL7$wght)
+summary(employedfinlit)
+shapiro.test(employedfinlit$residuals)
+coeftest(employedfinlit, vcov = vcovHC(employedfinlit, type = "HC0"))
+exp(coef(employedfinlit))
 
 
 
-#for employed
-finknowemployed <- glm(finlit ~ employedd , data=ASFL7, weights=ASFL7$wght)
-summary(finknowemployed)
-residfinknowemployed <- finknowemployed$residuals
-xtable(finknowemployed, type = "latex", file = "finknowemployed", digits=3)
-shapiro.test(residfinknowemployed)
 
-finknowfullemploy <- glm(finlit ~ selfemployedd  + employedd + unemployedd+ retiredd , data=ASFL7, weights=ASFL7$wght)
-summary(finknowfullemploy)
-residualsfinknowfullemploy <- resid(finknowfullemploy)
-shapiro.test(residualsfinknowfullemploy) 
-ks.test(residualsfinknowfullemploy, 'pnorm')
-coeftest(finknowfullemploy, vcov = vcovHC(finknowfullemploy, type = "HC0"))
 
 #######################MULTINOMIAL LOGIT model########################################
 logitfinknowselfemployed <- glm(highfinlitd ~ selfemployedd , data=ASFL7, weights=ASFL7$wght, family="binomial")
@@ -1322,4 +1716,3 @@ multinomialfinlitselfemployment3se <- multinom(finlit_group ~  age + maled + hig
 
 summary(multinomialfinlitselfemployment3se)
 stargazer(multinomialfinlitselfemployment3se, type="text", out="multinomialfinlitselfemploymentse.htm")
-
