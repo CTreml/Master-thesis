@@ -25,6 +25,55 @@ ASFL <- ASFL_full
 #########################BASICS##########################################
 ##################################EMPLOYMENT##################################
 table(ASFL$QD10)
+employment <-ASFL$QD10 
+employment2 <- ASFL$QD10
+employmentalt <-ASFL$QD10 
+employmentfull <-ASFL$QD10 
+
+ASFL <- ASFL %>%
+  mutate(employment=case_when(
+    employment =="Self-employed [work for myself]"~"Self-employed",
+    employment =="In paid employment [work for someone else]"~"Employed",
+    TRUE ~ "Other"
+  ))
+ASFL$employment
+
+ASFL <- ASFL %>%
+  mutate(employment2=case_when(
+    employment2 =="Self-employed [work for myself]"~"Self-employed",
+    employment2 =="In paid employment [work for someone else]"~"Employed",
+    TRUE ~ NA
+      ))
+ASFL$employment2
+
+as.factor(ASFL$employment)
+ASFL <- ASFL %>%
+  mutate(employmentfull=case_when(
+    employmentfull =="In paid employment [work for someone else]"~"Employed",
+    employmentfull =="Self-employed [work for myself]"~"Self-employed",
+    employmentfull =="Looking for work [unemployed]"~"Unemployed",
+    employmentfull =="Not working and not looking for work"~"Not working",
+    employmentfull =="Retired"~"Retired",
+    employmentfull =="Student"~"Student",
+    employmentfull =="Apprentice"~"Apprentice",
+    employmentfull =="Looking after the home"~"Home",
+    employmentfull =="Other"~"Other"
+  ))
+ASFL$employmentfull
+
+as.factor(ASFL$employment)
+ASFL <- ASFL %>%
+  mutate(employmentalt=case_when(
+    employmentalt =="In paid employment [work for someone else]"~"Employed",
+    employmentalt =="Self-employed [work for myself]"~"Self-employed",
+    employmentalt =="Looking for work [unemployed]"~"Unemployed",
+    employmentalt =="Retired"~"Retired",
+    TRUE ~ "Other"
+  ))
+ASFL$employmentalt
+
+
+
 selfemployedd<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
 selfemployedd <- as.numeric(selfemployedd)
 ##alternative: QF9_11 ##own business as a retirement funding option
@@ -61,6 +110,7 @@ oth <- c("Looking for work [unemployed]","Apprentice","Student","Other","Retired
 othworet <- c("Looking for work [unemployed]","Apprentice","Student","Other","Looking after the home", "Not working and not looking for work")
 ret <- c("Retired")
 stud <- c("Student","Apprentice")
+regempl <- c("In paid employment [work for someone else]","Self-employed [work for myself]","Looking for work [unemployed]","Retired")
 
 #QF9_11 - Retirement funding - From the revenues of a business that you own - as a possible robustness check
 ASFL$QF9_11
@@ -80,6 +130,7 @@ summary(ASFLoth)
 640+699+79
 ASFLempl <- ASFL[(ASFL$QD10 %in% empl),] 
 ASFLempl$QD10
+ASFLregempl <- ASFL[(ASFL$QD10 %in% regempl),] 
 ASFLothworet <-  ASFL[(ASFL$QD10 %in% othworet),] 
 summary(ASFLothworet)
 ASFLothworet <-  ASFL[(ASFL$QD10 %in% othworet),] 
@@ -90,13 +141,13 @@ summary(ASFLstud)
 ASFLret <-  ASFL[(ASFL$QD10 %in% ret),] 
 summary(ASFLret)
 
-unemployed<- subset(ASFL, ASFL$QD10 == "Looking for work [unemployed]")
-student <- subset(ASFL, ASFL$QD10 == "Student")
-apprentice<- subset(ASFL, ASFL$QD10 == "Apprentice")
-retired<- subset(ASFL, ASFL$QD10 == "Retired")
-notactive<- subset(ASFL, ASFL$QD10 == "Not working and not looking for work")
-home <- subset(ASFL, ASFL$QD10 == "Looking after the home")
-other<- subset(ASFL, ASFL$QD10 == "Other")
+#unemployed<- subset(ASFL, ASFL$QD10 == "Looking for work [unemployed]")
+#student <- subset(ASFL, ASFL$QD10 == "Student")
+#apprentice<- subset(ASFL, ASFL$QD10 == "Apprentice")
+#retired<- subset(ASFL, ASFL$QD10 == "Retired")
+#notactive<- subset(ASFL, ASFL$QD10 == "Not working and not looking for work")
+#home <- subset(ASFL, ASFL$QD10 == "Looking after the home")
+#other<- subset(ASFL, ASFL$QD10 == "Other")
 
 ASFL <- cbind(ASFL,employedd,selfemployedd,entrepreneursd,othersd,othersworetd,otherswounempld,otherd,apprenticed,studentd,retiredd,notactived,homed,unemployedd)
 ##################################add_employment#########################
@@ -3631,13 +3682,6 @@ wpct(ASFL7e$numericHFCSrisk, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$numericHFCSrisk, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$numericHFCSrisk, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$numericHFCSrisk, weight=ASFL7othworet$wght, na.rm=TRUE)
-
-
-
-
-
-
-
 
 
 
