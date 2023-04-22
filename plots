@@ -101,6 +101,7 @@ ggplot(finknowdetailse, aes(fill=status, y=share, x=finknow)) +
   labs(x="",y="Percentage share",fill="")+
   coord_flip()
 
+round(c(0.8812004,0.06277662,0.05602298,0.970574832,0.007966968,0.0214582,0.911007520,0.025367278,0.0636252,0.64042716,0.3091052,0.05046764,0.90143273,0.03396225, 0.06460503 ,0.91822943,0.03238426,0.04938631 ,0.77142812,0.13102772,0.09754416 ,0.93873646,0.01444696,0.04681658,0.7227731 ,0.1404427 ,0.1367842 ,0.87447672,0.04876289,0.07676039), digits=3)
 #EMPLOYED - financial knowledge details #correct incorrect dont know
 finknowdetaile <- data.frame(finknow=rep(c('Time value*', 'Interest on loan*', 'Interest plus principal*','Compound interest*','Risk and return*','Inflation definition*','Diversification*','Real interest','Overdrawing an account','Exchange rate'), each=3),
                             status=rep(c('Correct','Incorrect','Ref/Don´t know' ), times=10),
@@ -111,6 +112,8 @@ ggplot(finknowdetaile, aes(fill=status, y=share, x=finknow)) +
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="")+
   coord_flip()
+
+round(c(0.7227266,0.2387096,0.03856385,0.897261034,0.03466621,0.06807276,0.7892900880,0.1056407,0.1050692,0.5221745,0.3517732,0.1274378,0.9070270072 ,0.0443046011 ,0.04866839,0.887358506,0.052169972 ,0.06047152,0.667234442,0.162267278,0.1704983,0.77005123,0.1758667,0.05408207,0.740998033 ,0.174713123,0.08428884,0.703229118 ,0.159618,0.1371529), digits=3)
 
 #OTHERS - financial knowledge details #correct incorrect dont know
 finknowdetailoth <- data.frame(finknow=rep(c('Time value*', 'Interest on loan*', 'Interest plus principal*','Compound interest*','Risk and return*','Inflation definition*','Diversification*','Real interest','Overdrawing an account','Exchange rate'), each=3),
@@ -895,6 +898,39 @@ ASFL6ef7 <- ASFL6e[(ASFL6e$fin_know %in% f7),]
 table(ASFL6ef7$QK1)
 wpct(ASFL6ef7$QK1, weight=ASFL6ef7$wght, na.rm=TRUE)
 
+#financial knowledge austria-specific
+ASFL6ef1 <- ASFL6e[(ASFL6e$fin_know_add %in% f1),] 
+table(ASFL6ef1$QK1)
+wpct(ASFL6ef1$QK1, weight=ASFL6ef1$wght, na.rm=TRUE)
+ASFL6ef2 <- ASFL6e[(ASFL6e$fin_know_add %in% f2),] 
+table(ASFL6ef2$QK1)
+wpct(ASFL6ef2$QK1, weight=ASFL6ef2$wght, na.rm=TRUE)
+ASFL6ef3 <- ASFL6e[(ASFL6e$fin_know_add %in% f3),] 
+table(ASFL6ef3$QK1)
+wpct(ASFL6ef3$QK1, weight=ASFL6ef3$wght, na.rm=TRUE)
+ASFL6ef4 <- ASFL6e[(ASFL6e$fin_know_add %in% f4),] 
+table(ASFL6ef4$QK1)
+wpct(ASFL6ef4$QK1, weight=ASFL6ef4$wght, na.rm=TRUE)
+ASFL6ef5 <- ASFL6e[(ASFL6e$fin_know_add %in% f5),] 
+table(ASFL6ef5$QK1)
+wpct(ASFL6ef5$QK1, weight=ASFL6ef5$wght, na.rm=TRUE)
+ASFL6ef6 <- ASFL6e[(ASFL6e$fin_know_add %in% f6),] 
+table(ASFL6ef6$QK1)
+wpct(ASFL6ef6$QK1, weight=ASFL6ef6$wght, na.rm=TRUE)
+ASFL6ef7 <- ASFL6e[(ASFL6e$fin_know_add %in% f7),]
+table(ASFL6ef7$QK1)
+wpct(ASFL6ef7$QK1, weight=ASFL6ef7$wght, na.rm=TRUE)
+ASFL6ef8 <- ASFL6e[(ASFL6e$fin_know_add %in% f8),]
+table(ASFL6ef8$QK1)
+wpct(ASFL6ef8$QK1, weight=ASFL6ef8$wght, na.rm=TRUE)
+ASFL6ef9 <- ASFL6e[(ASFL6e$fin_know_add %in% f9),]
+table(ASFL6ef9$QK1)
+wpct(ASFL6ef9$QK1, weight=ASFL6ef9$wght, na.rm=TRUE)
+ASFL6ef10 <- ASFL6e[(ASFL6e$fin_know_add %in% f10),]
+table(ASFL6ef10$QK1)
+wpct(ASFL6ef10$QK1, weight=ASFL6ef10$wght, na.rm=TRUE)
+
+
 #unweighted
 finknowsrvsactuale <- data.frame(finknow=rep(c('0','1', '2', '3','4','5','6','7'), each=6),
                                  selfassessment=rep(c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=8),
@@ -914,6 +950,17 @@ finknowsrvsactuale$finknow<- factor(finknowsrvsactuale$finknow, levels=c('1', '2
 finknowsrvsactuale$selfassessment<- factor(finknowsrvsactuale$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
 
 ggplot(finknowsrvsactuale, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
+
+#weighted enlarged
+finknowsrvsactualeadd <- data.frame(finknow=rep(c('1', '2', '3','4','5','6','7','8','9','10'), each=6),
+                                     selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=10),
+                                     share=c(0.2510720,0.2095666,0.3858386,0.1535228,0,0 , 0,0.45679982,0.06117439,0.28816653 ,0,(0.13273732+0.06112194),  0.05862425,0.07782021,0.26011025,0.33726083,0.21842182,0.04776264,   0.04241135,0.11906924,0.48086800,0.26077658,0.08088971,0.01598512,0.09457541  ,0.25886089,0.46880651,0.14895974,0.01294548, 0.01585196,   0.128003746,0.305082015,0.350512828,0.178317765,0.029872562, 0.008211084,0.09355030,0.33611440,0.35136372,0.10160937,0.05199996 ,0.06536225, 0.116581645,0.290227667  , 0.463043096,0.098878986,0.004577588,0.026691018,   0.10935602,0.35367009,0.44382987,0.06296554,0.01529384 ,0.01488465,  0.13474292,0.39126382,0.4083966,0.06559663,0,0))
+finknowsrvsactualeadd$finknow<- factor(finknowsrvsactualeadd$finknow, levels=c('1', '2', '3','4','5','6','7','8','9','10'))
+finknowsrvsactualeadd$selfassessment<- factor(finknowsrvsactualeadd$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+
+ggplot(finknowsrvsactualeadd, aes(fill=selfassessment, y=share, x=finknow)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
 
@@ -1067,7 +1114,17 @@ ggplot(riskplot, aes(fill=gender, y=value, x=risk)) +
   labs(x = "",y="Percentage share", fill = "Gender")
 
 
-
+risk <- c(rep("Stocks/shares" , 2) , rep("Bonds" , 2) ,  rep("Crypto assets" , 2)  )
+gender <- rep(c("Male" , "Female" ) , 3)
+value <- abs(c(0.3244025 ,0.1050333 ,0.2075505 , 0, 0.08051489 ,0.0213587 ))
+riskplot<- data.frame(risk,gender,value)
+riskplot$risk<- factor(riskplot$risk, levels=c("Stocks/shares","Bonds","Crypto assets"))
+riskplot$gender<- factor(riskplot$gender, levels=c("Male" , "Female"))
+ggplot(riskplot, aes(fill=gender, y=value, x=risk)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
+  labs(x = "",y="Percentage share", fill = "Gender")
 #####################SANKEY-PLOTS################################
 library(ggplot2)
 library(ggalluvial)
@@ -1231,7 +1288,7 @@ interaction.plot(x.factor = ASFL7se$riskyassetsd, #x-axis variable
                  response = ASFL7se$finlit, #y-axis variable
                  fun = median, #metric to plot
                  ylab = "Financial literacy",
-                 xlab = "Risk propensity",
+                 xlab = "Risky assets",
                  col = c("orange","grey"),
                  lty = 1, #line type
                  lwd = 2, #line width
@@ -1252,14 +1309,13 @@ interaction.plot(x.factor = ASFL7$riskyassetsd, #x-axis variable
                  response = ASFL7$finlit, #y-axis variable
                  fun = median, #metric to plot
                  ylab = "Financial literacy",
-                 xlab = "Risk propensity",
+                 xlab = "Risky assets",
                  col = c("orange","grey"),
                  lty = 1, #line type
                  lwd = 2, #line width
                  trace.label = "Gender")
 
 interaction.plot(x.factor = ASFL7e$HFCSriskad, #x-axis variable
-  
                  trace.factor = ASFL7e$maled, #variable for lines
                  response = ASFL7e$finlit, #y-axis variable
                  fun = median, #metric to plot
@@ -1274,14 +1330,26 @@ interaction.plot(x.factor = ASFL7e$riskyassetsd, #x-axis variable
                  response = ASFL7e$finlit, #y-axis variable
                  fun = median, #metric to plot
                  ylab = "Financial literacy",
-                 xlab = "Risk propensity",
+                 xlab = "Risky assets",
                  col = c("orange","grey"),
                  lty = 1, #line type
                  lwd = 2, #line width
                  trace.label = "Gender")
-interaction.plot(x.factor = ASFL7$riskyassetsd, #x-axis variable
-                 trace.factor = ASFL7$maled, #variable for lines
-                 response = ASFL7$finlit, #y-axis variable
+
+##age effect investigation
+interaction.plot(x.factor = ASFL7se$HFCSriskad, #x-axis variable
+                 trace.factor = ASFL7se$age, #variable for lines
+                 response = ASFL7se$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Financial literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Age")
+interaction.plot(x.factor = ASFL7se$riskyassetsd, #x-axis variable
+                 trace.factor = ASFL7se$maled, #variable for lines
+                 response = ASFL7se$finlit, #y-axis variable
                  fun = median, #metric to plot
                  ylab = "Financial literacy",
                  xlab = "Risk propensity",
@@ -1289,7 +1357,6 @@ interaction.plot(x.factor = ASFL7$riskyassetsd, #x-axis variable
                  lty = 1, #line type
                  lwd = 2, #line width
                  trace.label = "Gender")
-##age effect investigation
 
 ###interaction plot risk financial literacy 
 interaction.plot(x.factor = ASFL7se$age, #x-axis variable
