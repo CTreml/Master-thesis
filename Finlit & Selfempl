@@ -29,7 +29,7 @@ employment <-ASFL$QD10
 employment2 <- ASFL$QD10
 employmentalt <-ASFL$QD10 
 employmentfull <-ASFL$QD10 
-as.factor(employmentfull)
+
 
 ASFL <- ASFL %>%
   mutate(employment=case_when(
@@ -37,7 +37,12 @@ ASFL <- ASFL %>%
     employment =="In paid employment [work for someone else]"~"Employed",
     TRUE ~ "Other"
   ))
-ASFL$employment
+
+
+employment <- as.factor(ASFL$employment)
+levels(employment)
+relevel(employment, "Other")
+
 
 ASFL <- ASFL %>%
   mutate(employment2=case_when(
@@ -46,8 +51,8 @@ ASFL <- ASFL %>%
     TRUE ~ NA
       ))
 ASFL$employment2
+#educated used as the reference group
 
-as.factor(ASFL$employment)
 ASFL <- ASFL %>%
   mutate(employmentfull=case_when(
     employmentfull =="In paid employment [work for someone else]"~"Employed",
@@ -3706,5 +3711,9 @@ wpct(ASFL7e$numericHFCSrisk, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$numericHFCSrisk, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$numericHFCSrisk, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$numericHFCSrisk, weight=ASFL7othworet$wght, na.rm=TRUE)
+
+
+
+
 
 
