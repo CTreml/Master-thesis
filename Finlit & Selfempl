@@ -29,6 +29,7 @@ employment <-ASFL$QD10
 employment2 <- ASFL$QD10
 employmentalt <-ASFL$QD10 
 employmentfull <-ASFL$QD10 
+as.factor(employmentfull)
 
 ASFL <- ASFL %>%
   mutate(employment=case_when(
@@ -55,13 +56,14 @@ ASFL <- ASFL %>%
     employmentfull =="Not working and not looking for work"~"Not working",
     employmentfull =="Retired"~"Retired",
     employmentfull =="Student"~"Student",
-    employmentfull =="Apprentice"~"Apprentice",
+    employmentfull =="Apprentice"~"Student",
     employmentfull =="Looking after the home"~"Home",
     employmentfull =="Other"~"Other"
   ))
-ASFL$employmentfull
+as.factor(ASFL$employmentfull)
 
-as.factor(ASFL$employment)
+(ASFL$employment)
+(ASFL$employmentfull)
 ASFL <- ASFL %>%
   mutate(employmentalt=case_when(
     employmentalt =="In paid employment [work for someone else]"~"Employed",
@@ -193,6 +195,12 @@ ASFLmain<- subset(ASFLadult, ASFLadult$QD7 <= "79")
 ##################################GENDER##################################
 gender <- ASFL$QD1
 table(ASFL$QD1)
+ASFL <- ASFL %>%
+  mutate(gender=case_when(
+    gender =="2"~ "Females",
+    gender =="1"~ "Maled",
+    TRUE ~ "Other"
+  ))
 maled<- ifelse(ASFL$QD1 == "1", 1, 0)
 genderd<- ifelse(ASFL$QD1 == "1", 1, 0) #to avoid problems with the maled dummy in later analysis
 femaled <- ifelse(ASFL$QD1 == "2", 1, 0)
@@ -290,7 +298,19 @@ hincomehighd<- ifelse(ASFL$QD13 == "Y or more a month", 1, 0)
 hincomemiddled<- ifelse(ASFL$QD13 == "Between X and Y a month", 1, 0) 
 hincomelowd <- ifelse(ASFL$QD13 == "Up to X a month", 1, 0) 
 ASFL <- cbind(ASFL,hincome,hincomehighd,hincomemiddled,hincomelowd) 
+ASFL <- ASFL %>% mutate(incomegroup = case_when(hincome == "Refused" ~ "Ref/Don't know",
+                                                hincome == "Don't know" ~ "Ref/Don't know",
+                                                hincome == "Y or more a month" ~ "High income",
+                                                hincome == "Between X and Y a month" ~ "Middle income",
+                                                hincome == "Up to X a month" ~ "Low income"))
 
+ASFL <- ASFL %>% mutate(incomegroup_simple = case_when(hincome == "Up to X a month" ~ "Low income",
+                                                       hincome == "Between X and Y a month" ~ "Middle income",
+                                                       hincome == "Y or more a month" ~ "High income", 
+                                                       TRUE ~NA))
+
+table(ASFL$incomegroup)
+table(ASFL$incomegroup_simple)
 incomeequ <- subset(ASFL, select=c("QD13", "QD5_ad"))
 incomeequ
 partnerhincome <- ifelse(incomeequ$QD5_ad == "2", 1, 0) 
@@ -3682,6 +3702,7 @@ wpct(ASFL7e$numericHFCSrisk, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$numericHFCSrisk, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$numericHFCSrisk, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$numericHFCSrisk, weight=ASFL7othworet$wght, na.rm=TRUE)
+
 
 
 
