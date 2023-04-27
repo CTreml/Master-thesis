@@ -25,34 +25,38 @@ ASFL <- ASFL_full
 #########################BASICS##########################################
 ##################################EMPLOYMENT##################################
 table(ASFL$QD10)
-employment <-ASFL$QD10 
+employment1 <-ASFL$QD10 
+
+ASFL <- ASFL %>%
+  mutate(employment1=case_when(
+    employment1 =="Self-employed [work for myself]"~"Self-employed",
+    employment1 =="In paid employment [work for someone else]"~"Employed",
+    employment1 =="Looking for work [unemployed]"~"Other",
+    employment1 =="Not working and not looking for work"~"Other",
+    employment1 =="Retired"~"Other",
+    employment1 =="Student"~"Other",
+    employment1 =="Apprentice"~"Other",
+    employment1 =="Looking after the home"~"Other",
+    employment1 =="Other"~"Other"))
+
+employment1_1 <- as.factor(ASFL$employment1)
+levels(employment1_1)
+ASFL <- within(ASFL, employment1_1 <- relevel(employment1_1, ref = "Other"))
+
+employment1_2 <- as.factor(ASFL$employment1)
+levels(employment1_2)
+ASFL <- within(ASFL, employment1_2 <- relevel(employment1_2, ref = "Employed"))
+
 employment2 <- ASFL$QD10
-employmentalt <-ASFL$QD10 
-employmentfull <-ASFL$QD10 
-
-
 ASFL <- ASFL %>%
-  mutate(employment=case_when(
-    employment =="Self-employed [work for myself]"~"Self-employed",
-    employment =="In paid employment [work for someone else]"~"Employed",
-    TRUE ~ "Other"
-  ))
+  mutate(employment2=case_when(employment2 =="Self-employed [work for myself]"~"Self-employed",
+                               employment2 =="In paid employment [work for someone else]"~"Employed",
+                               TRUE ~ NA))
+employment2_2 <- as.factor(ASFL$employment2)
+levels(employment2_2)
+ASFL <- within(ASFL, employment2_2 <- relevel(employment2_2, ref = "Employed"))#in payed employed used as the reference group
 
-
-employment <- as.factor(ASFL$employment)
-levels(employment)
-relevel(employment, "Other")
-
-
-ASFL <- ASFL %>%
-  mutate(employment2=case_when(
-    employment2 =="Self-employed [work for myself]"~"Self-employed",
-    employment2 =="In paid employment [work for someone else]"~"Employed",
-    TRUE ~ NA
-      ))
-ASFL$employment2
-#educated used as the reference group
-
+employmentfull <- ASFL$QD10
 ASFL <- ASFL %>%
   mutate(employmentfull=case_when(
     employmentfull =="In paid employment [work for someone else]"~"Employed",
@@ -65,10 +69,11 @@ ASFL <- ASFL %>%
     employmentfull =="Looking after the home"~"Home",
     employmentfull =="Other"~"Other"
   ))
-as.factor(ASFL$employmentfull)
+employmentfull_full <- as.factor(ASFL$employmentfull)
+levels(employmentfull_full)
+ASFL <- within(ASFL, employmentfull_full <- relevel(employmentfull_full, ref = "Employed"))
 
-(ASFL$employment)
-(ASFL$employmentfull)
+employmentalt <-ASFL$QD10 
 ASFL <- ASFL %>%
   mutate(employmentalt=case_when(
     employmentalt =="In paid employment [work for someone else]"~"Employed",
@@ -77,12 +82,15 @@ ASFL <- ASFL %>%
     employmentalt =="Retired"~"Retired",
     TRUE ~ "Other"
   ))
-ASFL$employmentalt
+employmentalt_alt <- as.factor(ASFL$employmentalt)
+levels(employmentalt_alt)
+ASFL <- within(ASFL, employmentalt_alt <- relevel(employmentalt_alt, ref = "Employed"))
 
-
+ASFL<-cbind(ASFL,employment1_1,employment2_2,employmentfull_full,employmentalt_alt)
 
 selfemployedd<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
 selfemployedd <- as.numeric(selfemployedd)
+
 ##alternative: QF9_11 ##own business as a retirement funding option
 summary(ASFL$QF9_11)
 retirefundbusinessd <- ifelse(ASFL$QF9_11 == "Yes", 1, 0)
@@ -254,15 +262,24 @@ summary(ASFL$st3g)
 selfassess <- ASFL$QK1
 table(selfassess)
 table(ASFL$QK1)
-ASFL <- ASFL %>% mutate(saknow_group = case_when(selfassess == "Very high" ~ "Highsa",
-                                                 selfassess == "Quite high" ~ "Highsa",
-                                                 selfassess == "About average" ~ "Averagesa",
-                                                 selfassess == "Very low" ~ "Lowsa",
-                                                 selfassess == "Quite low" ~ "Lowsa",
-                                                 selfassess == "Refused" ~ "Refusalsa",
-                                                 selfassess == "Don't know" ~ "Refusalsa"))
-                                                 
+ASFL <- ASFL %>% mutate(saknow_group = case_when(selfassess == "Very high" ~ "High sa",
+                                                 selfassess == "Quite high" ~ "High sa",
+                                                 selfassess == "About average" ~ "Average sa",
+                                                 selfassess == "Very low" ~ "Low sa",
+                                                 selfassess == "Quite low" ~ "Low sa",
+                                                 selfassess == "Refused" ~ "Ref/Don't know",
+                                                 selfassess == "Don't know" ~ "Ref/Don't know"))
+ASFL <- ASFL %>% mutate(saknow_group_a = case_when(selfassess == "Very high" ~ "High sa",
+                                                 selfassess == "Quite high" ~ "High sa",
+                                                 selfassess == "About average" ~ "Average sa",
+                                                 selfassess == "Very low" ~ "Low sa",
+                                                 selfassess == "Quite low" ~ "Low sa",
+                                                 selfassess == TRUE ~ NA))                               
 table(ASFL$saknow_group)
+saknow_group_1 <- factor(ASFL$saknow_group, levels=c("High sa", "Average sa", "Low sa","Ref/Don't know"))
+levels(saknow_group_1)
+saknow_group_a_1 <- factor(ASFL$saknow_group_a, levels=c("High sa", "Average sa", "Low sa"))
+levels(saknow_group_a_1)
 
 hhsfknow<- ifelse(ASFL$QK1 == "Very high", 1, 0)
 hsfknow<- ifelse(ASFL$QK1 == "Quite high", 1, 0)
@@ -271,7 +288,7 @@ asfknow<- ifelse(ASFL$QK1 == "About average", 1, 0)
 lsfknow<- ifelse(ASFL$QK1 == "Quite low", 1, 0)
 llsfknow<- ifelse(ASFL$QK1 == "Very low", 1, 0)
 lowsfknow <- lsfknow+llsfknow
-ASFL <- cbind(ASFL,selfassess,hhsfknow,hsfknow,highsfknow,asfknow,lsfknow,llsfknow,lowsfknow) 
+ASFL <- cbind(ASFL,selfassess,hhsfknow,hsfknow,highsfknow,asfknow,lsfknow,llsfknow,lowsfknow,saknow_group_1,saknow_group_a_1) 
 
 numericsaknow1<- ifelse(ASFL$QK1 == "Very high", 5, 0)
 numericsaknow2<- ifelse(ASFL$QK1 == "Quite high", 4, 0)
@@ -286,6 +303,7 @@ table(numericsaknow) #higher score indicates higher self-assessment
 ASFL <- cbind(ASFL,numericsaknow) 
 
 #################################LIVING COMMUNITY TYPE##############################
+livingcomm <- ASFL$QD3
 table(ASFL$QD3)
 villaged <- ifelse(ASFL$QD3 == "A village, hamlet or rural area (fewer than 3 000 people)", 1, 0)
 smalltownd<- ifelse(ASFL$QD3 == "A small town (3 000 to about 15 000 people)", 1, 0)
@@ -294,6 +312,17 @@ townd <- smalltownd+largetownd
 smallcityd<- ifelse(ASFL$QD3 == "A city (100 000 to about 1 000 000 people)", 1, 0)
 largecityd<- ifelse(ASFL$QD3 == "A large city (with over 1 000 000 people)", 1, 0)
 cityd<- smallcityd+largecityd
+
+ASFL <- ASFL %>% mutate(livingcommgroup = case_when(livingcomm == "A village, hamlet or rural area (fewer than 3 000 people)" ~ "Village",
+                                                    livingcomm == "A small town (3 000 to about 15 000 people)" ~ "Town",
+                                                    livingcomm == "A town (15 000 to about 100 000 people)" ~ "Town",
+                                                    livingcomm == "A city (100 000 to about 1 000 000 people)" ~ "City",
+                                                    livingcomm == "A large city (with over 1 000 000 people)" ~ "City"))
+
+livingcommgroup_1 <- factor(ASFL$livingcommgroup, levels=c("Village", "Town", "City"))
+ASFL <- cbind(ASFL,livingcommgroup_1)
+levels(ASFL$livingcommgroup_1)
+table(livingcommgroup_1)
 
 ASFL <- cbind (ASFL, villaged, townd, cityd)
 #################################HOUSEHOLD INCOME##############################
@@ -313,11 +342,12 @@ ASFL <- ASFL %>% mutate(incomegroup_simple = case_when(hincome == "Up to X a mon
                                                        hincome == "Between X and Y a month" ~ "Middle income",
                                                        hincome == "Y or more a month" ~ "High income", 
                                                        TRUE ~NA))
-incomegr <- ASFL$incomegroup_simple
-incomegr <- as.factor(incomegr)
-levels(incomegr)#model low income as reference category! 
-incomegr<- relevel(incomegr, "Low income" )
-ASFL <- cbind(ASFL, incomegr)
+incomegroup_1 <- as.factor(ASFL$incomegroup)
+levels(incomegroup_1)
+ASFL <- within(ASFL, incomegroup_1 <- relevel(incomegroup_1, ref = "Ref/Don't know"))
+levels(ASFL$incomegroup_1)
+
+
 table(ASFL$incomegroup)
 table(ASFL$incomegroup_simple)
 incomeequ <- subset(ASFL, select=c("QD13", "QD5_ad"))
@@ -974,11 +1004,11 @@ table(ASFLothworet$QD13)
 table(ASFLret$QD13)
 
 ####household income comparison plot 
-hincomecomp <- data.frame(status=rep(c('Self-employed', 'Employed'), each=3),
-                          income=rep(c('Up to 2.000', 'Between 2.000 and 3.000', '3.000 or more'), times=2),
-                          share=c(15/69, 18/69, 36/69,171/647,264/647,212/647))
+hincomecomp <- data.frame(status=rep(c('Self-employed', 'Employed'), each=4),
+                          income=rep(c('3.000 or more','Between 2.000 and 3.000','Up to 2.000', 'Ref/Don`t know'), times=2),
+                          share=c( 36/79, 18/79, 15/79,10/79,212/699,264/699,171/699,52/699))
 hincomecomp$status<- factor(hincomecomp$status, levels=c('Self-employed', 'Employed'))
-hincomecomp$income<- factor(hincomecomp$income, levels=c('Up to 2.000', 'Between 2.000 and 3.000', '3.000 or more'))
+hincomecomp$income<- factor(hincomecomp$income, levels=c('3.000 or more','Between 2.000 and 3.000','Up to 2.000', 'Ref/Don`t know'))
 ggplot(hincomecomp, aes(fill=income, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="Household income in euros")
@@ -1392,19 +1422,19 @@ wpct(ASFLothworet$QK6, weight=ASFLothworet$wght, na.rm=TRUE)
 #incorrect 
 #dont know/irrelevant
 ASFL$QK6
-QK6f<- ifelse(ASFL$QK6 == "More than €110" , 1, 0)
+QK6f<- ifelse(ASFL$QK6 == "More than ???110" , 1, 0)
 table(QK6f)
-QK6se<- ifelse(ASFLse$QK6 == "More than €110", 1, 0)
+QK6se<- ifelse(ASFLse$QK6 == "More than ???110", 1, 0)
 table(QK6se)
-QK6sem<- ifelse(ASFLsem$QK6 == "More than €110", 1, 0)
-QK6sef<- ifelse(ASFLsef$QK6 == "More than €110", 1, 0)
-QK6e<- ifelse(ASFLe$QK6 == "More than €110", 1, 0)
+QK6sem<- ifelse(ASFLsem$QK6 == "More than ???110", 1, 0)
+QK6sef<- ifelse(ASFLsef$QK6 == "More than ???110", 1, 0)
+QK6e<- ifelse(ASFLe$QK6 == "More than ???110", 1, 0)
 table(QK6e)
-QK6eu<- ifelse(ASFLeu$QK6 == "More than €110", 1, 0)
+QK6eu<- ifelse(ASFLeu$QK6 == "More than ???110", 1, 0)
 table(QK6eu)
-QK6oth<- ifelse(ASFLoth$QK6 == "More than €110", 1, 0)
+QK6oth<- ifelse(ASFLoth$QK6 == "More than ???110", 1, 0)
 table(QK6oth)
-QK6othworet<- ifelse(ASFLothworet$QK6 == "More than €110", 1, 0)
+QK6othworet<- ifelse(ASFLothworet$QK6 == "More than ???110", 1, 0)
 table(QK6othworet)
 
 ###QK5 + QK6
@@ -1730,10 +1760,13 @@ weighted.mean(ASFL1$fin_know,ASFL1$wght)#5.3 - according to OECD (2020)
 wpct(ASFL1$fin_know, weight=ASFL1$wght, na.rm=TRUE)
 
 #dummyvariables
-ASFL1 <- ASFL1 %>% mutate(fin_know_group = case_when(fin_know >= 6  & fin_know <= 7 ~ 'Highfk',
-                                                        fin_know >= 4  & fin_know <6  ~ 'Averagefk',
-                                                        fin_know >= 0  & fin_know < 4 ~ 'Lowfk'))
+ASFL1 <- ASFL1 %>% mutate(fin_know_group = case_when(fin_know >= 6  & fin_know <= 7 ~ 'High fk',
+                                                        fin_know >= 4  & fin_know <6  ~ 'Average fk',
+                                                        fin_know >= 0  & fin_know < 4 ~ 'Low fk'))
 table(ASFL1$fin_know_group)
+fin_know_group_1 <- factor(ASFL1$fin_know_group, levels=c("High fk","Average fk", "Low fk"))
+levels(fin_know_group_1)
+
 
 highfinknowd <- ifelse(ASFL1$fin_know_group == "High", 1, 0)
 highfinknowd <- as.numeric(highfinknowd)
@@ -1750,11 +1783,13 @@ weighted.mean(ASFL1$fin_know_add,ASFL1$wght)
 wpct(ASFL1$fin_know_add, weight=ASFL1$wght, na.rm=TRUE)
 
 #dummyvariables
-ASFL1 <- ASFL1 %>% mutate(fin_know_add_group = case_when(fin_know_add >= 8  & fin_know_add <= 10 ~ 'High',
-                                                         fin_know_add >= 5  & fin_know_add <8  ~ 'Average',
-                                                         fin_know_add >= 0  & fin_know_add < 5 ~ 'Low'))
+ASFL1 <- ASFL1 %>% mutate(fin_know_add_group = case_when(fin_know_add >= 8  & fin_know_add <= 10 ~ 'High fk',
+                                                         fin_know_add >= 5  & fin_know_add <8  ~ 'Average fk',
+                                                         fin_know_add >= 0  & fin_know_add < 5 ~ 'Low fk'))
 
 table(ASFL1$fin_know_add)
+fin_know_add_group_1 <- factor(ASFL1$fin_know_add_group, levels=c("High fk", "Average fk", "Low fk"))
+levels(fin_know_add_group_1)
 
 highfinknowaddd <- ifelse(ASFL1$fin_know_add_group == "high", 1, 0)
 averagefinknowaddd <- ifelse(ASFL1$fin_know_add_group == "average", 1, 0)
@@ -2915,12 +2950,16 @@ wpct(ASFL5m$finstress1, weight=ASFL5m$wght, na.rm=TRUE)
 wpct(ASFL5m$finstress2, weight=ASFL5m$wght, na.rm=TRUE)
 wpct(ASFL5m$finstress3, weight=ASFL5m$wght, na.rm=TRUE)
 
+wpct(ASFL5m$finfraudd, weight=ASFL5m$wght, na.rm=TRUE)
+
 wpct(ASFL5f$highfinbuffd, weight=ASFL5f$wght, na.rm=TRUE)
 wpct(ASFL5f$sixmonthfinbuffd, weight=ASFL5f$wght, na.rm=TRUE)
 wpct(ASFL5f$shortfall, weight=ASFL5f$wght, na.rm=TRUE)
 wpct(ASFL5f$finstress1, weight=ASFL5f$wght, na.rm=TRUE)
 wpct(ASFL5f$finstress2, weight=ASFL5f$wght, na.rm=TRUE)
 wpct(ASFL5f$finstress3, weight=ASFL5f$wght, na.rm=TRUE)
+
+wpct(ASFL5f$finfraudd, weight=ASFL5f$wght, na.rm=TRUE)
 
 wpct(ASFL5se$highfinbuffd, weight=ASFL5se$wght, na.rm=TRUE) #more than three months
 wpct(ASFL5se$sixmonthfinbuffd, weight=ASFL5se$wght, na.rm=TRUE) #more than six months
@@ -2929,6 +2968,8 @@ wpct(ASFL5se$finstress1, weight=ASFL5se$wght, na.rm=TRUE)
 wpct(ASFL5se$finstress2, weight=ASFL5se$wght, na.rm=TRUE)
 wpct(ASFL5se$finstress3, weight=ASFL5se$wght, na.rm=TRUE)
 
+wpct(ASFL5se$finfraudd, weight=ASFL5se$wght, na.rm=TRUE)
+
 wpct(ASFL5sem$highfinbuffd, weight=ASFL5sem$wght, na.rm=TRUE) #more than three months
 wpct(ASFL5sem$sixmonthfinbuffd, weight=ASFL5sem$wght, na.rm=TRUE) #more than six months
 wpct(ASFL5sem$shortfall, weight=ASFL5sem$wght, na.rm=TRUE)
@@ -2936,12 +2977,16 @@ wpct(ASFL5sem$finstress1, weight=ASFL5sem$wght, na.rm=TRUE)
 wpct(ASFL5sem$finstress2, weight=ASFL5sem$wght, na.rm=TRUE)
 wpct(ASFL5sem$finstress3, weight=ASFL5sem$wght, na.rm=TRUE)
 
+wpct(ASFL5sem$finfraudd, weight=ASFL5sem$wght, na.rm=TRUE)
+
 wpct(ASFL5sef$highfinbuffd, weight=ASFL5sef$wght, na.rm=TRUE)
 wpct(ASFL5sef$sixmonthfinbuffd, weight=ASFL5sef$wght, na.rm=TRUE)
 wpct(ASFL5sef$shortfall, weight=ASFL5sef$wght, na.rm=TRUE)
 wpct(ASFL5sef$finstress1, weight=ASFL5sef$wght, na.rm=TRUE)
 wpct(ASFL5sef$finstress2, weight=ASFL5sef$wght, na.rm=TRUE)
 wpct(ASFL5sef$finstress3, weight=ASFL5sef$wght, na.rm=TRUE)
+
+wpct(ASFL5sef$finfraudd, weight=ASFL5sef$wght, na.rm=TRUE)
 
 
 wpct(ASFL5e$highfinbuffd, weight=ASFL5e$wght, na.rm=TRUE)
@@ -2951,12 +2996,16 @@ wpct(ASFL5e$finstress1, weight=ASFL5e$wght, na.rm=TRUE)
 wpct(ASFL5e$finstress2, weight=ASFL5e$wght, na.rm=TRUE)
 wpct(ASFL5e$finstress3, weight=ASFL5e$wght, na.rm=TRUE)
 
+wpct(ASFL5e$finfraudd, weight=ASFL5e$wght, na.rm=TRUE)
+
 wpct(ASFL5em$highfinbuffd, weight=ASFL5em$wght, na.rm=TRUE)
 wpct(ASFL5em$sixmonthfinbuffd, weight=ASFL5em$wght, na.rm=TRUE)
 wpct(ASFL5em$shortfall, weight=ASFL5em$wght, na.rm=TRUE)
 wpct(ASFL5em$finstress1, weight=ASFL5em$wght, na.rm=TRUE)
 wpct(ASFL5em$finstress2, weight=ASFL5em$wght, na.rm=TRUE)
 wpct(ASFL5em$finstress3, weight=ASFL5em$wght, na.rm=TRUE)
+
+wpct(ASFL5em$finfraudd, weight=ASFL5em$wght, na.rm=TRUE)
 
 wpct(ASFL5ef$highfinbuffd, weight=ASFL5ef$wght, na.rm=TRUE)
 wpct(ASFL5ef$sixmonthfinbuffd, weight=ASFL5ef$wght, na.rm=TRUE)
@@ -2965,6 +3014,8 @@ wpct(ASFL5ef$finstress1, weight=ASFL5ef$wght, na.rm=TRUE)
 wpct(ASFL5ef$finstress2, weight=ASFL5ef$wght, na.rm=TRUE)
 wpct(ASFL5ef$finstress3, weight=ASFL5ef$wght, na.rm=TRUE)
 
+wpct(ASFL5ef$finfraudd, weight=ASFL5ef$wght, na.rm=TRUE)
+
 wpct(ASFL5unempl$highfinbuffd, weight=ASFL5unempl$wght, na.rm=TRUE)
 wpct(ASFL5unempl$sixmonthfinbuffd, weight=ASFL5unempl$wght, na.rm=TRUE)
 wpct(ASFL5unempl$shortfall, weight=ASFL5unempl$wght, na.rm=TRUE)
@@ -2972,12 +3023,16 @@ wpct(ASFL5unempl$finstress1, weight=ASFL5unempl$wght, na.rm=TRUE)
 wpct(ASFL5unempl$finstress2, weight=ASFL5unempl$wght, na.rm=TRUE)
 wpct(ASFL5unempl$finstress3, weight=ASFL5unempl$wght, na.rm=TRUE)
 
+wpct(ASFL5unempl$finfraudd, weight=ASFL5unempl$wght, na.rm=TRUE)
+
 wpct(ASFL5oth$highfinbuffd, weight=ASFL5oth$wght, na.rm=TRUE)
 wpct(ASFL5oth$sixmonthfinbuffd, weight=ASFL5oth$wght, na.rm=TRUE)
 wpct(ASFL5oth$shortfall, weight=ASFL5oth$wght, na.rm=TRUE)
 wpct(ASFL5oth$finstress1, weight=ASFL5oth$wght, na.rm=TRUE)
 wpct(ASFL5oth$finstress2, weight=ASFL5oth$wght, na.rm=TRUE)
 wpct(ASFL5oth$finstress3, weight=ASFL5oth$wght, na.rm=TRUE)
+
+wpct(ASFL5oth$finfraudd, weight=ASFL5oth$wght, na.rm=TRUE)
 
 
 wpct(ASFL5othworet$highfinbuffd, weight=ASFL5othworet$wght, na.rm=TRUE)
@@ -2987,6 +3042,8 @@ wpct(ASFL5othworet$finstress1, weight=ASFL5othworet$wght, na.rm=TRUE)
 wpct(ASFL5othworet$finstress2, weight=ASFL5othworet$wght, na.rm=TRUE)
 wpct(ASFL5othworet$finstress3, weight=ASFL5othworet$wght, na.rm=TRUE)
 
+wpct(ASFL5othworet$finfraudd, weight=ASFL5othworet$wght, na.rm=TRUE)
+
 
 wpct(ASFL5ret$highfinbuffd, weight=ASFL5ret$wght, na.rm=TRUE)
 wpct(ASFL5ret$sixmonthfinbuffd, weight=ASFL5ret$wght, na.rm=TRUE)
@@ -2995,6 +3052,7 @@ wpct(ASFL5ret$finstress1, weight=ASFL5ret$wght, na.rm=TRUE)
 wpct(ASFL5ret$finstress2, weight=ASFL5ret$wght, na.rm=TRUE)
 wpct(ASFL5ret$finstress3, weight=ASFL5ret$wght, na.rm=TRUE)
 
+wpct(ASFL5ret$finfraudd, weight=ASFL5ret$wght, na.rm=TRUE)
 
 wpct(ASFL5entrepreneurs$highfinbuffd, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
 wpct(ASFL5entrepreneurs$sixmonthfinbuffd, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
@@ -3002,6 +3060,8 @@ wpct(ASFL5entrepreneurs$shortfall, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
 wpct(ASFL5entrepreneurs$finstress1, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
 wpct(ASFL5entrepreneurs$finstress2, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
 wpct(ASFL5entrepreneurs$finstress3, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+
+wpct(ASFL5entrepreneurs$finfraudd, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
 
 
 #################total financial inclusion comparison############################
@@ -3356,6 +3416,7 @@ weighted.mean(ASFL6selfinbuff$finstress3,ASFL6selfinbuff$wght)
 
 
 ##############################EDUCATION DIFFERENCES financial indicators ############
+###selfemployed
 ASFL6sehigheduc <- ASFL6se[(ASFL6se$education %in% heduc),]
 ASFL6seloweduc <- ASFL6se[(ASFL6se$education %in% leduc),]
 #higheducation
@@ -3376,6 +3437,8 @@ wpct(ASFL6sehigheduc$famfriend,ASFL6sehigheduc$wght, na.rm=TRUE)
 weighted.mean(ASFL6sehigheduc$finwellbeing,ASFL6sehigheduc$wght)
 
 wpct(ASFL6sehigheduc$QF13,ASFL6sehigheduc$wght, na.rm=TRUE)
+
+wpct(ASFL6sehigheduc$finfraudd,ASFL6sehigheduc$wght, na.rm=TRUE)
 
 wpct(ASFL6sehigheduc$shortfall,ASFL6sehigheduc$wght, na.rm=TRUE)
 wpct(ASFL6sehigheduc$finstress1,ASFL6sehigheduc$wght, na.rm=TRUE)
@@ -3401,12 +3464,70 @@ weighted.mean(ASFL6seloweduc$finwellbeing,ASFL6seloweduc$wght)
 
 wpct(ASFL6seloweduc$QF13,ASFL6seloweduc$wght, na.rm=TRUE)
 
+wpct(ASFL6seloweduc$finfraudd,ASFL6seloweduc$wght, na.rm=TRUE)
+
 wpct(ASFL6seloweduc$shortfall,ASFL6seloweduc$wght, na.rm=TRUE)
 wpct(ASFL6seloweduc$finstress1,ASFL6seloweduc$wght, na.rm=TRUE)
 wpct(ASFL6seloweduc$finstress2,ASFL6seloweduc$wght, na.rm=TRUE)
 wpct(ASFL6seloweduc$finstress3,ASFL6seloweduc$wght, na.rm=TRUE)
 
+##employed
+ASFL6ehigheduc <- ASFL6e[(ASFL6e$education %in% heduc),]
+ASFL6eloweduc <- ASFL6e[(ASFL6e$education %in% leduc),]
+#higheducation
+weighted.mean(ASFL6ehigheduc$finlit,ASFL6ehigheduc$wght)
+weighted.mean(ASFL6ehigheduc$fin_know,ASFL6ehigheduc$wght)
+weighted.mean(ASFL6ehigheduc$fin_know_add,ASFL6ehigheduc$wght)
+weighted.mean(ASFL6ehigheduc$fin_beh,ASFL6ehigheduc$wght)
+weighted.mean(ASFL6ehigheduc$fin_att,ASFL6ehigheduc$wght)
+
+wpct(ASFL6ehigheduc$produse,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$savinred,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$payprodd,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$p1b10,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$credpd,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$recentchoiced,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$famfriend,ASFL6ehigheduc$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6ehigheduc$finwellbeing,ASFL6ehigheduc$wght)
+
+wpct(ASFL6ehigheduc$QF13,ASFL6ehigheduc$wght, na.rm=TRUE)
+
+wpct(ASFL6ehigheduc$finfraudd,ASFL6ehigheduc$wght, na.rm=TRUE)
+
+wpct(ASFL6ehigheduc$shortfall,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$finstress1,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$finstress2,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$finstress3,ASFL6ehigheduc$wght, na.rm=TRUE)
+
+#loweducation
+weighted.mean(ASFL6eloweduc$finlit,ASFL6eloweduc$wght)
+weighted.mean(ASFL6eloweduc$fin_know,ASFL6eloweduc$wght)
+weighted.mean(ASFL6eloweduc$fin_know_add,ASFL6eloweduc$wght)
+weighted.mean(ASFL6eloweduc$fin_beh,ASFL6eloweduc$wght)
+weighted.mean(ASFL6eloweduc$fin_att,ASFL6eloweduc$wght)
+
+wpct(ASFL6eloweduc$produse,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$savinred,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$payprodd,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$p1b10,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$credpd,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$recentchoiced,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$famfriend,ASFL6eloweduc$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6eloweduc$finwellbeing,ASFL6eloweduc$wght)
+
+wpct(ASFL6eloweduc$QF13,ASFL6eloweduc$wght, na.rm=TRUE)
+
+wpct(ASFL6eloweduc$finfraudd,ASFL6eloweduc$wght, na.rm=TRUE)
+
+wpct(ASFL6eloweduc$shortfall,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$finstress1,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$finstress2,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$finstress3,ASFL6eloweduc$wght, na.rm=TRUE)
+
 ##############################AGE DIFFERENCES financial indicators ############
+##self-employed
 ASFL6seoldmill <- ASFL6se[(ASFL6se$age_group %in% oldmill),]
 ASFL6segenx <- ASFL6se[(ASFL6se$age_group %in% genx),]
 ASFL6sebabyboom <- ASFL6se[(ASFL6se$age_group %in% babyboom),]
@@ -3428,6 +3549,8 @@ wpct(ASFL6seoldmill$famfriend,ASFL6seoldmill$wght, na.rm=TRUE)
 weighted.mean(ASFL6seoldmill$finwellbeing,ASFL6seoldmill$wght)
 
 wpct(ASFL6seoldmill$QF13,ASFL6seoldmill$wght, na.rm=TRUE)
+
+wpct(ASFL6seoldmill$finfraudd,ASFL6seoldmill$wght, na.rm=TRUE)
 
 wpct(ASFL6seoldmill$shortfall,ASFL6seoldmill$wght, na.rm=TRUE)
 wpct(ASFL6seoldmill$finstress1,ASFL6seoldmill$wght, na.rm=TRUE)
@@ -3451,6 +3574,8 @@ wpct(ASFL6segenx$famfriend,ASFL6segenx$wght, na.rm=TRUE)
 weighted.mean(ASFL6segenx$finwellbeing,ASFL6segenx$wght)
 
 wpct(ASFL6segenx$QF13,ASFL6segenx$wght, na.rm=TRUE)
+
+wpct(ASFL6segenx$finfraudd,ASFL6segenx$wght, na.rm=TRUE)
 
 wpct(ASFL6segenx$shortfall,ASFL6segenx$wght, na.rm=TRUE)
 wpct(ASFL6segenx$finstress1,ASFL6segenx$wght, na.rm=TRUE)
@@ -3476,10 +3601,148 @@ weighted.mean(ASFL6sebabyboom$finwellbeing,ASFL6sebabyboom$wght)
 
 wpct(ASFL6sebabyboom$QF13,ASFL6sebabyboom$wght, na.rm=TRUE)
 
+wpct(ASFL6sebabyboom$finfraudd,ASFL6sebabyboom$wght, na.rm=TRUE)
+
 wpct(ASFL6sebabyboom$shortfall,ASFL6sebabyboom$wght, na.rm=TRUE)
 wpct(ASFL6sebabyboom$finstress1,ASFL6sebabyboom$wght, na.rm=TRUE)
 wpct(ASFL6sebabyboom$finstress2,ASFL6sebabyboom$wght, na.rm=TRUE)
 wpct(ASFL6sebabyboom$finstress3,ASFL6sebabyboom$wght, na.rm=TRUE)
+
+
+##employed
+ASFL6eyoungmill <- ASFL6e[(ASFL6e$age_group %in% youngmill),]
+ASFL6eoldmill <- ASFL6e[(ASFL6e$age_group %in% oldmill),]
+ASFL6egenx <- ASFL6e[(ASFL6e$age_group %in% genx),]
+ASFL6ebabyboom <- ASFL6e[(ASFL6e$age_group %in% babyboom),]
+ASFL6esilgen <- ASFL6e[(ASFL6e$age_group %in% silgen),]
+#young millenials 
+weighted.mean(ASFL6eyoungmill$finlit,ASFL6eyoungmill$wght)
+weighted.mean(ASFL6eyoungmill$fin_know,ASFL6eyoungmill$wght)
+weighted.mean(ASFL6eyoungmill$fin_know_add,ASFL6eyoungmill$wght)
+weighted.mean(ASFL6eyoungmill$fin_beh,ASFL6eyoungmill$wght)
+weighted.mean(ASFL6eyoungmill$fin_att,ASFL6eyoungmill$wght)
+
+wpct(ASFL6eyoungmill$produse,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$savinred,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$payprodd,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$p1b10,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$credpd,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$recentchoiced,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$famfriend,ASFL6eyoungmill$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6eyoungmill$finwellbeing,ASFL6eyoungmill$wght)
+
+wpct(ASFL6eyoungmill$QF13,ASFL6eyoungmill$wght, na.rm=TRUE)
+
+wpct(ASFL6eyoungmill$finfraudd,ASFL6eyoungmill$wght, na.rm=TRUE)
+
+wpct(ASFL6eyoungmill$shortfall,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$finstress1,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$finstress2,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$finstress3,ASFL6eyoungmill$wght, na.rm=TRUE)
+#old millenials
+weighted.mean(ASFL6eoldmill$finlit,ASFL6eoldmill$wght)
+weighted.mean(ASFL6eoldmill$fin_know,ASFL6eoldmill$wght)
+weighted.mean(ASFL6eoldmill$fin_know_add,ASFL6eoldmill$wght)
+weighted.mean(ASFL6eoldmill$fin_beh,ASFL6eoldmill$wght)
+weighted.mean(ASFL6eoldmill$fin_att,ASFL6eoldmill$wght)
+
+wpct(ASFL6eoldmill$produse,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$savinred,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$payprodd,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$p1b10,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$credpd,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$recentchoiced,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$famfriend,ASFL6eoldmill$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6eoldmill$finwellbeing,ASFL6eoldmill$wght)
+
+wpct(ASFL6eoldmill$QF13,ASFL6eoldmill$wght, na.rm=TRUE)
+
+wpct(ASFL6eoldmill$finfraudd,ASFL6eoldmill$wght, na.rm=TRUE)
+
+wpct(ASFL6eoldmill$shortfall,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$finstress1,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$finstress2,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$finstress3,ASFL6eoldmill$wght, na.rm=TRUE)
+#generationx
+weighted.mean(ASFL6egenx$finlit,ASFL6egenx$wght)
+weighted.mean(ASFL6egenx$fin_know,ASFL6egenx$wght)
+weighted.mean(ASFL6egenx$fin_know_add,ASFL6egenx$wght)
+weighted.mean(ASFL6egenx$fin_beh,ASFL6egenx$wght)
+weighted.mean(ASFL6egenx$fin_att,ASFL6egenx$wght)
+
+wpct(ASFL6egenx$produse,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$savinred,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$payprodd,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$p1b10,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$credpd,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$recentchoiced,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$famfriend,ASFL6egenx$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6egenx$finwellbeing,ASFL6egenx$wght)
+
+wpct(ASFL6egenx$QF13,ASFL6egenx$wght, na.rm=TRUE)
+
+wpct(ASFL6egenx$finfraudd,ASFL6egenx$wght, na.rm=TRUE)
+
+wpct(ASFL6egenx$shortfall,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$finstress1,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$finstress2,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$finstress3,ASFL6egenx$wght, na.rm=TRUE)
+
+#babyboomer
+weighted.mean(ASFL6ebabyboom$finlit,ASFL6ebabyboom$wght)
+weighted.mean(ASFL6ebabyboom$fin_know,ASFL6ebabyboom$wght)
+weighted.mean(ASFL6ebabyboom$fin_know_add,ASFL6ebabyboom$wght)
+weighted.mean(ASFL6ebabyboom$fin_beh,ASFL6ebabyboom$wght)
+weighted.mean(ASFL6ebabyboom$fin_att,ASFL6ebabyboom$wght)
+
+wpct(ASFL6ebabyboom$produse,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$savinred,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$payprodd,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$p1b10,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$credpd,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$recentchoiced,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$famfriend,ASFL6ebabyboom$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6ebabyboom$finwellbeing,ASFL6ebabyboom$wght)
+
+wpct(ASFL6ebabyboom$QF13,ASFL6ebabyboom$wght, na.rm=TRUE)
+
+wpct(ASFL6ebabyboom$finfraudd,ASFL6ebabyboom$wght, na.rm=TRUE)
+
+wpct(ASFL6ebabyboom$shortfall,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$finstress1,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$finstress2,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$finstress3,ASFL6ebabyboom$wght, na.rm=TRUE)
+
+#silentgeneration
+weighted.mean(ASFL6esilgen$finlit,ASFL6esilgen$wght)
+weighted.mean(ASFL6esilgen$fin_know,ASFL6esilgen$wght)
+weighted.mean(ASFL6esilgen$fin_know_add,ASFL6esilgen$wght)
+weighted.mean(ASFL6esilgen$fin_beh,ASFL6esilgen$wght)
+weighted.mean(ASFL6esilgen$fin_att,ASFL6esilgen$wght)
+
+wpct(ASFL6esilgen$produse,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$savinred,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$payprodd,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$p1b10,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$credpd,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$recentchoiced,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$famfriend,ASFL6esilgen$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6esilgen$finwellbeing,ASFL6esilgen$wght)
+
+wpct(ASFL6esilgen$QF13,ASFL6esilgen$wght, na.rm=TRUE)
+
+wpct(ASFL6esilgen$finfraudd,ASFL6esilgen$wght, na.rm=TRUE)
+
+wpct(ASFL6esilgen$shortfall,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$finstress1,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$finstress2,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$finstress3,ASFL6esilgen$wght, na.rm=TRUE)
+
 
 ####################RISK BEHAVIOUR#############################
 #1 variable 
@@ -3512,11 +3775,14 @@ table(HFCSnriskad)
 ASFL7 <- cbind(ASFL6,HFCSrisk,HFCSrisk1,HFCSrisk2,HFCSrisk3,HFCSrisk4,HFCSriskd,HFCSnriskd,HFCSriskad,HFCSnriskad)
 
 
-ASFL7 <- ASFL7 %>% mutate(HFCSrisk_group = case_when(HFCSrisk == "I am prepared to take substantial financial risks expecting to earn substantial returns" ~"Substantialrisk" ,
-                                                  HFCSrisk == "I am prepared to take above average financial risks expecting to earn above average returns" ~ "Highrisk",
-                                                  HFCSrisk == "I am prepared to take average financial risks expecting to earn average returns" ~ "Averagerisk",
-                                                  HFCSrisk == "I am not willing to take any financial risk" ~ "Norisk"))
+ASFL7 <- ASFL7 %>% mutate(HFCSrisk_group = case_when(HFCSrisk == "I am prepared to take substantial financial risks expecting to earn substantial returns" ~"Substantial risk" ,
+                                                  HFCSrisk == "I am prepared to take above average financial risks expecting to earn above average returns" ~ "High risk",
+                                                  HFCSrisk == "I am prepared to take average financial risks expecting to earn average returns" ~ "Average risk",
+                                                  HFCSrisk == "I am not willing to take any financial risk" ~ "No risk"))
 table(ASFL7$HFCSrisk_group)
+HFCSrisk_group_1 <- as.factor(ASFL7$HFCSrisk_group)
+levels(HFCSrisk_group_1)
+ASFL7 <- within(ASFL7, HFCSrisk_group_1 <- relevel(HFCSrisk_group_1, ref = "No risk"))
 
 
 numericHFCS1<- ifelse(ASFL$HFCS1 == "I am prepared to take substantial financial risks expecting to earn substantial returns", 4, 0)
@@ -3527,6 +3793,7 @@ numericHFCS4<- ifelse(ASFL$HFCS1 == "I am not willing to take any financial risk
 numericHFCSrisk <- numericHFCS1+numericHFCS2+numericHFCS3+numericHFCS4
 table(numericHFCSrisk)
 ASFL7 <- cbind(ASFL7,numericHFCSrisk)
+
 
 ###############designed risk variable#################################
 #######Risky financial assets - recently chosen or used in the last year for active saving###########################
@@ -3575,6 +3842,18 @@ table(QS1_2risk)
 table(QS1_2nrisk)
 table(QS1_2neithernor)
 ASFL7 <- cbind(ASFL7,QS1_2risk)
+
+ASFL7 <- ASFL7 %>% mutate(QS1_2risk_group = case_when(QS1_2 == "Refused" ~"Ref/Don't know" ,
+                                                      QS1_2 == "Not relevant" ~"Ref/Don't know" ,
+                                                      QS1_2 == "Completely agree" ~"Substantial risk" ,
+                                                      QS1_2 == "2" ~"High risk" ,
+                                                      QS1_2 == "3" ~"Average risk" ,
+                                                      QS1_2 == "4" ~"Average risk" ,
+                                                      QS1_2 == "Completely disagree" ~"No risk"))
+table(ASFL7$QS1_2risk_group)
+QS1_2risk_group_1 <- as.factor(ASFL7$QS1_2risk_group)
+levels(QS1_2risk_group_1)
+ASFL7 <- within(ASFL7, QS1_2risk_group_1 <- relevel(QS1_2risk_group_1, ref = "No risk"))
 
 #problematic to but into one score - HFCS and assets separately
 riskscore <- bondd+stockshared+cryptod+HFCSriskd+QS1_2risk
