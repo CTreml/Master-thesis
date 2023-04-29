@@ -345,9 +345,9 @@ ASFL <- ASFL %>% mutate(incomegroup_simple = case_when(hincome == "Up to X a mon
                                                        hincome == "Between X and Y a month" ~ "Middle income",
                                                        hincome == "Y or more a month" ~ "High income", 
                                                        TRUE ~NA))
-incomegroup_1 <- as.factor(ASFL$incomegroup)
-levels(incomegroup_1)
-ASFL <- within(ASFL, incomegroup_1 <- relevel(incomegroup_1, ref = "Ref/Don't know"))
+
+incomegroup_1 <- factor(ASFL$incomegroup, levels=c("Ref/Don't know", "Low income", "Middle income", "High income"))
+ASFL <- cbind(ASFL, incomegroup_1)
 levels(ASFL$incomegroup_1)
 
 
@@ -4112,8 +4112,5 @@ wpct(ASFL7e$numericHFCSrisk, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$numericHFCSrisk, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$numericHFCSrisk, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$numericHFCSrisk, weight=ASFL7othworet$wght, na.rm=TRUE)
-
-
-
 
 
