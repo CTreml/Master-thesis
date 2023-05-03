@@ -1,1 +1,283 @@
+###########################EMPLOYMENT REGRESSION###########################
+ASFL7empl <- ASFL7[(ASFL7$QD10 %in% empl),] 
+
+finlitempl <- lm(finlit ~ employment1_2, data=ASFL7, weights=ASFL7$wght)
+summary(finlitempl)
+coeftest(finlitempl, vcov = vcovHC(finlitempl, type = "HC0"))
+AIC(finlitempl)
+finlitempl2 <- lm(finlit ~ employment2_2, data=ASFL7, weights=ASFL7$wght)
+summary(finlitempl2)
+coeftest(finlitempl2, vcov = vcovHC(finlitempl2, type = "HC0"))
+AIC(finlitempl2)
+finlitempl2_robustness <- lm(finlit ~ employment1_1, data=ASFL7empl, weights=ASFL7empl$wght)#robustness with predefined set
+summary(finlitempl2_robustness)
+coeftest(finlitempl2_robustness, vcov = vcovHC(finlitempl2_robustness, type = "HC0"))
+AIC(finlitempl2_robustness)
+finlitempl3 <- lm(finlit ~ employment1_1, data=ASFL7, weights=ASFL7$wght) #excluding others-> smaller sample size
+summary(finlitempl3)
+coeftest(finlitempl3, vcov = vcovHC(finlitempl3, type = "HC0"))
+AIC(finlitempl3)
+
+##residual checking
+plot(finlitempl$residuals, main="Residual plot")
+abline(h=0, col="red")
+bptest(finlitempl)#heterogeneity issues
+qqnorm(finlitempl$residuals, main="QQ-Residual plot") 
+qqline(finlitempl$residuals, col="red") 
+shapiro.test(finlitempl$residuals) #not normally distributed
+
+finlitempl_full <- lm(finlit ~ employmentfull_full, data=ASFL7, weights=ASFL7$wght)
+summary(finlitempl_full)
+coeftest(finlitempl_full, vcov = vcovHC(finlitempl_full, type = "HC0"))
+AIC(finlitempl_full)
+finlitempl_fullalt <- lm(finlit ~ QD10, data=ASFL7, weights=ASFL7$wght)
+summary(finlitempl_fullalt)
+coeftest(finlitempl_fullalt, vcov = vcovHC(finlitempl_fullalt, type = "HC0"))
+AIC(finlitempl_fullalt)
+finlitempl_special <- lm(finlit ~ employmentalt_alt, data=ASFL7, weights=ASFL7$wght)
+summary(finlitempl_special)
+coeftest(finlitempl_special, vcov = vcovHC(finlitempl_special, type = "HC0"))
+AIC(finlitempl_special)
+
+finlitempl_special <- lm(finlit ~ employmentalt_alt, data=ASFL7, weights=ASFL7$wght)
+summary(finlitempl_special)
+coeftest(finlitempl_special, vcov = vcovHC(finlitempl_special, type = "HC0"))
+AIC(finlitempl_special)
+
+finlitse <- lm(finlit ~ selfemployedd, data=ASFL7, weights=ASFL7$wght)
+summary(finlitse)
+coeftest(finlitse, vcov = vcovHC(finlitse, type = "HC0"))
+AIC(finlitse)
+finlite <- lm(finlit ~ employedd, data=ASFL7, weights=ASFL7$wght)
+summary(finlite)
+coeftest(finlite, vcov = vcovHC(finlite, type = "HC0"))
+AIC(finlite)
+finlitoth <- lm(finlit ~ employment1_1, data=ASFL7, weights=ASFL7$wght)
+summary(finlitoth)
+coeftest(finlitoth, vcov = vcovHC(finlitoth, type = "HC0"))
+AIC(finlitoth)
+
+#######for individual indicators
+fin_knowempl <- lm(fin_know ~ employment1_2, data=ASFL7, weights=ASFL7$wght)
+summary(fin_knowempl)
+coeftest(fin_knowempl, vcov = vcovHC(fin_knowempl, type = "HC0"))
+AIC(fin_knowempl)
+
+fin_behempl <- lm(fin_beh ~ employment1_2, data=ASFL7, weights=ASFL7$wght)
+summary(fin_behempl)
+coeftest(fin_behempl, vcov = vcovHC(fin_behempl, type = "HC0"))
+AIC(fin_behempl)
+
+fin_attempl <- lm(fin_att ~ employment1_2, data=ASFL7, weights=ASFL7$wght)
+summary(fin_attempl)
+coeftest(fin_attempl, vcov = vcovHC(fin_attempl, type = "HC0"))
+AIC(fin_attempl)
+
+###########################MODEL EVALUATION###########################
+#always exclude one group - otherwise: perfect collinearity! (zB:maled + femaled = 1)-> error would not occur for variables with missings but exclude one! 
+finlitmodelfull <- lm(finlit ~ employment1_2+ age + gender + higheduc+ livingcommgroup_1 + childd + singled +incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodelfull)
+shapiro.test(finlitmodelfull$residuals)
+coeftest(finlitmodelfull, vcov = vcovHC(finlitmodelfull, type = "HC0"))
+AIC(finlitmodelfull)
+#model testing
+#wald.test(Sigma = vcov(model), b = coef(model), Terms = 3:4)-p> .05, we fail to reject the null hypothesis of the Wald test.=> tested regression coefficients are both equal to zero.-> exclude from analysis
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 4)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 5)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 6)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 7)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 7:8)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 8)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 9)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 10)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 11:13)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 11)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 12)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 13)
+wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 14) #riskpropensity
+
+
+finlitmodel2 <- glm(finlit ~ employment1_2+ age + gender + higheduc + childd + singled +incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodel2)
+coeftest(finlitmodel2, vcov = vcovHC(finlitmodel2, type = "HC0"))
+AIC(finlitmodel2)
+finlitmodel <- glm(finlit ~employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodel)
+coeftest(finlitmodel, vcov = vcovHC(finlitmodel, type = "HC0"))
+AIC(finlitmodel)
+############model comparison
+modelcomp <- list(finlitmodelfull, finlitmodel2, finlitmodel)
+model.names <- c("1", "2", "3")
+modelcomp <- aictab(modelcomp, modnames = model.names)
+modelcomp
+xtable(modelcomp, type = "latex", file = "modelcomp", digits=3)
+
+finlitmodel4 <- lm(finlit ~employment1_2+ age  + higheduc +incomegroup_1+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodel4)
+coeftest(finlitmodel4, vcov = vcovHC(finlitmodel4, type = "HC0"))
+AIC(finlitmodel4)
+
+modelcomp2 <- list(finlitmodelfull, finlitmodel2, finlitmodel,finlitmodel4)
+model.names2 <- c("1", "2", "3", "4")
+modelcomp2 <-aictab(modelcomp2, modnames = model.names2)
+xtable(modelcomp2, type = "latex", file = "modelcomp2", digits=3)
+
+####for individual components
+finknowmodel <- glm(fin_know ~employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finknowmodel)
+coeftest(finknowmodel, vcov = vcovHC(finknowmodel, type = "HC0"))
+AIC(finknowmodel)
+finbehmodel <- glm(fin_beh ~employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finbehmodel)
+coeftest(finbehmodel, vcov = vcovHC(finbehmodel, type = "HC0"))
+AIC(finbehmodel)
+finattmodel <- glm(fin_att ~employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finattmodel)
+coeftest(finattmodel, vcov = vcovHC(finattmodel, type = "HC0"))
+AIC(finattmodel)
+
+####comparison self-employed and employed 
+finlitmodel_woempl <- glm(finlit ~+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodel_woempl)
+coeftest(finlitmodel_woempl, vcov = vcovHC(finlitmodel_woempl, type = "HC0"))
+AIC(finlitmodel_woempl)
+
+finlitmodel_se <- glm(finlit ~+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitmodel_se)
+coeftest(finlitmodel_se, vcov = vcovHC(finlitmodel_se, type = "HC0"))
+AIC(finlitmodel_se)
+finlitmodel_e <- glm(finlit ~+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finlitmodel_e)
+coeftest(finlitmodel_e, vcov = vcovHC(finlitmodel_e, type = "HC0"))
+AIC(finlitmodel_e)
+
+####interaction check
+finlitmodelinteractgenrisk <- lm(finlit ~ employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+HFCSriskad*gender+riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodelinteractgenrisk)
+coeftest(finlitmodelinteractgenrisk, vcov = vcovHC(finlitmodelinteractgenrisk, type = "HC0"))
+AIC(finlitmodelinteractgenrisk)
+finlitmodelinteractgenrisk2 <- glm(finlit ~ employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+HFCSriskad*gender+riskyassetsd + riskyassetsd*gender, data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodelinteractgenrisk2)
+coeftest(finlitmodelinteractgenrisk2, vcov = vcovHC(finlitmodelinteractgenrisk2, type = "HC0"))
+AIC(finlitmodelinteractgenrisk2)
+
+finlitmodelinteractagerisk <- glm(finlit ~ employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+HFCSriskad*age+riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodelinteractagerisk)
+coeftest(finlitmodelinteractagerisk, vcov = vcovHC(finlitmodelinteractagerisk, type = "HC0"))
+AIC(finlitmodelinteractagerisk)
+
+
+
+
+
+
+##########################EXTENSIONS###########################################
+##########################alternative detailed/categorical HFCSvariable - full sample###########################################
+finlitmodelriskgroup <- glm(finlit ~employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSrisk_group_1+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodelriskgroup)
+coeftest(finlitmodelriskgroup, vcov = vcovHC(finlitmodelriskgroup, type = "HC0"))
+AIC(finlitmodelriskgroup)
+finknowmodelriskgroup <- glm(fin_know ~employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSrisk_group_1+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finknowmodelriskgroup)
+coeftest(finknowmodelriskgroup, vcov = vcovHC(finknowmodelriskgroup, type = "HC0"))
+AIC(finknowmodelriskgroup)
+finbehmodelriskgroup <- glm(fin_beh ~employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSrisk_group_1+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finbehmodelriskgroup)
+coeftest(finbehmodelriskgroup, vcov = vcovHC(finbehmodelriskgroup, type = "HC0"))
+AIC(finbehmodelriskgroup)
+finattmodelriskgroup <- glm(fin_att ~employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSrisk_group_1+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finattmodelriskgroup)
+coeftest(finattmodelriskgroup, vcov = vcovHC(finattmodelriskgroup, type = "HC0"))
+AIC(finattmodelriskgroup)
+
+
+###########################MULTINOMIAL logit model###########################
+multi_finlitempl <- multinom(finlit_group ~ employment1_2 , data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
+#specify Hess = TRUE to save something called the Hessian matrix which helps with the calculation of standard errors, and set trace = FALSE to suppress the printing of convergence progress.
+summary(multi_finlitempl)
+se <- summary(multi_finlitempl)$coefficients/summary(multi_finlitempl)$standard.errors
+se
+p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
+p
+stargazer(multi_finlitempl, type="text", out="multi_finlitempl.htm") # type="html"otherwise!
+
+
+multi_finlit <- multinom(finlit_group ~ employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
+summary(multi_finlit)
+se <- summary(multi_finlit)$coefficients/summary(multi_finlit)$standard.errors
+se
+p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
+p
+stargazer(multi_finlit, type="text", out="multi_finlit.htm") 
+
+multi_finlit_se <- multinom(finlit_group ~  age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data = ASFL7se, weights=ASFL7se$wght,Hess = TRUE, trace = FALSE)
+summary(multi_finlit_se)
+stargazer(multi_finlit_se, type="text", out="multi_finlit_se.htm")
+
+multi_finlit_e <- multinom(finlit_group ~  age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data = ASFL7e, weights=ASFL7e$wght,Hess = TRUE, trace = FALSE)
+summary(multi_finlit_e)
+stargazer(multi_finlit_e, type="text", out="multi_finlit_e")
+
+
+
+###########################SUBGROUP DIFFERENCES###########################
+####age
+emplage <- lm(age ~ employment2,  data=ASFL7, weights=ASFL7$wght)
+summary(emplage)
+coeftest(emplage, vcov = vcovHC(emplage, type = "HC0"))
+AIC(emplage)
+
+multi_emplage <- multinom(employment1_1 ~ age , data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
+summary(multi_emplage)
+exp(coef(multi_emplage))
+se <- summary(multi_emplage)$coefficients/summary(multi_emplage)$standard.errors
+se
+p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
+p
+stargazer(multi_emplage, type="text", out="multi_emplage.htm") 
+
+#####education
+empleduc <- glm(higheduc ~ employment1_2,  data=ASFL7, weights=ASFL7$wght, family="binomial")
+summary(empleduc)
+coeftest(empleduc, vcov = vcovHC(empleduc, type = "HC0"))
+exp(coef(empleduc))
+
+
+multi_empleduc <- multinom(employment1_1 ~ higheduc , data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
+summary(multi_empleduc)
+exp(coef(multi_empleduc))
+se <- summary(multi_empleduc)$coefficients/summary(multi_empleduc)$standard.errors
+se
+p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
+p
+stargazer(multi_empleduc, type="text", out="multi_empleduc.htm") 
+
+
+
+#####gender
+emplgender <- glm(maled ~ employment2,  data=ASFL7, weights=ASFL7$wght, family="binomial")
+summary(emplgender) #im Vergleich zu employed mehr Männer
+coeftest(emplgender, vcov = vcovHC(emplgender, type = "HC0"))
+exp(coef(emplgender))
+
+multi_emplgender <- multinom(employment1_1 ~ gender , data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
+summary(multi_emplgender)
+exp(coef(multi_emplgender))
+se <- summary(multi_emplgender)$coefficients/summary(multi_emplgender)$standard.errors
+se
+p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
+p
+stargazer(multi_emplgender, type="text", out="multi_emplgender.htm") 
+
+
+###########################RISK DIFFERENCES###########################
+multi_emplrisk <- multinom(employment1_1 ~ HFCSriskad , data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
+summary(multi_emplrisk)
+exp(coef(multi_emplrisk))
+se <- summary(multi_emplrisk)$coefficients/summary(multi_emplrisk)$standard.errors
+se
+p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
+p
+stargazer(multi_emplrisk, type="text", out="multi_emplgender.htm") 
+#extend for alternatives?!
 
