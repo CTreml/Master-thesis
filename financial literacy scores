@@ -2735,6 +2735,23 @@ table(numericHFCSrisk)
 ASFL7 <- cbind(ASFL7,numericHFCSrisk)
 
 
+ASFL7se <- ASFL7[(ASFL7$QD10 %in% se),] 
+ASFL7e <- ASFL7[(ASFL7$QD10 %in% e),] 
+ASFL7eu <- ASFL7[(ASFL7$QD10 %in% eu),] 
+ASFL7oth <-  ASFL7[(ASFL7$QD10 %in% oth),] 
+ASFL7othworet <-  ASFL7[(ASFL7$QD10 %in% othworet),] 
+ASFL7ret <-  ASFL7[(ASFL7$QD10 %in% ret),] 
+ASFL7unempl <-  ASFL7[(ASFL7$QD10 %in% unempl),] 
+ASFL7entrepreneurs <-  ASFL7[(ASFL7$QF9_11 %in% entrepreneurs),] 
+
+table(ASFL7se$HFCSrisk_group_1)
+table(ASFL7e$HFCSrisk_group_1)
+table(ASFL7ret$HFCSrisk_group_1)
+table(ASFL7othworet$HFCSrisk_group_1)
+table(ASFL7unempl$HFCSrisk_group_1)
+table(ASFL7entrepreneurs$HFCSrisk_group_1)
+
+
 ###############designed risk variable#################################
 #######Risky financial assets - recently chosen or used in the last year for active saving###########################
 #######Stock, shares & bonds#################
