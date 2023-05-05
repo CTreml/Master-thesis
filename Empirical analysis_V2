@@ -74,6 +74,26 @@ summary(fin_attempl)
 coeftest(fin_attempl, vcov = vcovHC(fin_attempl, type = "HC0"))
 AIC(fin_attempl)
 
+###########################Reverse causality###########################
+revselfempl <- lm(selfemployedd ~ finlit,data=ASFL7, weights=ASFL7$wght, family="binomial") 
+summary(revselfempl)  
+exp(coef(revselfempl))
+coeftest(revselfempl, vcov = vcovHC(revselfempl, type = "HC0"))
+(adjR2(revselfempl))
+revselfempl <- glm(employedd ~ age,data=ASFL7, weights=ASFL7$wght, family="binomial") 
+summary(revselfempl)  
+coeftest(revselfempl, vcov = vcovHC(revselfempl, type = "HC0"))
+(adjR2(revselfempl))
+
+multi_revempl <- multinom(employment1_1 ~  finlit,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
+summary(multi_revempl)
+exp(coef(multi_revempl))
+se <- summary(multi_revempl)$coefficients/summary(multi_revempl)$standard.errors
+se
+p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
+p
+stargazer(multi_revempl, type="text", out="multi_revempl.htm") 
+PseudoR2(multi_revempl, which = c("McFadden"))#PseudoR2(multi_mo, which = c("CoxSnell","Nagelkerke","McFadden"))
 
 ###########################FINANCIAL RISK EVALUATION###########################
 #financial literacy risk propensity HFCSriskad
@@ -109,7 +129,7 @@ se
 p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
 p
 stargazer(multi_emplrisk, type="text", out="multi_emplrisk.htm") 
-adjR2(multi_emplrisk)
+PseudoR2(multi_emplrisk, which = c("McFadden"))
 
 #self-employed
 finlitriskse <- lm(finlit ~ HFCSriskad,data=ASFL7se, weights=ASFL7se$wght)
@@ -294,6 +314,7 @@ se
 p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
 p
 stargazer(multi_emplrisk, type="text", out="multi_emplrisk.htm") 
+PseudoR2(multi_emplrisk, which = c("McFadden"))
 
 #self-employed
 finlitriskse <- lm(finlit ~ HFCSrisk_group_1,data=ASFL7se, weights=ASFL7se$wght)
@@ -355,6 +376,7 @@ se
 p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
 p
 stargazer(multi_emplrisk, type="text", out="multi_emplrisk.htm") 
+PseudoR2(multi_emplrisk, which = c("McFadden"))
 
 #self-employed
 finlitriskse <- lm(finlit ~ numericHFCSrisk,data=ASFL7se, weights=ASFL7se$wght)
@@ -416,6 +438,7 @@ se
 p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
 p
 stargazer(multi_emplrisk, type="text", out="multi_emplrisk.htm") 
+PseudoR2(multi_emplrisk, which = c("McFadden"))
 
 #self-employed
 finlitriskse <- lm(finlit ~ QS1_2risk,data=ASFL7se, weights=ASFL7se$wght)
@@ -617,23 +640,69 @@ coeftest(emplage, vcov = vcovHC(emplage, type = "HC0"))
 AIC(emplage)
 
 #full sample
-finlitage <- lm(finlit ~ age,data=ASFL7, weights=ASFL7$wght) 
-summary(finlitage)  
+finlitage <- lm(finlit ~ age,  data=ASFL7, weights=ASFL7$wght)
+summary(finlitage)
+shapiro.test(finlitage$residuals)
 coeftest(finlitage, vcov = vcovHC(finlitage, type = "HC0"))
-AIC(finlitage)
-finknowage <- lm(fin_know ~ age,data=ASFL7, weights=ASFL7$wght) 
-summary(finknowage)  
+plot(finlitage$residuals)
+finlitage2 <- lm(finlit ~ age + age2,  data=ASFL7, weights=ASFL7$wght)
+summary(finlitage2)
+coeftest(finlitage2, vcov = vcovHC(finlitage2, type = "HC0"))
+finlitage3 <- lm(finlit ~ rootage,  data=ASFL7, weights=ASFL7$wght)
+summary(finlitage3)
+coeftest(finlitage3, vcov = vcovHC(finlitage3, type = "HC0"))
+finknowage <- lm(fin_know ~ age,  data=ASFL7, weights=ASFL7$wght)
+summary(finknowage)
 coeftest(finknowage, vcov = vcovHC(finknowage, type = "HC0"))
-AIC(finknowage)
-finbehage <- lm(fin_beh ~ age,data=ASFL7, weights=ASFL7$wght)
-summary(finbehage)  
+finknowage2 <- lm(fin_know ~ age + age2,  data=ASFL7, weights=ASFL7$wght)
+summary(finknowage2)
+coeftest(finknowage2, vcov = vcovHC(finknowage2, type = "HC0"))
+finbehage <- lm(fin_beh ~ age,  data=ASFL7, weights=ASFL7$wght)
+summary(finbehage)
 coeftest(finbehage, vcov = vcovHC(finbehage, type = "HC0"))
-AIC(finbehage)
-finattage <- lm(fin_att ~ age,data=ASFL7, weights=ASFL7$wght) 
-summary(finattage)  
+finbehage2 <- lm(fin_beh ~ age + age2,  data=ASFL7, weights=ASFL7$wght)
+summary(finbehage2)
+coeftest(finbehage2, vcov = vcovHC(finbehage2, type = "HC0"))
+finattage <- lm(fin_att ~ age,  data=ASFL7, weights=ASFL7$wght)
+summary(finattage)
 coeftest(finattage, vcov = vcovHC(finattage, type = "HC0"))
-AIC(finattage)
+finattage2 <- lm(fin_att ~ age+age2,  data=ASFL7, weights=ASFL7$wght)
+summary(finattage2)
+coeftest(finattage2, vcov = vcovHC(finattage2, type = "HC0"))
 
+#selfemployed
+finlitage <- lm(finlit ~ age,  data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitage)
+shapiro.test(finlitage$residuals)
+coeftest(finlitage, vcov = vcovHC(finlitage, type = "HC0"))
+plot(finlitage$residuals)
+finlitage2 <- lm(finlit ~ age + age2,  data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitage2)
+coeftest(finlitage2, vcov = vcovHC(finlitage2, type = "HC0"))
+finlitage3 <- lm(finlit ~ rootage,  data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitage3)
+coeftest(finlitage3, vcov = vcovHC(finlitage3, type = "HC0"))
+finknowage <- lm(fin_know ~ age,  data=ASFL7se, weights=ASFL7se$wght)
+summary(finknowage)
+coeftest(finknowage, vcov = vcovHC(finknowage, type = "HC0"))
+finknowage2 <- lm(fin_know ~ age + age2,  data=ASFL7se, weights=ASFL7se$wght)
+summary(finknowage2)
+coeftest(finknowage2, vcov = vcovHC(finknowage2, type = "HC0"))
+finbehage <- lm(fin_beh ~ age,  data=ASFL7se, weights=ASFL7se$wght)
+summary(finbehage)
+coeftest(finbehage, vcov = vcovHC(finbehage, type = "HC0"))
+finbehage2 <- lm(fin_beh ~ age + age2,  data=ASFL7se, weights=ASFL7se$wght)
+summary(finbehage2)
+coeftest(finbehage2, vcov = vcovHC(finbehage2, type = "HC0"))
+finattage <- lm(fin_att ~ age,  data=ASFL7se, weights=ASFL7se$wght)
+summary(finattage)
+coeftest(finattage, vcov = vcovHC(finattage, type = "HC0"))
+finattage2 <- lm(fin_att ~ age+age2,  data=ASFL7se, weights=ASFL7se$wght)
+summary(finattage2)
+coeftest(finattage2, vcov = vcovHC(finattage2, type = "HC0"))
+
+
+#full sample
 selfemployedage <- glm(selfemployedd ~ age,data=ASFL7, weights=ASFL7$wght, family="binomial") 
 summary(selfemployedage)  
 coeftest(selfemployedage, vcov = vcovHC(selfemployedage, type = "HC0"))
@@ -641,49 +710,58 @@ coeftest(selfemployedage, vcov = vcovHC(selfemployedage, type = "HC0"))
 employedage <- glm(employedd ~ age,data=ASFL7, weights=ASFL7$wght, family="binomial") 
 summary(employedage)  
 coeftest(employedage, vcov = vcovHC(employedage, type = "HC0"))
+PseudoR2(employedage, which = c("McFadden"))
 
 #multi_emplage <- multinom(employment1_2 ~  age,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
 multi_emplage <- multinom(employment1_1 ~  age,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
 summary(multi_emplage)
+exp(coef(multi_emplage))
 se <- summary(multi_emplage)$coefficients/summary(multi_emplage)$standard.errors
 se
 p <- (1 - pnorm(abs(se), 0, 1)) * 2 
 p
 stargazer(multi_emplage, type="text", out="multi_emplage.htm") 
+PseudoR2(multi_emplage, which = c("McFadden"))
 
-#self-employed
-finlitagese <- lm(finlit ~ age,data=ASFL7se, weights=ASFL7se$wght)
-summary(finlitagese)  
-coeftest(finlitagese, vcov = vcovHC(finlitagese, type = "HC0"))
-finknowagese <- lm(fin_know ~ age,data=ASFL7se, weights=ASFL7se$wght) 
-summary(finknowagese)  
-coeftest(finknowagese, vcov = vcovHC(finknowagese, type = "HC0"))
-finbehagese <- lm(fin_beh ~ age,data=ASFL7se, weights=ASFL7se$wght) 
-summary(finbehagese)  
-coeftest(finbehagese, vcov = vcovHC(finbehagese, type = "HC0"))
-finattagese <- lm(fin_att ~ age,data=ASFL7se, weights=ASFL7se$wght) 
-summary(finattagese)  
-coeftest(finattagese, vcov = vcovHC(finattagese, type = "HC0"))
 
 #employed
-finlitagee <- lm(finlit ~ age,data=ASFL7e, weights=ASFL7e$wght) 
-coeftest(finlitagee, vcov = vcovHC(finlitagee, type = "HC0"))
-finknowagee <- lm(fin_know ~ age,data=ASFL7e, weights=ASFL7e$wght) 
-summary(finknowagee)  
-coeftest(finknowagee, vcov = vcovHC(finknowagee, type = "HC0"))
-finbehagee <- lm(fin_beh ~ age,data=ASFL7e, weights=ASFL7e$wght) 
-summary(finbehagee)  
-coeftest(finbehagee, vcov = vcovHC(finbehagee, type = "HC0"))
-finattagee <- lm(fin_att ~ age,data=ASFL7e, weights=ASFL7e$wght) 
-summary(finattagee)  
-coeftest(finattagee, vcov = vcovHC(finattagee, type = "HC0"))
+finlitage <- lm(finlit ~ age,  data=ASFL7e, weights=ASFL7e$wght)
+summary(finlitage)
+shapiro.test(finlitage$residuals)
+coeftest(finlitage, vcov = vcovHC(finlitage, type = "HC0"))
+plot(finlitage$residuals)
+finlitage2 <- lm(finlit ~ age + age2,  data=ASFL7e, weights=ASFL7e$wght)
+summary(finlitage2)
+coeftest(finlitage2, vcov = vcovHC(finlitage2, type = "HC0"))
+finlitage3 <- lm(finlit ~ rootage,  data=ASFL7e, weights=ASFL7e$wght)
+summary(finlitage3)
+coeftest(finlitage3, vcov = vcovHC(finlitage3, type = "HC0"))
+finknowage <- lm(fin_know ~ age,  data=ASFL7e, weights=ASFL7e$wght)
+summary(finknowage)
+coeftest(finknowage, vcov = vcovHC(finknowage, type = "HC0"))
+finknowage2 <- lm(fin_know ~ age + age2,  data=ASFL7e, weights=ASFL7e$wght)
+summary(finknowage2)
+coeftest(finknowage2, vcov = vcovHC(finknowage2, type = "HC0"))
+finbehage <- lm(fin_beh ~ age,  data=ASFL7e, weights=ASFL7e$wght)
+summary(finbehage)
+coeftest(finbehage, vcov = vcovHC(finbehage, type = "HC0"))
+finbehage2 <- lm(fin_beh ~ age + age2,  data=ASFL7e, weights=ASFL7e$wght)
+summary(finbehage2)
+coeftest(finbehage2, vcov = vcovHC(finbehage2, type = "HC0"))
+finattage <- lm(fin_att ~ age,  data=ASFL7e, weights=ASFL7e$wght)
+summary(finattage)
+coeftest(finattage, vcov = vcovHC(finattage, type = "HC0"))
+finattage2 <- lm(fin_att ~ age+age2,  data=ASFL7e, weights=ASFL7e$wght)
+summary(finattage2)
+coeftest(finattage2, vcov = vcovHC(finattage2, type = "HC0"))
 
 
 ###########################Education###########################
-empleduc <- glm(highigheduc ~ employment1_2,  data=ASFL7, weights=ASFL7$wght, family="binomial")
+empleduc <- glm(higheduc ~ employment1_2,  data=ASFL7, weights=ASFL7$wght, family="binomial")
 summary(empleduc)
 coeftest(empleduc, vcov = vcovHC(empleduc, type = "HC0"))
 exp(coef(empleduc))
+PseudoR2(empleduc, which = c("McFadden"))
 
 
 #full sample
@@ -715,11 +793,13 @@ coeftest(employedhigheduc, vcov = vcovHC(employedhigheduc, type = "HC0"))
 #multi_emplhigheduc <- multinom(employment1_2 ~  higheduc,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
 multi_emplhigheduc <- multinom(employment1_1 ~  higheduc,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
 summary(multi_emplhigheduc)
+exp(coef(multi_emplhigheduc))
 se <- summary(multi_emplhigheduc)$coefficients/summary(multi_emplhigheduc)$standard.errors
 se
 p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
 p
 stargazer(multi_emplhigheduc, type="text", out="multi_emplhigheduc.htm") 
+PseudoR2(multi_emplhigheduc, which = c("McFadden"))
 
 #self-employed
 finlithigheducse <- lm(finlit ~ higheduc,data=ASFL7se, weights=ASFL7se$wght)
@@ -750,10 +830,11 @@ coeftest(finatthigheduce, vcov = vcovHC(finatthigheduce, type = "HC0"))
 AIC(finlithigheduce,finknowhigheduce,finbehhigheduce,finatthigheduce)
 
 ###########################Gender###########################
-emplgender <- glm(maled ~ employment2,  data=ASFL7, weights=ASFL7$wght, family="binomial")
+emplgender <- glm(maled ~ employment1_2,  data=ASFL7, weights=ASFL7$wght, family="binomial")
 summary(emplgender) #im Vergleich zu employed mehr Männer
 coeftest(emplgender, vcov = vcovHC(emplgender, type = "HC0"))
 exp(coef(emplgender))
+PseudoR2(emplgender, which = c("McFadden"))
 
 #full sample
 finlitgender <- lm(finlit ~ gender,data=ASFL7, weights=ASFL7$wght) 
@@ -784,11 +865,13 @@ coeftest(employedgender, vcov = vcovHC(employedgender, type = "HC0"))
 #multi_emplgender <- multinom(employment1_2 ~  gender,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
 multi_emplgender <- multinom(employment1_1 ~  gender,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
 summary(multi_emplgender)
+exp(coef(multi_emplgender))
 se <- summary(multi_emplgender)$coefficients/summary(multi_emplgender)$standard.errors
 se
 p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
 p
 stargazer(multi_emplgender, type="text", out="multi_emplgender.htm") 
+PseudoR2(multi_emplgender, which = c("McFadden"))
 
 #self-employed
 finlitgenderse <- lm(finlit ~ gender,data=ASFL7se, weights=ASFL7se$wght)
@@ -860,11 +943,13 @@ AIC(finattmodelriskgroup)
 multi_finlitempl <- multinom(finlit_group ~ employment1_2 , data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
 #specify Hess = TRUE to save something called the Hessian matrix which helps with the calculation of standard errors, and set trace = FALSE to suppress the printing of convergence progress.
 summary(multi_finlitempl)
+exp(coef(multi_finlitempl))
 se <- summary(multi_finlitempl)$coefficients/summary(multi_finlitempl)$standard.errors
 se
 p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
 p
 stargazer(multi_finlitempl, type="text", out="multi_finlitempl.htm") # type="html"otherwise!
+PseudoR2(multi_finlitempl, which = c("McFadden"))
 
 
 multi_finlit <- multinom(finlit_group ~ employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
@@ -874,6 +959,7 @@ se
 p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
 p
 stargazer(multi_finlit, type="text", out="multi_finlit.htm") 
+PseudoR2(multi_finlit, which = c("McFadden"))
 
 multi_finlit_se <- multinom(finlit_group ~  age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data = ASFL7se, weights=ASFL7se$wght,Hess = TRUE, trace = FALSE)
 summary(multi_finlit_se)
@@ -882,6 +968,7 @@ stargazer(multi_finlit_se, type="text", out="multi_finlit_se.htm")
 multi_finlit_e <- multinom(finlit_group ~  age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data = ASFL7e, weights=ASFL7e$wght,Hess = TRUE, trace = FALSE)
 summary(multi_finlit_e)
 stargazer(multi_finlit_e, type="text", out="multi_finlit_e")
+PseudoR2(multi_finlit_e, which = c("McFadden"))
 
 
 
