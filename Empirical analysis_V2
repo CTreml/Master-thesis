@@ -4,6 +4,7 @@ ASFL7empl <- ASFL7[(ASFL7$QD10 %in% empl),]
 finlitempl <- lm(finlit ~ employment1_2, data=ASFL7, weights=ASFL7$wght)
 summary(finlitempl)
 coeftest(finlitempl, vcov = vcovHC(finlitempl, type = "HC0"))
+coeftest(finlitempl, vcov. = vcovHC) #alternative - also provides robust standard errors
 AIC(finlitempl)
 finlitempl2 <- lm(finlit ~ employment2_2, data=ASFL7, weights=ASFL7$wght)
 summary(finlitempl2)
@@ -108,6 +109,7 @@ se
 p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
 p
 stargazer(multi_emplrisk, type="text", out="multi_emplrisk.htm") 
+adjR2(multi_emplrisk)
 
 #self-employed
 finlitriskse <- lm(finlit ~ HFCSriskad,data=ASFL7se, weights=ASFL7se$wght)
@@ -614,15 +616,6 @@ summary(emplage)
 coeftest(emplage, vcov = vcovHC(emplage, type = "HC0"))
 AIC(emplage)
 
-multi_emplage <- multinom(employment1_1 ~ age , data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
-summary(multi_emplage)
-exp(coef(multi_emplage))
-se <- summary(multi_emplage)$coefficients/summary(multi_emplage)$standard.errors
-se
-p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
-p
-stargazer(multi_emplage, type="text", out="multi_emplage.htm") 
-
 #full sample
 finlitage <- lm(finlit ~ age,data=ASFL7, weights=ASFL7$wght) 
 summary(finlitage)  
@@ -649,6 +642,7 @@ employedage <- glm(employedd ~ age,data=ASFL7, weights=ASFL7$wght, family="binom
 summary(employedage)  
 coeftest(employedage, vcov = vcovHC(employedage, type = "HC0"))
 
+#multi_emplage <- multinom(employment1_2 ~  age,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
 multi_emplage <- multinom(employment1_1 ~  age,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
 summary(multi_emplage)
 se <- summary(multi_emplage)$coefficients/summary(multi_emplage)$standard.errors
@@ -692,16 +686,6 @@ coeftest(empleduc, vcov = vcovHC(empleduc, type = "HC0"))
 exp(coef(empleduc))
 
 
-multi_empleduc <- multinom(employment1_1 ~ highigheduc , data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
-summary(multi_empleduc)
-exp(coef(multi_empleduc))
-se <- summary(multi_empleduc)$coefficients/summary(multi_empleduc)$standard.errors
-se
-p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
-p
-stargazer(multi_empleduc, type="text", out="multi_empleduc.htm") 
-
-
 #full sample
 finlithigheduc <- lm(finlit ~ higheduc,data=ASFL7, weights=ASFL7$wght) 
 summary(finlithigheduc)  
@@ -727,6 +711,8 @@ coeftest(selfemployedhigheduc, vcov = vcovHC(selfemployedhigheduc, type = "HC0")
 employedhigheduc <- glm(employedd ~ higheduc,data=ASFL7, weights=ASFL7$wght, family="binomial") 
 summary(employedhigheduc)  
 coeftest(employedhigheduc, vcov = vcovHC(employedhigheduc, type = "HC0"))
+
+#multi_emplhigheduc <- multinom(employment1_2 ~  higheduc,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
 multi_emplhigheduc <- multinom(employment1_1 ~  higheduc,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
 summary(multi_emplhigheduc)
 se <- summary(multi_emplhigheduc)$coefficients/summary(multi_emplhigheduc)$standard.errors
@@ -769,16 +755,6 @@ summary(emplgender) #im Vergleich zu employed mehr Männer
 coeftest(emplgender, vcov = vcovHC(emplgender, type = "HC0"))
 exp(coef(emplgender))
 
-multi_emplgender <- multinom(employment1_1 ~ gender , data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
-summary(multi_emplgender)
-exp(coef(multi_emplgender))
-se <- summary(multi_emplgender)$coefficients/summary(multi_emplgender)$standard.errors
-se
-p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
-p
-stargazer(multi_emplgender, type="text", out="multi_emplgender.htm") 
-
-
 #full sample
 finlitgender <- lm(finlit ~ gender,data=ASFL7, weights=ASFL7$wght) 
 summary(finlitgender)  
@@ -804,6 +780,8 @@ coeftest(selfemployedgender, vcov = vcovHC(selfemployedgender, type = "HC0"))
 employedgender <- glm(employedd ~ gender,data=ASFL7, weights=ASFL7$wght, family="binomial") 
 summary(employedgender)  
 coeftest(employedgender, vcov = vcovHC(employedgender, type = "HC0"))
+
+#multi_emplgender <- multinom(employment1_2 ~  gender,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
 multi_emplgender <- multinom(employment1_1 ~  gender,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
 summary(multi_emplgender)
 se <- summary(multi_emplgender)$coefficients/summary(multi_emplgender)$standard.errors
