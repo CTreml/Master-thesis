@@ -14,6 +14,8 @@ library(Weighted.Desc.Stat)
 library(aod)
 library(glmtoolbox)
 library(pscl)
+library(AICcmodavg)
+library(DescTools)
 
 #setting the working directory
 setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
