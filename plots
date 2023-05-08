@@ -251,7 +251,7 @@ ggplot(finlitcomparisongender, aes(fill=gender, y=value, x=finlitcomparison)) +
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("grey",
                              "orange"))+
-  labs(x = "",y="Percentage share", fill = "Gender")
+  labs(x = "",y="Percentage share", fill = "")
 
 #age group comparison main financial literacy scores 
 #weighted
@@ -263,7 +263,7 @@ finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitco
 finlitcomparisongender$agegroup<- factor(finlitcomparisongender$agegroup, levels=c("Old millenials" , "Generation X", "Baby boomers" ))
 ggplot(finlitcomparisongender, aes(fill=agegroup, y=value, x=finlitcomparison)) + 
   geom_bar(position="dodge", stat="identity")+
-  labs(x = "",y="Percentage share", fill = "Age group")
+  labs(x = "",y="Percentage share", fill = "")
 
 #education comparison main financial literacy scores 
 #weighted old
@@ -280,16 +280,16 @@ ggplot(finlitcomparisongender, aes(fill=education, y=value, x=finlitcomparison))
 #education comparison main financial literacy scores 
 #weighted new
 finlitcomparison <- c(rep("Financial knowledge" , 2) , rep("Financial behaviour" , 2) , rep("Financial attitude" , 2) )
-education <- rep(c("Lower education", "Higher education" ) , 3)
+education <- rep(c("Lower", "Higher" ) , 3)
 value <- abs(c(5.651829,6.448447,6.673599,7.005088,3.302335,3.301349))
 finlitcomparisongender<- data.frame(finlitcomparison,education,value)
 finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Financial knowledge","Financial behaviour","Financial attitude"))
-finlitcomparisongender$education<- factor(finlitcomparisongender$education, levels=c("Lower education", "Higher education" ))
+finlitcomparisongender$education<- factor(finlitcomparisongender$education, levels=c("Lower", "Higher" ))
 ggplot(finlitcomparisongender, aes(fill=education, y=value, x=finlitcomparison)) + 
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("green",
                              "purple"))+
-  labs(x = "",y="Percentage share", fill = "Educational level")
+  labs(x = "",y="Percentage share", fill = "")
 
 ###############FINANCIAL INCLUSION######################
 #unweighted 
@@ -489,7 +489,7 @@ finrescomparison$finrel<- factor(finrescomparison$finrel, levels=c('Don´t know/
 finrescomparison$status<- factor(finrescomparison$status, levels=c('Self-employed', 'Employed'))
 ggplot(finrescomparison, aes(fill=finrel, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="Financial cushion")
+  labs(x="",y="Percentage share",fill="")
 
 #only self employed
 finrescomparison <- data.frame(status=rep(c('Self-employed'), each=5),
@@ -525,7 +525,7 @@ ggplot(finstressconcernplot, aes(fill=status, y=value, x=finstressconcern)) +
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("lightblue",
                              "purple"))+
-  labs(x="",y="Percentage share",fill="Financial cushion")
+  labs(x="",y="Percentage share",fill="")
 
 finstressconcernfraud <- c(rep("Fraud victim" , 2) , rep("Shortfall" , 2) , rep("Expense worries" , 2) , rep("Financial concern" , 2) , rep("´Just getting by´" , 2) )
 status <- rep(c("Less than three months" , "More than three months" ) , 5)
@@ -537,7 +537,7 @@ ggplot(finstressconcernfraudplot, aes(fill=status, y=value, x=finstressconcernfr
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("lightblue",
                              "purple"))+
-  labs(x="",y="Percentage share",fill="Financial cushion")
+  labs(x="",y="Percentage share",fill="")
 
 #weighted gender specific se
 finrescomparison <- data.frame(status=rep(c('Male','Female'), each=5),
@@ -547,7 +547,7 @@ finrescomparison$finrel<- factor(finrescomparison$finrel, levels=c('Don´t know/
 finrescomparison$status<- factor(finrescomparison$status, levels=c("Male" , "Female" ))
 ggplot(finrescomparison, aes(fill=finrel, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="Financial cushion")
+  labs(x="",y="Percentage share",fill="")
 ########financial fraud##################
 
 
@@ -1072,7 +1072,7 @@ HFCSrisk$status<- factor(HFCSrisk$status, levels=c('Self-employed', 'Employed'))
 ggplot(HFCSrisk, aes(fill=Propensity, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity') +
   # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
-  labs(x="",y = 'Percentage share',fill="Risk taking propensity")
+  labs(x="",y = 'Percentage share',fill="")
 
 
 #self-employed gender comparison
@@ -1095,7 +1095,7 @@ HFCSriskgender$status<- factor(HFCSriskgender$status, levels=c('Male', 'Female')
 ggplot(HFCSriskgender, aes(fill=HFCSrisk, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity') +
   # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
-  labs(x="",y = 'Percentage share',fill="Risk taking propensity")
+  labs(x="",y = 'Percentage share',fill="")
 
 ########risk attitude variable
 #risk attitude comparison
@@ -1192,7 +1192,8 @@ selfassessfinknowse <- ggplot(data = ASFL7se,
   geom_text(stat = "stratum",
             aes(label = after_stat(stratum))) +
   scale_fill_viridis_d() +
-  theme_void()
+  theme_void()+
+  theme(legend.position = "none")
 
 selfassessfinknowse
 
@@ -1219,7 +1220,8 @@ selfassessfinknowe <- ggplot(data = ASFL7e,
   geom_text(stat = "stratum",
             aes(label = after_stat(stratum))) +
   scale_fill_viridis_d() +
-  theme_void()
+  theme_void()+
+  theme(legend.position = "none")
 
 selfassessfinknowe
 
@@ -1242,7 +1244,8 @@ selfassessriskse<- ggplot(data = ASFL7se,
   geom_text(stat = "stratum",
             aes(label = after_stat(stratum))) +
   scale_fill_viridis_d() +
-  theme_void()
+  theme_void()+
+  theme(legend.position = "none")
 
 selfassessriskse
 
@@ -1257,10 +1260,75 @@ selfassessriske<- ggplot(data = ASFL7e,
   geom_text(stat = "stratum",
             aes(label = after_stat(stratum))) +
   scale_fill_viridis_d() +
-  theme_void()
+  theme_void()+
+  theme(legend.position = "none")
 
 selfassessriske
 
+#sankey plot - financial self-assessment and risky asset taking
+#self-employed
+Finriskassetse <- ASFL7se$riskyassetsd
+selfassessriskassetse<- ggplot(data = ASFL7se,
+                          aes(axis1 = Assessmentse,# First variable on the X-axis
+                              axis2 = Finriskassetse, 
+                              y = frequency(Finriskassetse))) +
+  geom_alluvium(aes(fill = Assessmentse)) +
+  geom_stratum() +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessriskassetse
+
+#employed
+Finriskassete <- ASFL7e$riskyassetsd
+selfassessriskassete<- ggplot(data = ASFL7e,
+                               aes(axis1 = Assessmente,# First variable on the X-axis
+                                   axis2 = Finriskassete, 
+                                   y = frequency(Finriskassete))) +
+  geom_alluvium(aes(fill = Assessmente)) +
+  geom_stratum() +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessriskassete
+
+#sankey plot - financial risk propensity and risky asset taking
+#self-employed
+Finriskassetse <- ASFL7se$riskyassetsd
+riskpropensityassetse<- ggplot(data = ASFL7se,
+                               aes(axis1 = Finriskse,# First variable on the X-axis
+                                   axis2 = Finriskassetse, 
+                                   y = frequency(Finriskassetse))) +
+  geom_alluvium(aes(fill = Finriskse)) +
+  geom_stratum() +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskpropensityassetse
+
+#employed
+riskpropensityassete<- ggplot(data = ASFL7e,
+                               aes(axis1 = Finriske,# First variable on the X-axis
+                                   axis2 = Finriskassete, 
+                                   y = frequency(Finriskassete))) +
+  geom_alluvium(aes(fill = Finriske)) +
+  geom_stratum() +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskpropensityassete
 
 #sankey plot - financial buffer (resilience) and financial knowledge
 finbufffinknow <- ggplot(data = ASFL7se,
@@ -1356,6 +1424,40 @@ interaction.plot(x.factor = ASFL7se$HFCSriskad, #x-axis variable
                  lty = 1, #line type
                  lwd = 2, #line width
                  trace.label = "Gender")
+###interaction plot risk financial knowledge 
+interaction.plot(x.factor = ASFL7se$HFCSriskad, #x-axis variable
+                 trace.factor = ASFL7se$maled, #variable for lines
+                 response = ASFL7se$fin_know, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Financial literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Gender")
+###interaction plot risk financial behaviour 
+interaction.plot(x.factor = ASFL7se$HFCSriskad, #x-axis variable
+                 trace.factor = ASFL7se$maled, #variable for lines
+                 response = ASFL7se$fin_beh, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Financial literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Gender")
+###interaction plot risk financial attitude 
+interaction.plot(x.factor = ASFL7se$HFCSriskad, #x-axis variable
+                 trace.factor = ASFL7se$maled, #variable for lines
+                 response = ASFL7se$fin_att, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Financial literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Gender")
+###interaction plot risk financial risky asset taking 
 interaction.plot(x.factor = ASFL7se$riskyassetsd, #x-axis variable
                  trace.factor = ASFL7se$maled, #variable for lines
                  response = ASFL7se$finlit, #y-axis variable
@@ -1391,6 +1493,36 @@ interaction.plot(x.factor = ASFL7$riskyassetsd, #x-axis variable
 interaction.plot(x.factor = ASFL7e$HFCSriskad, #x-axis variable
                  trace.factor = ASFL7e$maled, #variable for lines
                  response = ASFL7e$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Financial literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Gender")
+interaction.plot(x.factor = ASFL7e$HFCSriskad, #x-axis variable
+                 trace.factor = ASFL7e$maled, #variable for lines
+                 response = ASFL7e$fin_know, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Financial literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Gender")
+interaction.plot(x.factor = ASFL7e$HFCSriskad, #x-axis variable
+                 trace.factor = ASFL7e$maled, #variable for lines
+                 response = ASFL7e$fin_beh, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Financial literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Gender")
+interaction.plot(x.factor = ASFL7e$HFCSriskad, #x-axis variable
+                 trace.factor = ASFL7e$maled, #variable for lines
+                 response = ASFL7e$fin_att, #y-axis variable
                  fun = median, #metric to plot
                  ylab = "Financial literacy",
                  xlab = "Risk propensity",
@@ -1443,6 +1575,7 @@ interaction.plot(x.factor = ASFL7se$age, #x-axis variable
                  lty = 1, #line type
                  lwd = 2, #line width
                  trace.label = "Gender")
+
 ######################LINEAR REGRESSION analysis
 #theory regression plot
 ggplot(mtcars, aes(x = hp, y = mpg)) +
