@@ -1,4 +1,5 @@
 
+
 #########################MAIN FINANCIAL LITERACY INDICATORS##########################################
 
 #QK1 - self-rated knowledge #does not add to financial literacy score
@@ -2174,12 +2175,10 @@ ASFL6ef <- ASFL6e[(ASFL6e$QD1 %in% female),]
 weighted.mean(ASFL6em$finlit, ASFL6em$wght) 
 weighted.mean(ASFL6ef$finlit, ASFL6ef$wght)
 
-#financial cushion and financial indicators
+###financial cushion and financial indicators - high or low financial savings
 ASFL6hfinbuff <- ASFL6[(ASFL6$QF13 %in% hfinbuff),]
 ASFL6lfinbuff <- ASFL6[(ASFL6$QF13 %in% lfinbuff),]
 
-ASFL6sehfinbuff <- ASFL6se[(ASFL6se$QF13 %in% hfinbuff),]
-ASFL6selfinbuff <- ASFL6se[(ASFL6se$QF13 %in% lfinbuff),]
 ###financial resilience specific below or above three months
 #fullsample
 weighted.mean(ASFL6hfinbuff$finlit,ASFL6hfinbuff$wght)#according to OECD
@@ -2207,8 +2206,11 @@ weighted.mean(ASFL6hfinbuff$finfraudd,ASFL6hfinbuff$wght)
 weighted.mean(ASFL6lfinbuff$finfraudd,ASFL6lfinbuff$wght)
 
 #self-employed
-#higheducation
-weighted.mean(ASFL6sehfinbuff$finlit,ASFL6sehfinbuff$wght)
+ASFL6sehfinbuff <- ASFL6se[(ASFL6se$QF13 %in% hfinbuff),]
+ASFL6selfinbuff <- ASFL6se[(ASFL6se$QF13 %in% lfinbuff),]
+#high financial savings
+weighted.mean(ASFL6sehfinbuff
+              $finlit,ASFL6sehfinbuff$wght)
 weighted.mean(ASFL6selfinbuff$finlit,ASFL6selfinbuff$wght)
 
 weighted.mean(ASFL6sehfinbuff$fin_know,ASFL6sehfinbuff$wght)
@@ -2233,6 +2235,34 @@ weighted.mean(ASFL6selfinbuff$finstress3,ASFL6selfinbuff$wght)
 weighted.mean(ASFL6sehfinbuff$finfraudd,ASFL6sehfinbuff$wght)
 weighted.mean(ASFL6selfinbuff$finfraudd,ASFL6selfinbuff$wght)
 
+#employed
+ASFL6ehfinbuff <- ASFL6e[(ASFL6e$QF13 %in% hfinbuff),]
+ASFL6elfinbuff <- ASFL6e[(ASFL6e$QF13 %in% lfinbuff),]
+#high financial savings
+weighted.mean(ASFL6ehfinbuff$finlit,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$finlit,ASFL6elfinbuff$wght)
+
+weighted.mean(ASFL6ehfinbuff$fin_know,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$fin_know,ASFL6elfinbuff$wght)
+
+weighted.mean(ASFL6ehfinbuff$fin_beh,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$fin_beh,ASFL6elfinbuff$wght)
+
+weighted.mean(ASFL6ehfinbuff$fin_att,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$fin_att,ASFL6elfinbuff$wght)
+
+#financial stress and concern 
+weighted.mean(ASFL6ehfinbuff$shortfall,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$shortfall,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6ehfinbuff$finstress1,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$finstress1,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6ehfinbuff$finstress2,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$finstress2,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6ehfinbuff$finstress3,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$finstress3,ASFL6elfinbuff$wght)
+
+weighted.mean(ASFL6ehfinbuff$finfraudd,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$finfraudd,ASFL6elfinbuff$wght)
 
 ##############################GENDER DIFFERENCES financial indicators ############
 ###selfemployed
@@ -2802,15 +2832,27 @@ ASFL7 <- cbind(ASFL7,QS1_2risk)
 
 ASFL7 <- ASFL7 %>% mutate(QS1_2risk_group = case_when(QS1_2 == "Refused" ~"Ref/Don't know" ,
                                                       QS1_2 == "Not relevant" ~"Ref/Don't know" ,
+                                                      QS1_2 == "Don't know" ~"Ref/Don't know" ,
                                                       QS1_2 == "Completely agree" ~"Substantial risk" ,
                                                       QS1_2 == "2" ~"High risk" ,
                                                       QS1_2 == "3" ~"Average risk" ,
                                                       QS1_2 == "4" ~"Average risk" ,
                                                       QS1_2 == "Completely disagree" ~"No risk"))
 table(ASFL7$QS1_2risk_group)
-QS1_2risk_group_1 <- as.factor(ASFL7$QS1_2risk_group)
+QS1_2risk_group_1 <- factor(ASFL7$QS1_2risk_group, levels=c("No risk","Ref/Don't know","Average risk","High risk","Substantial risk"))
 levels(QS1_2risk_group_1)
-ASFL7 <- within(ASFL7, QS1_2risk_group_1 <- relevel(QS1_2risk_group_1, ref = "No risk"))
+ASFL7 <- cbind(ASFL7, QS1_2risk_group_1)
+
+numericQS1_2_1<- ifelse(ASFL$QS1_2 == "Completely agree", 4, 0)
+numericQS1_2_2<- ifelse(ASFL$QS1_2 == "2", 3, 0)
+numericQS1_2_3<- ifelse(ASFL$QS1_2 == "3", 2, 0)
+numericQS1_2_4<- ifelse(ASFL$QS1_2 == "4", 2, 0)
+numericQS1_2_5<- ifelse(ASFL$QS1_2 == "Completely disagree", 1, 0)
+
+
+numericQS1_2 <- numericQS1_2_1+numericQS1_2_2+numericQS1_2_3+numericQS1_2_4+numericQS1_2_5
+table(numericQS1_2)
+ASFL7 <- cbind(ASFL7,numericQS1_2)
 
 #problematic to but into one score - HFCS and assets separately
 riskscore <- bondd+stockshared+cryptod+HFCSriskd+QS1_2risk
@@ -2947,6 +2989,9 @@ wpct(ASFL7e$numericHFCSrisk, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$numericHFCSrisk, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$numericHFCSrisk, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$numericHFCSrisk, weight=ASFL7othworet$wght, na.rm=TRUE)
+
+
+
 
 
 
