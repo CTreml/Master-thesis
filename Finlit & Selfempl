@@ -207,8 +207,8 @@ gender <- ASFL$QD1
 table(ASFL$QD1)
 ASFL <- ASFL %>%
   mutate(gender=case_when(
-    gender =="2"~ "Females",
-    gender =="1"~ "Maled",
+    gender =="2"~ "Female",
+    gender =="1"~ "Male",
     TRUE ~ "Other"
   ))
 maled<- ifelse(ASFL$QD1 == "1", 1, 0)
@@ -536,7 +536,7 @@ gencomp$status<- factor(gencomp$status, levels=c('Self-employed', 'Employed'))
 gencomp$age<- factor(gencomp$age, levels=c('Young millenials', 'Old millenials', 'Generation X', 'Baby boomers', 'Silent generation '))
 ggplot(gencomp, aes(fill=age, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="Employment status")
+  labs(x="",y="Percentage share",fill="")
 ###with others
 gencomp <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=5),
                       age=rep(c('Young millenials', 'Old millenials', 'Generation X', 'Baby boomers', 'Silent generation ' ), times=3),
@@ -609,7 +609,7 @@ ggplot(genderplot, aes(fill=gender, y=value, x=emplstat)) +
   geom_bar(position="dodge", stat="identity")+ 
 scale_fill_manual(values=c("grey",
                            "orange"))+
-  labs(x="" ,y="Percentage share",fill="Gender")
+  labs(x="" ,y="Percentage share",fill="")
 
 #with others
 emplstat <- c(rep("Self-employed" , 2) , rep("Employed" , 2) ,  rep("Others" , 2) )
@@ -747,7 +747,7 @@ ggplot(educomp, aes(fill=education, y=share, x=status)) +
   geom_bar(position='stack', stat='identity')+
   scale_fill_manual(values=c("green",
                              "purple"))+
-  labs(x="",y="Percentage share",fill="Education")
+  labs(x="",y="Percentage share",fill="")
 
 
 
@@ -979,7 +979,7 @@ livingcomm$status<- factor(livingcomm$status, levels=c('Self-employed', 'Employe
 livingcomm$community<- factor(livingcomm$community, levels=c("Village","Town","City"))
 ggplot(livingcomm, aes(fill=community, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="Living community")
+  labs(x="",y="Percentage share",fill="")
 
 
 ##################################HOUSEHOLD INCOME##################################
@@ -1041,13 +1041,13 @@ table(ASFLentrepreneurs$incomegroup_1)
 
 ####household income comparison plot 
 hincomecomp <- data.frame(status=rep(c('Self-employed', 'Employed'), each=4),
-                          income=rep(c('3.000 or more','Between 2.000 and 3.000','Up to 2.000', 'Ref/Don`t know'), times=2),
+                          income=rep(c('€3.000 or more','Between €2.000 and €3.000','Up to €2.000', 'Ref/Don`t know'), times=2),
                           share=c( 36/79, 18/79, 15/79,10/79,212/699,264/699,171/699,52/699))
 hincomecomp$status<- factor(hincomecomp$status, levels=c('Self-employed', 'Employed'))
-hincomecomp$income<- factor(hincomecomp$income, levels=c('3.000 or more','Between 2.000 and 3.000','Up to 2.000', 'Ref/Don`t know'))
+hincomecomp$income<- factor(hincomecomp$income, levels=c('€3.000 or more','Between €2.000 and €3.000','Up to €2.000', 'Ref/Don`t know'))
 ggplot(hincomecomp, aes(fill=income, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="Household income in euros")
+  labs(x="",y="Percentage share",fill="")
 
 ###with others
 hincomecomp <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=3),
@@ -1182,7 +1182,7 @@ selfratedknow$selfassessment<- factor(selfratedknow$selfassessment, levels=c('Re
 selfratedknow$status<- factor(selfratedknow$status, levels=c('Self-employed', 'Employed'))
 ggplot(selfratedknow, aes(fill=selfassessment, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
+  labs(x="",y="Percentage share",fill="")
 
 #self-rated knowledge specific comparison plot
 #unweighted
@@ -1212,7 +1212,7 @@ selfratedknow_specific$selfassessment<- factor(selfratedknow_specific$selfassess
 selfratedknow_specific$status<- factor(selfratedknow_specific$status, levels=c('Self-employed', 'Employed'))
 ggplot(selfratedknow_specific, aes(fill=selfassessment, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
+  labs(x="",y="Percentage share",fill="")
 
 #self-rated knowledge specific gender comparison plot
 #unweighted
