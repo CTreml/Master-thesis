@@ -1226,9 +1226,20 @@ ggplot(selfratedknowgender, aes(fill=selfassessment, y=share, x=gender)) +
   labs(x="",y="Percentage share",fill="Self-assessed financial knowledge")
 
 #weighted
+#self-employed
 selfratedknowgender <- data.frame(gender=rep(c('Male', 'Female'), each=6),
                                   selfassessment=rep(c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=2),
                                   share=c(0.03034502,0,0,0.29503202,0.55073307,0.12388988,0.07317521,0.08004583,0.02503704,0.41705377,0.29703540,0.10765274))
+
+selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, levels=c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'))
+selfratedknowgender$gender<- factor(selfratedknowgender$gender, levels=c('Male', 'Female'))
+ggplot(selfratedknowgender, aes(fill=selfassessment, y=share, x=gender)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")
+#employed
+selfratedknowgender <- data.frame(gender=rep(c('Male', 'Female'), each=6),
+                                  selfassessment=rep(c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=2),
+                                  share=c(( 0.008451891 +  0.015353052 ),0.012593160 ,0.073273932   ,0.410727526   ,0.356358811   ,0.123241627  , (0.002103951  +0.017720411),0.035205152 ,0.160892403   ,0.419575185   ,0.269491520   ,0.095011378 ))
 
 selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, levels=c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'))
 selfratedknowgender$gender<- factor(selfratedknowgender$gender, levels=c('Male', 'Female'))
