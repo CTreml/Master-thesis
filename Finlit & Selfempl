@@ -425,12 +425,19 @@ ASFL <- cbind(ASFL,lessweekfinbuffd,weekfinbuffd,monthfinbuffd,lowfinbuffd,three
 
 ##################################EMPLOYMENT##################################
 ############graphic overview#################
-emplshare <- data.frame("Employment" = c("Self-employed", "Employed", "Apprentice", "Student", "Home", "Retired", "Unemployed", "Not working", "Other"),
-                        "amount" = c(79/1418,699/1418,5/1418,23/1418,24/1418,494/1418,50/1418,21/1418,23/1418))
+empl <- round(c(79/1418,699/1418,494/1418,50/1418,5/1418,23/1418,24/1418,21/1418,23/1418), digits=4)
+paste(round(100*empl, 2), "%", sep="")
+emplshare <- data.frame("Employment" = c("Self-employed", "Employed","Retired", "Unemployed", "Apprentice", "Student", "Home",  "Not working", "Other"),
+                        "amount" = c(79/1418,699/1418,494/1418,50/1418,5/1418,23/1418,24/1418,21/1418,23/1418))
+
 
 ggplot(emplshare, aes(x="", y=amount, fill=Employment)) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
+  geom_text(aes(label = c("5.57%" , "49.29%", "34.84%" ,"3.53%","" , "" , "",  "" , "" )),
+           position = position_stack(vjust = 0.4))+
+  #geom_text(aes(label = c("5.57%" , "49.29%", "34.84%" ,"3.53%","0.35%" , "1.62%" , "1.69%",  "1.48%" , "1.62%" )),
+    #    position = position_stack(vjust = 0.4))+
   theme_void()
 
 emplshare2 <- data.frame("Employment" = c("Self-employed", "Employed", "Other", "Retired"),
@@ -476,7 +483,7 @@ summary(ASFL$age_group)
 #158/1418, 198/1418, 515/1418, 354/1418, 193/1418
 
 #self-employed
-ASFLse$QD7
+summary(ASFLse$QD7)
 ASFLse["age_group"] = cut(as.numeric(as.character(ASFLse$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
 youngmill_se<- ifelse(ASFLse$age_group == "16-28", 1, 0)
 oldmill_se<- ifelse(ASFLse$age_group == "29-38", 1, 0)
@@ -484,11 +491,11 @@ genx_se<- ifelse(ASFLse$age_group == "39-58", 1, 0)
 babyboom_se <- ifelse(ASFLse$age_group == "59-74", 1, 0)
 silentgen_se<- ifelse(ASFLse$age_group == ">75", 1, 0)
 summary(ASFLse$age_group)
-#0,5/79,63/79,11/79,0
+summary(ASFLse$age_group)/79
 
 #employed
 #e
-ASFLe$QD7
+summary(ASFLe$QD7)
 ASFLe["age_group"] = cut(as.numeric(as.character(ASFLe$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
 youngmill_e<- ifelse(ASFLe$age_group == "16-28", 1, 0)
 oldmill_e<- ifelse(ASFLe$age_group == "29-38", 1, 0)
@@ -496,9 +503,9 @@ genx_e <- ifelse(ASFLe$age_group == "39-58", 1, 0)
 babyboom_e <- ifelse(ASFLe$age_group == "59-74", 1, 0)
 silentgen_e<- ifelse(ASFLe$age_group == ">75", 1, 0)
 summary(ASFLe$age_group)
-#114/699,163/699,386/699,35/699,1/699
+summary(ASFLe$age_group)/699
 #e+u
-ASFLeu$QD7
+summary(ASFLeu$QD7)
 ASFLeu["age_group"] = cut(as.numeric(as.character(ASFLeu$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
 youngmill_eu<- ifelse(ASFLeu$age_group == "16-28", 1, 0)
 oldmill_eu<- ifelse(ASFLeu$age_group == "29-38", 1, 0)
@@ -509,7 +516,7 @@ summary(ASFLeu$age_group)
 #123/749, 174/749, 414/749, 37/749, 1/749
 
 #others
-ASFLoth$QD7
+summary(ASFLoth$QD7)
 ASFLoth["age_group"] = cut(as.numeric(as.character(ASFLoth$QD7)), c(16, 28, 38, 58, 74, Inf), c("16-28", "29-38", "39-58", "59-74", ">75"), include.lowest=TRUE)
 youngmill_eu<- ifelse(ASFLoth$age_group == "16-28", 1, 0)
 oldmill_eu<- ifelse(ASFLoth$age_group == "29-38", 1, 0)
@@ -519,15 +526,22 @@ silentgen_eu<- ifelse(ASFLoth$age_group == ">75", 1, 0)
 summary(ASFLoth$age_group)
 #44/640,30/640,66/640,308/640,192/640
 
-#othersworetired
-table(ASFLothworet$age_group)
 #retired
+summary(ASFLret$QD7)
 table(ASFLret$age_group)
+table(ASFLret$age_group)/494
+#othersworetired
+summary(ASFLothworet$QD7)
+table(ASFLothworet$age_group)
+table(ASFLothworet$age_group)/146
 #unemployed
+summary(ASFLunempl$QD7)
 table(ASFLunempl$age_group)
+table(ASFLunempl$age_group)/50
 #entrepreneurs
+summary(ASFLentrepreneurs$QD7)
 table(ASFLentrepreneurs$age_group)
-
+table(ASFLentrepreneurs$age_group)/19
 ###age group comparison plot 
 gencomp <- data.frame(status=rep(c('Self-employed', 'Employed'), each=5),
                       age=rep(c('Young millenials', 'Old millenials', 'Generation X', 'Baby boomers', 'Silent generation ' ), times=2),
@@ -558,6 +572,7 @@ male_f
 
 #self-employed
 table(ASFLse$QD1)
+table(ASFLse$QD1)/79
 female_se <- ifelse(ASFLse$QD1 == "2", 1, 0)
 female_se
 male_se <- ifelse(ASFLse$QD1 == "1", 1, 0)
@@ -565,6 +580,7 @@ male_se
 
 #employed
 table(ASFLe$QD1)
+table(ASFLe$QD1)/699
 female_e <- ifelse(ASFLe$QD1 == "2", 1, 0)
 female_e
 male_e <- ifelse(ASFLe$QD1 == "1", 1, 0)
@@ -582,19 +598,22 @@ female_oth <- ifelse(ASFLoth$QD1 == "2", 1, 0)
 female_oth
 male_oth <- ifelse(ASFLoth$QD1 == "1", 1, 0)
 male_oth
+#retired
+table(ASFLret$QD1)
+table(ASFLret$QD1)/494
 #otherswithout retired
 table(ASFLothworet$QD1)
+table(ASFLothworet$QD1)/146
 female_othworet <- ifelse(ASFLothworet$QD1 == "2", 1, 0)
 female_othworet
 male_othworet <- ifelse(ASFLothworet$QD1 == "1", 1, 0)
 male_othworet
 #unemployed
 table(ASFLunempl$QD1)
-#retired
-table(ASFLret$QD1)
+table(ASFLunempl$QD1)/50
 #entrepreneurs
 table(ASFLentrepreneurs$QD1)
-
+table(ASFLentrepreneurs$QD1)/19
 
 
 #gender comparison plot 
@@ -711,11 +730,13 @@ ASFLeduc <- cbind(ASFLeduc, educQD9NA)
 
 #self-employed 
 table(ASFLse$education)
+table(ASFLse$education)/79
 higheducse <- ifelse(ASFLse$education == "Higher", 1, 0)
 loweducse <- ifelse(ASFLse$education == "Lower", 1, 0)
 
 #employed 
 table(ASFLe$education)
+table(ASFLe$education)/699
 higheduce <- ifelse(ASFLe$education == "Higher", 1, 0)
 loweduce <- ifelse(ASFLe$education == "Lower", 1, 0)
 #e+u
@@ -725,16 +746,20 @@ table(ASFLeu$education)
 table(ASFLoth$education)
 higheducoth <- ifelse(ASFLoth$education == "Higher", 1, 0)
 loweducoth <- ifelse(ASFLoth$education == "Lower", 1, 0)
+#retired
+table(ASFLret$education)
+table(ASFLret$education)/494
 #othersworetired
 table(ASFLothworet$education)
+table(ASFLothworet$education)/146
 higheducothworet <- ifelse(ASFLothworet$education == "Higher", 1, 0)
 loweducothworet <- ifelse(ASFLothworet$education == "Lower", 1, 0)
 #unemployed 
 table(ASFLunempl$education)
-#retired
-table(ASFLret$education)
+table(ASFLunempl$education)/50
 #entrepreneurs
 table(ASFLentrepreneurs$education)
+table(ASFLentrepreneurs$education)/19
 
 
 #comparison plots
@@ -758,13 +783,14 @@ table(ASFL$QD5_1)
 single_f <- ifelse(ASFL$QD5_1 == "Yes", 1, 0)
 #self-employed
 table(ASFLse$QD5_1)
+table(ASFLse$QD5_1)/79
 23/(56+23)
 table(ASFLse$QD5_2)
 table(ASFLse$QD5_ad)
 single_se <- ifelse(ASFLse$QD5_1 == "Yes", 1, 0)
 #employed
 table(ASFLe$QD5_1)
-196/(503+196)
+table(ASFLe$QD5_1)/699
 table(ASFLe$QD5_2)
 table(ASFLe$QD5_ad)
 single_e <- ifelse(ASFLe$QD5_1 == "Yes", 1, 0)
@@ -776,17 +802,20 @@ single_eu <- ifelse(ASFLeu$QD5_1 == "Yes", 1, 0)
 table(ASFLoth$QD5_1)
 single_oth <- ifelse(ASFLoth$QD5_1 == "Yes", 1, 0)
 252/(252+388)
+#retired
+table(ASFLret$QD5_1)
+table(ASFLret$QD5_1)/494
 #others without retired
 table(ASFLothworet$QD5_1)
+table(ASFLothworet$QD5_1)/146
 single_othworet <- ifelse(ASFLothworet$QD5_1 == "Yes", 1, 0)
 50/(50+96)
 #unemployed
 table(ASFLunempl$QD5_1)
-#retired
-table(ASFLret$QD5_1)
+table(ASFLunempl$QD5_1)/50
 #entrepreneurs
 table(ASFLentrepreneurs$QD5_1)
-
+table(ASFLentrepreneurs$QD5_1)/19
 
 ##################################children##################################
 #full
@@ -815,7 +844,8 @@ child_se  <- ifelse(child_se  >= "1", 1, 0)
 table(cb18_se)
 table(ca18_se)
 table(child_se)
-29/79
+table(ASFLse$childd)
+table(ASFLse$childd)/79
 
 #employed
 table(ASFLe$QD5_3)
@@ -831,7 +861,9 @@ child_e  <- ifelse(child_e  >= "1", 1, 0)
 table(cb18_e)
 table(ca18_e)
 table(child_e)
-245/699
+table(ASFLe$childd)
+table(ASFLe$childd)/699
+
 #e+u
 table(ASFLeu$QD5_3)
 table(ASFLeu$QD5_4)
@@ -860,10 +892,18 @@ table(ca18_oth)
 table(child_oth)
 77/640
 
+#retired
+table(ASFLret$cb18d)
+table(ASFLret$ca18d)
+table(ASFLret$childd)
+table(ASFLret$childd)/494
+table(ASFLret$singleparentd)
+
 #others without retired
 table(ASFLothworet$QD5_3)
 table(ASFLothworet$QD5_4)
 table(ASFLothworet$childd)
+table(ASFLothworet$childd)/146
 table(ASFLothworet$singleparentd)
 cb18_othworet <- ifelse(ASFLothworet$QD5_3 == "Yes", 1, 0)
 ca18_othworet <- ifelse(ASFLothworet$QD5_4 == "Yes", 1, 0)
@@ -873,21 +913,17 @@ table(cb18_othworet)
 table(ca18_othworet)
 table(child_othworet)
 55/146
-
 #unemployed
 table(ASFLunempl$cb18d)
 table(ASFLunempl$ca18d)
 table(ASFLunempl$childd)
+table(ASFLunempl$childd)/50
 table(ASFLunempl$singleparentd)
-#retired
-table(ASFLret$cb18d)
-table(ASFLret$ca18d)
-table(ASFLret$childd)
-table(ASFLret$singleparentd)
 #entrepreneurs
 table(ASFLentrepreneurs$cb18d)
 table(ASFLentrepreneurs$ca18d)
 table(ASFLentrepreneurs$childd)
+table(ASFLentrepreneurs$childd)/19
 table(ASFLentrepreneurs$singleparentd)
 
 #sole and with children comparison plot
@@ -964,11 +1000,17 @@ table(ASFLret$QD3)
 table(ASFLentrepreneurs$QD3)
 
 table(ASFLse$livingcommgroup_1)
+table(ASFLse$livingcommgroup_1)/79
 table(ASFLe$livingcommgroup_1)
+table(ASFLe$livingcommgroup_1)/699
 table(ASFLret$livingcommgroup_1)
+table(ASFLret$livingcommgroup_1)/494
 table(ASFLothworet$livingcommgroup_1)
+table(ASFLothworet$livingcommgroup_1)/146
 table(ASFLunempl$livingcommgroup_1)
+table(ASFLunempl$livingcommgroup_1)/50
 table(ASFLentrepreneurs$livingcommgroup_1)
+table(ASFLentrepreneurs$livingcommgroup_1)/19
 
 ####living community comparison plot
 ###stacked bar chart 
@@ -1032,11 +1074,17 @@ table(ASFLothworet$QD13)
 #75/126,39/126,12/126
 
 table(ASFLse$incomegroup_1)
+table(ASFLse$incomegroup_1)/79
 table(ASFLe$incomegroup_1)
+table(ASFLe$incomegroup_1)/699
 table(ASFLret$incomegroup_1)
+table(ASFLret$incomegroup_1)/494
 table(ASFLothworet$incomegroup_1)
+table(ASFLothworet$incomegroup_1)/146
 table(ASFLunempl$incomegroup_1)
+table(ASFLunempl$incomegroup_1)/50
 table(ASFLentrepreneurs$incomegroup_1)
+table(ASFLentrepreneurs$incomegroup_1)/19
 
 
 ####household income comparison plot 
@@ -1153,6 +1201,13 @@ table(ASFLunempl$QK1)
 table(ASFLret$QK1)
 #entrepreneurs
 table(ASFLentrepreneurs$QK1)
+
+table(ASFLse$QK1)/79
+table(ASFLe$QK1)/699
+table(ASFLret$QK1)/494
+table(ASFLothworet$QK1)/146
+table(ASFLunempl$QK1)/50
+table(ASFLentrepreneurs$QK1)/19
 
 #self-rated knowledge simple comparison plot
 #unweighted
