@@ -45,6 +45,11 @@ summary(finlitempl_special)
 coeftest(finlitempl_special, vcov = vcovHC(finlitempl_special, type = "HC0"))
 AIC(finlitempl_special)
 
+finlitsee <- lm(finlit ~ employment1_1, data=ASFL7, weights=ASFL7$wght)
+summary(finlitsee)
+coeftest(finlitsee, vcov = vcovHC(finlitsee, type = "HC0"))
+AIC(finlitsee)
+
 finlitse <- lm(finlit ~ selfemployedd, data=ASFL7, weights=ASFL7$wght)
 summary(finlitse)
 coeftest(finlitse, vcov = vcovHC(finlitse, type = "HC0"))
@@ -943,6 +948,7 @@ summary(finlitmodelinteractgenrisk_se3)
 coeftest(finlitmodelinteractgenrisk_se3, vcov = vcovHC(finlitmodelinteractgenrisk_se3, type = "HC0"))
 AIC(finlitmodelinteractgenrisk_se3)
 
+
 #employed
 finlitmodelinteractgenrisk_e <- lm(finlit ~  age + gender + higheduc +incomegroup_1+ HFCSriskad+HFCSriskad*gender+riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
 summary(finlitmodelinteractgenrisk_e)
@@ -1649,6 +1655,10 @@ multi_finlit_e <- multinom(finlit_group ~  age + gender + higheduc +incomegroup_
 summary(multi_finlit_e)
 stargazer(multi_finlit_e, type="text", out="multi_finlit_e")
 PseudoR2(multi_finlit_e, which = c("McFadden"))
+
+
+
+
 
 
 
