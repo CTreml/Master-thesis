@@ -813,8 +813,31 @@ wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 12)
 wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 13)
 wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 14) #riskpropensity
 
+##for individual components
+finknowmodelfull <- lm(fin_know ~ employment1_2+ age + gender + higheduc+ livingcommgroup_1 + childd + singled +incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+summary(finknowmodelfull)
+shapiro.test(finknowmodelfull$residuals)
+coeftest(finknowmodelfull, vcov = vcovHC(finknowmodelfull, type = "HC0"))
+AIC(finknowmodelfull)
 
-finlitmodel2 <- lm(finlit ~ employment1_2+ age + gender + higheduc + childd + singled +incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+finbehmodelfull <- lm(fin_beh ~ employment1_2+ age + gender + higheduc+ livingcommgroup_1 + childd + singled +incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+summary(finbehmodelfull)
+shapiro.test(finbehmodelfull$residuals)
+coeftest(finbehmodelfull, vcov = vcovHC(finbehmodelfull, type = "HC0"))
+AIC(finbehmodelfull)
+
+finattmodelfull <- lm(fin_att ~ employment1_2+ age + gender + higheduc+ livingcommgroup_1 + childd + singled +incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+summary(finattmodelfull)
+shapiro.test(finattmodelfull$residuals)
+coeftest(finattmodelfull, vcov = vcovHC(finattmodelfull, type = "HC0"))
+AIC(finattmodelfull)
+##
+
+#finlitmodel2 <- lm(finlit ~ employment1_2+ age + gender + higheduc + childd + singled +incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+#summary(finlitmodel2)
+#coeftest(finlitmodel2, vcov = vcovHC(finlitmodel2, type = "HC0"))
+#AIC(finlitmodel2)
+finlitmodel2 <- lm(finlit ~ employment1_2+ age + gender + higheduc  +livingcommgroup_1+incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
 summary(finlitmodel2)
 coeftest(finlitmodel2, vcov = vcovHC(finlitmodel2, type = "HC0"))
 AIC(finlitmodel2)
@@ -840,7 +863,7 @@ model.names2 <- c("1", "2", "3", "4")
 modelcomp2 <-aictab(modelcomp2, modnames = model.names2)
 xtable(modelcomp2, type = "latex", file = "modelcomp2", digits=3)
 
-####for individual components
+####final model for individual components
 finknowmodel <- lm(fin_know ~employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
 summary(finknowmodel)
 coeftest(finknowmodel, vcov = vcovHC(finknowmodel, type = "HC0"))
@@ -1655,10 +1678,6 @@ multi_finlit_e <- multinom(finlit_group ~  age + gender + higheduc +incomegroup_
 summary(multi_finlit_e)
 stargazer(multi_finlit_e, type="text", out="multi_finlit_e")
 PseudoR2(multi_finlit_e, which = c("McFadden"))
-
-
-
-
 
 
 
