@@ -89,7 +89,23 @@ employmentalt_alt <- as.factor(ASFL$employmentalt)
 levels(employmentalt_alt)
 ASFL <- within(ASFL, employmentalt_alt <- relevel(employmentalt_alt, ref = "Employed"))
 
-ASFL<-cbind(ASFL,employment1_1,employment2_2,employmentfull_full,employmentalt_alt)
+ASFL <- ASFL %>%
+  mutate(employmentunempl=case_when(
+    employment1 =="Self-employed [work for myself]"~"Self-employed",
+    employment1 =="In paid employment [work for someone else]"~"Employed",
+    employment1 =="Looking for work [unemployed]"~"Employed",
+    employment1 =="Not working and not looking for work"~"Other",
+    employment1 =="Retired"~"Other",
+    employment1 =="Student"~"Other",
+    employment1 =="Apprentice"~"Other",
+    employment1 =="Looking after the home"~"Other",
+    employment1 =="Other"~"Other"))
+
+employmentunempl_1 <- as.factor(ASFL$employmentunempl)
+levels(employmentunempl_1)
+ASFL <- within(ASFL, employmentunempl_1 <- relevel(employmentunempl_1, ref = "Other"))
+
+ASFL<-cbind(ASFL,employment1_1,employment2_2,employmentfull_full,employmentalt_alt, employmentunempl_1)
 
 selfemployedd<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
 selfemployedd <- as.numeric(selfemployedd)
