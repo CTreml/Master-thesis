@@ -89,17 +89,18 @@ employmentalt_alt <- as.factor(ASFL$employmentalt)
 levels(employmentalt_alt)
 ASFL <- within(ASFL, employmentalt_alt <- relevel(employmentalt_alt, ref = "Employed"))
 
+employmentunempl <-ASFL$QD10 
 ASFL <- ASFL %>%
   mutate(employmentunempl=case_when(
-    employment1 =="Self-employed [work for myself]"~"Self-employed",
-    employment1 =="In paid employment [work for someone else]"~"Employed",
-    employment1 =="Looking for work [unemployed]"~"Employed",
-    employment1 =="Not working and not looking for work"~"Other",
-    employment1 =="Retired"~"Other",
-    employment1 =="Student"~"Other",
-    employment1 =="Apprentice"~"Other",
-    employment1 =="Looking after the home"~"Other",
-    employment1 =="Other"~"Other"))
+    employmentunempl =="Self-employed [work for myself]"~"Self-employed",
+    employmentunempl =="In paid employment [work for someone else]"~"Employed",
+    employmentunempl =="Looking for work [unemployed]"~"Employed",
+    employmentunempl =="Not working and not looking for work"~"Other",
+    employmentunempl =="Retired"~"Other",
+    employmentunempl =="Student"~"Other",
+    employmentunempl =="Apprentice"~"Other",
+    employmentunempl =="Looking after the home"~"Other",
+    employmentunempl =="Other"~"Other"))
 
 employmentunempl_1 <- as.factor(ASFL$employmentunempl)
 levels(employmentunempl_1)
