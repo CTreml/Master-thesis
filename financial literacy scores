@@ -1,5 +1,4 @@
 
-
 #########################MAIN FINANCIAL LITERACY INDICATORS##########################################
 
 #QK1 - self-rated knowledge #does not add to financial literacy score
@@ -14,10 +13,17 @@ wpct(ASFL$QK1, weight=ASFL$wght, na.rm=TRUE)
 ASFLsem <- ASFLse[(ASFLse$QD1 %in% male),]
 ASFLsef <- ASFLse[(ASFLse$QD1 %in% female),]
 summary(ASFLse$QK1)
+
 summary(ASFLsem$QK1)
 summary(ASFLsef$QK1)
 
 summary(ASFLe$QK1)
+
+ASFLem <- ASFLe[(ASFLe$QD1 %in% male),]
+ASFLef <- ASFLe[(ASFLe$QD1 %in% female),]
+summary(ASFLem$QK1)
+summary(ASFLef$QK1)
+
 summary(ASFLoth$QK1)
 
 
@@ -33,8 +39,6 @@ table(QK2e)
 summary(ASFLeu$QK2)
 QK2oth<- ifelse(ASFLoth$QK2 == "200", 1, 0)
 table(QK2oth)
-
-
 
 ####################FINANCIAL KNOWLEDGE SCORE#############################
 #QK3 - *OECD - time value of money
@@ -57,6 +61,8 @@ wpct(ASFLe$QK3, weight=ASFLe$wght, na.rm=TRUE)#0.7227266,0.2387096,0.03856385
 0.650157593 +0.072568991 #correct
 1-(0.7227266+0.03856385)#incorrect 
 0.001668598 +0.008530523 +0.028364729 #dont know/irrelevant
+wpct(ASFLem$QK3, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$QK3, weight=ASFLef$wght, na.rm=TRUE)
 
 summary(ASFLoth$QK3)
 wpct(ASFLoth$QK3, weight=ASFLoth$wght, na.rm=TRUE)#0.7288287,0.1860751,0.08509625
@@ -116,6 +122,8 @@ wpct(ASFLe$QK4, weight=ASFLe$wght, na.rm=TRUE)#0.897261034,0.03466621,0.06807276
 0.897261034#correct
 1-(0.897261034+0.06807276)#incorrect 
 0.021111471+0.021588658+0.025372634#dont know/irrelevant
+wpct(ASFLem$QK4, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$QK4, weight=ASFLef$wght, na.rm=TRUE)
 
 table(ASFLoth$QK4)
 wpct(ASFLoth$QK4, weight=ASFLoth$wght, na.rm=TRUE)#0.8693630648,0.009771735,0.1208652      
@@ -159,6 +167,8 @@ wpct(ASFLe$QK5, weight=ASFLe$wght, na.rm=TRUE)#0.7892900880,0.1056407,0.1050692
 0.7892900880#correct
 1-(0.1050692+0.7892900880)#incorrect 
 0.0712881232+0.0279016771+0.0058794117#dont know/irrelevant
+wpct(ASFLem$QK5, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$QK5, weight=ASFLef$wght, na.rm=TRUE)
 
 summary(ASFLoth$QK5)
 wpct(ASFLoth$QK5, weight=ASFLoth$wght, na.rm=TRUE)#0.7645187980,0.0554447,0.1800365      
@@ -181,6 +191,8 @@ QK5sef<- ifelse(ASFLsef$QK5 == "102", 1, 0)
 
 
 QK5e<- ifelse(ASFLe$QK5 == "102", 1, 0)
+QK5em<- ifelse(ASFLem$QK5 == "102", 1, 0)
+QK5ef<- ifelse(ASFLef$QK5 == "102", 1, 0)
 table(QK5e)
 QK5eu<- ifelse(ASFLeu$QK5 == "102", 1, 0)
 table(QK5eu)
@@ -201,9 +213,7 @@ wpct(ASFL$QK6, weight=ASFL$wght, na.rm=TRUE)#0.4903881,0.365513,0.1440989
 
 summary(ASFLse$QK6)
 wpct(ASFLse$QK6, weight=ASFLse$wght, na.rm=TRUE)
-#correct
 0.178534126 +0.130571101 #incorrect 
-#dont know/irrelevant
 wpct(ASFLsem$QK6, weight=ASFLsem$wght, na.rm=TRUE)
 0.16649831+0.18025887 
 wpct(ASFLsef$QK6, weight=ASFLsef$wght, na.rm=TRUE)
@@ -211,35 +221,39 @@ wpct(ASFLsef$QK6, weight=ASFLsef$wght, na.rm=TRUE)
 
 summary(ASFLe$QK6)
 wpct(ASFLe$QK6, weight=ASFLe$wght, na.rm=TRUE)  
-#correct
 0.280932800+0.063492648+0.007347740  #incorrect 
-#dont know/irrelevant
+wpct(ASFLem$QK6, weight=ASFLem$wght, na.rm=TRUE) 
+0.007426559 +0.054086592 + 0.281542631
+wpct(ASFLef$QK6, weight=ASFLef$wght, na.rm=TRUE) 
+0.007263041 +0.073600407 +0.280277475
 
 summary(ASFLoth$QK6)
 wpct(ASFLoth$QK6, weight=ASFLoth$wght, na.rm=TRUE)
-#correct
 0.324732739 +0.053209114 +0.012614148 #incorrect 
-#dont know/irrelevant
 
 summary(ASFLothworet$QK6)
 wpct(ASFLothworet$QK6, weight=ASFLothworet$wght, na.rm=TRUE)
-#correct
-#incorrect 
-#dont know/irrelevant
+
+
 ASFL$QK6
-QK6f<- ifelse(ASFL$QK6 == "More than €110" , 1, 0)
+#relevel to avoid errors
+levels(ASFL$QK6) <- c("Irrelevant answer","Refused","Don't know","More than eur110","Exactly eur110","Less than eur110","Or is it impossible to tell from the information given")
+levels(ASFL$QK6)
+QK6f<- ifelse(ASFL$QK6 == "More than eur110" , 1, 0)
 table(QK6f)
-QK6se<- ifelse(ASFLse$QK6 == "More than €110", 1, 0)
+QK6se<- ifelse(ASFLse$QK6 == "More than eur100", 1, 0)
 table(QK6se)
-QK6sem<- ifelse(ASFLsem$QK6 == "More than €110", 1, 0)
-QK6sef<- ifelse(ASFLsef$QK6 == "More than €110", 1, 0)
-QK6e<- ifelse(ASFLe$QK6 == "More than €110", 1, 0)
+QK6sem<- ifelse(ASFLsem$QK6 == "More than eur100", 1, 0)
+QK6sef<- ifelse(ASFLsef$QK6 == "More than eur100", 1, 0)
+QK6e<- ifelse(ASFLe$QK6 == "More than eur100", 1, 0)
 table(QK6e)
-QK6eu<- ifelse(ASFLeu$QK6 == "More than €110", 1, 0)
+QK6em<- ifelse(ASFLem$QK6 == "More than eur100", 1, 0)
+QK6ef<- ifelse(ASFLef$QK6 == "More than eur100", 1, 0)
+QK6eu<- ifelse(ASFLeu$QK6 == "More than eur100", 1, 0)
 table(QK6eu)
-QK6oth<- ifelse(ASFLoth$QK6 == "More than €110", 1, 0)
+QK6oth<- ifelse(ASFLoth$QK6 == "More than eur100", 1, 0)
 table(QK6oth)
-QK6othworet<- ifelse(ASFLothworet$QK6 == "More than €110", 1, 0)
+QK6othworet<- ifelse(ASFLothworet$QK6 == "More than eur100", 1, 0)
 table(QK6othworet)
 
 ###QK5 + QK6
@@ -267,11 +281,16 @@ table(QK6sen) #0.64042716,0.3091052,0.05046764
 53/79
 1-(0.64042716 +0.3091052)
 
-
 QK56e <- QK5e+QK6e
 table(QK56e)
+QK56em <- QK5em+QK6em
+QK56ef <- QK5ef+QK6ef
 wpct(QK56e, weight=ASFLe$wght, na.rm=TRUE)
+wpct(QK56em, weight=ASFLem$wght, na.rm=TRUE)
+wpct(QK56ef, weight=ASFLef$wght, na.rm=TRUE)
 QK6en <- ifelse(QK56e == "2",1, 0) #0.5221745,0.3517732,0.1274378
+QK6emn <- ifelse(QK56em == "2",1, 0)
+QK6efn <- ifelse(QK56ef == "2",1, 0)
 table(QK6en)
 365/699
 1-(0.5207890 +0.3517732)
@@ -317,6 +336,8 @@ wpct(ASFLe$QK7_1, weight=ASFLe$wght, na.rm=TRUE)#0.9070270072 ,0.0443046011 ,0.0
 0.9070270072 #correct
 0.0443046011 #incorrect 
 1-(0.0443046011 +0.9070270072)#dont know/irrelevant
+wpct(ASFLem$QK7_1, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$QK7_1, weight=ASFLef$wght, na.rm=TRUE)
 
 table(ASFLoth$QK7_1)
 wpct(ASFLoth$QK7_1, weight=ASFLoth$wght, na.rm=TRUE)#0.930935147,0.014295340,0.05476951
@@ -361,6 +382,8 @@ wpct(ASFLe$QK7_2, weight=ASFLe$wght, na.rm=TRUE)#0.887358506,0.052169972 ,0.0604
 0.887358506 #correct
 0.052169972 #incorrect 
 1-(0.052169972 +0.887358506)#dont know/irrelevant
+wpct(ASFLem$QK7_2, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$QK7_2, weight=ASFLef$wght, na.rm=TRUE)
 
 table(ASFLoth$QK7_2)
 wpct(ASFLoth$QK7_2, weight=ASFLoth$wght, na.rm=TRUE)#0.887270979,0.037551181 ,0.07517784
@@ -403,6 +426,8 @@ wpct(ASFLe$QK7_3, weight=ASFLe$wght, na.rm=TRUE)#0.667234442,0.162267278,0.17049
 0.667234442 #correct
 0.162267278 #incorrect 
 1-(0.667234442 +0.162267278 )#dont know/irrelevant
+wpct(ASFLem$QK7_3, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$QK7_3, weight=ASFLef$wght, na.rm=TRUE)
 
 table(ASFLoth$QK7_3)
 wpct(ASFLoth$QK7_3, weight=ASFLoth$wght, na.rm=TRUE)#0.52245783,0.14298805,0.3345541
@@ -446,6 +471,8 @@ wpct(ASFLe$S58, weight=ASFLe$wght, na.rm=TRUE)#0.77005123,0.1758667,0.05408207
 0.77005123#correct
 0.04638901+0.12947764      #incorrect 
 1-(0.77005123+0.1758667)#dont know/irrelevant
+wpct(ASFLem$S58, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$S58, weight=ASFLef$wght, na.rm=TRUE)
 
 table(ASFLoth$S58)
 wpct(ASFLoth$S58, weight=ASFLoth$wght, na.rm=TRUE)#0.768531697 ,0.1252482,0.1062201
@@ -489,6 +516,8 @@ wpct(ASFLe$QK7_4add, weight=ASFLe$wght, na.rm=TRUE)#0.740998033 ,0.174713123,0.0
 0.740998033 #correct
 0.174713123 #incorrect 
 1-(0.174713123 +0.740998033 )#dont know/irrelevant
+wpct(ASFLem$QK7_4add, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$QK7_4add, weight=ASFLef$wght, na.rm=TRUE)
 
 table(ASFLoth$QK7_4add)
 wpct(ASFLoth$QK7_4add, weight=ASFLoth$wght, na.rm=TRUE)#0.60803253 ,0.15513368 ,0.2368338
@@ -532,6 +561,8 @@ wpct(ASFLe$EB3, weight=ASFLe$wght, na.rm=TRUE)#0.703229118 ,0.159618,0.1371529
 0.703229118 #correct
 0.083257430            +0.076360531 #incorrect 
 1-(0.159618+0.703229118)#dont know/irrelevant
+wpct(ASFLem$EB3, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$EB3, weight=ASFLef$wght, na.rm=TRUE)
 
 table(ASFLoth$EB3)
 wpct(ASFLoth$EB3, weight=ASFLoth$wght, na.rm=TRUE)#0.653354147,0.09644592,0.2501999
@@ -602,7 +633,7 @@ lowfinknowaddd <- ifelse(ASFL1$fin_know_add_group == "low", 1, 0)
 ASFL1 <- cbind(ASFL1,lowfinknowaddd,averagefinknowaddd,highfinknowaddd)
 
 ####################FINANCIAL ATTITUDE SCORE#############################
-#recode Refused, Not relevant and don´t know to 3
+#recode Refused, Not relevant and donÂ´t know to 3
 #more satisfying to spend than to save money
 summary(ASFL$QS1_1)
 QS1_1 <-ASFL$QS1_1
@@ -822,8 +853,8 @@ table(ASFL$QF12_7_1)
 ASFL <- ASFL %>% mutate(QF12_7_1o = ifelse(is.na(QF12_7_1o), 0, QF12_7_1o))
 table(ASFL$QF12_7_1o)
 QF12_7_1_1<- ifelse(ASFL$QF12_7_1o == "Geld von meiner Mutter", 1, 0)
-QF12_7_1_2<- ifelse(ASFL$QF12_7_1o == "Momentan helfen mir meine Eltern und Geschwister, da ich gerade arbeitslos bin. Bin auch sehr froh darüber, so kann ich auch ein bisschen sparen", 1, 0)
-QF12_7_1_3<- ifelse(ASFL$QF12_7_1o == "Verwandte um Unterstützung bitten", 1, 0)
+QF12_7_1_2<- ifelse(ASFL$QF12_7_1o == "Momentan helfen mir meine Eltern und Geschwister, da ich gerade arbeitslos bin. Bin auch sehr froh darÃ¼ber, so kann ich auch ein bisschen sparen", 1, 0)
+QF12_7_1_3<- ifelse(ASFL$QF12_7_1o == "Verwandte um UnterstÃ¼tzung bitten", 1, 0)
 QF12_7 <- QF12_7_1_1+QF12_7_1_2+QF12_7_1_3
 QF12_7fin<- ifelse(QF12_7 == "0", 1, 0)
 table(QF12_7fin)
@@ -1621,7 +1652,7 @@ wpct(ASFL5$credpd, weight=ASFL5$wght, na.rm=TRUE)
 finprodholding <- savinre+payprod+p1b10+credp
 ASFL5 <- cbind(ASFL5, finprodholding)
 ###bought a product in the past year #recently chosen
-#highest number (3 or 4) indicates ´Yes after exluding NAs
+#highest number (3 or 4) indicates Â´Yes after exluding NAs
 #recent choice
 ASFL <- ASFL %>% mutate(Qprod1c_1 = ifelse(is.na(Qprod1c_1), 0, Qprod1c_1))
 ASFL$Qprod1c_1
@@ -2082,6 +2113,17 @@ wpct(ASFL5e$finwellbeing2, weight=ASFL5e$wght,na.rm=TRUE)
 wpct(ASFL5e$finwellbeing3, weight=ASFL5e$wght,na.rm=TRUE)
 wpct(ASFL5e$finwellbeing4, weight=ASFL5e$wght,na.rm=TRUE)
 wpct(ASFL5e$finwellbeing5, weight=ASFL5e$wght,na.rm=TRUE)
+wpct(ASFL5em$finwellbeing1, weight=ASFL5em$wght,na.rm=TRUE)
+wpct(ASFL5em$finwellbeing2, weight=ASFL5em$wght,na.rm=TRUE)
+wpct(ASFL5em$finwellbeing3, weight=ASFL5em$wght,na.rm=TRUE)
+wpct(ASFL5em$finwellbeing4, weight=ASFL5em$wght,na.rm=TRUE)
+wpct(ASFL5em$finwellbeing5, weight=ASFL5em$wght,na.rm=TRUE)
+
+wpct(ASFL5ef$finwellbeing1, weight=ASFL5ef$wght,na.rm=TRUE)
+wpct(ASFL5ef$finwellbeing2, weight=ASFL5ef$wght,na.rm=TRUE)
+wpct(ASFL5ef$finwellbeing3, weight=ASFL5ef$wght,na.rm=TRUE)
+wpct(ASFL5ef$finwellbeing4, weight=ASFL5ef$wght,na.rm=TRUE)
+wpct(ASFL5ef$finwellbeing5, weight=ASFL5ef$wght,na.rm=TRUE)
 
 wpct(ASFL5oth$finwellbeing1, weight=ASFL5oth$wght,na.rm=TRUE)
 wpct(ASFL5oth$finwellbeing2, weight=ASFL5oth$wght,na.rm=TRUE)
@@ -2774,12 +2816,20 @@ ASFL7ret <-  ASFL7[(ASFL7$QD10 %in% ret),]
 ASFL7unempl <-  ASFL7[(ASFL7$QD10 %in% unempl),] 
 ASFL7entrepreneurs <-  ASFL7[(ASFL7$QF9_11 %in% entrepreneurs),] 
 
+
 table(ASFL7se$HFCSrisk_group_1)
+table(ASFL7se$HFCSrisk_group_1)/79
 table(ASFL7e$HFCSrisk_group_1)
+table(ASFL7e$HFCSrisk_group_1)/699
 table(ASFL7ret$HFCSrisk_group_1)
+table(ASFL7ret$HFCSrisk_group_1)/494
 table(ASFL7othworet$HFCSrisk_group_1)
+table(ASFL7othworet$HFCSrisk_group_1)/146
 table(ASFL7unempl$HFCSrisk_group_1)
+table(ASFL7unempl$HFCSrisk_group_1)/50
 table(ASFL7entrepreneurs$HFCSrisk_group_1)
+table(ASFL7entrepreneurs$HFCSrisk_group_1)/19
+
 
 
 ###############designed risk variable#################################
@@ -2809,6 +2859,19 @@ table(riskyassets)
 riskyassetsd <- ifelse(riskyassets >= "1", 1, 0)
 table(riskyassetsd)
 ASFL7 <- cbind(ASFL7,riskyassets,riskyassetsd)
+
+table(ASFL7se$riskyassetsd)
+table(ASFL7se$riskyassetsd)/79
+table(ASFL7e$riskyassetsd)
+table(ASFL7e$riskyassetsd)/699
+table(ASFL7ret$riskyassetsd)
+table(ASFL7ret$riskyassetsd)/494
+table(ASFL7othworet$riskyassetsd)
+table(ASFL7othworet$riskyassetsd)/146
+table(ASFL7unempl$riskyassetsd)
+table(ASFL7unempl$riskyassetsd)/50
+table(ASFL7entrepreneurs$riskyassetsd)
+table(ASFL7entrepreneurs$riskyassetsd)/19
 
 ####RISK ATTITUDE I am prepared to risk some of my own money when saving or making an investment
 summary(ASFL$QS1_2)
@@ -2896,8 +2959,12 @@ ASFL7ret <- ASFL7[(ASFL7$QD10 %in% ret),]
 wpct(ASFL7$HFCS1, weight=ASFL7$wght, na.rm=TRUE)
 wpct(ASFL7se$HFCS1, weight=ASFL7se$wght, na.rm=TRUE)
 table(ASFL7se$HFCS1)
+wpct(ASFL7sem$HFCS1, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$HFCS1, weight=ASFL7sef$wght, na.rm=TRUE)
 wpct(ASFL7e$HFCS1, weight=ASFL7e$wght, na.rm=TRUE)
 table(ASFL7e$HFCS1)
+wpct(ASFL7em$HFCS1, weight=ASFL7em$wght, na.rm=TRUE)
+wpct(ASFL7ef$HFCS1, weight=ASFL7ef$wght, na.rm=TRUE)
 wpct(ASFL7eu$HFCS1, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$HFCS1, weight=ASFL7oth$wght, na.rm=TRUE)
 table(ASFL7oth$HFCS1)
@@ -2911,6 +2978,8 @@ wpct(ASFL7sem$stockshared, weight=ASFL7sem$wght, na.rm=TRUE)
 wpct(ASFL7sef$stockshared, weight=ASFL7sef$wght, na.rm=TRUE)
 
 wpct(ASFL7e$stockshared, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7em$stockshared, weight=ASFL7em$wght, na.rm=TRUE)
+wpct(ASFL7ef$stockshared, weight=ASFL7ef$wght, na.rm=TRUE)
 wpct(ASFL7eu$stockshared, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$stockshared, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$stockshared, weight=ASFL7othworet$wght, na.rm=TRUE)
@@ -2921,6 +2990,8 @@ wpct(ASFL7sem$bondd, weight=ASFL7sem$wght, na.rm=TRUE)
 wpct(ASFL7sef$bondd, weight=ASFL7sef$wght, na.rm=TRUE)
 
 wpct(ASFL7e$bondd, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7em$bondd, weight=ASFL7em$wght, na.rm=TRUE)
+wpct(ASFL7ef$bondd, weight=ASFL7ef$wght, na.rm=TRUE)
 wpct(ASFL7eu$bondd, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$bondd, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$bondd, weight=ASFL7othworet$wght, na.rm=TRUE)
@@ -2931,6 +3002,8 @@ wpct(ASFL7sem$cryptod, weight=ASFL7sem$wght, na.rm=TRUE)
 wpct(ASFL7sef$cryptod, weight=ASFL7sef$wght, na.rm=TRUE)
 
 wpct(ASFL7e$cryptod, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7em$bondd, weight=ASFL7em$wght, na.rm=TRUE)
+wpct(ASFL7ef$bondd, weight=ASFL7ef$wght, na.rm=TRUE)
 wpct(ASFL7eu$cryptod, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$cryptod, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$cryptod, weight=ASFL7othworet$wght, na.rm=TRUE)
