@@ -2779,8 +2779,6 @@ riskd <- c("I am prepared to take substantial financial risks expecting to earn 
 nriskad <- c("I am not willing to take any financial risk")
 nriskd <- c("I am prepared to take average financial risks expecting to earn average returns","I am not willing to take any financial risk")
 
-
-
 HFCSnriskad <- HFCSrisk4
 table(HFCSriskad)
 table(HFCSnriskad)
@@ -2886,6 +2884,14 @@ table(ASFL7unempl$riskyassetsd)
 table(ASFL7unempl$riskyassetsd)/50
 table(ASFL7entrepreneurs$riskyassetsd)
 table(ASFL7entrepreneurs$riskyassetsd)/19
+
+
+ASFL7 <- ASFL7 %>% mutate(riskyassets_group = case_when(riskyassetsd == "0" ~"No assets" ,
+                                                      riskyassetsd == "1" ~"At least one asset"))
+table(ASFL7$riskyassets_group)
+riskyassets1_group <- factor(ASFL7$riskyassets_group, levels=c("At least one asset","No assets"))
+ASFL7 <- cbind(ASFL7, riskyassets1_group)
+
 
 ####RISK ATTITUDE I am prepared to risk some of my own money when saving or making an investment
 summary(ASFL$QS1_2)
@@ -3017,8 +3023,8 @@ wpct(ASFL7sem$cryptod, weight=ASFL7sem$wght, na.rm=TRUE)
 wpct(ASFL7sef$cryptod, weight=ASFL7sef$wght, na.rm=TRUE)
 
 wpct(ASFL7e$cryptod, weight=ASFL7e$wght, na.rm=TRUE)
-wpct(ASFL7em$bondd, weight=ASFL7em$wght, na.rm=TRUE)
-wpct(ASFL7ef$bondd, weight=ASFL7ef$wght, na.rm=TRUE)
+wpct(ASFL7em$cryptod, weight=ASFL7em$wght, na.rm=TRUE)
+wpct(ASFL7ef$cryptod, weight=ASFL7ef$wght, na.rm=TRUE)
 wpct(ASFL7eu$cryptod, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$cryptod, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$cryptod, weight=ASFL7othworet$wght, na.rm=TRUE)
@@ -3034,6 +3040,8 @@ wpct(ASFL7sem$riskyassetsd, weight=ASFL7sem$wght, na.rm=TRUE)
 wpct(ASFL7sef$riskyassetsd, weight=ASFL7sef$wght, na.rm=TRUE)
 
 wpct(ASFL7e$riskyassetsd, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7em$riskyassetsd, weight=ASFL7em$wght, na.rm=TRUE)
+wpct(ASFL7ef$riskyassetsd, weight=ASFL7ef$wght, na.rm=TRUE)
 wpct(ASFL7eu$riskyassetsd, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$riskyassetsd, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$riskyassetsd, weight=ASFL7othworet$wght, na.rm=TRUE)
@@ -3077,8 +3085,6 @@ wpct(ASFL7e$numericHFCSrisk, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$numericHFCSrisk, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$numericHFCSrisk, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$numericHFCSrisk, weight=ASFL7othworet$wght, na.rm=TRUE)
-
-
 
 
 
