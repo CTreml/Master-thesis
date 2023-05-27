@@ -1627,7 +1627,7 @@ riskfinknow <- ggplot(data = ASFL7se,
 
 
 #####################INTERACTION-PLOTS################################
-par(mfrow=c(2,4))
+
 #####FULL SAMPLE
 ###interaction plot risk financial literacy, gender comparison
 interaction.plot(x.factor = ASFL7$HFCSriskad, #x-axis variable
@@ -1766,6 +1766,9 @@ interaction.plot(x.factor = ASFL7$riskyassetsd, #x-axis variable
                  trace.label = "Gender")
 
 ######SELF EMPLOYED
+par(mfrow=c(2,2))
+par(mfrow=c(2,4))
+
 ###interaction plot risk financial literacy, gender comparison
 interaction.plot(x.factor = ASFL7se$HFCSriskad, #x-axis variable
                  trace.factor = ASFL7se$gender, #variable for lines
@@ -2055,26 +2058,7 @@ interaction.plot(x.factor = ASFL7$HFCSrisk_group_1, #x-axis variable
                  lwd = 2, #line width
                  trace.label = "Risky assets")
 par(mfrow=c(1,2))
-interaction.plot(x.factor = ASFL7se$HFCSrisk_group_1, #x-axis variable
-                 trace.factor = ASFL7se$riskyassets2_group, #variable for lines
-                 response = ASFL7se$finlit, #y-axis variable
-                 fun = median, #metric to plot
-                 ylab = "Literacy",
-                 xlab = "Risk propensity",
-                 col = c("orange","grey"),
-                 lty = 1, #line type
-                 lwd = 2, #line width
-                 trace.label = "Risky assets")
-interaction.plot(x.factor = ASFL7e$HFCSrisk_group_1, #x-axis variable
-                 trace.factor = ASFL7e$riskyassets2_group, #variable for lines
-                 response = ASFL7e$finlit, #y-axis variable
-                 fun = median, #metric to plot
-                 ylab = "Literacy",
-                 xlab = "Risk propensity",
-                 col = c("orange","grey"),
-                 lty = 1, #line type
-                 lwd = 2, #line width
-                 trace.label = "Risky assets")
+
 par(mfrow=c(2,2))
 interaction.plot(x.factor = ASFL7se$HFCSriskad, #x-axis variable
                  trace.factor = ASFL7se$riskyassets2_group, #variable for lines
@@ -2097,6 +2081,26 @@ interaction.plot(x.factor = ASFL7e$HFCSriskad, #x-axis variable
                  lwd = 2, #line width
                  trace.label = "Risky assets")
 
+interaction.plot(x.factor = ASFL7se$HFCSrisk_group_1, #x-axis variable
+                 trace.factor = ASFL7se$riskyassets2_group, #variable for lines
+                 response = ASFL7se$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Risky assets")
+interaction.plot(x.factor = ASFL7e$HFCSrisk_group_1, #x-axis variable
+                 trace.factor = ASFL7e$riskyassets2_group, #variable for lines
+                 response = ASFL7e$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = "Risky assets")
 ##age effect investigation
 interaction.plot(x.factor = ASFL7se$HFCSriskad, #x-axis variable
                  trace.factor = ASFL7se$age, #variable for lines
