@@ -2861,14 +2861,18 @@ crypto_1 <-p1b15 + QF3_6 +RC15
 cryptod <- ifelse(crypto >= "1", 1, 0)
 crypto_1d <- ifelse(crypto_1 >= "1", 1, 0)
 
-ASFL7 <- cbind(ASFL7,stockshared,stockshared_1d,bondd,bond_1d,cryptod,crypto_1d)
+ASFL7 <- cbind(ASFL7,stockshared,stockshare_1d,bondd,bond_1d,cryptod,crypto_1d)
 table(ASFL7$stockshared)
 
-riskyassets<- p1b11 + p1b12 + QF3_5 + QF3_7 + QF3_6 + RC15
+riskyassets<- p1b11 + p1b12 + p1b15 + QF3_7 + QF3_5 + QF3_6 
 table(riskyassets)
 riskyassetsd <- ifelse(riskyassets >= "1", 1, 0)
 table(riskyassetsd)
-ASFL7 <- cbind(ASFL7,riskyassets,riskyassetsd)
+riskyassets_1<- p1b11 + p1b12 + p1b15 + QF3_7 + QF3_5 + QF3_6 + RC11+ RC12 + RC15
+table(riskyassets_1)
+riskyassets_1d <- ifelse(riskyassets_1 >= "1", 1, 0)
+table(riskyassets_1d)
+ASFL7 <- cbind(ASFL7,riskyassets,riskyassetsd,riskyassets_1,riskyassets_1d)
 
 table(ASFL7se$riskyassetsd)
 table(ASFL7se$riskyassetsd)/79
@@ -2990,6 +2994,7 @@ wpct(ASFL7sef$stockshared, weight=ASFL7sef$wght, na.rm=TRUE)
 wpct(ASFL7e$stockshared, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7em$stockshared, weight=ASFL7em$wght, na.rm=TRUE)
 wpct(ASFL7ef$stockshared, weight=ASFL7ef$wght, na.rm=TRUE)
+
 wpct(ASFL7eu$stockshared, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$stockshared, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$stockshared, weight=ASFL7othworet$wght, na.rm=TRUE)
