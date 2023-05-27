@@ -2890,7 +2890,8 @@ ASFL7 <- ASFL7 %>% mutate(riskyassets_group = case_when(riskyassetsd == "0" ~"No
                                                       riskyassetsd == "1" ~"At least one asset"))
 table(ASFL7$riskyassets_group)
 riskyassets1_group <- factor(ASFL7$riskyassets_group, levels=c("At least one asset","No assets"))
-ASFL7 <- cbind(ASFL7, riskyassets1_group)
+riskyassets2_group <- factor(ASFL7$riskyassets_group, levels=c("No assets","At least one asset"))
+ASFL7 <- cbind(ASFL7, riskyassets1_group,riskyassets2_group)
 
 
 ####RISK ATTITUDE I am prepared to risk some of my own money when saving or making an investment
@@ -3085,6 +3086,7 @@ wpct(ASFL7e$numericHFCSrisk, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$numericHFCSrisk, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$numericHFCSrisk, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$numericHFCSrisk, weight=ASFL7othworet$wght, na.rm=TRUE)
+
 
 
 
