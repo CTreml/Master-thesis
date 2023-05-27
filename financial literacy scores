@@ -2833,25 +2833,35 @@ table(ASFL7entrepreneurs$HFCSrisk_group_1)/19
 
 
 ###############designed risk variable#################################
-#######Risky financial assets - recently chosen or used in the last year for active saving###########################
+#######Risky financial assets - currently holds or used in the last year for active saving###########################
 #######Stock, shares & bonds#################
 table(ASFL$Qprod1b_11)#stock and shares
 table(ASFL$Qprod1b_12)#bonds 
-table(ASFL$Qprod1c_15)#crypto
+table(ASFL$Qprod1b_15)#crypto
 table(ASFL$QF3_5)#bonds and time deposits
 table(ASFL$QF3_6)#crypto
 table(ASFL$QF3_7)#stock and shares
+#recently chose
+table(ASFL$Qprod1c_11)#stock and shares
+table(ASFL$Qprod1c_12)#bonds 
+table(ASFL$Qprod1c_15)#crypto
 
 stockshare <- p1b11 + QF3_7
+stockshare_1 <- p1b11 + QF3_7+RC11
 stockshared <- ifelse(stockshare >= "1", 1, 0)
+stockshare_1d <- ifelse(stockshare_1 >= "1", 1, 0)
 
 bond <- p1b12 + QF3_5
+bond_1 <- p1b12 + QF3_5+RC12
 bondd <- ifelse(bond >= "1", 1, 0)
+bond_1d <- ifelse(bond_1 >= "1", 1, 0)
 
-crypto <- QF3_6 + RC15
+crypto <- p1b15 + QF3_6 
+crypto_1 <-p1b15 + QF3_6 +RC15
 cryptod <- ifelse(crypto >= "1", 1, 0)
+crypto_1d <- ifelse(crypto_1 >= "1", 1, 0)
 
-ASFL7 <- cbind(ASFL7,stockshared,bondd,cryptod)
+ASFL7 <- cbind(ASFL7,stockshared,stockshared_1d,bondd,bond_1d,cryptod,crypto_1d)
 table(ASFL7$stockshared)
 
 riskyassets<- p1b11 + p1b12 + QF3_5 + QF3_7 + QF3_6 + RC15
@@ -3062,8 +3072,6 @@ wpct(ASFL7e$numericHFCSrisk, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$numericHFCSrisk, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$numericHFCSrisk, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$numericHFCSrisk, weight=ASFL7othworet$wght, na.rm=TRUE)
-
-
 
 
 
