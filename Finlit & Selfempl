@@ -89,6 +89,10 @@ employmentalt_alt <- as.factor(ASFL$employmentalt)
 levels(employmentalt_alt)
 ASFL <- within(ASFL, employmentalt_alt <- relevel(employmentalt_alt, ref = "Employed"))
 
+
+selfemployedd<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
+selfemployedd <- as.numeric(selfemployedd)
+
 employmentunempl <-ASFL$QD10 
 ASFL <- ASFL %>%
   mutate(employmentunempl=case_when(
@@ -108,8 +112,6 @@ ASFL <- within(ASFL, employmentunempl_1 <- relevel(employmentunempl_1, ref = "Ot
 
 ASFL<-cbind(ASFL,employment1_1,employment2_2,employmentfull_full,employmentalt_alt, employmentunempl_1)
 
-selfemployedd<- ifelse(ASFL$QD10 == "Self-employed [work for myself]", 1, 0)
-selfemployedd <- as.numeric(selfemployedd)
 
 ##alternative: QF9_11 ##own business as a retirement funding option
 summary(ASFL$QF9_11)
@@ -1106,10 +1108,10 @@ table(ASFLentrepreneurs$incomegroup_1)/19
 
 ####household income comparison plot 
 hincomecomp <- data.frame(status=rep(c('Self-employed', 'Employed'), each=4),
-                          income=rep(c('€3.000 or more','Between €2.000 and €3.000','Up to €2.000', 'Ref/Don`t know'), times=2),
+                          income=rep(c('3.000 or more','Between 2.000 and 3.000','Up to 2.000', 'Ref/Don`t know'), times=2),
                           share=c( 36/79, 18/79, 15/79,10/79,212/699,264/699,171/699,52/699))
 hincomecomp$status<- factor(hincomecomp$status, levels=c('Self-employed', 'Employed'))
-hincomecomp$income<- factor(hincomecomp$income, levels=c('€3.000 or more','Between €2.000 and €3.000','Up to €2.000', 'Ref/Don`t know'))
+hincomecomp$income<- factor(hincomecomp$income, levels=c('3.000 or more','Between 2.000 and 3.000','Up to 2.000', 'Ref/Don`t know'))
 ggplot(hincomecomp, aes(fill=income, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="")
