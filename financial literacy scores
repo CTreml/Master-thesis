@@ -1264,7 +1264,8 @@ finbuff_ad <- ifelse(ASFL$QF4 == "Yes",1, 0)
 table(finbuff_ad)
 ASFL3 <- cbind(ASFL3, finbuff_ad)
 
-#alternative: financial safety buffer #take all Refused/Not relevant, no own income/Dont know as "Yes" -> "No" incdicating higher risk 
+#ALTERNATIVE: financial safety buffer #take all Refused/Not relevant, no own income/Dont know as "Yes" -> "No" incdicating higher risk 
+#LR1
 ##"NO" means no financial buffer
 #full
 summary(ASFL$LR1)
@@ -1274,25 +1275,35 @@ nosavebuffd <- ifelse(ASFL$LR1 == "No",1, 0)
 table(nosavebuffd)
 ASFL3 <- cbind(ASFL3,nosavebuffd,savebuffd)
 
+
+
+
 #self-employed
 summary(ASFLse$highfinbuffd)
-wpct(ASFLse$QF13, weight=ASFLse$wght, na.rm=TRUE)
+table(ASFLse$highfinbuffd)
+swpct(ASFLse$QF13, weight=ASFLse$wght, na.rm=TRUE)
 wpct(ASFL3se$highfinbuffd, weight=ASFL3se$wght, na.rm=TRUE)
 finbuff_adse<- ifelse(ASFLse$QF4 == "Yes",1, 0)
 wpct(finbuff_adse, weight=ASFL3se$wght, na.rm=TRUE)
 #employed
 summary(ASFLe$highfinbuffd)
+table(ASFLe$highfinbuffd)
 wpct(ASFLe$QF13, weight=ASFLe$wght, na.rm=TRUE)
 wpct(ASFL3e$highfinbuffd, weight=ASFL3e$wght, na.rm=TRUE)
 finbuff_ade<- ifelse(ASFLe$QF4 == "Yes",1, 0)
 wpct(finbuff_ade, weight=ASFL3e$wght, na.rm=TRUE)
-#others
-summary(ASFLoth$highfinbuffd)
-wpct(ASFLoth$QF13, weight=ASFLoth$wght, na.rm=TRUE)
-wpct(ASFL3oth$highfinbuffd, weight=ASFL3oth$wght, na.rm=TRUE)
-finbuff_adoth<- ifelse(ASFL3oth$QF4 == "Yes",1, 0)
-wpct(finbuff_adoth, weight=ASFL3oth$wght, na.rm=TRUE)
-
+#employed + unemployed
+table(ASFLeu$highfinbuffd)
+wpct(ASFLeu$QF13, weight=ASFLeu$wght, na.rm=TRUE)
+#unemployed
+table(ASFLunempl$highfinbuffd)
+wpct(ASFLunempl$QF13, weight=ASFLunempl$wght, na.rm=TRUE)
+#retired
+table(ASFLret$highfinbuffd)
+wpct(ASFLret$QF13, weight=ASFLret$wght, na.rm=TRUE)
+#entrepreneurs
+table(ASFLentrepreneurs$highfinbuffd)
+wpct(ASFLentrepreneurs$QF13, weight=ASFLentrepreneurs$wght, na.rm=TRUE)
 
 #############falling victim to fraud ################################
 #Qprod4_
@@ -2887,7 +2898,7 @@ table(ASFL7entrepreneurs$riskyassetsd)/19
 
 
 ASFL7 <- ASFL7 %>% mutate(riskyassets_group = case_when(riskyassetsd == "0" ~"No assets" ,
-                                                      riskyassetsd == "1" ~"At least one asset"))
+                                                        riskyassetsd == "1" ~"At least one asset"))
 table(ASFL7$riskyassets_group)
 riskyassets1_group <- factor(ASFL7$riskyassets_group, levels=c("At least one asset","No assets"))
 riskyassets2_group <- factor(ASFL7$riskyassets_group, levels=c("No assets","At least one asset"))
