@@ -1301,7 +1301,6 @@ ASFL3ret <-  ASFL3[(ASFL3$QD10 %in% ret),]
 summary(ASFL3ret)
 ASFL3entrepreneurs <-  ASFL3[(ASFL3$QF9_11 %in% entrepreneurs),] 
 summary(ASFL3entrepreneurs)
-
 #self-employed
 table(ASFLse$QF13)
 wpct(ASFLse$QF13, weight=ASFLse$wght, na.rm=TRUE)
@@ -1311,7 +1310,7 @@ wpct(ASFL3se$highfinbuffd, weight=ASFL3se$wght, na.rm=TRUE)
 table(ASFL3se$savebuffd)
 wpct(ASFL3se$savebuffd, weight=ASFL3se$wght, na.rm=TRUE)
 table(ASFL3se$expensecovd)
-wpct(ASFL3se$savebuffd, weight=ASFL3se$wght, na.rm=TRUE)
+wpct(ASFL3se$expensecovd, weight=ASFL3se$wght, na.rm=TRUE)
 #employed
 table(ASFL3e$QF13)
 wpct(ASFLe$QF13, weight=ASFLe$wght, na.rm=TRUE)
@@ -1321,7 +1320,7 @@ wpct(ASFL3e$highfinbuffd, weight=ASFL3e$wght, na.rm=TRUE)
 table(ASFL3e$savebuffd)
 wpct(ASFL3e$savebuffd, weight=ASFL3e$wght, na.rm=TRUE)
 table(ASFL3e$expensecovd)
-wpct(ASFL3e$savebuffd, weight=ASFL3e$wght, na.rm=TRUE)
+wpct(ASFL3e$expensecovd, weight=ASFL3e$wght, na.rm=TRUE)
 #employed + unemployed
 table(ASFLeu$highfinbuffd)
 wpct(ASFLeu$QF13, weight=ASFLeu$wght, na.rm=TRUE)
@@ -1335,7 +1334,7 @@ wpct(ASFL3ret$highfinbuffd, weight=ASFL3ret$wght, na.rm=TRUE)
 table(ASFL3ret$savebuffd)
 wpct(ASFL3ret$savebuffd, weight=ASFL3ret$wght, na.rm=TRUE)
 table(ASFL3ret$expensecovd)
-wpct(ASFL3ret$savebuffd, weight=ASFL3ret$wght, na.rm=TRUE)
+wpct(ASFL3ret$expensecovd, weight=ASFL3ret$wght, na.rm=TRUE)
 
 #othworet
 table(ASFL3othworet$QF13)
@@ -1346,7 +1345,7 @@ wpct(ASFL3othworet$highfinbuffd, weight=ASFL3othworet$wght, na.rm=TRUE)
 table(ASFL3othworet$savebuffd)
 wpct(ASFL3othworet$savebuffd, weight=ASFL3othworet$wght, na.rm=TRUE)
 table(ASFL3othworet$expensecovd)
-wpct(ASFL3othworet$savebuffd, weight=ASFL3othworet$wght, na.rm=TRUE)
+wpct(ASFL3othworet$expensecovd, weight=ASFL3othworet$wght, na.rm=TRUE)
 #unemployed
 table(ASFL3unempl$QF13)
 wpct(ASFL3unempl$QF13, weight=ASFL3unempl$wght, na.rm=TRUE)
@@ -1356,7 +1355,7 @@ wpct(ASFL3unempl$highfinbuffd, weight=ASFL3unempl$wght, na.rm=TRUE)
 table(ASFL3unempl$savebuffd)
 wpct(ASFL3unempl$savebuffd, weight=ASFL3unempl$wght, na.rm=TRUE)
 table(ASFL3unempl$expensecovd)
-wpct(ASFL3unempl$savebuffd, weight=ASFL3unempl$wght, na.rm=TRUE)
+wpct(ASFL3unempl$expensecovd, weight=ASFL3unempl$wght, na.rm=TRUE)
 
 #entrepreneurs
 table(ASFL3entrepreneurs$QF13)
@@ -1367,7 +1366,7 @@ wpct(ASFL3entrepreneurs$highfinbuffd, weight=ASFL3entrepreneurs$wght, na.rm=TRUE
 table(ASFL3entrepreneurs$savebuffd)
 wpct(ASFL3entrepreneurs$savebuffd, weight=ASFL3entrepreneurs$wght, na.rm=TRUE)
 table(ASFL3entrepreneurs$expensecovd)
-wpct(ASFL3entrepreneurs$savebuffd, weight=ASFL3entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL3entrepreneurs$expensecovd, weight=ASFL3entrepreneurs$wght, na.rm=TRUE)
 
 #############falling victim to fraud ################################
 #Qprod4_
