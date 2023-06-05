@@ -287,11 +287,11 @@ ASFL <- ASFL %>% mutate(saknow_group = case_when(selfassess == "Very high" ~ "Hi
                                                  selfassess == "Refused" ~ "Ref/Don't know",
                                                  selfassess == "Don't know" ~ "Ref/Don't know"))
 ASFL <- ASFL %>% mutate(saknow_group_a = case_when(selfassess == "Very high" ~ "High sa",
-                                                 selfassess == "Quite high" ~ "High sa",
-                                                 selfassess == "About average" ~ "Average sa",
-                                                 selfassess == "Very low" ~ "Low sa",
-                                                 selfassess == "Quite low" ~ "Low sa",
-                                                 selfassess == TRUE ~ NA))                               
+                                                   selfassess == "Quite high" ~ "High sa",
+                                                   selfassess == "About average" ~ "Average sa",
+                                                   selfassess == "Very low" ~ "Low sa",
+                                                   selfassess == "Quite low" ~ "Low sa",
+                                                   selfassess == TRUE ~ NA))                               
 table(ASFL$saknow_group)
 saknow_group_1 <- factor(ASFL$saknow_group, levels=c("High sa", "Average sa", "Low sa","Ref/Don't know"))
 levels(saknow_group_1)
@@ -409,12 +409,12 @@ lfinbuff<- c("Less than a week","At least a week, but not one month","At least o
 hfinbuff<- c("At least three months, but not six months","Six months or more")
 
 ASFL <- ASFL %>% mutate(finbuff_group = case_when(finbuff == "Less than a week" ~ 'Low',
-                                                 finbuff == "At least a week, but not one month" ~ 'Low',
-                                                 finbuff == "At least one month, but not three months" ~ 'Average',
-                                                 finbuff == "At least three months, but not six months" ~ 'High',
-                                                 finbuff == "Six months or more" ~ 'High', 
-                                                 finbuff == "Don't know" ~ 'Refusal',
-                                                 finbuff == "Refused" ~ 'Refusal'))
+                                                  finbuff == "At least a week, but not one month" ~ 'Low',
+                                                  finbuff == "At least one month, but not three months" ~ 'Average',
+                                                  finbuff == "At least three months, but not six months" ~ 'High',
+                                                  finbuff == "Six months or more" ~ 'High', 
+                                                  finbuff == "Don't know" ~ 'Refusal',
+                                                  finbuff == "Refused" ~ 'Refusal'))
 table(ASFL$finbuff_group)
 
 numericfinbuff1<- ifelse(ASFL$QF13 == "Refusal", 3, 0)
@@ -454,9 +454,9 @@ ggplot(emplshare, aes(x="", y=amount, fill=Employment)) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
   geom_text(aes(label = c("5.57%" , "49.29%", "34.84%" ,"3.53%","" , "" , "",  "" , "" )),
-           position = position_stack(vjust = 0.4))+
+            position = position_stack(vjust = 0.4))+
   #geom_text(aes(label = c("5.57%" , "49.29%", "34.84%" ,"3.53%","0.35%" , "1.62%" , "1.69%",  "1.48%" , "1.62%" )),
-    #    position = position_stack(vjust = 0.4))+
+  #    position = position_stack(vjust = 0.4))+
   theme_void()
 
 emplshare2 <- data.frame("Employment" = c("Self-employed", "Employed", "Other", "Retired"),
@@ -645,8 +645,8 @@ genderplot$emplstat<- factor(genderplot$emplstat, levels=c('Self-employed', 'Emp
 genderplot$gender<- factor(genderplot$gender, levels=c('Male','Female'))
 ggplot(genderplot, aes(fill=gender, y=value, x=emplstat)) + 
   geom_bar(position="dodge", stat="identity")+ 
-scale_fill_manual(values=c("grey",
-                           "orange"))+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
   labs(x="" ,y="Percentage share",fill="")
 
 #with others
@@ -1034,8 +1034,8 @@ table(ASFLentrepreneurs$livingcommgroup_1)/19
 ####living community comparison plot
 ###stacked bar chart 
 livingcomm <- data.frame(status=rep(c('Self-employed', 'Employed'), each=3),
-                          community=rep(c("Village","Town","City"), times=2),
-                          share=c(20/79,25/79,34/79,198/699,258/699,243/699))
+                         community=rep(c("Village","Town","City"), times=2),
+                         share=c(20/79,25/79,34/79,198/699,258/699,243/699))
 livingcomm$status<- factor(livingcomm$status, levels=c('Self-employed', 'Employed'))
 livingcomm$community<- factor(livingcomm$community, levels=c("Village","Town","City"))
 ggplot(livingcomm, aes(fill=community, y=share, x=status)) + 
@@ -1302,20 +1302,20 @@ ggplot(selfratedknowgender, aes(fill=selfassessment, y=share, x=gender)) +
 #weighted
 #self-employed
 selfratedknowgender <- data.frame(gender=rep(c('Male', 'Female'), each=6),
-                                  selfassessment=rep(c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=2),
-                                  share=c(0.03034502,0,0,0.29503202,0.55073307,0.12388988,0.07317521,0.08004583,0.02503704,0.41705377,0.29703540,0.10765274))
+                                  selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=2),
+                                  share=c(0.12388988, 0.55073307, 0.29503202,0,0,0.03034502,  0.10765274, 0.29703540,0.41705377,0.02503704, 0.08004583,0.07317521 ))
 
-selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, levels=c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'))
+selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
 selfratedknowgender$gender<- factor(selfratedknowgender$gender, levels=c('Male', 'Female'))
 ggplot(selfratedknowgender, aes(fill=selfassessment, y=share, x=gender)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="")
 #employed
 selfratedknowgender <- data.frame(gender=rep(c('Male', 'Female'), each=6),
-                                  selfassessment=rep(c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'), times=2),
-                                  share=c(( 0.008451891 +  0.015353052 ),0.012593160 ,0.073273932   ,0.410727526   ,0.356358811   ,0.123241627  , (0.002103951  +0.017720411),0.035205152 ,0.160892403   ,0.419575185   ,0.269491520   ,0.095011378 ))
+                                  selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=2),
+                                  share=c(0.123241627 ,0.356358811 ,0.410727526,0.073273932, 0.012593160,0.02380494,0.095011378 , 0.269491520, 0.419575185,0.160892403, 0.035205152 , 0.01982436))
 
-selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, levels=c('Ref/Don´t know','Very low','Quite low', 'Average', 'Quite high', 'Very high'))
+selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
 selfratedknowgender$gender<- factor(selfratedknowgender$gender, levels=c('Male', 'Female'))
 ggplot(selfratedknowgender, aes(fill=selfassessment, y=share, x=gender)) + 
   geom_bar(position='stack', stat='identity')+
