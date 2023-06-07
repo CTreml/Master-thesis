@@ -255,9 +255,13 @@ university_1d<- ifelse(ASFL$QD9 == "2", 1, 0)
 university_2d<- ifelse(ASFL$QD9 == "3", 1, 0)
 Akademied <- ifelse(ASFL$QD9 == "0", 1, 0)#Akademie!
 universityd <- university_1d+university_2d
+ASFL["educspecific"] = cut(as.numeric(as.character(ASFL$QD9)), c(0, 3, 4, 5, Inf), c("Universitary", "Upper secondary", "Lower secondary", "Primary"), include.lowest=TRUE)
+table(ASFL$educspecific)
+levels(ASFL$educspecific)
+educspecific_1 <- factor(ASFL$educspecific, levels=c("Primary", "Lower secondary", "Upper secondary", "Universitary"))
 
-ASFL <- cbind(ASFL,primaryd,lowersecondaryd,uppersecondaryd,universityd,Akademied)
-
+ASFL <- cbind(ASFL,primaryd,lowersecondaryd,uppersecondaryd,universityd,Akademied,educspecific_1)
+levels(ASFL$educspecific_1)
 #################################new_education###################################
 ASFL["education"] = cut(as.numeric(as.character(ASFL$QD9)), c(0,4,Inf), c("Higher", "Lower"), include.lowest=TRUE)
 table(ASFL$education)
