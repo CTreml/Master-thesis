@@ -247,7 +247,7 @@ table(ASFL$QD9)
 ASFL["educationspecific"] = cut(as.numeric(as.character(ASFL$QD9)), c(0,1, 3, 4, 5, Inf), c("Akademie","Universitary", "Upper secondary", "Lower secondary", "Primary"), include.lowest=TRUE)
 table(ASFL$educationspecific)
 levels(ASFL$educationspecific)
-educationspecific_1 <- factor(ASFL$educspecific, levels=c("Primary", "Lower secondary", "Upper secondary", "Universitary", "Akademie"))
+educationspecific_1 <- factor(ASFL$educationspecific, levels=c("Primary", "Lower secondary", "Upper secondary", "Universitary", "Akademie"))
 primary_1d <- ifelse(ASFL$QD9 == "7", 1, 0)
 primary_2d <- ifelse(ASFL$QD9 == "6", 1, 0)
 primaryd <- primary_1d+primary_2d
