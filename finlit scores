@@ -1064,6 +1064,7 @@ ASFL3seprimary<- subset(ASFL3se, ASFL3se$primaryd == "1")
 ASFL3selsecondary<- subset(ASFL3se, ASFL3se$lowersecondaryd == "1")
 ASFL3seusecondary<- subset(ASFL3se, ASFL3se$uppersecondaryd == "1")
 ASFL3seuniversity<- subset(ASFL3se, ASFL3se$universityd == "1")
+ASFL3seAkademie<- subset(ASFL3se, ASFL3se$Akademied == "1")
 ASFL3sehigheduc<- subset(ASFL3se, ASFL3se$higheduc == "1")
 ASFL3seloweduc<- subset(ASFL3se, ASFL3se$loweduc == "1")
 
@@ -1072,11 +1073,25 @@ ASFL3seloweduc<- subset(ASFL3se, ASFL3se$loweduc == "1")
 ASFL3e <- ASFL3[(ASFL3$QD10 %in% e),]
 ASFL3em <- ASFL3e[(ASFL3e$QD1 %in% male),]
 ASFL3ef <- ASFL3e[(ASFL3e$QD1 %in% female),]
+ASFL3eyoungmill <- ASFL3e[(ASFL3e$age_group %in% youngmill),]
+ASFL3eoldmill <- ASFL3e[(ASFL3e$age_group %in% oldmill),]
+ASFL3egenx <- ASFL3e[(ASFL3e$age_group %in% genx),]
+ASFL3ebabyboom <- ASFL3e[(ASFL3e$age_group %in% babyboom),]
+ASFL3esilent <- ASFL3e[(ASFL3e$age_group %in% silgen),]
+ASFL3eprimary<- subset(ASFL3e, ASFL3e$primaryd == "1")
+ASFL3elsecondary<- subset(ASFL3e, ASFL3e$lowersecondaryd == "1")
+ASFL3eusecondary<- subset(ASFL3e, ASFL3e$uppersecondaryd == "1")
+ASFL3euniversity<- subset(ASFL3e, ASFL3e$universityd == "1")
+ASFL3eAkademie<- subset(ASFL3e, ASFL3e$Akademied == "1")
+ASFL3ehigheduc<- subset(ASFL3e, ASFL3e$higheduc == "1")
+ASFL3eloweduc<- subset(ASFL3e, ASFL3e$loweduc == "1")
+
+
 ASFL3unempl <- ASFL3[(ASFL3$QD10 %in% unempl),]
 ASFL3oth <- ASFL3[(ASFL3$QD10 %in% oth),]
 ASFL3othworet <- ASFL3[(ASFL3$QD10 %in% othworet),]
 ASFL3ret <- ASFL3[(ASFL3$QD10 %in% ret),]
-
+ASFL3entrepreneurs <- ASFL3[(ASFL3$QF9_11 %in% entrepreneurs),]
 
 ASFL3adult <- ASFL3[!(ASFL3$QD7 %in% under18),] 
 ASFL3main <- ASFL3adult[!(ASFL3adult$QD7 %in% above79),] 
@@ -1109,6 +1124,7 @@ weighted.mean(ASFL3seprimary$fin_know, ASFL3seprimary$wght)
 weighted.mean(ASFL3selsecondary$fin_know, ASFL3selsecondary$wght)
 weighted.mean(ASFL3seusecondary$fin_know, ASFL3seusecondary$wght)
 weighted.mean(ASFL3seuniversity$fin_know, ASFL3seuniversity$wght)
+weighted.mean(ASFL3seAkademie$fin_know, ASFL3seAkademie$wght)
 
 weighted.mean(ASFL3sehigheduc$fin_know, ASFL3sehigheduc$wght)
 weighted.mean(ASFL3seloweduc$fin_know, ASFL3seloweduc$wght)
@@ -1121,6 +1137,22 @@ weighted.mean(ASFL3em$fin_know, ASFL3em$wght)
 weighted.mean(ASFL3em$fin_know_add, ASFL3em$wght)
 weighted.mean(ASFL3ef$fin_know, ASFL3ef$wght)
 weighted.mean(ASFL3ef$fin_know_add, ASFL3ef$wght)
+
+weighted.mean(ASFL3eyoungmill$fin_know, ASFL3eyoungmill$wght)
+weighted.mean(ASFL3eoldmill$fin_know, ASFL3eoldmill$wght)
+weighted.mean(ASFL3egenx$fin_know, ASFL3egenx$wght)
+weighted.mean(ASFL3ebabyboom$fin_know, ASFL3ebabyboom$wght)
+weighted.mean(ASFL3esilent$fin_know, ASFL3esilent$wght)
+
+weighted.mean(ASFL3eprimary$fin_know, ASFL3eprimary$wght)
+weighted.mean(ASFL3elsecondary$fin_know, ASFL3elsecondary$wght)
+weighted.mean(ASFL3eusecondary$fin_know, ASFL3eusecondary$wght)
+weighted.mean(ASFL3euniversity$fin_know, ASFL3euniversity$wght)
+weighted.mean(ASFL3eAkademie$fin_know, ASFL3eAkademie$wght)
+
+weighted.mean(ASFL3ehigheduc$fin_know, ASFL3ehigheduc$wght)
+weighted.mean(ASFL3eloweduc$fin_know, ASFL3eloweduc$wght)
+
 
 weighted.mean(ASFL3unempl$fin_know, ASFL3unempl$wght)
 wpct(ASFL3unempl$fin_know, weight=ASFL3unempl$wght, na.rm=TRUE)
@@ -1160,6 +1192,7 @@ weighted.mean(ASFL3seprimary$fin_beh, ASFL3seprimary$wght)
 weighted.mean(ASFL3selsecondary$fin_beh, ASFL3selsecondary$wght)
 weighted.mean(ASFL3seusecondary$fin_beh, ASFL3seusecondary$wght)
 weighted.mean(ASFL3seuniversity$fin_beh, ASFL3seuniversity$wght)
+weighted.mean(ASFL3seAkademie$fin_beh, ASFL3seAkademie$wght)
 
 weighted.mean(ASFL3sehigheduc$fin_beh, ASFL3sehigheduc$wght)
 weighted.mean(ASFL3seloweduc$fin_beh, ASFL3seloweduc$wght)
@@ -1172,6 +1205,21 @@ wpct(ASFL3e$highfinbehd, weight=ASFL3e$wght, na.rm=TRUE)
 
 weighted.mean(ASFL3em$fin_beh, ASFL3em$wght)
 weighted.mean(ASFL3ef$fin_beh, ASFL3ef$wght)
+
+weighted.mean(ASFL3eyoungmill$fin_beh, ASFL3eyoungmill$wght)
+weighted.mean(ASFL3eoldmill$fin_beh, ASFL3eoldmill$wght)
+weighted.mean(ASFL3egenx$fin_beh, ASFL3egenx$wght)
+weighted.mean(ASFL3ebabyboom$fin_beh, ASFL3ebabyboom$wght)
+weighted.mean(ASFL3esilent$fin_beh, ASFL3esilent$wght)
+
+weighted.mean(ASFL3eprimary$fin_beh, ASFL3eprimary$wght)
+weighted.mean(ASFL3elsecondary$fin_beh, ASFL3elsecondary$wght)
+weighted.mean(ASFL3eusecondary$fin_beh, ASFL3eusecondary$wght)
+weighted.mean(ASFL3euniversity$fin_beh, ASFL3euniversity$wght)
+weighted.mean(ASFL3eAkademie$fin_beh, ASFL3eAkademie$wght)
+
+weighted.mean(ASFL3ehigheduc$fin_beh, ASFL3ehigheduc$wght)
+weighted.mean(ASFL3eloweduc$fin_beh, ASFL3eloweduc$wght)
 
 weighted.mean(ASFL3unempl$fin_beh, ASFL3unempl$wght)
 wpct(ASFL3unempl$fin_beh, weight=ASFL3unempl$wght, na.rm=TRUE)
@@ -1222,6 +1270,7 @@ weighted.mean(ASFL3seprimary$fin_att, ASFL3seprimary$wght)
 weighted.mean(ASFL3selsecondary$fin_att, ASFL3selsecondary$wght)
 weighted.mean(ASFL3seusecondary$fin_att, ASFL3seusecondary$wght)
 weighted.mean(ASFL3seuniversity$fin_att, ASFL3seuniversity$wght)
+weighted.mean(ASFL3seAkademie$fin_att, ASFL3seAkademie$wght)
 
 weighted.mean(ASFL3sehigheduc$fin_att, ASFL3sehigheduc$wght)
 weighted.mean(ASFL3seloweduc$fin_att, ASFL3seloweduc$wght)
@@ -1234,6 +1283,21 @@ wpct(ASFL3e$highfinattd, weight=ASFL3e$wght, na.rm=TRUE)
 
 weighted.mean(ASFL3em$fin_att, ASFL3em$wght)
 weighted.mean(ASFL3ef$fin_att, ASFL3ef$wght)
+
+weighted.mean(ASFL3eyoungmill$fin_att, ASFL3eyoungmill$wght)
+weighted.mean(ASFL3eoldmill$fin_att, ASFL3eoldmill$wght)
+weighted.mean(ASFL3egenx$fin_att, ASFL3egenx$wght)
+weighted.mean(ASFL3ebabyboom$fin_att, ASFL3ebabyboom$wght)
+weighted.mean(ASFL3esilent$fin_att, ASFL3esilent$wght)
+
+weighted.mean(ASFL3eprimary$fin_att, ASFL3eprimary$wght)
+weighted.mean(ASFL3elsecondary$fin_att, ASFL3elsecondary$wght)
+weighted.mean(ASFL3eusecondary$fin_att, ASFL3eusecondary$wght)
+weighted.mean(ASFL3euniversity$fin_att, ASFL3euniversity$wght)
+weighted.mean(ASFL3eAkademie$fin_att, ASFL3eAkademie$wght)
+
+weighted.mean(ASFL3ehigheduc$fin_att, ASFL3ehigheduc$wght)
+weighted.mean(ASFL3eloweduc$fin_att, ASFL3eloweduc$wght)
 
 weighted.mean(ASFL3unempl$fin_att, ASFL3unempl$wght)
 wpct(ASFL3unempl$fin_att, weight=ASFL3unempl$wght, na.rm=TRUE)
@@ -1301,6 +1365,7 @@ ASFL3ret <-  ASFL3[(ASFL3$QD10 %in% ret),]
 summary(ASFL3ret)
 ASFL3entrepreneurs <-  ASFL3[(ASFL3$QF9_11 %in% entrepreneurs),] 
 summary(ASFL3entrepreneurs)
+
 #self-employed
 table(ASFLse$QF13)
 wpct(ASFLse$QF13, weight=ASFLse$wght, na.rm=TRUE)
@@ -3160,7 +3225,6 @@ wpct(ASFL7e$numericHFCSrisk, weight=ASFL7e$wght, na.rm=TRUE)
 wpct(ASFL7eu$numericHFCSrisk, weight=ASFL7eu$wght, na.rm=TRUE)
 wpct(ASFL7oth$numericHFCSrisk, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$numericHFCSrisk, weight=ASFL7othworet$wght, na.rm=TRUE)
-
 
 
 
