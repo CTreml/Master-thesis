@@ -2290,18 +2290,23 @@ ASFL6 <- cbind(ASFL6, finlitaddr)
 wpct(ASFL6$finlitaddr, weight=ASFL6$wght, na.rm=TRUE)
 weighted.mean(ASFL6$finlitaddr, ASFL6$wght)
 #dummy variables 
-ASFL6 <- ASFL6 %>% mutate(finlit_group = case_when(finlit >=17  & finlit <= 20.66666666666667 ~ "Highfl",
-                                                   finlit >=14   & finlit <17  ~ "Averagefl",
-                                                   finlit >= 0  & finlit <14  ~ "Lowfl"))
+ASFL6 <- ASFL6 %>% mutate(finlit_group = case_when(finlit >=17  & finlit <= 20.66666666666667 ~ "High fl",
+                                                   finlit >=14   & finlit <17  ~ "Average fl",
+                                                   finlit >= 0  & finlit <14  ~ "Low fl"))
 table(ASFL6$finlit_group)
 
-highfinlitd <- ifelse(ASFL6$finlit_group == "Highfl", 1, 0)
-averagefinlitd <- ifelse(ASFL6$finlit_group == "Averagefl", 1, 0)
-lowfinlitd <- ifelse(ASFL6$finlit_group == "Lowfl", 1, 0)
+finlit_group_1 <- factor(ASFL6$finlit_group, levels=c("High fl","Average fl", "Low fl"))
+levels(finlit_group_1)
+
+
+highfinlitd <- ifelse(ASFL6$finlit_group == "High fl", 1, 0)
+averagefinlitd <- ifelse(ASFL6$finlit_group == "Average fl", 1, 0)
+lowfinlitd <- ifelse(ASFL6$finlit_group == "Low fl", 1, 0)
 ASFL6 <- cbind(ASFL6,highfinlitd,averagefinlitd,lowfinlitd)
 table(ASFL6$highfinlitd)
 table(ASFL6$averagefinlitd)
 table(ASFL6$lowfinlitd)
+
 
 
 
