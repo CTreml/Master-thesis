@@ -231,26 +231,15 @@ ggplot(finbeh, aes(fill=emplstat, y=value, x=finbeh)) +
 # color='orange', size=2, geom='point')
 
 #SUBGROUP DIFFERENCES in financial literacy
-#gender comparison main financial literacy scores 
-#weighted
-finlitcomparison <- c(rep("Financial knowledge" , 2) , rep("Financial behaviour" , 2) , rep("Financial attitude" , 2) )
-gender <- rep(c("Male" , "Female" ) , 3)
-value <- abs(c(0.3244025 ,0.1050333 ,0.2075505 , 0, 0.08051489 ,0.0213587 ,0.4324312 ,0.09545857 ,0.2598197 ,0.0713791 ))
-riskplot<- data.frame(risk,gender,value)
-riskplot$risk<- factor(riskplot$risk, levels=c("Stocks/shares","Bonds","Crypto assets","Risk willingness","Risk propensity"))
-riskplot$gender<- factor(riskplot$gender, levels=c("Male" , "Female"))
-ggplot(riskplot, aes(fill=gender, y=value, x=risk)) + 
-  geom_bar(position="dodge", stat="identity")+
-  labs(x = "",y="Percentage share", fill = "Gender")
 
 #gender comparison main financial literacy scores 
 #weighted
 #self-employed
-finlitcomparison <- c(rep("Financial knowledge" , 2) , rep("Financial behaviour" , 2) , rep("Financial attitude" , 2) )
+finlitcomparison <- c(rep("Knowledge" , 2) , rep("Behaviour" , 2) , rep("Attitude" , 2) )
 gender <- rep(c("Male" , "Female" ) , 3)
 value <- abs(c(6.161039,5.749211,7.007273,6.489682,3.291648,3.319749))
 finlitcomparisongender<- data.frame(finlitcomparison,gender,value)
-finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Financial knowledge","Financial behaviour","Financial attitude"))
+finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
 finlitcomparisongender$gender<- factor(finlitcomparisongender$gender, levels=c("Male" , "Female"))
 ggplot(finlitcomparisongender, aes(fill=gender, y=value, x=finlitcomparison)) + 
   geom_bar(position="dodge", stat="identity")+
@@ -259,11 +248,11 @@ ggplot(finlitcomparisongender, aes(fill=gender, y=value, x=finlitcomparison)) +
   labs(x = "",y="Percentage share", fill = "")
 
 #employed
-finlitcomparison <- c(rep("Financial knowledge" , 2) , rep("Financial behaviour" , 2) , rep("Financial attitude" , 2) )
+finlitcomparison <- c(rep("Knowledge" , 2) , rep("Behaviour" , 2) , rep("Attitude" , 2) )
 gender <- rep(c("Male" , "Female" ) , 3)
 value <- abs(c(5.572578,5.1973,6.2366,6.11386,3.053325,3.177074))
 finlitcomparisongender<- data.frame(finlitcomparison,gender,value)
-finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Financial knowledge","Financial behaviour","Financial attitude"))
+finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
 finlitcomparisongender$gender<- factor(finlitcomparisongender$gender, levels=c("Male" , "Female"))
 ggplot(finlitcomparisongender, aes(fill=gender, y=value, x=finlitcomparison)) + 
   geom_bar(position="dodge", stat="identity")+
@@ -274,47 +263,71 @@ ggplot(finlitcomparisongender, aes(fill=gender, y=value, x=finlitcomparison)) +
 #age group comparison main financial literacy scores 
 #weighted
 #selfemployed
-finlitcomparison <- c(rep("Financial knowledge" , 5) , rep("Financial behaviour" , 5) , rep("Financial attitude" , 5) )
+finlitcomparison <- c(rep("Knowledge" , 5) , rep("Behaviour" , 5) , rep("Attitude" , 5) )
 agegroup <- rep(c("Young millenials", "Old millenials" , "Generation X", "Baby boomers", "Silent generation" ) , 3)
 value <- abs(c(0,6.43318,5.971818,5.915405,0,0,7.404092,6.731798,6.933479,0,0,3.581911,3.324066,3.004795, 0))
-finlitcomparisongender<- data.frame(finlitcomparison,agegroup,value)
-finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Financial knowledge","Financial behaviour","Financial attitude"))
-finlitcomparisongender$agegroup<- factor(finlitcomparisongender$agegroup, levels=c("Young millenials", "Old millenials" , "Generation X", "Baby boomers", "Silent generation" ))
-ggplot(finlitcomparisongender, aes(fill=agegroup, y=value, x=finlitcomparison)) + 
+finlitcomparisonage<- data.frame(finlitcomparison,agegroup,value)
+finlitcomparisonage$finlitcomparison<- factor(finlitcomparisonage$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finlitcomparisonage$agegroup<- factor(finlitcomparisonage$agegroup, levels=c("Young millenials", "Old millenials" , "Generation X", "Baby boomers", "Silent generation" ))
+ggplot(finlitcomparisonage, aes(fill=agegroup, y=value, x=finlitcomparison)) + 
   geom_bar(position="dodge", stat="identity")+
   labs(x = "",y="Percentage share", fill = "")
 
-#employed
-finlitcomparison <- c(rep("Financial knowledge" , 5) , rep("Financial behaviour" , 5) , rep("Financial attitude" , 5) )
+####employed
+finlitcomparison <- c(rep("Knowledge" , 5) , rep("Behaviour" , 5) , rep("Attitude" , 5) )
 agegroup <- rep(c("Young millenials", "Old millenials" , "Generation X", "Baby boomers", "Silent generation" ) , 3)
 value <- abs(c(5.070268,5.400707,5.45375, 6.142982,7 ,5.811853,6.211901,6.309896,6.04485,6,2.696193,3.14479, 3.261084,3.055484,2.666667))
-finlitcomparisongender<- data.frame(finlitcomparison,agegroup,value)
-finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Financial knowledge","Financial behaviour","Financial attitude"))
-finlitcomparisongender$agegroup<- factor(finlitcomparisongender$agegroup, levels=c("Young millenials", "Old millenials" , "Generation X", "Baby boomers", "Silent generation"))
-ggplot(finlitcomparisongender, aes(fill=agegroup, y=value, x=finlitcomparison)) + 
+finlitcomparisonage<- data.frame(finlitcomparison,agegroup,value)
+finlitcomparisonage$finlitcomparison<- factor(finlitcomparisonage$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finlitcomparisonage$agegroup<- factor(finlitcomparisonage$agegroup, levels=c("Young millenials", "Old millenials" , "Generation X", "Baby boomers", "Silent generation"))
+ggplot(finlitcomparisonage, aes(fill=agegroup, y=value, x=finlitcomparison)) + 
   geom_bar(position="dodge", stat="identity")+
   labs(x = "",y="Percentage share", fill = "")
 
 #education comparison main financial literacy scores 
 #weighted old
-finlitcomparison <- c(rep("Financial knowledge" , 4) , rep("Financial behaviour" , 4) , rep("Financial attitude" , 4) )
+finlitcomparison <- c(rep("Knowledge" , 4) , rep("Behaviour" , 4) , rep("Attitude" , 4) )
 education <- rep(c("Primary" , "Lower secondary", "Upper secondary", "University" ) , 3)
 value <- abs(c(5.810818,5.635405,6.055423,6.657436,5.507917,6.79402,6.331562,7.363234,2.759301,3.358433,3.134587,3.390024))
-finlitcomparisongender<- data.frame(finlitcomparison,education,value)
-finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Financial knowledge","Financial behaviour","Financial attitude"))
-finlitcomparisongender$education<- factor(finlitcomparisongender$education, levels=c("Primary" , "Lower secondary", "Upper secondary", "University" ))
-ggplot(finlitcomparisongender, aes(fill=education, y=value, x=finlitcomparison)) + 
+finlitcomparisoneducation<- data.frame(finlitcomparison,education,value)
+finlitcomparisoneducation$finlitcomparison<- factor(finlitcomparisoneducation$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finlitcomparisoneducation$education<- factor(finlitcomparisoneducation$education, levels=c("Primary" , "Lower secondary", "Upper secondary", "University" ))
+ggplot(finlitcomparisoneducation, aes(fill=education, y=value, x=finlitcomparison)) + 
   geom_bar(position="dodge", stat="identity")+
   labs(x = "",y="Percentage share", fill = "Educational level")
 
 #education comparison main financial literacy scores 
 #weighted new
 #self-employed
-finlitcomparison <- c(rep("Financial knowledge" , 2) , rep("Financial behaviour" , 2) , rep("Financial attitude" , 2) )
+finlitcomparison <- c(rep("Knowledge" , 2) , rep("Behaviour" , 2) , rep("Attitude" , 2) )
 education <- rep(c("Lower", "Higher" ) , 3)
-value <- abs(c(5.651829,6.448447,6.673599,7.005088,3.302335,3.301349))
+value <- abs(c(5.651829,6.452496,6.673599,6.963768,3.302335,3.30395))
+finlitcomparisoneducation<- data.frame(finlitcomparison,education,value)
+finlitcomparisoneducation$finlitcomparison<- factor(finlitcomparisoneducation$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finlitcomparisoneducation$education<- factor(finlitcomparisoneducation$education, levels=c("Lower", "Higher" ))
+ggplot(finlitcomparisoneducation, aes(fill=education, y=value, x=finlitcomparison)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("green",
+                             "purple"))+
+  labs(x = "",y="Percentage share", fill = "")
+
+#detailed
+finlitcomparison <- c(rep("Knowledge" , 5) , rep("Behaviour" , 5) , rep("Attitude" , 5) )
+education <- rep(c("Primary" , "Lower secondary", "Upper secondary", "University" ,"Akademie") , 3)
+value <- abs(c(5.810818,5.635405,6.055423,6.657436,6.546933,  5.507917,6.79402,6.331562,7.363234,6,2.759301,3.358433,3.134587,3.390024,3.364622))
+finlitcomparisoneducation<- data.frame(finlitcomparison,education,value)
+finlitcomparisoneducation$finlitcomparison<- factor(finlitcomparisoneducation$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finlitcomparisoneducation$education<- factor(finlitcomparisoneducation$education, levels=c("Primary" , "Lower secondary", "Upper secondary", "University" ,"Akademie"))
+ggplot(finlitcomparisoneducation, aes(fill=education, y=value, x=finlitcomparison)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x = "",y="Percentage share", fill = "Educational level")
+
+###employed
+finlitcomparison <- c(rep("Knowledge" , 2) , rep("Behaviour" , 2) , rep("Attitude" , 2) )
+education <- rep(c("Lower", "Higher" ) , 3)
+value <- abs(c(5.158952,5.85291,5.896997,6.733201,3.302335,3.267067))
 finlitcomparisongender<- data.frame(finlitcomparison,education,value)
-finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Financial knowledge","Financial behaviour","Financial attitude"))
+finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
 finlitcomparisongender$education<- factor(finlitcomparisongender$education, levels=c("Lower", "Higher" ))
 ggplot(finlitcomparisongender, aes(fill=education, y=value, x=finlitcomparison)) + 
   geom_bar(position="dodge", stat="identity")+
@@ -322,18 +335,16 @@ ggplot(finlitcomparisongender, aes(fill=education, y=value, x=finlitcomparison))
                              "purple"))+
   labs(x = "",y="Percentage share", fill = "")
 
-#employed
-finlitcomparison <- c(rep("Financial knowledge" , 2) , rep("Financial behaviour" , 2) , rep("Financial attitude" , 2) )
-education <- rep(c("Lower", "Higher" ) , 3)
-value <- abs(c(5.158952,5.85291,5.896997,6.733201,3.302335,3.267067))
-finlitcomparisongender<- data.frame(finlitcomparison,education,value)
-finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Financial knowledge","Financial behaviour","Financial attitude"))
-finlitcomparisongender$education<- factor(finlitcomparisongender$education, levels=c("Lower", "Higher" ))
-ggplot(finlitcomparisongender, aes(fill=education, y=value, x=finlitcomparison)) + 
+#detailed
+finlitcomparison <- c(rep("Knowledge" , 5) , rep("Behaviour" , 5) , rep("Attitude" , 5) )
+education <- rep(c("Primary" , "Lower secondary", "Upper secondary", "University" ,"Akademie") , 3)
+value <- abs(c(4.040015,5.277985,5.80295,5.998981,5.554505,5.437746,5.945852,6.887595,6.474886,6.697646,2.893271,3.05032,3.34524,3.13283,3.26616))
+finlitcomparisoneducation<- data.frame(finlitcomparison,education,value)
+finlitcomparisoneducation$finlitcomparison<- factor(finlitcomparisoneducation$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finlitcomparisoneducation$education<- factor(finlitcomparisoneducation$education, levels=c("Primary" , "Lower secondary", "Upper secondary", "University" ,"Akademie"))
+ggplot(finlitcomparisoneducation, aes(fill=education, y=value, x=finlitcomparison)) + 
   geom_bar(position="dodge", stat="identity")+
-  scale_fill_manual(values=c("green",
-                             "purple"))+
-  labs(x = "",y="Percentage share", fill = "")
+  labs(x = "",y="Percentage share", fill = "Educational level")
 
 ###############FINANCIAL INCLUSION######################
 #unweighted 
@@ -567,9 +578,9 @@ ggplot(finrescomparison, aes(fill=finrel, y=share, x=status)) +
   labs(x="",y="Percentage share",fill="Financial cushion")
 #weighted
 finrescomparison <- data.frame(status=rep(c('Self-employed', 'Employed'), each=5),
-                               finrel=rep(c('Don´t know/Ref', 'About a week','About a month','About three months','Six months or above'), times=2),
-                               share=c((0.009029548+0.061925979),0.078420722,0.185704480,0.212421271,0.452498000,( 0.03132441+0.05386017),(0.01497427 +0.10388377),0.27961888,0.23325797,0.28308054 ))
-finrescomparison$finrel<- factor(finrescomparison$finrel, levels=c('Don´t know/Ref', 'About a week','About a month','About three months','Six months or above'))
+                               finrel=rep(c('Six months or above','About three months', 'About a month','About a week','Don´t know/Ref'), times=2),
+                               share=c(0.452498000,0.212421271,0.185704480,0.078420722,(0.009029548+0.061925979),0.28308054,0.23325797,0.27961888,(0.01497427 +0.10388377),( 0.03132441+0.05386017)))
+finrescomparison$finrel<- factor(finrescomparison$finrel, levels=c('Six months or above','About three months', 'About a month','About a week','Don´t know/Ref'))
 finrescomparison$status<- factor(finrescomparison$status, levels=c('Self-employed', 'Employed'))
 ggplot(finrescomparison, aes(fill=finrel, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
@@ -586,12 +597,12 @@ ggplot(finrescomparison, aes(fill=finrel, y=share, x=status)) +
 
 #####above / below three months accordig to OECD -> impact of financial savings
 ###for self-employed
-finrescomparison <- c(rep("Financial knowledge" , 2) , rep("Financial behaviour" , 2) , rep("Financial attitude" , 2) )
+finrescomparison <- c(rep("Knowledge" , 2) , rep("Behaviour" , 2) , rep("Attitude" , 2) )
 status <- rep(c("Less than three months" , "More than three months" ) , 3)
 value <- abs(c(6.03243,6.185474,6.570205,6.926946,3.249507,3.298033))
 finresplot <- data.frame(finrescomparison,status,value)
 finresplot$status<- factor(finresplot$status, levels=c("Less than three months" , "More than three months" ))
-finresplot$finrescomparison<- factor(finresplot$finrescomparison, levels=c("Financial knowledge", "Financial behaviour", "Financial attitude"))
+finresplot$finrescomparison<- factor(finresplot$finrescomparison, levels=c("Knowledge","Behaviour","Attitude"))
 ggplot(finresplot, aes(fill=status, y=value, x=finrescomparison)) + 
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("lightblue",
@@ -623,12 +634,12 @@ ggplot(finstressconcernfraudplot, aes(fill=status, y=value, x=finstressconcernfr
   labs(x="",y="Percentage share",fill="")
 
 ###employed
-finrescomparison <- c(rep("Financial knowledge" , 2) , rep("Financial behaviour" , 2) , rep("Financial attitude" , 2) )
+finrescomparison <- c(rep("Knowledge" , 2) , rep("Behaviour" , 2) , rep("Attitude" , 2)  )
 status <- rep(c("Less than three months" , "More than three months" ) , 3)
 value <- abs(c(4.960896,5.853891,5.494803,6.637096,2.877918,3.291662))
 finresplot <- data.frame(finrescomparison,status,value)
 finresplot$status<- factor(finresplot$status, levels=c("Less than three months" , "More than three months" ))
-finresplot$finrescomparison<- factor(finresplot$finrescomparison, levels=c("Financial knowledge", "Financial behaviour", "Financial attitude"))
+finresplot$finrescomparison<- factor(finresplot$finrescomparison, levels=c("Knowledge","Behaviour","Attitude"))
 ggplot(finresplot, aes(fill=status, y=value, x=finrescomparison)) + 
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("lightblue",
@@ -651,18 +662,18 @@ ggplot(finstressconcernfraudplot, aes(fill=status, y=value, x=finstressconcernfr
 #weighted gender specific se
 #self-employed
 finrescomparison <- data.frame(status=rep(c('Male','Female'), each=5),
-                               finrel=rep(c('Don´t know/Ref', 'About a week','About a month','About three months','Six months or above'), times=2),
-                               share=c((0.01517251+0.03606718),0.03180591,0.16438675,0.21019579,0.54237185,0.09993585,0.14693988,0.21703944,0.21569250,0.32039232))
-finrescomparison$finrel<- factor(finrescomparison$finrel, levels=c('Don´t know/Ref', 'About a week','About a month','About three months','Six months or above'))
+                               finrel=rep(c('Six months or above','About three months', 'About a month','About a week','Don´t know/Ref'), times=2),
+                               share=c(0.54237185,0.21019579,0.16438675,0.03180591,(0.01517251+0.03606718),0.32039232,0.21569250,0.21703944,0.14693988,0.09993585))
+finrescomparison$finrel<- factor(finrescomparison$finrel, levels=c('Six months or above','About three months', 'About a month','About a week','Don´t know/Ref'))
 finrescomparison$status<- factor(finrescomparison$status, levels=c("Male" , "Female" ))
 ggplot(finrescomparison, aes(fill=finrel, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
   labs(x="",y="Percentage share",fill="")
 #employed
 finrescomparison <- data.frame(status=rep(c('Male','Female'), each=5),
-                               finrel=rep(c('Don´t know/Ref', 'About a week','About a month','About three months','Six months or above'), times=2),
-                               share=c((0.04229011+0.03734170),(0.01294024+0.09697274), 0.28929703 ,0.21320536,0.30795281,(0.01954064+0.07161093),(0.01716005+0.11131036), 0.26921872, 0.25480653 , 0.25635277 ))
-finrescomparison$finrel<- factor(finrescomparison$finrel, levels=c('Don´t know/Ref', 'About a week','About a month','About three months','Six months or above'))
+                               finrel=rep(c('Six months or above','About three months', 'About a month','About a week','Don´t know/Ref'), times=2),
+                               share=c(0.30795281,0.21320536,0.28929703,(0.01294024+0.09697274),(0.04229011+0.03734170), 0.25635277 ,0.25480653,0.26921872,(0.01716005+0.11131036),(0.01954064+0.07161093)))
+finrescomparison$finrel<- factor(finrescomparison$finrel, levels=c('Six months or above','About three months', 'About a month','About a week','Don´t know/Ref'))
 finrescomparison$status<- factor(finrescomparison$status, levels=c("Male" , "Female" ))
 ggplot(finrescomparison, aes(fill=finrel, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
