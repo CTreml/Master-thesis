@@ -2386,6 +2386,7 @@ weighted.mean(ASFL6lfinbuff$finstress3,ASFL6lfinbuff$wght)
 weighted.mean(ASFL6hfinbuff$finfraudd,ASFL6hfinbuff$wght)
 weighted.mean(ASFL6lfinbuff$finfraudd,ASFL6lfinbuff$wght)
 
+
 ##########################self-employed##########################
 ASFL6sehfinbuff <- ASFL6se[(ASFL6se$QF13 %in% hfinbuff),]
 ASFL6selfinbuff <- ASFL6se[(ASFL6se$QF13 %in% lfinbuff),]
@@ -2408,29 +2409,29 @@ weighted.mean(ASFL6selfinbuff$fin_att,ASFL6selfinbuff$wght)
 
 
 weighted.mean(ASFL6semhfinbuff$finlit,ASFL6semhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$finlit,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$finlit,ASFL6semlfinbuff$wght)
 
 weighted.mean(ASFL6semhfinbuff$fin_know,ASFL6semhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$fin_know,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$fin_know,ASFL6semlfinbuff$wght)
 
 weighted.mean(ASFL6semhfinbuff$fin_beh,ASFL6semhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$fin_beh,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$fin_beh,ASFL6semlfinbuff$wght)
 
 weighted.mean(ASFL6semhfinbuff$fin_att,ASFL6semhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$fin_att,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$fin_att,ASFL6semlfinbuff$wght)
 
 
 weighted.mean(ASFL6sefhfinbuff$finlit,ASFL6sefhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$finlit,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$finlit,ASFL6seflfinbuff$wght)
 
 weighted.mean(ASFL6sefhfinbuff$fin_know,ASFL6sefhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$fin_know,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$fin_know,ASFL6seflfinbuff$wght)
 
 weighted.mean(ASFL6sefhfinbuff$fin_beh,ASFL6sefhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$fin_beh,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$fin_beh,ASFL6seflfinbuff$wght)
 
 weighted.mean(ASFL6sefhfinbuff$fin_att,ASFL6sefhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$fin_att,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$fin_att,ASFL6seflfinbuff$wght)
 
 #financial stress and concern 
 weighted.mean(ASFL6sehfinbuff$shortfall,ASFL6sehfinbuff$wght)
@@ -2447,29 +2448,29 @@ weighted.mean(ASFL6selfinbuff$finfraudd,ASFL6selfinbuff$wght)
 
 
 weighted.mean(ASFL6semhfinbuff$shortfall,ASFL6semhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$shortfall,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$shortfall,ASFL6semlfinbuff$wght)
 weighted.mean(ASFL6semhfinbuff$finstress1,ASFL6semhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$finstress1,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$finstress1,ASFL6semlfinbuff$wght)
 weighted.mean(ASFL6semhfinbuff$finstress2,ASFL6semhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$finstress2,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$finstress2,ASFL6semlfinbuff$wght)
 weighted.mean(ASFL6semhfinbuff$finstress3,ASFL6semhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$finstress3,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$finstress3,ASFL6semlfinbuff$wght)
 
 weighted.mean(ASFL6semhfinbuff$finfraudd,ASFL6semhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$finfraudd,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$finfraudd,ASFL6semlfinbuff$wght)
 
 
 weighted.mean(ASFL6sefhfinbuff$shortfall,ASFL6sefhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$shortfall,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$shortfall,ASFL6seflfinbuff$wght)
 weighted.mean(ASFL6sefhfinbuff$finstress1,ASFL6sefhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$finstress1,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$finstress1,ASFL6seflfinbuff$wght)
 weighted.mean(ASFL6sefhfinbuff$finstress2,ASFL6sefhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$finstress2,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$finstress2,ASFL6seflfinbuff$wght)
 weighted.mean(ASFL6sefhfinbuff$finstress3,ASFL6sefhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$finstress3,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$finstress3,ASFL6seflfinbuff$wght)
 
 weighted.mean(ASFL6sefhfinbuff$finfraudd,ASFL6sefhfinbuff$wght)
-weighted.mean(ASFL6selfinbuff$finfraudd,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$finfraudd,ASFL6seflfinbuff$wght)
 
 ##########################employed##########################
 ASFL6ehfinbuff <- ASFL6e[(ASFL6e$QF13 %in% hfinbuff),]
@@ -2493,29 +2494,29 @@ weighted.mean(ASFL6elfinbuff$fin_att,ASFL6elfinbuff$wght)
 
 
 weighted.mean(ASFL6emhfinbuff$finlit,ASFL6emhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$finlit,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$finlit,ASFL6emlfinbuff$wght)
 
 weighted.mean(ASFL6emhfinbuff$fin_know,ASFL6emhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$fin_know,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$fin_know,ASFL6emlfinbuff$wght)
 
 weighted.mean(ASFL6emhfinbuff$fin_beh,ASFL6emhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$fin_beh,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$fin_beh,ASFL6emlfinbuff$wght)
 
 weighted.mean(ASFL6emhfinbuff$fin_att,ASFL6emhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$fin_att,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$fin_att,ASFL6emlfinbuff$wght)
 
 
 weighted.mean(ASFL6efhfinbuff$finlit,ASFL6efhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$finlit,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$finlit,ASFL6eflfinbuff$wght)
 
 weighted.mean(ASFL6efhfinbuff$fin_know,ASFL6efhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$fin_know,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$fin_know,ASFL6eflfinbuff$wght)
 
 weighted.mean(ASFL6efhfinbuff$fin_beh,ASFL6efhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$fin_beh,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$fin_beh,ASFL6eflfinbuff$wght)
 
 weighted.mean(ASFL6efhfinbuff$fin_att,ASFL6efhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$fin_att,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$fin_att,ASFL6eflfinbuff$wght)
 
 #financial stress and concern 
 weighted.mean(ASFL6ehfinbuff$shortfall,ASFL6ehfinbuff$wght)
@@ -2530,30 +2531,32 @@ weighted.mean(ASFL6elfinbuff$finstress3,ASFL6elfinbuff$wght)
 weighted.mean(ASFL6ehfinbuff$finfraudd,ASFL6ehfinbuff$wght)
 weighted.mean(ASFL6elfinbuff$finfraudd,ASFL6elfinbuff$wght)
 
+
 weighted.mean(ASFL6emhfinbuff$shortfall,ASFL6emhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$shortfall,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$shortfall,ASFL6emlfinbuff$wght)
 weighted.mean(ASFL6emhfinbuff$finstress1,ASFL6emhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$finstress1,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$finstress1,ASFL6emlfinbuff$wght)
 weighted.mean(ASFL6emhfinbuff$finstress2,ASFL6emhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$finstress2,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$finstress2,ASFL6emlfinbuff$wght)
 weighted.mean(ASFL6emhfinbuff$finstress3,ASFL6emhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$finstress3,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$finstress3,ASFL6emlfinbuff$wght)
 
 weighted.mean(ASFL6emhfinbuff$finfraudd,ASFL6emhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$finfraudd,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$finfraudd,ASFL6emlfinbuff$wght)
 
 
 weighted.mean(ASFL6efhfinbuff$shortfall,ASFL6efhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$shortfall,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$shortfall,ASFL6eflfinbuff$wght)
 weighted.mean(ASFL6efhfinbuff$finstress1,ASFL6efhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$finstress1,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$finstress1,ASFL6eflfinbuff$wght)
 weighted.mean(ASFL6efhfinbuff$finstress2,ASFL6efhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$finstress2,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$finstress2,ASFL6eflfinbuff$wght)
 weighted.mean(ASFL6efhfinbuff$finstress3,ASFL6efhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$finstress3,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$finstress3,ASFL6eflfinbuff$wght)
 
 weighted.mean(ASFL6efhfinbuff$finfraudd,ASFL6efhfinbuff$wght)
-weighted.mean(ASFL6elfinbuff$finfraudd,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$finfraudd,ASFL6eflfinbuff$wght)
+
 
 ##############################GENDER DIFFERENCES financial indicators ############
 
