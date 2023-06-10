@@ -3346,7 +3346,83 @@ wpct(ASFL7oth$numericHFCSrisk, weight=ASFL7oth$wght, na.rm=TRUE)
 wpct(ASFL7othworet$numericHFCSrisk, weight=ASFL7othworet$wght, na.rm=TRUE)
 
 
+#####self-employed
+weighted.mean(ASFL7semrisk$finlit, ASFL7semrisk$wght)
+weighted.mean(ASFL7semnrisk$finlit, ASFL7semnrisk$wght)
+weighted.mean(ASFL7semrisk$fin_know, ASFL7semrisk$wght)
+weighted.mean(ASFL7semnrisk$fin_know, ASFL7semnrisk$wght)
+weighted.mean(ASFL7semrisk$fin_beh, ASFL7semrisk$wght)
+weighted.mean(ASFL7semnrisk$fin_beh, ASFL7semnrisk$wght)
+weighted.mean(ASFL7semrisk$fin_att, ASFL7semrisk$wght)
+weighted.mean(ASFL7semnrisk$fin_att, ASFL7semnrisk$wght)
 
+weighted.mean(ASFL7semrisk$sixmonthfinbuffd, ASFL7semrisk$wght)
+weighted.mean(ASFL7semnrisk$sixmonthfinbuffd, ASFL7semnrisk$wght)
+
+weighted.mean(ASFL7semrisk$finwellbeing, ASFL7semrisk$wght)
+weighted.mean(ASFL7semnrisk$finwellbeing, ASFL7semnrisk$wght)
+wpct(ASFL7semrisk$finwellbeing2, weight=ASFL7semrisk$wght, na.rm=TRUE)
+wpct(ASFL7semnrisk$finwellbeing2, weight=ASFL7semnrisk$wght, na.rm=TRUE)
+wpct(ASFL7semrisk$finwellbeing3, weight=ASFL7semrisk$wght, na.rm=TRUE)
+wpct(ASFL7semnrisk$finwellbeing3, weight=ASFL7semnrisk$wght, na.rm=TRUE)
+
+weighted.mean(ASFL7sefrisk$finlit, ASFL7sefrisk$wght)
+weighted.mean(ASFL7sefnrisk$finlit, ASFL7sefnrisk$wght)
+weighted.mean(ASFL7sefrisk$fin_know, ASFL7sefrisk$wght)
+weighted.mean(ASFL7sefnrisk$fin_know, ASFL7sefnrisk$wght)
+weighted.mean(ASFL7sefrisk$fin_beh, ASFL7sefrisk$wght)
+weighted.mean(ASFL7sefnrisk$fin_beh, ASFL7sefnrisk$wght)
+weighted.mean(ASFL7sefrisk$fin_att, ASFL7sefrisk$wght)
+weighted.mean(ASFL7sefnrisk$fin_att, ASFL7sefnrisk$wght)
+
+weighted.mean(ASFL7sefrisk$sixmonthfinbuffd, ASFL7sefrisk$wght)
+weighted.mean(ASFL7sefnrisk$sixmonthfinbuffd, ASFL7sefnrisk$wght)
+
+weighted.mean(ASFL7sefrisk$finwellbeing, ASFL7sefrisk$wght)
+weighted.mean(ASFL7sefnrisk$finwellbeing, ASFL7sefnrisk$wght)
+wpct(ASFL7sefrisk$finwellbeing2, weight=ASFL7sefrisk$wght, na.rm=TRUE)
+wpct(ASFL7sefnrisk$finwellbeing2, weight=ASFL7sefnrisk$wght, na.rm=TRUE)
+wpct(ASFL7sefrisk$finwellbeing3, weight=ASFL7sefrisk$wght, na.rm=TRUE)
+wpct(ASFL7sefnrisk$finwellbeing3, weight=ASFL7sefnrisk$wght, na.rm=TRUE)
+
+#####employed
+weighted.mean(ASFL7emrisk$finlit, ASFL7emrisk$wght)
+weighted.mean(ASFL7emnrisk$finlit, ASFL7emnrisk$wght)
+weighted.mean(ASFL7emrisk$fin_know, ASFL7emrisk$wght)
+weighted.mean(ASFL7emnrisk$fin_know, ASFL7emnrisk$wght)
+weighted.mean(ASFL7emrisk$fin_beh, ASFL7emrisk$wght)
+weighted.mean(ASFL7emnrisk$fin_beh, ASFL7emnrisk$wght)
+weighted.mean(ASFL7emrisk$fin_att, ASFL7emrisk$wght)
+weighted.mean(ASFL7emnrisk$fin_att, ASFL7emnrisk$wght)
+
+weighted.mean(ASFL7emrisk$sixmonthfinbuffd, ASFL7emrisk$wght)
+weighted.mean(ASFL7emnrisk$sixmonthfinbuffd, ASFL7emnrisk$wght)
+
+weighted.mean(ASFL7emrisk$finwellbeing, ASFL7emrisk$wght)
+weighted.mean(ASFL7emnrisk$finwellbeing, ASFL7emnrisk$wght)
+wpct(ASFL7emrisk$finwellbeing2, weight=ASFL7emrisk$wght, na.rm=TRUE)
+wpct(ASFL7emnrisk$finwellbeing2, weight=ASFL7emnrisk$wght, na.rm=TRUE)
+wpct(ASFL7emrisk$finwellbeing3, weight=ASFL7emrisk$wght, na.rm=TRUE)
+wpct(ASFL7emnrisk$finwellbeing3, weight=ASFL7emnrisk$wght, na.rm=TRUE)
+
+weighted.mean(ASFL7efrisk$finlit, ASFL7efrisk$wght)
+weighted.mean(ASFL7efnrisk$finlit, ASFL7efnrisk$wght)
+weighted.mean(ASFL7efrisk$fin_know, ASFL7efrisk$wght)
+weighted.mean(ASFL7efnrisk$fin_know, ASFL7efnrisk$wght)
+weighted.mean(ASFL7efrisk$fin_beh, ASFL7efrisk$wght)
+weighted.mean(ASFL7efnrisk$fin_beh, ASFL7efnrisk$wght)
+weighted.mean(ASFL7efrisk$fin_att, ASFL7efrisk$wght)
+weighted.mean(ASFL7efnrisk$fin_att, ASFL7efnrisk$wght)
+
+weighted.mean(ASFL7efrisk$sixmonthfinbuffd, ASFL7efrisk$wght)
+weighted.mean(ASFL7efnrisk$sixmonthfinbuffd, ASFL7efnrisk$wght)
+
+weighted.mean(ASFL7efrisk$finwellbeing, ASFL7efrisk$wght)
+weighted.mean(ASFL7efnrisk$finwellbeing, ASFL7efnrisk$wght)
+wpct(ASFL7efrisk$finwellbeing2, weight=ASFL7efrisk$wght, na.rm=TRUE)
+wpct(ASFL7efnrisk$finwellbeing2, weight=ASFL7efnrisk$wght, na.rm=TRUE)
+wpct(ASFL7efrisk$finwellbeing3, weight=ASFL7efrisk$wght, na.rm=TRUE)
+wpct(ASFL7efnrisk$finwellbeing3, weight=ASFL7efnrisk$wght, na.rm=TRUE)
 
 
 
