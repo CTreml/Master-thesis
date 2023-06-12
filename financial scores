@@ -236,9 +236,25 @@ wpct(ASFLothworet$QK6, weight=ASFLothworet$wght, na.rm=TRUE)
 
 
 ASFL$QK6
+
 #relevel to avoid errors
+#ASFL$QK6 <- 
 levels(ASFL$QK6) <- c("Irrelevant answer","Refused","Don't know","More than eur110","Exactly eur110","Less than eur110","Or is it impossible to tell from the information given")
 levels(ASFL$QK6)
+
+QK6relevel <- ASFL$QK6
+ASFL <- ASFL %>%
+  mutate(QK6relevel=case_when(
+    QK6relevel =="Don't know"~ "Don't know",
+    QK6relevel =="Irrelevant answer"~ "Irrelevant answer",
+    QK6relevel =="Refused"~ "Refused",
+    QK6relevel =="More than €110"~ "More than eur110",
+    QK6relevel =="Exactly €110"~ "Exactly eur110",
+    QK6relevel =="Less than €110"~ "Less than eur110",
+    QK6relevel =="Or is it impossible to tell from the information given"~ "Or is it impossible to tell from the information given"
+    ))
+table(ASFL$QK6relevel)
+
 QK6f<- ifelse(ASFL$QK6 == "More than eur110" , 1, 0)
 table(QK6f)
 QK6se<- ifelse(ASFLse$QK6 == "More than eur100", 1, 0)
