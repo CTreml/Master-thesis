@@ -792,7 +792,7 @@ coeftest(finlitriskpropensitygender2, vcov = vcovHC(finlitriskpropensitygender2,
 
 ###########################MODEL EVALUATION###########################
 #always exclude one group - otherwise: perfect collinearity! (zB:maled + femaled = 1)-> error would not occur for variables with missings but exclude one! 
-finlitmodelfull <- lm(finlit ~ employment1_2+ age + gender + higheduc+ livingcommgroup_1 + childd + singled +incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+finlitmodelfull <- lm(finlit ~ employment1_2+ age + gender + higheduc+ livingcommgroup_1 +  singled +childd +incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
 summary(finlitmodelfull)
 shapiro.test(finlitmodelfull$residuals)
 coeftest(finlitmodelfull, vcov = vcovHC(finlitmodelfull, type = "HC0"))
@@ -814,19 +814,19 @@ wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 13)
 wald.test(Sigma = vcov(finlitmodelfull), b = coef(finlitmodelfull), Terms = 14) #riskpropensity
 
 ##for individual components
-finknowmodelfull <- lm(fin_know ~ employment1_2+ age + gender + higheduc+ livingcommgroup_1 + childd + singled +incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+finknowmodelfull <- lm(fin_know ~ employment1_2+ age + gender + higheduc+ livingcommgroup_1 +  singled +childd +incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
 summary(finknowmodelfull)
 shapiro.test(finknowmodelfull$residuals)
 coeftest(finknowmodelfull, vcov = vcovHC(finknowmodelfull, type = "HC0"))
 AIC(finknowmodelfull)
 
-finbehmodelfull <- lm(fin_beh ~ employment1_2+ age + gender + higheduc+ livingcommgroup_1 + childd + singled +incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+finbehmodelfull <- lm(fin_beh ~ employment1_2+ age + gender + higheduc+ livingcommgroup_1 + singled +childd + incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
 summary(finbehmodelfull)
 shapiro.test(finbehmodelfull$residuals)
 coeftest(finbehmodelfull, vcov = vcovHC(finbehmodelfull, type = "HC0"))
 AIC(finbehmodelfull)
 
-finattmodelfull <- lm(fin_att ~ employment1_2+ age + gender + higheduc+ livingcommgroup_1 + childd + singled +incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
+finattmodelfull <- lm(fin_att ~ employment1_2+ age + gender + higheduc+ livingcommgroup_1 +  singled +childd +incomegroup_1+ HFCSriskad+ riskyassetsd , data=ASFL7, weights=ASFL7$wght)
 summary(finattmodelfull)
 shapiro.test(finattmodelfull$residuals)
 coeftest(finattmodelfull, vcov = vcovHC(finattmodelfull, type = "HC0"))
@@ -845,6 +845,15 @@ finlitmodel <- lm(finlit ~employment1_2+ age + gender + higheduc +incomegroup_1+
 summary(finlitmodel)
 coeftest(finlitmodel, vcov = vcovHC(finlitmodel, type = "HC0"))
 AIC(finlitmodel)
+
+##residual checking
+plot(finlitmodel$residuals, main="Residual plot")
+abline(h=0, col="red")
+bptest(finlitmodel)#heterogeneity issues
+qqnorm(finlitmodel$residuals, main="QQ-Residual plot") 
+qqline(finlitmodel$residuals, col="red") 
+shapiro.test(finlitmodel$residuals) #not normally distributed
+
 ############model comparison
 modelcomp <- list(finlitmodelfull, finlitmodel2, finlitmodel)
 model.names <- c("1", "2", "3")
@@ -886,6 +895,24 @@ finknowaddmodel <- lm(fin_know_add ~employment1_2+ age + gender + higheduc +inco
 summary(finknowaddmodel)
 coeftest(finknowaddmodel, vcov = vcovHC(finknowaddmodel, type = "HC0"))
 AIC(finknowaddmodel)
+
+####with unemployed as employed
+finlitmodel_eu <- lm(finlit ~ employmentunempl_1 + age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodel_eu)
+coeftest(finlitmodel_eu, vcov = vcovHC(finlitmodel_eu, type = "HC0"))
+AIC(finlitmodel_eu)
+finknowmodel <- lm(fin_know ~ employmentunempl_1 +age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finknowmodel)
+coeftest(finknowmodel, vcov = vcovHC(finknowmodel, type = "HC0"))
+AIC(finknowmodel)
+finbehmodel <- lm(fin_beh ~ employmentunempl_1 +age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finbehmodel)
+coeftest(finbehmodel, vcov = vcovHC(finbehmodel, type = "HC0"))
+AIC(finbehmodel)
+finattmodel <- lm(fin_att ~ employmentunempl_1 +age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finattmodel)
+coeftest(finattmodel, vcov = vcovHC(finattmodel, type = "HC0"))
+AIC(finattmodel)
 
 ####without employment
 finlitmodel_woempl <- lm(finlit ~ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
@@ -996,7 +1023,8 @@ AIC(finlitmodelinteractagerisk)
 
 
 ###########################SUBGROUP DIFFERENCES###########################
-###########################Age###########################
+###########################AGE###########################
+###########################Nonlinear age effect###########################
 emplage <- lm(age ~ employment1_2,  data=ASFL7, weights=ASFL7$wght)
 summary(emplage)
 coeftest(emplage, vcov = vcovHC(emplage, type = "HC0"))
@@ -1009,6 +1037,7 @@ shapiro.test(finlitage$residuals)
 coeftest(finlitage, vcov = vcovHC(finlitage, type = "HC0"))
 AIC(finlitage)
 plot(finlitage$residuals)
+
 finlitage2 <- lm(finlit ~ age + age2,  data=ASFL7, weights=ASFL7$wght)
 summary(finlitage2)
 coeftest(finlitage2, vcov = vcovHC(finlitage2, type = "HC0"))
@@ -1017,6 +1046,10 @@ finlitage3 <- lm(finlit ~ rootage,  data=ASFL7, weights=ASFL7$wght)
 summary(finlitage3)
 coeftest(finlitage3, vcov = vcovHC(finlitage3, type = "HC0"))
 AIC(finlitage3)
+finlitage4 <- lm(finlit ~ age_group,  data=ASFL7, weights=ASFL7$wght)
+summary(finlitage4)
+coeftest(finlitage4, vcov = vcovHC(finlitage4, type = "HC0"))
+AIC(finlitage4)
 
 finknowage <- lm(fin_know ~ age,  data=ASFL7, weights=ASFL7$wght)
 summary(finknowage)
@@ -1030,6 +1063,10 @@ finknowage3 <- lm(fin_know ~ rootage,  data=ASFL7, weights=ASFL7$wght)
 summary(finknowage3)
 coeftest(finknowage3, vcov = vcovHC(finknowage3, type = "HC0"))
 AIC(finknowage3)
+finknowage4 <- lm(fin_know ~ age_group,  data=ASFL7, weights=ASFL7$wght)
+summary(finknowage4)
+coeftest(finknowage4, vcov = vcovHC(finknowage4, type = "HC0"))
+AIC(finknowage4)
 
 finbehage <- lm(fin_beh ~ age,  data=ASFL7, weights=ASFL7$wght)
 summary(finbehage)
@@ -1043,6 +1080,11 @@ finbehage3 <- lm(fin_beh ~ rootage,  data=ASFL7, weights=ASFL7$wght)
 summary(finbehage3)
 coeftest(finbehage3, vcov = vcovHC(finbehage3, type = "HC0"))
 AIC(finbehage3)
+finbehage4 <- lm(fin_beh ~ age_group,  data=ASFL7, weights=ASFL7$wght)
+summary(finbehage4)
+coeftest(finbehage4, vcov = vcovHC(finbehage4, type = "HC0"))
+AIC(finbehage4)
+
 
 finattage <- lm(fin_att ~ age,  data=ASFL7, weights=ASFL7$wght)
 summary(finattage)
@@ -1056,6 +1098,10 @@ finattage3 <- lm(fin_att ~ rootage,  data=ASFL7, weights=ASFL7$wght)
 summary(finattage3)
 coeftest(finattage3, vcov = vcovHC(finattage3, type = "HC0"))
 AIC(finattage3)
+finattage4 <- lm(fin_att ~ age_group,  data=ASFL7, weights=ASFL7$wght)
+summary(finattage4)
+coeftest(finattage4, vcov = vcovHC(finattage4, type = "HC0"))
+AIC(finattage4)
 
 #employment groups full sample
 selfemployedage <- glm(selfemployedd ~ age,data=ASFL7, weights=ASFL7$wght, family="binomial") 
@@ -1082,7 +1128,6 @@ PseudoR2(multi_emplage, which = c("McFadden"))
 multi_emplage2 <- multinom(employment1_1 ~  age +age2,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
 summary(multi_emplage2)
 exp(coef(multi_emplage2))
-#coeftest(multi_emplage, vcov = vcovHC(multi_emplage))
 se <- summary(multi_emplage2)$coefficients/summary(multi_emplage2)$standard.errors
 se
 p <- (1 - pnorm(abs(se), 0, 1)) * 2 
@@ -1093,13 +1138,22 @@ PseudoR2(multi_emplage2, which = c("McFadden"))
 multi_emplage3 <- multinom(employment1_1 ~  rootage,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
 summary(multi_emplage3)
 exp(coef(multi_emplage3))
-#coeftest(multi_emplage, vcov = vcovHC(multi_emplage))
 se <- summary(multi_emplage3)$coefficients/summary(multi_emplage3)$standard.errors
 se
 p <- (1 - pnorm(abs(se), 0, 1)) * 2 
 p
 stargazer(multi_emplage3, type="text", out="multi_emplage3.htm") 
 PseudoR2(multi_emplage3, which = c("McFadden"))
+
+multi_emplage4 <- multinom(employment1_1 ~  age_group,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
+summary(multi_emplage4)
+exp(coef(multi_emplage4))
+se <- summary(multi_emplage4)$coefficients/summary(multi_emplage4)$standard.errors
+se
+p <- (1 - pnorm(abs(se), 0, 1)) * 2 
+p
+stargazer(multi_emplage4, type="text", out="multi_emplage4.htm") 
+PseudoR2(multi_emplage4, which = c("McFadden"))
 
 #selfemployed
 finlitage <- lm(finlit ~ age,  data=ASFL7se, weights=ASFL7se$wght)
@@ -1116,6 +1170,10 @@ finlitage3 <- lm(finlit ~ rootage,  data=ASFL7se, weights=ASFL7se$wght)
 summary(finlitage3)
 coeftest(finlitage3, vcov = vcovHC(finlitage3, type = "HC0"))
 AIC(finlitage3)
+finlitage4 <- lm(finlit ~ age_group,  data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitage4)
+coeftest(finlitage4, vcov = vcovHC(finlitage4, type = "HC0"))
+AIC(finlitage4)
 
 finknowage <- lm(fin_know ~ age,  data=ASFL7se, weights=ASFL7se$wght)
 summary(finknowage)
@@ -1129,6 +1187,10 @@ finknowage3 <- lm(fin_know ~ rootage,  data=ASFL7se, weights=ASFL7se$wght)
 summary(finknowage3)
 coeftest(finknowage3, vcov = vcovHC(finknowage3, type = "HC0"))
 AIC(finknowage3)
+finknowage4 <- lm(fin_know ~ age_group,  data=ASFL7se, weights=ASFL7se$wght)
+summary(finknowage4)
+coeftest(finknowage4, vcov = vcovHC(finknowage4, type = "HC0"))
+AIC(finknowage4)
 
 finbehage <- lm(fin_beh ~ age,  data=ASFL7se, weights=ASFL7se$wght)
 summary(finbehage)
@@ -1142,6 +1204,10 @@ finbehage3 <- lm(fin_beh ~ rootage,  data=ASFL7se, weights=ASFL7se$wght)
 summary(finbehage3)
 coeftest(finbehage3, vcov = vcovHC(finbehage3, type = "HC0"))
 AIC(finbehage3)
+finbehage4 <- lm(fin_beh ~ age_group,  data=ASFL7se, weights=ASFL7se$wght)
+summary(finbehage4)
+coeftest(finbehage4, vcov = vcovHC(finbehage4, type = "HC0"))
+AIC(finbehage4)
 
 finattage <- lm(fin_att ~ age,  data=ASFL7se, weights=ASFL7se$wght)
 summary(finattage)
@@ -1155,6 +1221,12 @@ finattage3 <- lm(fin_att ~ rootage,  data=ASFL7se, weights=ASFL7se$wght)
 summary(finattage3)
 coeftest(finattage3, vcov = vcovHC(finattage3, type = "HC0"))
 AIC(finattage3)
+finattage4 <- lm(fin_att ~ age_group,  data=ASFL7se, weights=ASFL7se$wght)
+summary(finattage4)
+coeftest(finattage4, vcov = vcovHC(finattage4, type = "HC0"))
+AIC(finattage4)
+
+
 #employed
 finlitage <- lm(finlit ~ age,  data=ASFL7e, weights=ASFL7e$wght)
 summary(finlitage)
@@ -1170,6 +1242,10 @@ finlitage3 <- lm(finlit ~ rootage,  data=ASFL7e, weights=ASFL7e$wght)
 summary(finlitage3)
 coeftest(finlitage3, vcov = vcovHC(finlitage3, type = "HC0"))
 AIC(finlitage3)
+finlitage4 <- lm(finlit ~ age_group,  data=ASFL7e, weights=ASFL7e$wght)
+summary(finlitage4)
+coeftest(finlitage4, vcov = vcovHC(finlitage4, type = "HC0"))
+AIC(finlitage4)
 
 finknowage <- lm(fin_know ~ age,  data=ASFL7e, weights=ASFL7e$wght)
 summary(finknowage)
@@ -1183,6 +1259,11 @@ finknowage3 <- lm(fin_know ~ rootage,  data=ASFL7e, weights=ASFL7e$wght)
 summary(finknowage3)
 coeftest(finknowage3, vcov = vcovHC(finknowage3, type = "HC0"))
 AIC(finknowage3)
+finknowage4 <- lm(fin_know ~ age_group,  data=ASFL7e, weights=ASFL7e$wght)
+summary(finknowage4)
+coeftest(finknowage4, vcov = vcovHC(finknowage4, type = "HC0"))
+AIC(finknowage4)
+
 
 finbehage <- lm(fin_beh ~ age,  data=ASFL7e, weights=ASFL7e$wght)
 summary(finbehage)
@@ -1196,6 +1277,10 @@ finbehage3 <- lm(fin_beh ~ rootage,  data=ASFL7e, weights=ASFL7e$wght)
 summary(finbehage3)
 coeftest(finbehage3, vcov = vcovHC(finbehage3, type = "HC0"))
 AIC(finbehage3)
+finbehage4 <- lm(fin_beh ~ age_group,  data=ASFL7e, weights=ASFL7e$wght)
+summary(finbehage4)
+coeftest(finbehage4, vcov = vcovHC(finbehage4, type = "HC0"))
+AIC(finbehage4)
 
 finattage <- lm(fin_att ~ age,  data=ASFL7e, weights=ASFL7e$wght)
 summary(finattage)
@@ -1209,13 +1294,28 @@ finattage3 <- lm(fin_att ~ rootage,  data=ASFL7e, weights=ASFL7e$wght)
 summary(finattage3)
 coeftest(finattage3, vcov = vcovHC(finattage3, type = "HC0"))
 AIC(finattage3)
+finattage4 <- lm(fin_att ~ age_group,  data=ASFL7e, weights=ASFL7e$wght)
+summary(finattage4)
+coeftest(finattage4, vcov = vcovHC(finattage4, type = "HC0"))
+AIC(finattage4)
 
-###########################Education###########################
+###########################EDUCATION###########################
 empleduc <- lm(higheduc ~ employment1_2,  data=ASFL7, weights=ASFL7$wght, family="binomial")
 summary(empleduc)
 coeftest(empleduc, vcov = vcovHC(empleduc, type = "HC0"))
 exp(coef(empleduc)) #exponentiated coefficients
 AIC(empleduc)
+
+multi_educspecific <- multinom(educationspecific_1 ~ employment1_2,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
+summary(multi_educspecific)
+exp(coef(multi_educspecific))
+se <- summary(multi_educspecific)$coefficients/summary(multi_educspecific)$standard.errors
+se
+p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
+p
+stargazer(multi_educspecific, type="text", out="multi_educspecific.htm") 
+PseudoR2(multi_educspecific, which = c("McFadden"))
+
 
 
 #full sample
@@ -1223,18 +1323,38 @@ finlithigheduc <- lm(finlit ~ higheduc,data=ASFL7, weights=ASFL7$wght)
 summary(finlithigheduc)  
 coeftest(finlithigheduc, vcov = vcovHC(finlithigheduc, type = "HC0"))
 AIC(finlithigheduc)
+finlithigheducspecific <- lm(finlit ~ educationspecific_1,data=ASFL7, weights=ASFL7$wght) 
+summary(finlithigheducspecific)  
+coeftest(finlithigheducspecific, vcov = vcovHC(finlithigheducspecific, type = "HC0"))
+AIC(finlithigheducspecific)
+
+
 finknowhigheduc <- lm(fin_know ~ higheduc,data=ASFL7, weights=ASFL7$wght) 
 summary(finknowhigheduc)  
 coeftest(finknowhigheduc, vcov = vcovHC(finknowhigheduc, type = "HC0"))
 AIC(finknowhigheduc)
+finknowhigheducspecific <- lm(fin_know ~ educationspecific_1,data=ASFL7, weights=ASFL7$wght) 
+summary(finknowhigheducspecific)  
+coeftest(finknowhigheducspecific, vcov = vcovHC(finknowhigheducspecific, type = "HC0"))
+AIC(finknowhigheducspecific)
+
 finbehhigheduc <- lm(fin_beh ~ higheduc,data=ASFL7, weights=ASFL7$wght)
 summary(finbehhigheduc)  
 coeftest(finbehhigheduc, vcov = vcovHC(finbehhigheduc, type = "HC0"))
 AIC(finbehhigheduc)
+finbehhigheduceducspecific <- lm(fin_beh ~ educationspecific_1,data=ASFL7, weights=ASFL7$wght) 
+summary(finbehhigheduceducspecific)  
+coeftest(finbehhigheduceducspecific, vcov = vcovHC(finbehhigheduceducspecific, type = "HC0"))
+AIC(finbehhigheduceducspecific)
+
 finatthigheduc <- lm(fin_att ~ higheduc,data=ASFL7, weights=ASFL7$wght) 
 summary(finatthigheduc)  
 coeftest(finatthigheduc, vcov = vcovHC(finatthigheduc, type = "HC0"))
 AIC(finatthigheduc)
+finatthigheduceducspecific <- lm(fin_att ~ educationspecific_1,data=ASFL7, weights=ASFL7$wght) 
+summary(finatthigheduceducspecific)  
+coeftest(finatthigheduceducspecific, vcov = vcovHC(finatthigheduceducspecific, type = "HC0"))
+AIC(finatthigheduceducspecific)
 
 selfemployedhigheduc <- glm(selfemployedd ~ higheduc,data=ASFL7, weights=ASFL7$wght, family="binomial") 
 summary(selfemployedhigheduc)  
@@ -1254,44 +1374,94 @@ p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
 p
 stargazer(multi_emplhigheduc, type="text", out="multi_emplhigheduc.htm") 
 PseudoR2(multi_emplhigheduc, which = c("McFadden"))
+#specific employment separation
+multi_emplhigheducspecific <- multinom(employment1_1 ~  educationspecific_1,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
+summary(multi_emplhigheducspecific)
+exp(coef(multi_emplhigheducspecific))
+se <- summary(multi_emplhigheducspecific)$coefficients/summary(multi_emplhigheducspecific)$standard.errors
+se
+p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
+p
+stargazer(multi_emplhigheducspecific, type="text", out="multi_emplhigheduc.htm") 
+PseudoR2(multi_emplhigheducspecific, which = c("McFadden"))
 
 #self-employed
-finlithigheducse <- lm(finlit ~ higheduc,data=ASFL7se, weights=ASFL7se$wght)
+finlithigheducse <- lm(finlit ~ higheducse,data=ASFL7se, weights=ASFL7se$wght) 
 summary(finlithigheducse)  
 coeftest(finlithigheducse, vcov = vcovHC(finlithigheducse, type = "HC0"))
 AIC(finlithigheducse)
-finknowhigheducse <- lm(fin_know ~ higheduc,data=ASFL7se, weights=ASFL7se$wght) 
+finlithigheducsespecificse <- lm(finlit ~ educationspecificse_1,data=ASFL7se, weights=ASFL7se$wght) 
+summary(finlithigheducsespecificse)  
+coeftest(finlithigheducsespecificse, vcov = vcovHC(finlithigheducsespecificse, type = "HC0"))
+AIC(finlithigheducsespecificse)
+
+
+finknowhigheducse <- lm(fin_know ~ higheducse,data=ASFL7se, weights=ASFL7se$wght) 
 summary(finknowhigheducse)  
 coeftest(finknowhigheducse, vcov = vcovHC(finknowhigheducse, type = "HC0"))
 AIC(finknowhigheducse)
-finbehhigheducse <- lm(fin_beh ~ higheduc,data=ASFL7se, weights=ASFL7se$wght) 
+finknowhigheducsespecificse <- lm(fin_know ~ educationspecificse_1,data=ASFL7se, weights=ASFL7se$wght) 
+summary(finknowhigheducsespecificse)  
+coeftest(finknowhigheducsespecificse, vcov = vcovHC(finknowhigheducsespecificse, type = "HC0"))
+AIC(finknowhigheducsespecificse)
+
+finbehhigheducse <- lm(fin_beh ~ higheducse,data=ASFL7se, weights=ASFL7se$wght)
 summary(finbehhigheducse)  
 coeftest(finbehhigheducse, vcov = vcovHC(finbehhigheducse, type = "HC0"))
 AIC(finbehhigheducse)
-finatthigheducse <- lm(fin_att ~ higheduc,data=ASFL7se, weights=ASFL7se$wght) 
+finbehhigheducseeducspecificse <- lm(fin_beh ~ educationspecificse_1,data=ASFL7se, weights=ASFL7se$wght) 
+summary(finbehhigheducseeducspecificse)  
+coeftest(finbehhigheducseeducspecificse, vcov = vcovHC(finbehhigheducseeducspecificse, type = "HC0"))
+AIC(finbehhigheducseeducspecificse)
+
+finatthigheducse <- lm(fin_att ~ higheducse,data=ASFL7se, weights=ASFL7se$wght) 
 summary(finatthigheducse)  
 coeftest(finatthigheducse, vcov = vcovHC(finatthigheducse, type = "HC0"))
 AIC(finatthigheducse)
+finatthigheducseeducspecificse <- lm(fin_att ~ educationspecificse_1,data=ASFL7se, weights=ASFL7se$wght) 
+summary(finatthigheducseeducspecificse)  
+coeftest(finatthigheducseeducspecificse, vcov = vcovHC(finatthigheducseeducspecificse, type = "HC0"))
+AIC(finatthigheducseeducspecificse)
 
 #employed
-finlithigheduce <- lm(finlit ~ higheduc,data=ASFL7e, weights=ASFL7e$wght) 
-summary(finlithigheduce)
+finlithigheduce <- lm(finlit ~ higheduce,data=ASFL7e, weights=ASFL7e$wght) 
+summary(finlithigheduce)  
 coeftest(finlithigheduce, vcov = vcovHC(finlithigheduce, type = "HC0"))
 AIC(finlithigheduce)
-finknowhigheduce <- lm(fin_know ~ higheduc,data=ASFL7e, weights=ASFL7e$wght) 
+finlithigheducespecifice <- lm(finlit ~ educationspecifice_1,data=ASFL7e, weights=ASFL7e$wght) 
+summary(finlithigheducespecifice)  
+coeftest(finlithigheducespecifice, vcov = vcovHC(finlithigheducespecifice, type = "HC0"))
+AIC(finlithigheducespecifice)
+
+
+finknowhigheduce <- lm(fin_know ~ higheduce,data=ASFL7e, weights=ASFL7e$wght) 
 summary(finknowhigheduce)  
 coeftest(finknowhigheduce, vcov = vcovHC(finknowhigheduce, type = "HC0"))
 AIC(finknowhigheduce)
-finbehhigheduce <- lm(fin_beh ~ higheduc,data=ASFL7e, weights=ASFL7e$wght) 
+finknowhigheducespecifice <- lm(fin_know ~ educationspecifice_1,data=ASFL7e, weights=ASFL7e$wght) 
+summary(finknowhigheducespecifice)  
+coeftest(finknowhigheducespecifice, vcov = vcovHC(finknowhigheducespecifice, type = "HC0"))
+AIC(finknowhigheducespecifice)
+
+finbehhigheduce <- lm(fin_beh ~ higheduce,data=ASFL7e, weights=ASFL7e$wght)
 summary(finbehhigheduce)  
 coeftest(finbehhigheduce, vcov = vcovHC(finbehhigheduce, type = "HC0"))
 AIC(finbehhigheduce)
-finatthigheduce <- lm(fin_att ~ higheduc,data=ASFL7e, weights=ASFL7e$wght) 
+finbehhigheduceeducspecifice <- lm(fin_beh ~ educationspecifice_1,data=ASFL7e, weights=ASFL7e$wght) 
+summary(finbehhigheduceeducspecifice)  
+coeftest(finbehhigheduceeducspecifice, vcov = vcovHC(finbehhigheduceeducspecifice, type = "HC0"))
+AIC(finbehhigheduceeducspecifice)
+
+finatthigheduce <- lm(fin_att ~ higheduce,data=ASFL7e, weights=ASFL7e$wght) 
 summary(finatthigheduce)  
 coeftest(finatthigheduce, vcov = vcovHC(finatthigheduce, type = "HC0"))
 AIC(finatthigheduce)
+finatthigheduceeducspecifice <- lm(fin_att ~ educationspecifice_1,data=ASFL7e, weights=ASFL7e$wght) 
+summary(finatthigheduceeducspecifice)  
+coeftest(finatthigheduceeducspecifice, vcov = vcovHC(finatthigheduceeducspecifice, type = "HC0"))
+AIC(finatthigheduceeducspecifice)
 
-###########################Gender###########################
+###########################GENDER###########################
 emplgender <- lm(maled ~ employment1_2,  data=ASFL7, weights=ASFL7$wght, family="binomial")
 summary(emplgender) #im Vergleich zu employed mehr Männer
 coeftest(emplgender, vcov = vcovHC(emplgender, type = "HC0"))
@@ -1427,6 +1597,283 @@ finattmodelincomealt <- lm(fin_att ~ age + gender + higheduc +incomegroup_simple
 summary(finattmodelincomealt)
 coeftest(finattmodelincomealt, vcov = vcovHC(finattmodelincomealt, type = "HC0"))
 AIC(finattmodelincomealt)
+
+##########################alternative age groups - full sample###########################################
+#full sample
+finlitmodelage_groupalt <- lm(finlit ~employment1_2+ age_group + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodelage_groupalt)
+coeftest(finlitmodelage_groupalt, vcov = vcovHC(finlitmodelage_groupalt, type = "HC0"))
+AIC(finlitmodelage_groupalt)
+finknowmodelage_groupalt <- lm(fin_know ~employment1_2+ age_group + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finknowmodelage_groupalt)
+coeftest(finknowmodelage_groupalt, vcov = vcovHC(finknowmodelage_groupalt, type = "HC0"))
+AIC(finknowmodelage_groupalt)
+finbehmodelage_groupalt <- lm(fin_beh ~employment1_2+ age_group + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finbehmodelage_groupalt)
+coeftest(finbehmodelage_groupalt, vcov = vcovHC(finbehmodelage_groupalt, type = "HC0"))
+AIC(finbehmodelage_groupalt)
+finattmodelage_groupalt <- lm(fin_att ~employment1_2+ age_group + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finattmodelage_groupalt)
+coeftest(finattmodelage_groupalt, vcov = vcovHC(finattmodelage_groupalt, type = "HC0"))
+AIC(finattmodelage_groupalt)
+
+#self-employed
+finlitmodelage_groupalt <- lm(finlit ~age_group + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitmodelage_groupalt)
+coeftest(finlitmodelage_groupalt, vcov = vcovHC(finlitmodelage_groupalt, type = "HC0"))
+AIC(finlitmodelage_groupalt)
+finknowmodelage_groupalt <- lm(fin_know ~ age_group + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finknowmodelage_groupalt)
+coeftest(finknowmodelage_groupalt, vcov = vcovHC(finknowmodelage_groupalt, type = "HC0"))
+AIC(finknowmodelage_groupalt)
+finbehmodelage_groupalt <- lm(fin_beh ~ age_group + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finbehmodelage_groupalt)
+coeftest(finbehmodelage_groupalt, vcov = vcovHC(finbehmodelage_groupalt, type = "HC0"))
+AIC(finbehmodelage_groupalt)
+finattmodelage_groupalt <- lm(fin_att ~age_group + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finattmodelage_groupalt)
+coeftest(finattmodelage_groupalt, vcov = vcovHC(finattmodelage_groupalt, type = "HC0"))
+AIC(finattmodelage_groupalt)
+
+#employed
+finlitmodelage_groupalt <- lm(finlit ~ age_group + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finlitmodelage_groupalt)
+coeftest(finlitmodelage_groupalt, vcov = vcovHC(finlitmodelage_groupalt, type = "HC0"))
+AIC(finlitmodelage_groupalt)
+finknowmodelage_groupalt <- lm(fin_know ~ age_group + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finknowmodelage_groupalt)
+coeftest(finknowmodelage_groupalt, vcov = vcovHC(finknowmodelage_groupalt, type = "HC0"))
+AIC(finknowmodelage_groupalt)
+finbehmodelage_groupalt <- lm(fin_beh ~ age_group + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finbehmodelage_groupalt)
+coeftest(finbehmodelage_groupalt, vcov = vcovHC(finbehmodelage_groupalt, type = "HC0"))
+AIC(finbehmodelage_groupalt)
+finattmodelage_groupalt <- lm(fin_att ~ age_group + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finattmodelage_groupalt)
+coeftest(finattmodelage_groupalt, vcov = vcovHC(finattmodelage_groupalt, type = "HC0"))
+AIC(finattmodelage_groupalt)
+
+
+##########################alternative age effect quadratic - full sample###########################################
+#full sample
+finlitmodelage2alt <- lm(finlit ~employment1_2+  age + age2 + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodelage2alt)
+coeftest(finlitmodelage2alt, vcov = vcovHC(finlitmodelage2alt, type = "HC0"))
+AIC(finlitmodelage2alt)
+finknowmodelage2alt <- lm(fin_know ~employment1_2+  age + age2 + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finknowmodelage2alt)
+coeftest(finknowmodelage2alt, vcov = vcovHC(finknowmodelage2alt, type = "HC0"))
+AIC(finknowmodelage2alt)
+finbehmodelage2alt <- lm(fin_beh ~employment1_2+  age + age2 + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finbehmodelage2alt)
+coeftest(finbehmodelage2alt, vcov = vcovHC(finbehmodelage2alt, type = "HC0"))
+AIC(finbehmodelage2alt)
+finattmodelage2alt <- lm(fin_att ~employment1_2+  age + age2 + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finattmodelage2alt)
+coeftest(finattmodelage2alt, vcov = vcovHC(finattmodelage2alt, type = "HC0"))
+AIC(finattmodelage2alt)
+
+#self-employed
+finlitmodelage2alt <- lm(finlit ~ age + age2 + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitmodelage2alt)
+coeftest(finlitmodelage2alt, vcov = vcovHC(finlitmodelage2alt, type = "HC0"))
+AIC(finlitmodelage2alt)
+finknowmodelage2alt <- lm(fin_know ~  age + age2 + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finknowmodelage2alt)
+coeftest(finknowmodelage2alt, vcov = vcovHC(finknowmodelage2alt, type = "HC0"))
+AIC(finknowmodelage2alt)
+finbehmodelage2alt <- lm(fin_beh ~  age + age2 + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finbehmodelage2alt)
+coeftest(finbehmodelage2alt, vcov = vcovHC(finbehmodelage2alt, type = "HC0"))
+AIC(finbehmodelage2alt)
+finattmodelage2alt <- lm(fin_att ~ age + age2 + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finattmodelage2alt)
+coeftest(finattmodelage2alt, vcov = vcovHC(finattmodelage2alt, type = "HC0"))
+AIC(finattmodelage2alt)
+
+#employed
+finlitmodelage2alt <- lm(finlit ~  age + age2 + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finlitmodelage2alt)
+coeftest(finlitmodelage2alt, vcov = vcovHC(finlitmodelage2alt, type = "HC0"))
+AIC(finlitmodelage2alt)
+finknowmodelage2alt <- lm(fin_know ~  age + age2 + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finknowmodelage2alt)
+coeftest(finknowmodelage2alt, vcov = vcovHC(finknowmodelage2alt, type = "HC0"))
+AIC(finknowmodelage2alt)
+finbehmodelage2alt <- lm(fin_beh ~  age + age2 + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finbehmodelage2alt)
+coeftest(finbehmodelage2alt, vcov = vcovHC(finbehmodelage2alt, type = "HC0"))
+AIC(finbehmodelage2alt)
+finattmodelage2alt <- lm(fin_att ~ age + age2 + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finattmodelage2alt)
+coeftest(finattmodelage2alt, vcov = vcovHC(finattmodelage2alt, type = "HC0"))
+AIC(finattmodelage2alt)
+
+##########################alternative age root - full sample###########################################
+#full sample
+finlitmodelage_groupalt <- lm(finlit ~employment1_2+ rootage+ gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodelage_groupalt)
+coeftest(finlitmodelage_groupalt, vcov = vcovHC(finlitmodelage_groupalt, type = "HC0"))
+AIC(finlitmodelage_groupalt)
+finknowmodelage_groupalt <- lm(fin_know ~employment1_2+ rootage+ gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finknowmodelage_groupalt)
+coeftest(finknowmodelage_groupalt, vcov = vcovHC(finknowmodelage_groupalt, type = "HC0"))
+AIC(finknowmodelage_groupalt)
+finbehmodelage_groupalt <- lm(fin_beh ~employment1_2+ rootage+ gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finbehmodelage_groupalt)
+coeftest(finbehmodelage_groupalt, vcov = vcovHC(finbehmodelage_groupalt, type = "HC0"))
+AIC(finbehmodelage_groupalt)
+finattmodelage_groupalt <- lm(fin_att ~employment1_2+ rootage+ gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finattmodelage_groupalt)
+coeftest(finattmodelage_groupalt, vcov = vcovHC(finattmodelage_groupalt, type = "HC0"))
+AIC(finattmodelage_groupalt)
+
+#self-employed
+finlitmodelage_groupalt <- lm(finlit ~rootage+ gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitmodelage_groupalt)
+coeftest(finlitmodelage_groupalt, vcov = vcovHC(finlitmodelage_groupalt, type = "HC0"))
+AIC(finlitmodelage_groupalt)
+finknowmodelage_groupalt <- lm(fin_know ~ rootage+ gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finknowmodelage_groupalt)
+coeftest(finknowmodelage_groupalt, vcov = vcovHC(finknowmodelage_groupalt, type = "HC0"))
+AIC(finknowmodelage_groupalt)
+finbehmodelage_groupalt <- lm(fin_beh ~ rootage+ gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finbehmodelage_groupalt)
+coeftest(finbehmodelage_groupalt, vcov = vcovHC(finbehmodelage_groupalt, type = "HC0"))
+AIC(finbehmodelage_groupalt)
+finattmodelage_groupalt <- lm(fin_att ~rootage+ gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finattmodelage_groupalt)
+coeftest(finattmodelage_groupalt, vcov = vcovHC(finattmodelage_groupalt, type = "HC0"))
+AIC(finattmodelage_groupalt)
+
+#employed
+finlitmodelage_groupalt <- lm(finlit ~ rootage+ gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finlitmodelage_groupalt)
+coeftest(finlitmodelage_groupalt, vcov = vcovHC(finlitmodelage_groupalt, type = "HC0"))
+AIC(finlitmodelage_groupalt)
+finknowmodelage_groupalt <- lm(fin_know ~ rootage+ gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finknowmodelage_groupalt)
+coeftest(finknowmodelage_groupalt, vcov = vcovHC(finknowmodelage_groupalt, type = "HC0"))
+AIC(finknowmodelage_groupalt)
+finbehmodelage_groupalt <- lm(fin_beh ~ rootage+ gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finbehmodelage_groupalt)
+coeftest(finbehmodelage_groupalt, vcov = vcovHC(finbehmodelage_groupalt, type = "HC0"))
+AIC(finbehmodelage_groupalt)
+finattmodelage_groupalt <- lm(fin_att ~ rootage+ gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finattmodelage_groupalt)
+coeftest(finattmodelage_groupalt, vcov = vcovHC(finattmodelage_groupalt, type = "HC0"))
+AIC(finattmodelage_groupalt)
+
+##########################alternative education groups (four instead of two groups) - full sample###########################################
+#full sample
+finlitmodeleducationalt <- lm(finlit ~employment1_2+ age + gender + educspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodeleducationalt)
+coeftest(finlitmodeleducationalt, vcov = vcovHC(finlitmodeleducationalt, type = "HC0"))
+AIC(finlitmodeleducationalt)
+finknowmodeleducationalt <- lm(fin_know ~employment1_2+ age + gender + educspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finknowmodeleducationalt)
+coeftest(finknowmodeleducationalt, vcov = vcovHC(finknowmodeleducationalt, type = "HC0"))
+AIC(finknowmodeleducationalt)
+finbehmodeleducationalt <- lm(fin_beh ~employment1_2+ age + gender + educspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finbehmodeleducationalt)
+coeftest(finbehmodeleducationalt, vcov = vcovHC(finbehmodeleducationalt, type = "HC0"))
+AIC(finbehmodeleducationalt)
+finattmodeleducationalt <- lm(fin_att ~employment1_2+ age + gender + educspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finattmodeleducationalt)
+coeftest(finattmodeleducationalt, vcov = vcovHC(finattmodeleducationalt, type = "HC0"))
+AIC(finattmodeleducationalt)
+
+#self-employed
+finlitmodeleducationalt <- lm(finlit ~age + gender + educspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitmodeleducationalt)
+coeftest(finlitmodeleducationalt, vcov = vcovHC(finlitmodeleducationalt, type = "HC0"))
+AIC(finlitmodeleducationalt)
+finknowmodeleducationalt <- lm(fin_know ~ age + gender + educspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finknowmodeleducationalt)
+coeftest(finknowmodeleducationalt, vcov = vcovHC(finknowmodeleducationalt, type = "HC0"))
+AIC(finknowmodeleducationalt)
+finbehmodeleducationalt <- lm(fin_beh ~ age + gender + educspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finbehmodeleducationalt)
+coeftest(finbehmodeleducationalt, vcov = vcovHC(finbehmodeleducationalt, type = "HC0"))
+AIC(finbehmodeleducationalt)
+finattmodeleducationalt <- lm(fin_att ~age + gender + educspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finattmodeleducationalt)
+coeftest(finattmodeleducationalt, vcov = vcovHC(finattmodeleducationalt, type = "HC0"))
+AIC(finattmodeleducationalt)
+
+#employed
+finlitmodeleducationalt <- lm(finlit ~ age + gender + educspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finlitmodeleducationalt)
+coeftest(finlitmodeleducationalt, vcov = vcovHC(finlitmodeleducationalt, type = "HC0"))
+AIC(finlitmodeleducationalt)
+finknowmodeleducationalt <- lm(fin_know ~ age + gender + educspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finknowmodeleducationalt)
+coeftest(finknowmodeleducationalt, vcov = vcovHC(finknowmodeleducationalt, type = "HC0"))
+AIC(finknowmodeleducationalt)
+finbehmodeleducationalt <- lm(fin_beh ~ age + gender + educspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finbehmodeleducationalt)
+coeftest(finbehmodeleducationalt, vcov = vcovHC(finbehmodeleducationalt, type = "HC0"))
+AIC(finbehmodeleducationalt)
+finattmodeleducationalt <- lm(fin_att ~ age + gender + educspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finattmodeleducationalt)
+coeftest(finattmodeleducationalt, vcov = vcovHC(finattmodeleducationalt, type = "HC0"))
+AIC(finattmodeleducationalt)
+
+##########################alternative education groups (five (Akademie separately) instead of two groups) - full sample###########################################
+#full sample
+finlitmodeleducationalt <- lm(finlit ~employment1_2+ age + gender + educationspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodeleducationalt)
+coeftest(finlitmodeleducationalt, vcov = vcovHC(finlitmodeleducationalt, type = "HC0"))
+AIC(finlitmodeleducationalt)
+finknowmodeleducationalt <- lm(fin_know ~employment1_2+ age + gender + educationspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finknowmodeleducationalt)
+coeftest(finknowmodeleducationalt, vcov = vcovHC(finknowmodeleducationalt, type = "HC0"))
+AIC(finknowmodeleducationalt)
+finbehmodeleducationalt <- lm(fin_beh ~employment1_2+ age + gender + educationspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finbehmodeleducationalt)
+coeftest(finbehmodeleducationalt, vcov = vcovHC(finbehmodeleducationalt, type = "HC0"))
+AIC(finbehmodeleducationalt)
+finattmodeleducationalt <- lm(fin_att ~employment1_2+ age + gender + educationspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
+summary(finattmodeleducationalt)
+coeftest(finattmodeleducationalt, vcov = vcovHC(finattmodeleducationalt, type = "HC0"))
+AIC(finattmodeleducationalt)
+
+#self-employed
+finlitmodeleducationalt <- lm(finlit ~age + gender + educationspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitmodeleducationalt)
+coeftest(finlitmodeleducationalt, vcov = vcovHC(finlitmodeleducationalt, type = "HC0"))
+AIC(finlitmodeleducationalt)
+finknowmodeleducationalt <- lm(fin_know ~ age + gender + educationspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finknowmodeleducationalt)
+coeftest(finknowmodeleducationalt, vcov = vcovHC(finknowmodeleducationalt, type = "HC0"))
+AIC(finknowmodeleducationalt)
+finbehmodeleducationalt <- lm(fin_beh ~ age + gender + educationspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finbehmodeleducationalt)
+coeftest(finbehmodeleducationalt, vcov = vcovHC(finbehmodeleducationalt, type = "HC0"))
+AIC(finbehmodeleducationalt)
+finattmodeleducationalt <- lm(fin_att ~age + gender + educationspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
+summary(finattmodeleducationalt)
+coeftest(finattmodeleducationalt, vcov = vcovHC(finattmodeleducationalt, type = "HC0"))
+AIC(finattmodeleducationalt)
+
+#employed
+finlitmodeleducationalt <- lm(finlit ~ age + gender + educationspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finlitmodeleducationalt)
+coeftest(finlitmodeleducationalt, vcov = vcovHC(finlitmodeleducationalt, type = "HC0"))
+AIC(finlitmodeleducationalt)
+finknowmodeleducationalt <- lm(fin_know ~ age + gender + educationspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finknowmodeleducationalt)
+coeftest(finknowmodeleducationalt, vcov = vcovHC(finknowmodeleducationalt, type = "HC0"))
+AIC(finknowmodeleducationalt)
+finbehmodeleducationalt <- lm(fin_beh ~ age + gender + educationspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finbehmodeleducationalt)
+coeftest(finbehmodeleducationalt, vcov = vcovHC(finbehmodeleducationalt, type = "HC0"))
+AIC(finbehmodeleducationalt)
+finattmodeleducationalt <- lm(fin_att ~ age + gender + educationspecific_1 +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
+summary(finattmodeleducationalt)
+coeftest(finattmodeleducationalt, vcov = vcovHC(finattmodeleducationalt, type = "HC0"))
+AIC(finattmodeleducationalt)
+
 
 ##########################alternative risk evaluation - full sample###########################################
 #QS1_2risk
@@ -1678,6 +2125,8 @@ multi_finlit_e <- multinom(finlit_group ~  age + gender + higheduc +incomegroup_
 summary(multi_finlit_e)
 stargazer(multi_finlit_e, type="text", out="multi_finlit_e")
 PseudoR2(multi_finlit_e, which = c("McFadden"))
+
+
 
 
 
