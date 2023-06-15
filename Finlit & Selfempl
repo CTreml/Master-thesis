@@ -46,7 +46,7 @@ employment1_1 <- as.factor(ASFL$employment1)
 levels(employment1_1)
 ASFL <- within(ASFL, employment1_1 <- relevel(employment1_1, ref = "Other"))
 
-employment1_2 <- factor(ASFL$employment1, levels=c("Employed", "Other", "Self-employed"))
+employment1_2 <- factor(ASFL$employment1, levels=c("Employed",  "Self-employed","Other"))
 levels(employment1_2)
 
 employment2 <- ASFL$QD10
