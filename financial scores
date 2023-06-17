@@ -1,0 +1,3775 @@
+
+#########################MAIN FINANCIAL LITERACY INDICATORS##########################################
+
+#QK1 - self-rated knowledge #does not add to financial literacy score
+#see: descriptive statistics
+summary(ASFL$QK1)
+wpct(ASFL$QK1, weight=ASFL$wght, na.rm=TRUE)
+0.095532863+0.299779639#high
+0.404055791 #average
+0.128320735+0.047541960 #low
+0.009471324+0.015297688#dont know
+
+ASFLsem <- ASFLse[(ASFLse$QD1 %in% male),]
+ASFLsef <- ASFLse[(ASFLse$QD1 %in% female),]
+summary(ASFLse$QK1)
+
+summary(ASFLsem$QK1)
+summary(ASFLsef$QK1)
+
+summary(ASFLe$QK1)
+
+ASFLem <- ASFLe[(ASFLe$QD1 %in% male),]
+ASFLef <- ASFLe[(ASFLe$QD1 %in% female),]
+summary(ASFLem$QK1)
+summary(ASFLef$QK1)
+
+summary(ASFLoth$QK1)
+
+
+#QK2 - equal splitting #does not add to financial literacy score
+table(ASFL$QK2)
+QK2f<- ifelse(ASFL$QK2 == "200", 1, 0)
+table(QK2f)
+summary(ASFLse$QK2)
+QK2se<- ifelse(ASFLse$QK2 == "200", 1, 0)
+table(QK2se)
+QK2e<- ifelse(ASFLe$QK2 == "200", 1, 0)
+table(QK2e)
+summary(ASFLeu$QK2)
+QK2oth<- ifelse(ASFLoth$QK2 == "200", 1, 0)
+table(QK2oth)
+
+####################FINANCIAL KNOWLEDGE SCORE#############################
+#QK3 - *OECD - time value of money
+summary(ASFL$QK3)
+wpct(ASFL$QK3, weight=ASFL$wght, na.rm=TRUE)
+0.079752816+0.653954112 #correct
+0.002064761+0.013762686+0.042886767 #dont know/irrelevant/refused
+1-0.7337069-0.05871421 #incorrect
+
+summary(ASFLse$QK3)
+wpct(ASFLse$QK3, weight=ASFLse$wght, na.rm=TRUE) #0.8812004,0.06277662,0.05602298
+0.77712780 +0.10407263 #correct
+1-(0.05602298+0.8812004)#incorrect 
+0.05602298 #dont know/irrelevant
+wpct(ASFLsem$QK3, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$QK3, weight=ASFLsef$wght, na.rm=TRUE)
+
+summary(ASFLe$QK3)
+wpct(ASFLe$QK3, weight=ASFLe$wght, na.rm=TRUE)#0.7227266,0.2387096,0.03856385
+0.650157593 +0.072568991 #correct
+1-(0.7227266+0.03856385)#incorrect 
+0.001668598 +0.008530523 +0.028364729 #dont know/irrelevant
+wpct(ASFLem$QK3, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$QK3, weight=ASFLef$wght, na.rm=TRUE)
+
+summary(ASFLoth$QK3)
+wpct(ASFLoth$QK3, weight=ASFLoth$wght, na.rm=TRUE)#0.7288287,0.1860751,0.08509625
+0.085890743+0.642937970#correct
+1-(0.7288287+0.08509625)#incorrect 
+0.002843489 +0.022301557+0.059951203#dont know/irrelevant
+
+summary(ASFLothworet$QK3)
+wpct(ASFLothworet$QK3, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+summary(ASFL$QK3)
+QK3_1 <- ifelse(ASFL$QK3 == "Or, less than they could buy today", 1, 0)
+QK3_2 <- ifelse(ASFL$QK3 == "It depends on the types of things that they want to buy", 1, 0)
+QK3f<- QK3_1+QK3_2
+table(QK3f)
+
+summary(ASFLse$QK3)
+QK3_1se <- ifelse(ASFLse$QK3 == "Or, less than they could buy today", 1, 0)
+QK3_2se <- ifelse(ASFLse$QK3 == "It depends on the types of things that they want to buy", 1, 0)
+QK3se<- QK3_1se+QK3_2se
+table(QK3se)
+
+summary(ASFLe$QK3)
+QK3_1e <- ifelse(ASFLe$QK3 == "Or, less than they could buy today", 1, 0)
+QK3_2e <- ifelse(ASFLe$QK3 == "It depends on the types of things that they want to buy", 1, 0)
+QK3e<- QK3_1e+QK3_2e
+table(QK3e)
+
+summary(ASFLoth$QK3)
+QK3_1oth <- ifelse(ASFLoth$QK3 == "Or, less than they could buy today", 1, 0)
+QK3_2oth <- ifelse(ASFLoth$QK3 == "It depends on the types of things that they want to buy", 1, 0)
+QK3oth<- QK3_1oth+QK3_2oth
+table(QK3oth)
+
+#QK4 - *OECD - interest paid on a loan
+table(ASFL$QK4)
+wpct(ASFL$QK4, weight=ASFL$wght, na.rm=TRUE)
+0.8896527640#correct
+0.0374343030+0.0264719756+0.0234817298#dont know/irrelevant/refused
+1-0.8896527640-0.08738801 #incorrect
+(52+41+33)/1418
+(16+1+5+3+1+1+1)/1418
+1264/1418 #89% according to OECD
+
+table(ASFLse$QK4)
+wpct(ASFLse$QK4, weight=ASFLse$wght, na.rm=TRUE)#0.970574832,0.007966968,0.0214582
+0.970574832 #correct
+0.007966968 #incorrect 
+0.006653903+0.014804297#dont know/irrelevant
+wpct(ASFLsem$QK4, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$QK4, weight=ASFLsef$wght, na.rm=TRUE)
+
+table(ASFLe$QK4)
+wpct(ASFLe$QK4, weight=ASFLe$wght, na.rm=TRUE)#0.897261034,0.03466621,0.06807276
+0.897261034#correct
+1-(0.897261034+0.06807276)#incorrect 
+0.021111471+0.021588658+0.025372634#dont know/irrelevant
+wpct(ASFLem$QK4, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$QK4, weight=ASFLef$wght, na.rm=TRUE)
+
+table(ASFLoth$QK4)
+wpct(ASFLoth$QK4, weight=ASFLoth$wght, na.rm=TRUE)#0.8693630648,0.009771735,0.1208652      
+0.8693630648  #correct
+1-(0.1208652+0.8693630648)#incorrect 
+0.0578566151+0.0353428495+0.0276657225#dont know/irrelevant
+
+table(ASFLothworet$QK4)
+wpct(ASFLothworet$QK4, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+QK4f<- ifelse(ASFL$QK4 == "0", 1, 0)
+table(QK4f)
+QK4se<- ifelse(ASFLse$QK4 == "0", 1, 0)
+table(QK4se)
+QK4e<- ifelse(ASFLe$QK4 == "0", 1, 0)
+table(QK4e)
+QK4oth<- ifelse(ASFLoth$QK4 == "0", 1, 0)
+table(QK4oth)
+
+
+#QK5 - *OECD - interest plus principal
+table(ASFL$QK5)
+wpct(ASFL$QK5, weight=ASFL$wght, na.rm=TRUE)
+0.7855571881#correct
+0.0958051578+0.0309178571+0.0070958973#dont know/irrelevant/refused
+1-0.1338189-0.7855572#incorrect
+0.0958051578+0.0309178571+0.0070958973 
+
+summary(ASFLse$QK5)
+wpct(ASFLse$QK5, weight=ASFLse$wght, na.rm=TRUE)#0.911007520,0.025367278,0.0636252
+0.911007520       #correct
+0.025367278 #incorrect 
+0.0636252#dont know/irrelevant
+wpct(ASFLsem$QK5, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$QK5, weight=ASFLsef$wght, na.rm=TRUE)
+
+summary(ASFLe$QK5)
+wpct(ASFLe$QK5, weight=ASFLe$wght, na.rm=TRUE)#0.7892900880,0.1056407,0.1050692
+0.7892900880#correct
+1-(0.1050692+0.7892900880)#incorrect 
+0.0712881232+0.0279016771+0.0058794117#dont know/irrelevant
+wpct(ASFLem$QK5, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$QK5, weight=ASFLef$wght, na.rm=TRUE)
+
+summary(ASFLoth$QK5)
+wpct(ASFLoth$QK5, weight=ASFLoth$wght, na.rm=TRUE)#0.7645187980,0.0554447,0.1800365      
+0.7645187980#correct
+1-(0.1800365+0.7645187980)#incorrect 
+0.1328077169+0.0388111377+0.0084176501#dont know/irrelevant
+
+summary(ASFLothworet$QK5)
+wpct(ASFLothworet$QK5, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+
+QK5f<- ifelse(ASFL$QK5 == "102", 1, 0)
+table(QK5f)
+QK5se<- ifelse(ASFLse$QK5 == "102", 1, 0)
+table(QK5se)
+QK5sem<- ifelse(ASFLsem$QK5 == "102", 1, 0)
+QK5sef<- ifelse(ASFLsef$QK5 == "102", 1, 0)
+
+
+QK5e<- ifelse(ASFLe$QK5 == "102", 1, 0)
+QK5em<- ifelse(ASFLem$QK5 == "102", 1, 0)
+QK5ef<- ifelse(ASFLef$QK5 == "102", 1, 0)
+table(QK5e)
+QK5eu<- ifelse(ASFLeu$QK5 == "102", 1, 0)
+table(QK5eu)
+QK5oth<- ifelse(ASFLoth$QK5 == "102", 1, 0)
+table(QK5oth)
+QK5othworet<- ifelse(ASFLothworet$QK5 == "102", 1, 0)
+table(QK5othworet)
+
+#QK6 - *OECD - compound interest 
+summary(ASFL$QK6) 
+wpct(ASFL$QK6, weight=ASFL$wght, na.rm=TRUE)#0.4903881,0.365513,0.1440989
+0.535301109#correct
+0.004409244+0.018203732+0.076572892 #dont know/irrelevant/refused
+1-0.535301109-0.09918587#incorrect
+
+summary(ASFLse$QK6)
+wpct(ASFLse$QK6, weight=ASFLse$wght, na.rm=TRUE)
+0.178534126 +0.130571101 #incorrect 
+wpct(ASFLsem$QK6, weight=ASFLsem$wght, na.rm=TRUE)
+0.16649831+0.18025887 
+wpct(ASFLsef$QK6, weight=ASFLsef$wght, na.rm=TRUE)
+0.19622559+0.05753498
+
+summary(ASFLe$QK6)
+wpct(ASFLe$QK6, weight=ASFLe$wght, na.rm=TRUE)  
+0.280932800+0.063492648+0.007347740  #incorrect 
+wpct(ASFLem$QK6, weight=ASFLem$wght, na.rm=TRUE) 
+0.007426559 +0.054086592 + 0.281542631
+wpct(ASFLef$QK6, weight=ASFLef$wght, na.rm=TRUE) 
+0.007263041 +0.073600407 +0.280277475
+
+summary(ASFLoth$QK6)
+wpct(ASFLoth$QK6, weight=ASFLoth$wght, na.rm=TRUE)
+0.324732739 +0.053209114 +0.012614148 #incorrect 
+
+summary(ASFLothworet$QK6)
+wpct(ASFLothworet$QK6, weight=ASFLothworet$wght, na.rm=TRUE)
+
+
+#relevel to avoid errors
+#ASFL$QK6 <- 
+levels(ASFL$QK6) <- c("Irrelevant answer","Refused","Don't know","More than eur110","Exactly eur110","Less than eur110","Or is it impossible to tell from the information given")
+levels(ASFL$QK6)
+
+QK6relevel <- ASFL$QK6
+ASFL <- ASFL %>%
+  mutate(QK6relevel=case_when(
+    QK6relevel =="Don't know"~ "Don't know",
+    QK6relevel =="Irrelevant answer"~ "Irrelevant answer",
+    QK6relevel =="Refused"~ "Refused",
+    QK6relevel =="More than €110"~ "More than eur110",
+    QK6relevel =="Exactly €110"~ "Exactly eur110",
+    QK6relevel =="Less than €110"~ "Less than eur110",
+    QK6relevel =="Or is it impossible to tell from the information given"~ "Or is it impossible to tell from the information given"
+    ))
+table(ASFL$QK6relevel)
+
+ASFLse <- ASFL[(ASFL$QD10 %in% se),] 
+summary(ASFLse)
+ASFLsem <- ASFLse[(ASFLse$QD1 %in% male),] 
+ASFLsef <- ASFLse[(ASFLse$QD1 %in% female),] 
+ASFLe <- ASFL[(ASFL$QD10 %in% e),] 
+summary(ASFLe)
+ASFLem <- ASFLe[(ASFLe$QD1 %in% male),] 
+ASFLef <- ASFLe[(ASFLe$QD1 %in% female),] 
+ASFLeu <-  ASFL[(ASFL$QD10 %in% eu),] 
+summary(ASFLeu)
+ASFLunempl <-  ASFL[(ASFL$QD10 %in% unempl),] 
+summary(ASFLunempl)
+ASFLoth <-  ASFL[(ASFL$QD10 %in% oth),] 
+summary(ASFLoth)
+ASFLempl <- ASFL[(ASFL$QD10 %in% empl),] 
+ASFLempl$QD10
+ASFLregempl <- ASFL[(ASFL$QD10 %in% regempl),] 
+ASFLothworet <-  ASFL[(ASFL$QD10 %in% othworet),] 
+summary(ASFLothworet)
+ASFLothworet <-  ASFL[(ASFL$QD10 %in% othworet),] 
+summary(ASFLothworet)
+ASFLstud <-  ASFL[(ASFL$QD10 %in% stud),] 
+summary(ASFLstud)
+ASFLret <-  ASFL[(ASFL$QD10 %in% ret),] 
+summary(ASFLret)
+
+QK6f<- ifelse(ASFL$QK6 == "More than eur110", 1, 0)
+QK6se<- ifelse(ASFLse$QK6 == "More than eur110", 1, 0)
+table(QK6se)
+QK6sem<- ifelse(ASFLsem$QK6 == "More than eur110", 1, 0)
+QK6sef<- ifelse(ASFLsef$QK6 == "More than eur110", 1, 0)
+QK6e<- ifelse(ASFLe$QK6 == "More than eur110", 1, 0)
+table(QK6e)
+QK6em<- ifelse(ASFLem$QK6 == "More than eur110", 1, 0)
+QK6ef<- ifelse(ASFLef$QK6 == "More than eur110", 1, 0)
+QK6eu<- ifelse(ASFLeu$QK6 == "More than eur110", 1, 0)
+table(QK6eu)
+QK6oth<- ifelse(ASFLoth$QK6 == "More than eur110", 1, 0)
+table(QK6oth)
+QK6othworet<- ifelse(ASFLothworet$QK6 == "More than eur110", 1, 0)
+table(QK6othworet)
+
+###QK5 + QK6
+QK56f <- QK5f+QK6f
+table(QK56f)
+wpct(QK56f, weight=ASFL$wght, na.rm=TRUE)#0.4903881#correct
+
+QK6fn <- ifelse(QK56f == "2",1, 0)
+table(QK6fn)
+702/1418 
+
+QK56se <- QK5se+QK6se
+QK56sem <- QK5sem+QK6sem
+QK56sef <- QK5sef+QK6sef
+table(QK56se)
+wpct(QK56se, weight=ASFLse$wght, na.rm=TRUE)
+wpct(QK56sem, weight=ASFLsem$wght, na.rm=TRUE)
+0.62289779 #correct
+wpct(QK56sef, weight=ASFLsef$wght, na.rm=TRUE)
+0.6661936 #correct
+QK6sen <- ifelse(QK56se == "2",1, 0) 
+QK6semn <- ifelse(QK56sem == "2",1, 0)
+QK6sefn <- ifelse(QK56sef == "2",1, 0)
+wpct(QK56se, weight=ASFLse$wght, na.rm=TRUE) #0.64042716,0.3091052,0.05046764
+1-(0.64042716 +0.3091052)
+
+QK56e <- QK5e+QK6e
+table(QK56e)
+QK56em <- QK5em+QK6em
+QK56ef <- QK5ef+QK6ef
+wpct(QK56e, weight=ASFLe$wght, na.rm=TRUE)
+wpct(QK56em, weight=ASFLem$wght, na.rm=TRUE)
+wpct(QK56ef, weight=ASFLef$wght, na.rm=TRUE)
+QK6en <- ifelse(QK56e == "2",1, 0) #0.5221745,0.3517732,0.1274378
+QK6emn <- ifelse(QK56em == "2",1, 0)
+QK6efn <- ifelse(QK56ef == "2",1, 0)
+table(QK6en)
+365/699
+1-(0.5207890 +0.3517732)
+
+QK56eu <- QK5eu+QK6eu
+table(QK56eu)
+wpct(QK56eu, weight=ASFLeu$wght, na.rm=TRUE)
+QK6eun <- ifelse(QK56eu == "2",1, 0)
+table(QK6eun)
+379/749
+
+QK56oth <- QK5oth+QK6oth
+table(QK56oth)
+wpct(QK56oth, weight=ASFLoth$wght, na.rm=TRUE)
+QK6othn <- ifelse(QK56oth == "2",1, 0)#0.4317166,0.390556,0.1777274
+table(QK6othn)
+1-(0.4317166+0.390556)
+
+QK56othworet <- QK5othworet+QK6othworet
+table(QK56othworet)
+wpct(QK56othworet, weight=ASFLothworet$wght, na.rm=TRUE)
+QK6othworetn <- ifelse(QK56othworet == "2",1, 0)
+table(QK6othworetn)
+
+#QK7_1 - *OECD - risk and return
+table(ASFL$QK7_1)
+wpct(ASFL$QK7_1, weight=ASFL$wght, na.rm=TRUE)#0.9166026,0.03135837,0.05203899
+0.916602640#correct
+0.050442460+0.001596526#dont know/irrelevant/refused
+1-0.916602640-0.05203899#incorrect
+
+table(ASFLse$QK7_1)
+wpct(ASFLse$QK7_1, weight=ASFLse$wght, na.rm=TRUE)#0.90143273,0.03396225, 0.06460503 
+0.90143273 #correct
+0.03396225 #incorrect 
+0.06460503 #dont know/irrelevant
+wpct(ASFLsem$QK7_1, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$QK7_1, weight=ASFLsef$wght, na.rm=TRUE)
+
+
+table(ASFLe$QK7_1)
+wpct(ASFLe$QK7_1, weight=ASFLe$wght, na.rm=TRUE)#0.9070270072 ,0.0443046011 ,0.04866839
+0.9070270072 #correct
+0.0443046011 #incorrect 
+1-(0.0443046011 +0.9070270072)#dont know/irrelevant
+wpct(ASFLem$QK7_1, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$QK7_1, weight=ASFLef$wght, na.rm=TRUE)
+
+table(ASFLoth$QK7_1)
+wpct(ASFLoth$QK7_1, weight=ASFLoth$wght, na.rm=TRUE)#0.930935147,0.014295340,0.05476951
+0.930935147 #correct
+0.014295340#incorrect 
+1-(0.014295340+0.930935147)#dont know/irrelevant
+
+table(ASFLothworet$QK7_1)
+wpct(ASFLothworet$QK7_1, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+
+QK7_1f<- ifelse(ASFL$QK7_1 == "1", 1, 0) #1=TRUE
+table(QK7_1f)
+QK7_1se<- ifelse(ASFLse$QK7_1 == "1", 1, 0)
+table(QK7_1se)
+QK7_1e<- ifelse(ASFLe$QK7_1 == "1", 1, 0)
+table(QK7_1e)
+QK7_1eu<- ifelse(ASFLeu$QK7_1 == "1", 1, 0)
+table(QK7_1eu)
+QK7_1oth<- ifelse(ASFLoth$QK7_1 == "1", 1, 0)
+table(QK7_1oth)
+
+#QK7_2 - *OECD - inflation definition
+table(ASFL$QK7_2)
+wpct(ASFL$QK7_2, weight=ASFL$wght, na.rm=TRUE)#0.8889704,0.04507601,0.06595359
+0.888970397 #correct
+0.061969977+0.003983608#dont know/irrelevant/refused
+1-0.888970397-0.06595359#incorrect
+
+table(ASFLse$QK7_2)
+wpct(ASFLse$QK7_2, weight=ASFLse$wght, na.rm=TRUE)#0.91822943,0.03238426,0.04938631 
+0.91822943 #correct
+0.03238426 #incorrect 
+0.04938631 #dont know/irrelevant
+wpct(ASFLsem$QK7_2, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$QK7_2, weight=ASFLsef$wght, na.rm=TRUE)
+
+table(ASFLe$QK7_2)
+wpct(ASFLe$QK7_2, weight=ASFLe$wght, na.rm=TRUE)#0.887358506,0.052169972 ,0.06047152
+0.887358506 #correct
+0.052169972 #incorrect 
+1-(0.052169972 +0.887358506)#dont know/irrelevant
+wpct(ASFLem$QK7_2, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$QK7_2, weight=ASFLef$wght, na.rm=TRUE)
+
+table(ASFLoth$QK7_2)
+wpct(ASFLoth$QK7_2, weight=ASFLoth$wght, na.rm=TRUE)#0.887270979,0.037551181 ,0.07517784
+0.887270979 #correct
+0.037551181 #incorrect 
+1-(0.887270979+0.037551181 ) #dont know/irrelevant
+
+table(ASFLothworet$QK7_2)
+wpct(ASFLothworet$QK7_2, weight=ASFLothworet$wght, na.rm=TRUE)#0.809610297,0.080652478,0.1097372
+0.809610297#correct
+0.080652478 #incorrect 
+1-(0.809610297+0.080652478)#dont know/irrelevant
+
+QK7_2f<- ifelse(ASFL$QK7_2 == "1", 1, 0)
+table(QK7_2f)
+QK7_2se<- ifelse(ASFLse$QK7_2 == "1", 1, 0)
+table(QK7_2se)
+QK7_2e<- ifelse(ASFLe$QK7_2 == "1", 1, 0)
+table(QK7_2e)
+QK7_2eu<- ifelse(ASFLeu$QK7_2 == "1", 1, 0)
+table(QK7_2eu)
+
+#QK7_3 - *OECD - diversification
+table(ASFL$QK7_3)
+wpct(ASFL$QK7_3, weight=ASFL$wght, na.rm=TRUE)#0.61300273,0.1526371,0.2343602
+0.61300273 #correct
+0.22363099+0.01072922#dont know/irrelevant/refused
+1-0.61300273-0.2343602#incorrect
+
+table(ASFLse$QK7_3)
+wpct(ASFLse$QK7_3, weight=ASFLse$wght, na.rm=TRUE)#0.77142812,0.13102772,0.09754416 
+0.77142812 #correct
+0.13102772 #incorrect 
+0.09754416 #dont know/irrelevant
+wpct(ASFLsem$QK7_3, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$QK7_3, weight=ASFLsef$wght, na.rm=TRUE)
+
+table(ASFLe$QK7_3)
+wpct(ASFLe$QK7_3, weight=ASFLe$wght, na.rm=TRUE)#0.667234442,0.162267278,0.1704983
+0.667234442 #correct
+0.162267278 #incorrect 
+1-(0.667234442 +0.162267278 )#dont know/irrelevant
+wpct(ASFLem$QK7_3, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$QK7_3, weight=ASFLef$wght, na.rm=TRUE)
+
+table(ASFLoth$QK7_3)
+wpct(ASFLoth$QK7_3, weight=ASFLoth$wght, na.rm=TRUE)#0.52245783,0.14298805,0.3345541
+0.52245783 #correct
+0.14298805 #incorrect 
+1-(0.52245783+0.14298805 ) #dont know/irrelevant
+
+table(ASFLothworet$QK7_3)
+wpct(ASFLothworet$QK7_3, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+
+
+QK7_3f<- ifelse(ASFL$QK7_3 == "1", 1, 0)
+table(QK7_3f)
+QK7_3se<- ifelse(ASFLse$QK7_3 == "1", 1, 0)
+table(QK7_3se)
+QK7_3e<- ifelse(ASFLe$QK7_3 == "1", 1, 0)
+table(QK7_3e)
+QK7_3eu<- ifelse(ASFLeu$QK7_3 == "1", 1, 0)
+table(QK7_3eu)
+
+#S58 - non-OECD - real interest
+table(ASFL$S58)
+wpct(ASFL$S58, weight=ASFL$wght, na.rm=TRUE)#0.778428892,0.1463434,0.07522774
+0.778428892 #correct
+0.001358319+0.018599573+0.055269846#dont know/irrelevant/refused
+1-0.778428892-0.07522774#incorrect
+
+table(ASFLse$S58)
+wpct(ASFLse$S58, weight=ASFLse$wght, na.rm=TRUE)#0.93873646,0.01444696,0.04681658      
+0.93873646 #correct
+0.01444696      #incorrect 
+0.04681658      #dont know/irrelevant
+wpct(ASFLsem$S58, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$S58, weight=ASFLsef$wght, na.rm=TRUE)
+
+table(ASFLe$S58)
+wpct(ASFLe$S58, weight=ASFLe$wght, na.rm=TRUE)#0.77005123,0.1758667,0.05408207
+0.77005123#correct
+0.04638901+0.12947764      #incorrect 
+1-(0.77005123+0.1758667)#dont know/irrelevant
+wpct(ASFLem$S58, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$S58, weight=ASFLef$wght, na.rm=TRUE)
+
+table(ASFLoth$S58)
+wpct(ASFLoth$S58, weight=ASFLoth$wght, na.rm=TRUE)#0.768531697 ,0.1252482,0.1062201
+0.768531697 #correct
+0.096712743+0.028535412        #incorrect 
+1-(0.768531697 +0.1252482) #dont know/irrelevant
+
+table(ASFLothworet$S58)
+wpct(ASFLothworet$S58, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+
+S58f<- ifelse(ASFL$S58 == "Less than today", 1, 0)
+table(S58f)
+S58se<- ifelse(ASFLse$S58 == "Less than today", 1, 0)
+table(S58se)
+S58e<- ifelse(ASFLe$S58 == "Less than today", 1, 0)
+table(S58e)
+S58eu<- ifelse(ASFLeu$S58 == "Less than today", 1, 0)
+table(S58eu)
+
+
+#QK7_4add - non-OECD - overdrawing a account 
+table(ASFL$QK7_4add)
+wpct(ASFL$QK7_4add, weight=ASFL$wght, na.rm=TRUE)#0.685109119,0.1647971,0.1500938
+0.685109119 #correct
+0.009036726 +0.141057048 #dont know/irrelevant/refused
+1-0.685109119-0.1500938#incorrect
+
+table(ASFLse$QK7_4add)
+wpct(ASFLse$QK7_4add, weight=ASFLse$wght, na.rm=TRUE)#0.7227731 ,0.1404427 ,0.1367842 
+0.7227731 #correct
+0.1404427 #incorrect 
+0.1367842 #dont know/irrelevant
+wpct(ASFLsem$QK7_4add, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$QK7_4add, weight=ASFLsef$wght, na.rm=TRUE)
+
+table(ASFLe$QK7_4add)
+wpct(ASFLe$QK7_4add, weight=ASFLe$wght, na.rm=TRUE)#0.740998033 ,0.174713123,0.08428884
+0.740998033 #correct
+0.174713123 #incorrect 
+1-(0.174713123 +0.740998033 )#dont know/irrelevant
+wpct(ASFLem$QK7_4add, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$QK7_4add, weight=ASFLef$wght, na.rm=TRUE)
+
+table(ASFLoth$QK7_4add)
+wpct(ASFLoth$QK7_4add, weight=ASFLoth$wght, na.rm=TRUE)#0.60803253 ,0.15513368 ,0.2368338
+0.60803253 #correct
+0.15513368 #incorrect 
+1-(0.60803253+0.15513368 )#dont know/irrelevant
+
+table(ASFLothworet$QK7_4add)
+wpct(ASFLothworet$QK7_4add, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+
+
+QK7_4addf<- ifelse(ASFL$QK7_4add == "False", 1, 0)
+table(QK7_4addf)
+QK7_4addse<- ifelse(ASFLse$QK7_4add == "False", 1, 0)
+table(QK7_4addse)
+QK7_4adde<- ifelse(ASFLe$QK7_4add == "False", 1, 0)
+table(QK7_4adde)
+QK7_4addeu<- ifelse(ASFLeu$QK7_4add == "False", 1, 0)
+table(QK7_4addeu)
+
+#EB3 - non-OECD - exchange rate
+table(ASFL$EB3)
+wpct(ASFL$EB3, weight=ASFL$wght, na.rm=TRUE)#0.6917723,0.1276094,0.1806183
+0.691772328#correct
+0.005521473+0.013842803+0.161254056#dont know/irrelevant/refused
+1-0.691772328-0.1806183#incorrect
+
+table(ASFLse$EB3)
+wpct(ASFLse$EB3, weight=ASFLse$wght, na.rm=TRUE)#0.87447672,0.04876289,0.07676039             
+0.87447672             #correct
+1-(0.87447672+0.07676039)#incorrect 
+0.07676039             #dont know/irrelevant
+wpct(ASFLsem$EB3, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$EB3, weight=ASFLsef$wght, na.rm=TRUE)
+
+table(ASFLe$EB3)
+wpct(ASFLe$EB3, weight=ASFLe$wght, na.rm=TRUE)#0.703229118 ,0.159618,0.1371529
+0.703229118 #correct
+0.083257430            +0.076360531 #incorrect 
+1-(0.159618+0.703229118)#dont know/irrelevant
+wpct(ASFLem$EB3, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$EB3, weight=ASFLef$wght, na.rm=TRUE)
+
+table(ASFLoth$EB3)
+wpct(ASFLoth$EB3, weight=ASFLoth$wght, na.rm=TRUE)#0.653354147,0.09644592,0.2501999
+0.653354147 #correct
+0.038369373+0.058076548#incorrect 
+1-(0.653354147+0.09644592)#dont know/irrelevant
+
+table(ASFLothworet$EB3)
+wpct(ASFLothworet$EB3, weight=ASFLothworet$wght, na.rm=TRUE)
+#correct
+#incorrect 
+#dont know/irrelevant
+
+EB3f<- ifelse(ASFL$EB3 == "Increases", 1, 0)
+table(EB3f)
+EB3se<- ifelse(ASFLse$EB3 == "Increases", 1, 0)
+table(EB3se)
+EB3e<- ifelse(ASFLe$EB3 == "Increases", 1, 0)
+table(EB3e)
+EB3eu<- ifelse(ASFLeu$EB3 == "Increases", 1, 0)
+table(EB3eu)
+
+ASFL1 <- cbind(ASFL,QK3f,QK4f,QK5f,QK6fn,QK56f,QK7_1f,QK7_2f,QK7_3f,S58f,QK7_4addf,EB3f)
+#create financial knowledge score (score 0-7).
+fin_know <- (QK3f+QK4f+QK5f+QK6fn+QK7_1f+QK7_2f+QK7_3f)
+
+ASFL1 <- cbind(ASFL1,fin_know)
+summary(ASFL1$fin_know)
+table(ASFL1$fin_know)
+weighted.mean(ASFL1$fin_know,ASFL1$wght)#5.3 - according to OECD (2020)
+wpct(ASFL1$fin_know, weight=ASFL1$wght, na.rm=TRUE)
+
+#dummyvariables
+ASFL1 <- ASFL1 %>% mutate(fin_know_group = case_when(fin_know >= 6  & fin_know <= 7 ~ 'High fk',
+                                                     fin_know >= 4  & fin_know <6  ~ 'Average fk',
+                                                     fin_know >= 0  & fin_know < 4 ~ 'Low fk'))
+table(ASFL1$fin_know_group)
+fin_know_group_1 <- factor(ASFL1$fin_know_group, levels=c("High fk","Average fk", "Low fk"))
+levels(fin_know_group_1)
+
+
+highfinknowd <- ifelse(ASFL1$fin_know_group == "High", 1, 0)
+highfinknowd <- as.numeric(highfinknowd)
+averagefinknowd <- ifelse(ASFL1$fin_know_group == "Average", 1, 0)
+lowfinknowd <- ifelse(ASFL1$fin_know_group == "Low", 1, 0)
+ASFL1 <- cbind(ASFL1,lowfinknowd,averagefinknowd,highfinknowd,fin_know_group_1)
+##############austria specific additional financial knowledge!
+
+#old: QK3_1+QK4+QK5+QK6+QK7_1+QK7_2+QK7_3+S58+QK7_4add+EB3
+fin_know_add <- (QK3f+QK4f+QK5f+QK6fn+QK7_1f+QK7_2f+QK7_3f+S58f+QK7_4addf+EB3f)
+table(fin_know_add)
+ASFL1 <- cbind(ASFL1,fin_know_add)
+weighted.mean(ASFL1$fin_know_add,ASFL1$wght)
+wpct(ASFL1$fin_know_add, weight=ASFL1$wght, na.rm=TRUE)
+
+#dummyvariables
+ASFL1 <- ASFL1 %>% mutate(fin_know_add_group = case_when(fin_know_add >= 8  & fin_know_add <= 10 ~ 'High fk',
+                                                         fin_know_add >= 5  & fin_know_add <8  ~ 'Average fk',
+                                                         fin_know_add >= 0  & fin_know_add < 5 ~ 'Low fk'))
+
+table(ASFL1$fin_know_add)
+fin_know_add_group_1 <- factor(ASFL1$fin_know_add_group, levels=c("High fk", "Average fk", "Low fk"))
+levels(fin_know_add_group_1)
+
+highfinknowaddd <- ifelse(ASFL1$fin_know_add_group == "high", 1, 0)
+averagefinknowaddd <- ifelse(ASFL1$fin_know_add_group == "average", 1, 0)
+lowfinknowaddd <- ifelse(ASFL1$fin_know_add_group == "low", 1, 0)
+ASFL1 <- cbind(ASFL1,lowfinknowaddd,averagefinknowaddd,highfinknowaddd)
+
+####################FINANCIAL ATTITUDE SCORE#############################
+#recode Refused, Not relevant and donÂ´t know to 3
+#more satisfying to spend than to save money
+summary(ASFL$QS1_1)
+QS1_1 <-ASFL$QS1_1
+QS1_1_1_rec <- ifelse(QS1_1== "Refused", 3, 0)
+QS1_1_2_rec <- ifelse(QS1_1 == "Not relevant", 3, 0)
+QS1_1_3_rec <- ifelse(QS1_1 == "Don't know", 3, 0)
+
+QS1_1_1 <- ifelse(QS1_1 == "Completely agree",1, 0)
+QS1_1_2 <- ifelse(QS1_1 == "2",2, 0)
+QS1_1_3 <- ifelse(QS1_1 == "3",3, 0)
+QS1_1_4 <- ifelse(QS1_1 == "4",4, 0)
+QS1_1_5 <- ifelse(QS1_1 == "Completely disagree",5, 0)
+QS1_1f <- QS1_1_1_rec+QS1_1_2_rec+QS1_1_3_rec+QS1_1_1+QS1_1_2+QS1_1_3+QS1_1_4+QS1_1_5
+QS1_1f
+table(QS1_1f)
+summary(QS1_1f) 
+ASFL1 <- cbind(ASFL1, QS1_1f)
+weighted.mean(ASFL1$QS1_1f, ASFL1$wght)#mean:3.1 - according to Fessler et al (2020)
+
+#money there to be spent
+summary(ASFL$QS1_3)
+QS1_3 <-ASFL$QS1_3
+QS1_3_1_rec <- ifelse(QS1_3== "Refused", 3, 0)
+QS1_3_2_rec <- ifelse(QS1_3 == "Not relevant", 3, 0)
+QS1_3_3_rec <- ifelse(QS1_3 == "Don't know", 3, 0)
+
+QS1_3_1 <- ifelse(QS1_3 == "Completely agree",1, 0)
+QS1_3_2 <- ifelse(QS1_3 == "2",2, 0)
+QS1_3_3 <- ifelse(QS1_3 == "3",3, 0)
+QS1_3_4 <- ifelse(QS1_3 == "4",4, 0)
+QS1_3_5 <- ifelse(QS1_3 == "Completely disagree",5, 0)
+QS1_3f <- QS1_3_1_rec+QS1_3_2_rec+QS1_3_3_rec+QS1_3_1+QS1_3_2+QS1_3_3+QS1_3_4+QS1_3_5
+QS1_3f
+table(QS1_3f)
+summary(QS1_3f)
+ASFL1 <- cbind(ASFL1, QS1_3f)
+weighted.mean(QS1_3f, ASFL1$wght)
+
+#live for today and let tommorow take care of itself
+summary(ASFL$QS3_11)
+QS3_11 <-ASFL$QS3_11
+QS3_11_1_rec <- ifelse(QS3_11== "Refused", 3, 0)
+QS3_11_2_rec <- ifelse(QS3_11 == "Not relevant", 3, 0)
+QS3_11_3_rec <- ifelse(QS3_11 == "Don't know", 3, 0)
+
+QS3_11_1 <- ifelse(QS3_11 == "Completely",1, 0)
+QS3_11_2 <- ifelse(QS3_11 == "2",2, 0)
+QS3_11_3 <- ifelse(QS3_11 == "3",3, 0)
+QS3_11_4 <- ifelse(QS3_11 == "4",4, 0)
+QS3_11_5 <- ifelse(QS3_11 == "Not at all",5, 0)
+QS3_11f <- QS3_11_1_rec+QS3_11_2_rec+QS3_11_3_rec+QS3_11_1+QS3_11_2+QS3_11_3+QS3_11_4+QS3_11_5
+QS3_11f
+table(QS3_11f)
+summary(QS3_11f) 
+ASFL1 <- cbind(ASFL1, QS3_11f)
+weighted.mean(QS3_11f, ASFL1$wght)#mean:3.6 - according to Fessler et al (2020)
+
+fin_att <- (QS1_1f+QS1_3f+QS3_11f)/3
+ASFL2 <- cbind(ASFL1,fin_att)
+
+
+#mean
+summary(ASFL2$fin_att)
+weighted.mean(ASFL2$fin_att, ASFL2$wght) #3.1 - according to OECD (2020)
+
+table(ASFL2$fin_att)
+wpct(ASFL2$fin_att, weight=ASFL2$wght, na.rm=TRUE)
+fin_attr<- round(ASFL2$fin_att)
+ASFL2 <- cbind(ASFL2, fin_attr)
+wpct(ASFL2$fin_attr, weight=ASFL2$wght, na.rm=TRUE)
+weighted.mean(ASFL2$fin_attr, ASFL2$wght)
+#OECD benchmark: more than 3 (out of 5)
+#dummy variables 
+ASFL2 <- ASFL2 %>% mutate(fin_att_group = case_when(fin_att >3  & fin_att <= 5 ~ "High fa",
+                                                    fin_att >= 0  & fin_att <=3  ~ "Low fa"))
+
+fin_att_group_1 <- factor(ASFL2$fin_att_group, levels=c("High fa", "Low fa"))
+levels(fin_att_group_1)
+
+
+highfinattd <- ifelse(ASFL2$fin_att_group == "High fa", 1, 0)
+lowfinattd <- ifelse(ASFL2$fin_att_group == "Low fa", 1, 0)
+ASFL2 <- cbind(ASFL2,highfinattd,lowfinattd,fin_att_group_1)
+table(ASFL2$highfinattd)
+wpct(ASFL2$highfinattd, weight=ASFL2$wght, na.rm=TRUE)#49% - according to OECD(2020)
+
+####################FINANCIAL BEHAVIOUR SCORE#######################
+###########Budgeting#################
+summary(ASFL$QF1_a)
+QF1_a <- ifelse(ASFL$QF1_a == "Yes", 1, 0)
+summary(ASFL$QF1)
+QF1_1_1<- ifelse(ASFL$QF1 == c("You make these decisions by yourself"), 1, 0)
+QF1_1_2<- ifelse(ASFL$QF1 == c("You make these decisions with someone else"), 1, 0)
+QF1_1 <- QF1_1_1+QF1_1_2
+QF1 <- QF1_1 + QF1_a
+table(QF1)
+QF1fin <- ifelse(QF1 >= "1", 1, 0) #personally or jointly responsible QF1_a OR QF1
+
+ASFL_full$QF2_1
+QF2_1<- ifelse(ASFL$QF2_1 == "Yes", 1, 0)
+QF2_2<- ifelse(ASFL$QF2_2 == "Yes", 1, 0)
+QF2_3<- ifelse(ASFL$QF2_3 == "Yes", 1, 0)
+QF2_4<- ifelse(ASFL$QF2_4 == "Yes", 1, 0)
+QF2_5<- ifelse(ASFL$QF2_5 == "Yes", 1, 0)
+QF2_6<- ifelse(ASFL$QF2_6 == "Yes", 1, 0)
+table(ASFL$QF2_99)#Refused
+
+QF2 <- QF2_1 + QF2_2 + QF2_3 + QF2_4 + QF2_5 + QF2_6
+table(QF2)
+QF2fin <- ifelse(QF2 >= "2", 1, 0)
+table(QF2fin) #keeping track of money - at least 2 Yes
+
+QF_Bud <- QF1fin+QF2fin
+QF_Budfin<-  ifelse(QF_Bud == "2", 1, 0) #only if responsible and keeping track of money
+#alternative: QF_Budfin <- QF1fin*QF2fin
+table(QF_Budfin)
+QF_Budfin
+
+####QF3 - Active saving#############
+table(ASFL$QF3)
+QF3_1<- ifelse(ASFL$QF3_1 == "Yes", 1, 0)
+QF3_2<- ifelse(ASFL$QF3_2 == "Yes", 1, 0)
+QF3_3<- ifelse(ASFL$QF3_3 == "Yes", 1, 0)
+#QF3_4<- ifelse(ASFL$QF3_4 == "Yes", 1, 0)
+QF3_5<- ifelse(ASFL$QF3_5 == "Yes", 1, 0)
+QF3_6<- ifelse(ASFL$QF3_6 == "Yes", 1, 0)
+QF3_7<- ifelse(ASFL$QF3_7 == "Yes", 1, 0)
+QF3_8<- ifelse(ASFL$QF3_8 == "Yes", 1, 0)
+table(ASFL$QF3_97)
+table(ASFL$QF3_99)#Refused
+QF3_99<- ifelse(ASFL$QF3_99 == "Yes", 1, 0)
+QF3_99
+QF3<- QF3_1+QF3_2+QF3_3+QF3_5+QF3_6+QF3_7+QF3_8 #alternative with QF3_8 (new)
+table(QF3)
+QF3fin <- ifelse(QF3 >= "1", 1, 0)
+#alternative: QF3fin <- ifelse(QF3 > "0", 1, 0)
+table(QF3fin) #active saving - at least 1 yes
+ASFL2 <- cbind(ASFL2,QF3fin)
+weighted.mean(ASFL2$QF3fin,ASFL2$wght)
+ASFL2adult <- ASFL2[!(ASFL2$QD7 %in% under18),] 
+weighted.mean(ASFL2adult$QF3fin,ASFL2adult$wght)
+
+####Avoiding borrowing to make ends meet###########
+###did not borror OR did not face a shortfall
+#######QF11#####################
+##preliminary check for QF12
+#not meeting costs in the past year 
+summary(ASFL$QF11)
+wpct(ASFL$QF11, weight=ASFL$wght, na.rm=TRUE)
+0.13952561 #shortfall experience#according to yes
+QF11a <-  ifelse(ASFL$QF11 == "No", 1, 0)
+table(QF11a)
+#take all refused/NA/dont know as 1 - only take those "did not borrow to make ends meet out
+QF11b<-  ifelse(ASFL$QF11 == "Yes", 0, 1)
+table(QF11b)
+
+#######QF12#####################
+#Access credit by using existing contacts or resources 
+ASFL$QF12_3_1 #recode NAs
+ASFL <- ASFL %>% mutate(QF12_3_1 = ifelse(is.na(QF12_3_1), 0, QF12_3_1))
+ASFL$QF12_3_1
+QF12_3_1 <- ifelse(ASFL$QF12_3_1 == c("4"), 1, 0) #yes response
+table(QF12_3_1)
+ASFL <- ASFL %>% mutate(QF12_3_2 = ifelse(is.na(QF12_3_2), 0, QF12_3_2))
+ASFL$QF12_3_2
+QF12_3_2 <- ifelse(ASFL$QF12_3_2 == c("4"), 1, 0)
+ASFL <- ASFL %>% mutate(QF12_3_3 = ifelse(is.na(QF12_3_3), 0, QF12_3_3))
+ASFL$QF12_3_3
+QF12_3_3 <- ifelse(ASFL$QF12_3_3 == c("4"), 1, 0)
+ASFL <- ASFL %>% mutate(QF12_3_4 = ifelse(is.na(QF12_3_4), 0, QF12_3_4))
+ASFL$QF12_3_4
+QF12_3_4 <-ifelse(ASFL$QF12_3_4 == c("4"), 1, 0)
+ASFL <- ASFL %>% mutate(QF12_3_5 = ifelse(is.na(QF12_3_5), 0, QF12_3_5))
+ASFL$QF12_3_5
+QF12_3_5 <- ifelse(ASFL$QF12_3_5 == c("4"), 1, 0)
+ASFL <- ASFL %>% mutate(QF12_3_6 = ifelse(is.na(QF12_3_6), 0, QF12_3_6))
+ASFL$QF12_3_6
+QF12_3_6 <- ifelse(ASFL$QF12_3_6 == c("4"), 1, 0)
+
+
+QF12_3 <- QF12_3_1+QF12_3_2+QF12_3_3+QF12_3_4+QF12_3_6
+table(QF12_3)
+QF12_3fin<- ifelse(QF12_3 == "0", 1, 0) #not borrow 
+QF12_3fin
+table(QF12_3fin)
+
+ASFL <- ASFL %>% mutate(QF12_4_1 = ifelse(is.na(QF12_4_1), 0, QF12_4_1))
+ASFL$QF12_4_1
+QF12_4_1 <- ifelse(ASFL$QF12_4_1 == "4", 1, 0)
+ASFL <- ASFL %>% mutate(QF12_4_2 = ifelse(is.na(QF12_4_2), 0, QF12_4_2))
+ASFL$QF12_4_2
+QF12_4_2 <- ifelse(ASFL$QF12_4_2 == "4", 1, 0)
+
+QF12_4 <- QF12_4_1+QF12_4_2
+QF12_4fin<- ifelse(QF12_4 == "0", 1, 0)
+table(QF12_4fin)
+
+ASFL <- ASFL %>% mutate(QF12_5_1 = ifelse(is.na(QF12_5_1), 0, QF12_5_1))
+ASFL$QF12_5_1
+QF12_5_1 <-ASFL$QF12_5_1<- ifelse(ASFL$QF12_5_1 == "4", 1, 0)
+ASFL <- ASFL %>% mutate(QF12_5_6 = ifelse(is.na(QF12_5_6), 0, QF12_5_6))
+ASFL$QF12_5_6
+QF12_5_6 <-ifelse(ASFL$QF12_5_6 == "4", 1, 0)
+
+QF12_5 <- QF12_5_1+QF12_5_6
+QF12_5fin<- ifelse(QF12_5 == "0", 1, 0)
+table(QF12_5fin)
+
+ASFL <- ASFL %>% mutate(QF12_6_1 = ifelse(is.na(QF12_6_1), 0, QF12_6_1))
+ASFL$QF12_6_1
+QF12_6_1 <-ASFL$QF12_6_1<- ifelse(ASFL$QF12_6_1 == "4", 1, 0)
+ASFL <- ASFL %>% mutate(QF12_6_2 = ifelse(is.na(QF12_6_2), 0, QF12_6_2))
+ASFL$QF12_6_2
+QF12_6_2<- ifelse(ASFL$QF12_6_2 == "4", 1, 0)
+
+QF12_6 <- QF12_6_1+QF12_6_2
+QF12_6fin<- ifelse(QF12_6 == "0", 1, 0) #no at all any option
+table(QF12_6fin)
+
+table(ASFL$QF12_7_1)
+ASFL <- ASFL %>% mutate(QF12_7_1o = ifelse(is.na(QF12_7_1o), 0, QF12_7_1o))
+table(ASFL$QF12_7_1o)
+QF12_7_1_1<- ifelse(ASFL$QF12_7_1o == "Geld von meiner Mutter", 1, 0)
+QF12_7_1_2<- ifelse(ASFL$QF12_7_1o == "Momentan helfen mir meine Eltern und Geschwister, da ich gerade arbeitslos bin. Bin auch sehr froh darÃ¼ber, so kann ich auch ein bisschen sparen", 1, 0)
+QF12_7_1_3<- ifelse(ASFL$QF12_7_1o == "Verwandte um UnterstÃ¼tzung bitten", 1, 0)
+QF12_7 <- QF12_7_1_1+QF12_7_1_2+QF12_7_1_3
+QF12_7fin<- ifelse(QF12_7 == "0", 1, 0)
+table(QF12_7fin)
+
+##final QF12 ->not consider QF12_1, QF12_2 as not borrowing
+#table(QF12_1fin)
+QF12 <- QF12_3fin+QF12_4fin+QF12_5fin+QF12_6fin
+QF12
+QF12fin <- ifelse(QF12 == "4", 1, 0)  #filter out all without
+QF12fin
+table(QF12fin)
+ASFL2 <- cbind(ASFL2,QF12fin)
+
+QF12_a <- QF12_3fin+QF12_4fin+QF12_5fin+QF12_6fin+QF12_7fin
+QF12_afin <- ifelse(QF12_a == "5", 1, 0)  #filter out all without
+QF12_afin
+table(QF12_afin)
+#additionally considering QF11
+table(QF11a) #noshortfall
+QFMEM1 <- QF11a+QF12fin #with QF11 as filtering
+QFMEM1fin <- ifelse(QFMEM1 >= "1", 1, 0) #did not face a shortfall or did not borrow
+table(QFMEM1fin) #same as Q12fin
+table(QF11b) #notyestoshortfall
+QFMEM2 <- QF11b+QF12fin 
+QFMEM2fin <- ifelse(QFMEM2 >= "1", 1, 0)
+table(QFMEM2fin) #same as QFMEM1fin #same as Q12fin
+
+
+
+#try to shop around (score 0,1 or 2)
+#1 for Qprod2 (I considered several or I looked around but there were no others)
+table(ASFL$Qprod2)
+table(ASFL_org$Qprod2)
+ASFL <- ASFL %>% mutate(Qprod2 = ifelse(is.na(Qprod2), 0, Qprod2))
+ASFL$Qprod2
+Qprod2_1<- ifelse(ASFL$Qprod2 == c("4"), 1, 0)
+Qprod2_2<- ifelse(ASFL$Qprod2 == c("7"), 1, 0)
+Qprod2fin <- Qprod2_1+Qprod2_2
+table(Qprod2fin) #always 1 
+
+#2 for Best-buy guidance / Recommendation from independent financial advise
+ASFL <- ASFL %>% mutate(Qprod3_INT_1 = ifelse(is.na(Qprod3_INT_1), 0, Qprod3_INT_1))
+ASFL$Qprod3_INT_1
+ASFL_org$Qprod3_INT_1
+Qprod3_INT_1<- ifelse(ASFL$Qprod3_INT_1 == "5", 1, 0)
+Qprod3_INT_1
+ASFL <- ASFL %>% mutate(Qprod3_INT_2 = ifelse(is.na(Qprod3_INT_2), 0, Qprod3_INT_2))
+ASFL$Qprod3_INT_2
+ASFL_org$Qprod3_INT_2
+Qprod3_INT_2<- ifelse(ASFL$Qprod3_INT_2 == "5", 1, 0)
+Qprod3_INT_2
+
+Qprod_D2 <- Qprod3_INT_1+Qprod3_INT_2
+table(Qprod_D2)
+Qprod_D2fin<- ifelse(Qprod_D2 >= "1", 2, 0) #2 if yet at any (Best-buy guidance / Recommendation from independent financial adviser
+table(Qprod_D2fin) 
+
+#1 for information from an advert or brochure, recommendation from friends etc., information from bank staff, or other information
+ASFL$Qprod3_INT_3
+ASFL <- ASFL %>% mutate(Qprod3_INT_3 = ifelse(is.na(Qprod3_INT_3), 0, Qprod3_INT_3))
+Qprod3_INT_3<- ifelse(ASFL$Qprod3_INT_3 == "5", 1, 0)
+ASFL <- ASFL %>% mutate(Qprod3_INT_4 = ifelse(is.na(Qprod3_INT_4), 0, Qprod3_INT_4))
+Qprod3_INT_4<- ifelse(ASFL$Qprod3_INT_4 == "5", 1, 0)
+ASFL <- ASFL %>% mutate(Qprod3_INT_5 = ifelse(is.na(Qprod3_INT_5), 0, Qprod3_INT_5))
+Qprod3_INT_5<- ifelse(ASFL$Qprod3_INT_5 == "5", 1, 0)
+ASFL <- ASFL %>% mutate(Qprod3_INT_6 = ifelse(is.na(Qprod3_INT_6), 0, Qprod3_INT_6))
+Qprod3_INT_6<- ifelse(ASFL$Qprod3_INT_6 == "5", 1, 0)
+
+
+Qprod_D2_1 <- Qprod3_INT_3+Qprod3_INT_4+Qprod3_INT_5+Qprod3_INT_6
+table(Qprod_D2_1)
+Qprod_D2_1fin<- ifelse(Qprod_D2_1 >= "1", 1, 0)
+table(Qprod_D2_1fin)
+
+Qprod_D1<- Qprod_D2_1fin + Qprod2fin
+table(Qprod_D1)
+Qprod_D1fin<- ifelse(Qprod_D1 >= "1", 1, 0)
+Qprod_D1fin
+
+Qprod <- Qprod_D1fin+ Qprod_D2fin
+table(Qprod)
+Qprod[Qprod == "2"] <- "1" #Qprod=2 in 35 cases # can only arise if  Qprod_D2_1fin AND Qprod2fin are 0 cause otherwise 3
+Qprod[Qprod == "3"] <- "2"
+Qprodfin <- as.numeric(Qprod)
+table(Qprodfin)
+#2 indicates "Shopped around and used independent info or advice
+#1 indicates "Some attempt to make informed decision" 
+#0 indicates "'Not shopped around and no attempt make informed decisions (including no recent product choice)"
+ASFL2 <- cbind(ASFL2,Qprodfin)
+
+#alternative:
+Qprod_a <- Qprod_D1fin+ Qprod_D2fin
+table(Qprod_a)
+#Qprod=2 in 35 cases # can only arise if  Qprod_D2_1fin AND Qprod2fin are 0 cause otherwise 3
+Qprod_a[Qprod_a == "3"] <- "2"
+Qprod_a
+Qprod_afin <- as.numeric(Qprod_a)
+Qprod_afin
+table(Qprod_afin)
+
+#watch on financial affairs
+QS1_5 <-ASFL$QS1_5
+QS1_5_1 <- ifelse(QS1_5== "Completely agree", 1, 0)
+QS1_5_2 <- ifelse(QS1_5 == "2", 1, 0)
+QS1_5 <- QS1_5_1+QS1_5_2
+QS1_5
+wpct(ASFL$QS1_5, weight=ASFL$wght, na.rm=TRUE)
+0.452681202+0.379732221       #83.2% - according to OECD (2020)    
+
+#strieving to achieve long-term goals
+QS1_8 <-ASFL$QS1_8
+QS1_8
+QS1_8_1 <- ifelse(QS1_8 == "Completely agree", 1, 0)
+QS1_8_2 <- ifelse(QS1_8 == "2", 1, 0)
+QS1_8 <- QS1_8_1+QS1_8_2
+QS1_8
+wpct(ASFL$QS1_8, weight=ASFL$wght, na.rm=TRUE)
+0.157922728 +0.373263409  #53.1% - according to OECD (2020)      
+
+#Considered purchases
+QS2_3 <-ASFL$QS2_3
+QS2_3
+QS2_3_1 <- ifelse(QS2_3 == "Always", 1, 0)
+QS2_3_2 <- ifelse(QS2_3 == "2", 1, 0)
+QS2_3 <- QS2_3_1+QS2_3_2
+QS2_3
+wpct(ASFL$QS2_3, weight=ASFL$wght, na.rm=TRUE)
+0.346975153+0.317067745 #66.4% - according to OECD (2020)  
+
+#Paying bills on time
+QS2_5 <-ASFL$QS2_5
+QS2_5
+QS2_5_1 <- ifelse(QS2_5 == "Always", 1, 0)
+QS2_5_2 <- ifelse(QS2_5 == "2", 1, 0)
+QS2_5 <- QS2_5_1+QS2_5_2
+QS2_5
+wpct(ASFL$QS2_5, weight=ASFL$wght, na.rm=TRUE)
+0.595069198+0.250236243 #84.5% - according to OECD (2020) 
+
+fin_beh <- QF_Budfin+QF12fin+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5 
+ASFL3 <- cbind(ASFL2,fin_beh)
+weighted.mean(ASFL3$fin_beh, ASFL3$wght)#OECD - average: 6.0
+wpct(ASFL3$fin_beh, weight=ASFL3$wght, na.rm=TRUE)
+#QF12fin equal to QFMEM
+fin_beh2 <- QF_Budfin+QF12_afin+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5 
+weighted.mean(fin_beh2, ASFL$wght)
+fin_beh3 <-QF_Budfin+QF11a+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
+weighted.mean(fin_beh3, ASFL$wght)
+fin_beh4 <-QF_Budfin+QF11b+QF3fin+Qprodfin+QS1_5+QS1_8+QS2_3+QS2_5
+weighted.mean(fin_beh4, ASFL$wght)
+fin_beh5 <- QF_Budfin+QF12fin+QF3fin+Qprod_afin+QS1_5+QS1_8+QS2_3+QS2_5 #QF12fin alone equal to combination of QF11/QF12
+weighted.mean(fin_beh5, ASFL$wght)
+#QF12fin equal to QFMEM
+fin_beh6 <- QF_Budfin+QF12_afin+QF3fin+Qprod_afin+QS1_5+QS1_8+QS2_3+QS2_5 
+weighted.mean(fin_beh6, ASFL$wght)
+fin_beh7 <-QF_Budfin+QF11a+QF3fin+Qprod_afin+QS1_5+QS1_8+QS2_3+QS2_5
+weighted.mean(fin_beh3, ASFL$wght)
+fin_beh8 <-QF_Budfin+QF11b+QF3fin+Qprod_afin+QS1_5+QS1_8+QS2_3+QS2_5
+weighted.mean(fin_beh4, ASFL$wght)
+
+#dummy variables #6 is the officially reported benchmark
+ASFL3 <- ASFL3 %>% mutate(fin_beh_group = case_when(fin_beh >=6  & fin_beh <= 9 ~ "High fb",
+                                                    fin_beh >=4   & fin_beh <6  ~ "Average fb",
+                                                    fin_beh >= 0  & fin_beh <4  ~ "Low fb"))
+fin_beh_group_1 <- factor(ASFL3$fin_beh_group, levels=c("High fb","Average fb", "Low fb"))
+levels(fin_beh_group_1)
+
+highfinbehd <- ifelse(ASFL3$fin_beh_group == "High fb", 1, 0)
+averagefinbehd <- ifelse(ASFL3$fin_beh_group == "Average fb", 1, 0)
+lowfinbehd <- ifelse(ASFL3$fin_beh_group == "Low fb", 1, 0)
+levels
+ASFL3 <- cbind(ASFL3,highfinbehd,averagefinbehd,lowfinbehd,fin_beh_group_1)
+table(ASFL3$fin_beh)
+
+##at least 6 (out of 9)
+wpct(ASFL3$highfinbehd, weight=ASFL$wght, na.rm=TRUE) #64.4% - OECD: 64.5%
+
+
+
+
+#################MAIN FINANCIAL LITERACY INDICATORS COMPARISONS##################################
+############financial scores according to financial cushion######
+ASFLlfinbuff <- ASFL3[(ASFL3$QF13 %in% lfinbuff),] 
+summary(ASFLlfinbuff)
+ASFLhfinbuff <- ASFL3[(ASFL3$QF13 %in% hfinbuff),] 
+summary(ASFLhfinbuff)
+weighted.mean(ASFLlfinbuff$fin_know,ASFLlfinbuff$wght) #OECD:5.0
+weighted.mean(ASFLhfinbuff$fin_know,ASFLhfinbuff$wght) #OECD:5.8
+
+weighted.mean(ASFLlfinbuff$fin_know_add,ASFLlfinbuff$wght) 
+weighted.mean(ASFLhfinbuff$fin_know_add,ASFLhfinbuff$wght) 
+
+weighted.mean(ASFLlfinbuff$fin_att,ASFLlfinbuff$wght) #OECD:2.9
+weighted.mean(ASFLhfinbuff$fin_att,ASFLhfinbuff$wght) #OECD:3.2
+
+weighted.mean(ASFLlfinbuff$fin_beh,ASFLlfinbuff$wght) #OECD:5.4
+weighted.mean(ASFLhfinbuff$fin_beh,ASFLhfinbuff$wght) #OECD:6.4
+
+
+ASFL3m <- ASFL3[(ASFL3$QD1 %in% male),]
+ASFL3f <- ASFL3[(ASFL3$QD1 %in% female),]
+ASFL3se <- ASFL3[(ASFL3$QD10 %in% se),]
+ASFL3entrepreneurs <- ASFL3[(ASFL3$QF9_11 %in% entrepreneurs),] 
+ASFL3sem <- ASFL3se[(ASFL3se$QD1 %in% male),]
+ASFL3sef <- ASFL3se[(ASFL3se$QD1 %in% female),]
+ASFL3seoldmill <- ASFL3se[(ASFL3se$age_group %in% oldmill),]
+ASFL3segenx <- ASFL3se[(ASFL3se$age_group %in% genx),]
+ASFL3sebabyboom <- ASFL3se[(ASFL3se$age_group %in% babyboom),]
+ASFL3seprimary<- subset(ASFL3se, ASFL3se$primaryd == "1")
+ASFL3selsecondary<- subset(ASFL3se, ASFL3se$lowersecondaryd == "1")
+ASFL3seusecondary<- subset(ASFL3se, ASFL3se$uppersecondaryd == "1")
+ASFL3seuniversity<- subset(ASFL3se, ASFL3se$universityd == "1")
+ASFL3seAkademie<- subset(ASFL3se, ASFL3se$Akademied == "1")
+ASFL3sehigheduc<- subset(ASFL3se, ASFL3se$higheduc == "1")
+ASFL3seloweduc<- subset(ASFL3se, ASFL3se$loweduc == "1")
+
+
+
+ASFL3e <- ASFL3[(ASFL3$QD10 %in% e),]
+ASFL3em <- ASFL3e[(ASFL3e$QD1 %in% male),]
+ASFL3ef <- ASFL3e[(ASFL3e$QD1 %in% female),]
+ASFL3eyoungmill <- ASFL3e[(ASFL3e$age_group %in% youngmill),]
+ASFL3eoldmill <- ASFL3e[(ASFL3e$age_group %in% oldmill),]
+ASFL3egenx <- ASFL3e[(ASFL3e$age_group %in% genx),]
+ASFL3ebabyboom <- ASFL3e[(ASFL3e$age_group %in% babyboom),]
+ASFL3esilent <- ASFL3e[(ASFL3e$age_group %in% silgen),]
+ASFL3eprimary<- subset(ASFL3e, ASFL3e$primaryd == "1")
+ASFL3elsecondary<- subset(ASFL3e, ASFL3e$lowersecondaryd == "1")
+ASFL3eusecondary<- subset(ASFL3e, ASFL3e$uppersecondaryd == "1")
+ASFL3euniversity<- subset(ASFL3e, ASFL3e$universityd == "1")
+ASFL3eAkademie<- subset(ASFL3e, ASFL3e$Akademied == "1")
+ASFL3ehigheduc<- subset(ASFL3e, ASFL3e$higheduc == "1")
+ASFL3eloweduc<- subset(ASFL3e, ASFL3e$loweduc == "1")
+
+
+ASFL3unempl <- ASFL3[(ASFL3$QD10 %in% unempl),]
+ASFL3oth <- ASFL3[(ASFL3$QD10 %in% oth),]
+ASFL3othworet <- ASFL3[(ASFL3$QD10 %in% othworet),]
+ASFL3ret <- ASFL3[(ASFL3$QD10 %in% ret),]
+ASFL3entrepreneurs <- ASFL3[(ASFL3$QF9_11 %in% entrepreneurs),]
+
+ASFL3adult <- ASFL3[!(ASFL3$QD7 %in% under18),] 
+ASFL3main <- ASFL3adult[!(ASFL3adult$QD7 %in% above79),] 
+#################FINANCIAL KNOWLEDGE############################
+weighted.mean(ASFL3se$fin_know, ASFL3se$wght)
+wpct(ASFL3se$fin_know, weight=ASFL3se$wght, na.rm=TRUE)
+weighted.mean(ASFL3se$fin_know_add, ASFL3se$wght)
+wpct(ASFL3se$fin_know_add, weight=ASFL3se$wght, na.rm=TRUE)
+
+#alternative for entrepreneuers
+weighted.mean(ASFL3entrepreneurs$fin_know, ASFL3entrepreneurs$wght)
+wpct(ASFL3entrepreneurs$fin_know, weight=ASFL3entrepreneurs$wght, na.rm=TRUE)
+weighted.mean(ASFL3entrepreneurs$fin_know_add, ASFL3entrepreneurs$wght)
+wpct(ASFL3entrepreneurs$fin_know_add, weight=ASFL3entrepreneurs$wght, na.rm=TRUE)
+
+weighted.mean(ASFL3sem$fin_know, ASFL3sem$wght)
+wpct(ASFL3sem$fin_know, weight=ASFL3sem$wght, na.rm=TRUE)
+weighted.mean(ASFL3sem$fin_know_add, ASFL3sem$wght)
+wpct(ASFL3sem$fin_know_add, weight=ASFL3sem$wght, na.rm=TRUE)
+weighted.mean(ASFL3sef$fin_know, ASFL3sef$wght)
+wpct(ASFL3sef$fin_know, weight=ASFL3sef$wght, na.rm=TRUE)
+weighted.mean(ASFL3sef$fin_know_add, ASFL3sef$wght)
+wpct(ASFL3sef$fin_know_add, weight=ASFL3sef$wght, na.rm=TRUE)
+
+weighted.mean(ASFL3seoldmill$fin_know, ASFL3seoldmill$wght)
+weighted.mean(ASFL3segenx$fin_know, ASFL3segenx$wght)
+weighted.mean(ASFL3sebabyboom$fin_know, ASFL3sebabyboom$wght)
+
+weighted.mean(ASFL3seprimary$fin_know, ASFL3seprimary$wght)
+weighted.mean(ASFL3selsecondary$fin_know, ASFL3selsecondary$wght)
+weighted.mean(ASFL3seusecondary$fin_know, ASFL3seusecondary$wght)
+weighted.mean(ASFL3seuniversity$fin_know, ASFL3seuniversity$wght)
+weighted.mean(ASFL3seAkademie$fin_know, ASFL3seAkademie$wght)
+
+weighted.mean(ASFL3sehigheduc$fin_know, ASFL3sehigheduc$wght)
+weighted.mean(ASFL3seloweduc$fin_know, ASFL3seloweduc$wght)
+
+weighted.mean(ASFL3e$fin_know, ASFL3e$wght)
+wpct(ASFL3e$fin_know, weight=ASFL3e$wght, na.rm=TRUE)
+weighted.mean(ASFL3e$fin_know_add, ASFL3e$wght)
+wpct(ASFL3e$fin_know_add, weight=ASFL3e$wght, na.rm=TRUE)
+weighted.mean(ASFL3em$fin_know, ASFL3em$wght)
+weighted.mean(ASFL3em$fin_know_add, ASFL3em$wght)
+weighted.mean(ASFL3ef$fin_know, ASFL3ef$wght)
+weighted.mean(ASFL3ef$fin_know_add, ASFL3ef$wght)
+
+weighted.mean(ASFL3eyoungmill$fin_know, ASFL3eyoungmill$wght)
+weighted.mean(ASFL3eoldmill$fin_know, ASFL3eoldmill$wght)
+weighted.mean(ASFL3egenx$fin_know, ASFL3egenx$wght)
+weighted.mean(ASFL3ebabyboom$fin_know, ASFL3ebabyboom$wght)
+weighted.mean(ASFL3esilent$fin_know, ASFL3esilent$wght)
+
+weighted.mean(ASFL3eprimary$fin_know, ASFL3eprimary$wght)
+weighted.mean(ASFL3elsecondary$fin_know, ASFL3elsecondary$wght)
+weighted.mean(ASFL3eusecondary$fin_know, ASFL3eusecondary$wght)
+weighted.mean(ASFL3euniversity$fin_know, ASFL3euniversity$wght)
+weighted.mean(ASFL3eAkademie$fin_know, ASFL3eAkademie$wght)
+
+weighted.mean(ASFL3ehigheduc$fin_know, ASFL3ehigheduc$wght)
+weighted.mean(ASFL3eloweduc$fin_know, ASFL3eloweduc$wght)
+
+
+weighted.mean(ASFL3unempl$fin_know, ASFL3unempl$wght)
+wpct(ASFL3unempl$fin_know, weight=ASFL3unempl$wght, na.rm=TRUE)
+weighted.mean(ASFL3unempl$fin_know_add, ASFL3unempl$wght)
+wpct(ASFL3unempl$fin_know_add, weight=ASFL3unempl$wght, na.rm=TRUE)
+
+
+weighted.mean(ASFL3oth$fin_know, ASFL3oth$wght)
+wpct(ASFL3oth$fin_know, weight=ASFL3oth$wght, na.rm=TRUE)
+weighted.mean(ASFL3oth$fin_know_add, ASFL3oth$wght)
+wpct(ASFL3oth$fin_know_add, weight=ASFL3oth$wght, na.rm=TRUE)
+
+weighted.mean(ASFL3othworet$fin_know, ASFL3othworet$wght)
+weighted.mean(ASFL3othworet$fin_know_add, ASFL3othworet$wght)
+weighted.mean(ASFL3ret$fin_know, ASFL3ret$wght)
+weighted.mean(ASFL3ret$fin_know_add, ASFL3ret$wght)
+weighted.mean(ASFL3entrepreneurs$fin_know, ASFL3entrepreneurs$wght)
+weighted.mean(ASFL3entrepreneurs$fin_know_add, ASFL3entrepreneurs$wght)
+
+#################FINANCIAL BEHAVIOUR############################
+weighted.mean(ASFL3se$fin_beh, ASFL3se$wght)
+wpct(ASFL3se$fin_beh, weight=ASFL3se$wght, na.rm=TRUE)
+#at least 6 (out of 9)
+wpct(ASFL3se$highfinbehd, weight=ASFL3se$wght, na.rm=TRUE)
+0.25663641+ 0.32160377+ 0.19495995 +0.08650040
+
+weighted.mean(ASFL3sem$fin_beh, ASFL3sem$wght)
+wpct(ASFL3sem$fin_beh, weight=ASFL3sem$wght, na.rm=TRUE)
+weighted.mean(ASFL3sef$fin_beh, ASFL3sef$wght)
+wpct(ASFL3sef$fin_beh, weight=ASFL3sef$wght, na.rm=TRUE)
+
+weighted.mean(ASFL3seoldmill$fin_beh, ASFL3seoldmill$wght)
+weighted.mean(ASFL3segenx$fin_beh, ASFL3segenx$wght)
+weighted.mean(ASFL3sebabyboom$fin_beh, ASFL3sebabyboom$wght)
+
+weighted.mean(ASFL3seprimary$fin_beh, ASFL3seprimary$wght)
+weighted.mean(ASFL3selsecondary$fin_beh, ASFL3selsecondary$wght)
+weighted.mean(ASFL3seusecondary$fin_beh, ASFL3seusecondary$wght)
+weighted.mean(ASFL3seuniversity$fin_beh, ASFL3seuniversity$wght)
+weighted.mean(ASFL3seAkademie$fin_beh, ASFL3seAkademie$wght)
+
+weighted.mean(ASFL3sehigheduc$fin_beh, ASFL3sehigheduc$wght)
+weighted.mean(ASFL3seloweduc$fin_beh, ASFL3seloweduc$wght)
+
+weighted.mean(ASFL3e$fin_beh, ASFL3e$wght)
+wpct(ASFL3e$fin_beh, weight=ASFL3e$wght, na.rm=TRUE)
+#at least 6 (out of 9)
+wpct(ASFL3e$highfinbehd, weight=ASFL3e$wght, na.rm=TRUE)
+0.207614159+ 0.256683235 +0.156425619+ 0.067654273
+
+weighted.mean(ASFL3em$fin_beh, ASFL3em$wght)
+weighted.mean(ASFL3ef$fin_beh, ASFL3ef$wght)
+
+weighted.mean(ASFL3eyoungmill$fin_beh, ASFL3eyoungmill$wght)
+weighted.mean(ASFL3eoldmill$fin_beh, ASFL3eoldmill$wght)
+weighted.mean(ASFL3egenx$fin_beh, ASFL3egenx$wght)
+weighted.mean(ASFL3ebabyboom$fin_beh, ASFL3ebabyboom$wght)
+weighted.mean(ASFL3esilent$fin_beh, ASFL3esilent$wght)
+
+weighted.mean(ASFL3eprimary$fin_beh, ASFL3eprimary$wght)
+weighted.mean(ASFL3elsecondary$fin_beh, ASFL3elsecondary$wght)
+weighted.mean(ASFL3eusecondary$fin_beh, ASFL3eusecondary$wght)
+weighted.mean(ASFL3euniversity$fin_beh, ASFL3euniversity$wght)
+weighted.mean(ASFL3eAkademie$fin_beh, ASFL3eAkademie$wght)
+
+weighted.mean(ASFL3ehigheduc$fin_beh, ASFL3ehigheduc$wght)
+weighted.mean(ASFL3eloweduc$fin_beh, ASFL3eloweduc$wght)
+
+weighted.mean(ASFL3unempl$fin_beh, ASFL3unempl$wght)
+wpct(ASFL3unempl$fin_beh, weight=ASFL3unempl$wght, na.rm=TRUE)
+#at least 6 (out of 9)
+wpct(ASFL3unempl$highfinbehd, weight=ASFL3unempl$wght, na.rm=TRUE)
+0.08844081+ 0.05688295+0.09301589+ 0.01961089 
+
+weighted.mean(ASFL3oth$fin_beh, ASFL3oth$wght)
+wpct(ASFL3oth$fin_beh, weight=ASFL3oth$wght, na.rm=TRUE)
+#at least 6 (out of 9)
+wpct(ASFL3oth$highfinbehd, weight=ASFL3oth$wght, na.rm=TRUE)
+0.315679231 +0.148020779+ 0.073619369 +0.020499409
+
+weighted.mean(ASFL3othworet$fin_beh, ASFL3othworet$wght)
+wpct(ASFL3othworet$fin_beh, weight=ASFL3othworet$wght, na.rm=TRUE)
+#at least 6 (out of 9)
+wpct(ASFL3othworet$highfinbehd, weight=ASFL3othworet$wght, na.rm=TRUE)
+0.23166765+0.10562645+ 0.12766133 +0.03626127 
+weighted.mean(ASFL3ret$fin_beh, ASFL3ret$wght)
+wpct(ASFL3ret$fin_beh, weight=ASFL3ret$wght, na.rm=TRUE)
+#at least 6 (out of 9)
+wpct(ASFL3ret$highfinbehd, weight=ASFL3ret$wght, na.rm=TRUE)
+0.353916248+ 0.167316125 +0.049022722 +0.013325559
+
+weighted.mean(ASFL3entrepreneurs$fin_beh, ASFL3entrepreneurs$wght)
+wpct(ASFL3entrepreneurs$fin_beh, weight=ASFL3entrepreneurs$wght, na.rm=TRUE)
+#at least 6 (out of 9)
+wpct(ASFL3entrepreneurs$highfinbehd, weight=ASFL3entrepreneurs$wght, na.rm=TRUE)
+0.27275762+ 0.14895857 +0.07713576 
+
+#################FINANCIAL ATTITUDE############################
+weighted.mean(ASFL3se$fin_att, ASFL3se$wght)
+wpct(ASFL3se$fin_att, weight=ASFL3se$wght, na.rm=TRUE)
+#more than 3 (out of 5)
+wpct(ASFL3se$highfinattd, weight=ASFL3se$wght, na.rm=TRUE)
+0.147164521+0.249522741+ 0.112254614+0.022341435+0.063615729
+
+weighted.mean(ASFL3sem$fin_att, ASFL3sem$wght)
+wpct(ASFL3sem$fin_att, weight=ASFL3sem$wght, na.rm=TRUE)
+weighted.mean(ASFL3sef$fin_att, ASFL3sef$wght)
+wpct(ASFL3sef$fin_att, weight=ASFL3sef$wght, na.rm=TRUE)
+
+weighted.mean(ASFL3seoldmill$fin_att, ASFL3seoldmill$wght)
+weighted.mean(ASFL3segenx$fin_att, ASFL3segenx$wght)
+weighted.mean(ASFL3sebabyboom$fin_att, ASFL3sebabyboom$wght)
+
+weighted.mean(ASFL3seprimary$fin_att, ASFL3seprimary$wght)
+weighted.mean(ASFL3selsecondary$fin_att, ASFL3selsecondary$wght)
+weighted.mean(ASFL3seusecondary$fin_att, ASFL3seusecondary$wght)
+weighted.mean(ASFL3seuniversity$fin_att, ASFL3seuniversity$wght)
+weighted.mean(ASFL3seAkademie$fin_att, ASFL3seAkademie$wght)
+
+weighted.mean(ASFL3sehigheduc$fin_att, ASFL3sehigheduc$wght)
+weighted.mean(ASFL3seloweduc$fin_att, ASFL3seloweduc$wght)
+
+weighted.mean(ASFL3e$fin_att, ASFL3e$wght)
+wpct(ASFL3e$fin_att, weight=ASFL3e$wght, na.rm=TRUE)
+#more than 3 (out of 5)
+wpct(ASFL3e$highfinattd, weight=ASFL3e$wght, na.rm=TRUE)
+0.166338157+0.156959210+0.130576429 +0.038484449+0.013488896+0.008336541
+
+weighted.mean(ASFL3em$fin_att, ASFL3em$wght)
+weighted.mean(ASFL3ef$fin_att, ASFL3ef$wght)
+
+weighted.mean(ASFL3eyoungmill$fin_att, ASFL3eyoungmill$wght)
+weighted.mean(ASFL3eoldmill$fin_att, ASFL3eoldmill$wght)
+weighted.mean(ASFL3egenx$fin_att, ASFL3egenx$wght)
+weighted.mean(ASFL3ebabyboom$fin_att, ASFL3ebabyboom$wght)
+weighted.mean(ASFL3esilent$fin_att, ASFL3esilent$wght)
+
+weighted.mean(ASFL3eprimary$fin_att, ASFL3eprimary$wght)
+weighted.mean(ASFL3elsecondary$fin_att, ASFL3elsecondary$wght)
+weighted.mean(ASFL3eusecondary$fin_att, ASFL3eusecondary$wght)
+weighted.mean(ASFL3euniversity$fin_att, ASFL3euniversity$wght)
+weighted.mean(ASFL3eAkademie$fin_att, ASFL3eAkademie$wght)
+
+weighted.mean(ASFL3ehigheduc$fin_att, ASFL3ehigheduc$wght)
+weighted.mean(ASFL3eloweduc$fin_att, ASFL3eloweduc$wght)
+
+weighted.mean(ASFL3unempl$fin_att, ASFL3unempl$wght)
+wpct(ASFL3unempl$fin_att, weight=ASFL3unempl$wght, na.rm=TRUE)
+#more than 3 (out of 5)
+wpct(ASFL3unempl$highfinattd, weight=ASFL3unempl$wght, na.rm=TRUE)
+
+
+weighted.mean(ASFL3oth$fin_att, ASFL3oth$wght)
+wpct(ASFL3oth$fin_att, weight=ASFL3oth$wght, na.rm=TRUE)
+#more than 3 (out of 5)
+wpct(ASFL3oth$highfinattd, weight=ASFL3oth$wght, na.rm=TRUE)
+0.12486003+0.13201014+0.11105601+ 0.04013580+0.02619993+0.01077725
+
+weighted.mean(ASFL3othworet$fin_att, ASFL3othworet$wght)
+weighted.mean(ASFL3ret$fin_att, ASFL3ret$wght)
+weighted.mean(ASFL3entrepreneurs$fin_att, ASFL3entrepreneurs$wght)
+#########################ADDITIONAL FINANCIAL LITERACY INDICATORS##########################################
+
+################FINANCIAL RESILIENCE#######################################
+####################- Availability of savings, experience of stress, prudence in planning and budgeting
+#financial buffer - covering at least three months in case of a job loss (proxy for wealth)
+#full
+summary(ASFL$QF13)
+table(ASFL3$highfinbuffd)
+#ALTERNATIVE I: financial safety buffer #take all Refused/Not relevant, no own income/Dont know as "Yes" -> "No" incdicating higher risk 
+#LR1 - Do you have a financial safety buffer?-> managing expenditure shock without having to borrow from family/friends
+##"NO" means no financial buffer
+summary(ASFL$LR1)
+savebuffd <- ifelse(ASFL$LR1 == "Yes",1, 0)
+table(savebuffd)
+nosavebuffd <- ifelse(ASFL$LR1 == "No",1, 0)
+table(nosavebuffd)
+ASFL3 <- cbind(ASFL3,nosavebuffd,savebuffd)
+
+#ALTERNATIVE II
+#QF4 - And if you, personally, faced a major expense today – equivalent to your own monthly income – would you be able to pay it without borrowing the money or asking family or friends to help?
+##"NO" means no financial buffer
+summary(ASFL$QF4)
+expensecovd <- ifelse(ASFL$QF4 == "Yes",1, 0)
+table(expensecovd)
+noexpensecovd <- ifelse(ASFL$QF4 == "No",1, 0)
+table(noexpensecovd)
+ASFL3 <- cbind(ASFL3,noexpensecovd,expensecovd)
+
+
+ASFL3se <- ASFL3[(ASFL3$QD10 %in% se),] 
+summary(ASFL3se)
+ASFL3e <- ASFL3[(ASFL3$QD10 %in% e),] 
+summary(ASFL3e)
+ASFL3eu <-  ASFL3[(ASFL3$QD10 %in% eu),] 
+summary(ASFL3eu)
+ASFL3unempl <-  ASFL3[(ASFL3$QD10 %in% unempl),] 
+summary(ASFL3unempl)
+ASFL3oth <-  ASFL3[(ASFL3$QD10 %in% oth),] 
+summary(ASFL3oth)
+ASFL3empl <- ASFL3[(ASFL3$QD10 %in% empl),] 
+summary(ASFL3empl)
+ASFL3othworet <-  ASFL3[(ASFL3$QD10 %in% othworet),] 
+summary(ASFL3othworet)
+ASFL3othworet <-  ASFL3[(ASFL3$QD10 %in% othworet),] 
+summary(ASFL3othworet)
+ASFL3stud <-  ASFL3[(ASFL3$QD10 %in% stud),] 
+summary(ASFL3stud)
+ASFL3ret <-  ASFL3[(ASFL3$QD10 %in% ret),] 
+summary(ASFL3ret)
+ASFL3entrepreneurs <-  ASFL3[(ASFL3$QF9_11 %in% entrepreneurs),] 
+summary(ASFL3entrepreneurs)
+
+#self-employed
+table(ASFLse$QF13)
+wpct(ASFLse$QF13, weight=ASFLse$wght, na.rm=TRUE)
+table(ASFLse$highfinbuffd)
+wpct(ASFL3se$highfinbuffd, weight=ASFL3se$wght, na.rm=TRUE)
+
+table(ASFL3se$savebuffd)
+wpct(ASFL3se$savebuffd, weight=ASFL3se$wght, na.rm=TRUE)
+table(ASFL3se$expensecovd)
+wpct(ASFL3se$expensecovd, weight=ASFL3se$wght, na.rm=TRUE)
+#employed
+table(ASFL3e$QF13)
+wpct(ASFLe$QF13, weight=ASFLe$wght, na.rm=TRUE)
+table(ASFL3e$highfinbuffd)
+wpct(ASFL3e$highfinbuffd, weight=ASFL3e$wght, na.rm=TRUE)
+
+table(ASFL3e$savebuffd)
+wpct(ASFL3e$savebuffd, weight=ASFL3e$wght, na.rm=TRUE)
+table(ASFL3e$expensecovd)
+wpct(ASFL3e$expensecovd, weight=ASFL3e$wght, na.rm=TRUE)
+#employed + unemployed
+table(ASFLeu$highfinbuffd)
+wpct(ASFLeu$QF13, weight=ASFLeu$wght, na.rm=TRUE)
+
+#retired
+table(ASFL3ret$QF13)
+wpct(ASFL3ret$QF13, weight=ASFL3ret$wght, na.rm=TRUE)
+table(ASFL3ret$highfinbuffd)
+wpct(ASFL3ret$highfinbuffd, weight=ASFL3ret$wght, na.rm=TRUE)
+
+table(ASFL3ret$savebuffd)
+wpct(ASFL3ret$savebuffd, weight=ASFL3ret$wght, na.rm=TRUE)
+table(ASFL3ret$expensecovd)
+wpct(ASFL3ret$expensecovd, weight=ASFL3ret$wght, na.rm=TRUE)
+
+#othworet
+table(ASFL3othworet$QF13)
+wpct(ASFL3othworet$QF13, weight=ASFL3othworet$wght, na.rm=TRUE)
+table(ASFL3othworet$highfinbuffd)
+wpct(ASFL3othworet$highfinbuffd, weight=ASFL3othworet$wght, na.rm=TRUE)
+
+table(ASFL3othworet$savebuffd)
+wpct(ASFL3othworet$savebuffd, weight=ASFL3othworet$wght, na.rm=TRUE)
+table(ASFL3othworet$expensecovd)
+wpct(ASFL3othworet$expensecovd, weight=ASFL3othworet$wght, na.rm=TRUE)
+#unemployed
+table(ASFL3unempl$QF13)
+wpct(ASFL3unempl$QF13, weight=ASFL3unempl$wght, na.rm=TRUE)
+table(ASFL3unempl$highfinbuffd)
+wpct(ASFL3unempl$highfinbuffd, weight=ASFL3unempl$wght, na.rm=TRUE)
+
+table(ASFL3unempl$savebuffd)
+wpct(ASFL3unempl$savebuffd, weight=ASFL3unempl$wght, na.rm=TRUE)
+table(ASFL3unempl$expensecovd)
+wpct(ASFL3unempl$expensecovd, weight=ASFL3unempl$wght, na.rm=TRUE)
+
+#entrepreneurs
+table(ASFL3entrepreneurs$QF13)
+wpct(ASFL3entrepreneurs$QF13, weight=ASFL3entrepreneurs$wght, na.rm=TRUE)
+table(ASFL3entrepreneurs$highfinbuffd)
+wpct(ASFL3entrepreneurs$highfinbuffd, weight=ASFL3entrepreneurs$wght, na.rm=TRUE)
+
+table(ASFL3entrepreneurs$savebuffd)
+wpct(ASFL3entrepreneurs$savebuffd, weight=ASFL3entrepreneurs$wght, na.rm=TRUE)
+table(ASFL3entrepreneurs$expensecovd)
+wpct(ASFL3entrepreneurs$expensecovd, weight=ASFL3entrepreneurs$wght, na.rm=TRUE)
+
+#############falling victim to fraud ################################
+#Qprod4_
+table(ASFL$Qprod4_1.x)
+fraud_1 <- ifelse(ASFL$Qprod4_1.x == "1", 1, 0)
+fraud_2 <- ifelse(ASFL$Qprod4_2.x == "1", 1, 0)
+fraud_3 <- ifelse(ASFL$Qprod4_3.x == "1", 1, 0)
+fraud_4 <- ifelse(ASFL$Qprod4_4.x == "1", 1, 0)
+fraud_5 <- ifelse(ASFL$Qprod4_5.x == "1", 1, 0)
+fraud_6 <- ifelse(ASFL$Qprod4_6.x == "1", 1, 0)
+fraud_7 <- ifelse(ASFL$Qprod4_7.x == "1", 1, 0)
+fraud_8 <- ifelse(ASFL$Qprod4_8.x == "1", 1, 0)
+fraud_9 <- ifelse(ASFL$Qprod4_9.x == "1", 1, 0)
+#austria-specific!
+fraud_10 <- ifelse(ASFL$Qprod4_10 == "1", 1, 0)
+fraud_11 <- ifelse(ASFL$Qprod4_11 == "1", 1, 0)
+fraud_12 <- ifelse(ASFL$Qprod4_12 == "1", 1, 0)
+
+finfraud <- fraud_1+fraud_2+fraud_3+fraud_4+fraud_5+fraud_6+fraud_7+fraud_8+fraud_9+fraud_10+fraud_11+fraud_12
+table(finfraud)
+ASFL3 <- cbind(ASFL3,finfraud,fraud_1,fraud_2,fraud_3,fraud_4,fraud_5,fraud_6,fraud_7,fraud_8,fraud_9,fraud_10,fraud_11,fraud_12)
+finfraudd <- ifelse(ASFL3$finfraud > "0", 1, 0)
+ASFL3 <- cbind(ASFL3, finfraudd)
+
+#sample analysis
+ASFL3se <- ASFL3[(ASFL3$QD10 %in% se),]
+ASFL3e <- ASFL3[(ASFL3$QD10 %in% e),]
+ASFL3eu <- ASFL3[(ASFL3$QD10 %in% eu),]
+ASFL3oth <- ASFL3[(ASFL3$QD10 %in% oth),]
+
+table(ASFL3se$finfraudd)
+table(ASFL3se$finfraud)
+table(ASFL3e$finfraudd)
+table(ASFL3e$finfraud)
+table(ASFL3oth$finfraudd)
+table(ASFL3oth$finfraud)
+
+table(ASFL3$fraud_1)
+45/1418#not weighted by OECD!
+table(ASFL3se$fraud_1)
+table(ASFL3e$fraud_1)
+table(ASFL3oth$fraud_1)
+
+table(ASFL3$fraud_2)
+15/1418
+table(ASFL3se$fraud_2)
+table(ASFL3e$fraud_2)
+table(ASFL3oth$fraud_2)
+
+table(ASFL3$fraud_3)
+14/1418
+table(ASFL3se$fraud_3)
+table(ASFL3e$fraud_3)
+table(ASFL3oth$fraud_3)
+
+table(ASFL3$fraud_4)
+68/1418
+table(ASFL3se$fraud_4)
+table(ASFL3e$fraud_4)
+table(ASFL3oth$fraud_4)
+
+table(ASFL3$fraud_5)
+30/1418
+table(ASFL3se$fraud_5)
+table(ASFL3e$fraud_5)
+table(ASFL3oth$fraud_5)
+
+table(ASFL3$fraud_6)
+13/1418
+table(ASFL3se$fraud_6)
+table(ASFL3e$fraud_6)
+table(ASFL3oth$fraud_6)
+
+table(ASFL3$fraud_7)
+87/1418
+table(ASFL3se$fraud_7)
+table(ASFL3e$fraud_7)
+table(ASFL3oth$fraud_7)
+
+table(ASFL3$fraud_8)
+29/1418
+table(ASFL3se$fraud_8)
+table(ASFL3e$fraud_8)
+table(ASFL3oth$fraud_8)
+
+table(ASFL3$fraud_9)
+11/1418
+table(ASFL3se$fraud_9)
+table(ASFL3e$fraud_9)
+table(ASFL3oth$fraud_9)
+
+table(ASFL3$fraud_10)
+table(ASFL3se$fraud_10)
+table(ASFL3e$fraud_10)
+table(ASFL3oth$fraud_10)
+
+table(ASFL3$fraud_11)
+table(ASFL3se$fraud_11)
+table(ASFL3e$fraud_11)
+table(ASFL3oth$fraud_11)
+
+table(ASFL3$fraud_12)
+table(ASFL3se$fraud_12)
+table(ASFL3e$fraud_12)
+table(ASFL3oth$fraud_12)
+
+
+#############FINANCIAL STRESS AND CONCERNS##################
+#QF11;QS2_1;QS3_9;QS3_10
+
+shortfall <-ifelse(ASFL$QF11 == "Yes", 1, 0)
+
+QS2_1_1 <- ifelse(ASFL$QS2_1 == "Always", 1, 0)
+QS2_1_2 <- ifelse(ASFL$QS2_1 == "2", 1, 0)
+finstress1 <- QS2_1_1+QS2_1_2
+table(finstress1)
+#I tend to worry about paying my normal living expense
+wpct(finstress1, weight=ASFL$wght, na.rm=TRUE)
+
+summary(ASFL$QS3_9)
+QS3_9_1 <- ifelse(ASFL$QS3_9 == "Completely", 1, 0)
+QS3_9_2 <- ifelse(ASFL$QS3_9 == "2", 1, 0)
+finstress2 <- QS3_9_1+QS3_9_2
+finwellbeing3 <-QS3_9_1+QS3_9_2
+table(finstress2)
+#I am concerned that my money won't last
+wpct(finstress2, weight=ASFL$wght, na.rm=TRUE)
+
+summary(ASFL$QS3_10)
+QS3_10_1 <- ifelse(ASFL$QS3_10 == "Completely", 1, 0)
+QS3_10_2 <- ifelse(ASFL$QS3_10 == "2", 1, 0)
+finstress3 <- QS3_10_1+QS3_10_2
+finwellbeing2 <- QS3_10_1+QS3_10_2
+table(finstress3)
+#I am just getting by financially
+wpct(finstress3, weight=ASFL$wght, na.rm=TRUE)
+
+ASFL3 <- cbind(ASFL3,shortfall,finstress1,finstress2,finstress3)
+
+
+################FINANCIAL WELL-BEING - Having control over money, ability to pursue life goals, lack of financial stress
+#score from 0 to 20
+#0 complete agreement
+#all dont know/not relevant/refused also taken as 0
+
+#My finances control my life.
+summary(ASFL$QS2_2)
+QS2_2_1 <- ifelse(ASFL$QS2_2 == "Never", 4, 0)
+QS2_2_2 <- ifelse(ASFL$QS2_2 == "4", 3, 0)
+QS2_2_3 <- ifelse(ASFL$QS2_2 == "3", 2, 0)
+QS2_2_4 <- ifelse(ASFL$QS2_2 == "2", 1, 0)
+QS2_2_5 <- ifelse(ASFL$QS2_2 == "Always", 1, 0)
+QS2_2 <- QS2_2_1+QS2_2_2+QS2_2_3+QS2_2_4
+table(QS2_2)
+wpct(QS2_2, weight=ASFL$wght, na.rm=TRUE)
+finwellbeing1 <- QS2_2_1+QS2_2_2
+
+#I have money left over at the end of the month.
+summary(ASFL$QS2_4)
+QS2_4_1 <- ifelse(ASFL$QS2_4 == "Always", 4, 0)
+QS2_4_2 <- ifelse(ASFL$QS2_4 == "2", 3, 0)
+QS2_4_3 <- ifelse(ASFL$QS2_4 == "3", 2, 0)
+QS2_4_4 <- ifelse(ASFL$QS2_4 == "4", 1, 0)
+QS2_4<- QS2_4_1+QS2_4_2+QS2_4_3+QS2_4_4
+QS2_4
+wpct(QS2_4, weight=ASFL$wght, na.rm=TRUE)
+finwellbeing2 <- QS2_4_1+QS2_4_2
+
+#Because of my money situation, I feel like I will never have the things I want in life.
+summary(ASFL$QS3_3)
+QS3_3_1 <- ifelse(ASFL$QS3_3 == "Not at all", 4, 0)
+QS3_3_2 <- ifelse(ASFL$QS3_3 == "4", 3, 0)
+QS3_3_3 <- ifelse(ASFL$QS3_3 == "3", 2, 0)
+QS3_3_4 <- ifelse(ASFL$QS3_3 == "2", 1, 0)
+QS3_3<- QS3_3_1+QS3_3_2+QS3_3_3+QS3_3_4
+QS3_3
+wpct(QS3_3, weight=ASFL$wght, na.rm=TRUE)
+finwellbeing3 <- QS3_3_1+QS3_3_2
+
+#I am concerned that my money won’t last.
+summary(ASFL$QS3_9)
+QS3_9_1 <- ifelse(ASFL$QS3_9 == "Not at all", 4, 0)
+QS3_9_2 <- ifelse(ASFL$QS3_9 == "4", 3, 0)
+QS3_9_3 <- ifelse(ASFL$QS3_9 == "3", 2, 0)
+QS3_9_4 <- ifelse(ASFL$QS3_9 == "2", 1, 0)
+QS3_9 <- QS3_9_1+QS3_9_2+QS3_9_3+QS3_9_4
+QS3_9
+wpct(QS3_9, weight=ASFL$wght, na.rm=TRUE)
+finwellbeing4 <- QS3_9_1+QS3_9_2
+
+#I am just getting by financially
+summary(ASFL$QS3_10)
+QS3_10_1 <- ifelse(ASFL$QS3_10 == "Not at all", 4, 0)
+QS3_10_2 <- ifelse(ASFL$QS3_10 == "4", 3, 0)
+QS3_10_3 <- ifelse(ASFL$QS3_10 == "3", 2, 0)
+QS3_10_4 <- ifelse(ASFL$QS3_10 == "2", 1, 0)
+QS3_10 <- QS3_10_1+QS3_10_2+QS3_10_3+QS3_10_4
+QS3_10
+wpct(QS3_10, weight=ASFL$wght, na.rm=TRUE)
+finwellbeing5 <- QS3_10_1+QS3_10_2
+
+#not in OECD/INFE but Toolkit: QS1_4,7,10 ; QS2_1 ; QS3_11
+finwellbeing <- QS2_2+ QS2_4 + QS3_3 + QS3_9 + QS3_10
+
+ASFL4 <- cbind(ASFL3,finwellbeing, finwellbeing1,finwellbeing2,finwellbeing3,finwellbeing4,finwellbeing5)
+ASFL4
+summary(ASFL4$finwellbeing)
+table(ASFL4$finwellbeing)
+weighted.mean(ASFL4$finwellbeing, ASFL4$wght) #11.4
+wpct(ASFL4$finwellbeing, weight=ASFL4$wght, na.rm=TRUE)
+
+
+#dummyvariables
+ASFL4 <- ASFL4 %>% mutate(fin_wellbeing_group = case_when(finwellbeing >= 16  & finwellbeing <= 20 ~ 'Highwb',
+                                                          finwellbeing >= 10  & finwellbeing <16  ~ 'Averagewb',
+                                                          finwellbeing >= 0  & finwellbeing < 10 ~ 'Lowwb'))
+table(ASFL4$fin_wellbeing_group)
+
+################FINANCIAL INCLUSION ##############################
+####product use
+#aware of at least 5 financial products
+p1a1<- ifelse(ASFL$Qprod1a_1 == "1", 1, 0)
+p1a2<- ifelse(ASFL$Qprod1a_2 == "1", 1, 0)
+p1a3<- ifelse(ASFL$Qprod1a_3 == "1", 1, 0)
+p1a5<- ifelse(ASFL$Qprod1a_5 == "1", 1, 0)
+p1a6<- ifelse(ASFL$Qprod1a_6 == "1", 1, 0)
+p1a7<- ifelse(ASFL$Qprod1a_7 == "Yes", 1, 0)
+p1a8<- ifelse(ASFL$Qprod1a_8 == "Yes", 1, 0)
+p1a9<- ifelse(ASFL$Qprod1a_9 == "1", 1, 0)
+p1a10<- ifelse(ASFL$Qprod1a_10 == "1", 1, 0)
+p1a11<- ifelse(ASFL$Qprod1a_11 == "1", 1, 0)
+p1a12<- ifelse(ASFL$Qprod1a_12 == "1", 1, 0)
+p1a13<- ifelse(ASFL$Qprod1a_13 == "1", 1, 0)
+p1a14<- ifelse(ASFL$Qprod1a_14 == "1", 1, 0)
+p1a15<- ifelse(ASFL$Qprod1a_15 == "1", 1, 0)
+p1aadd1<- ifelse(ASFL$Qprod1a_add_1 == "Yes", 1, 0)
+p1aadd2<- ifelse(ASFL$Qprod1a_add_2 == "True", 1, 0)
+p1aadd3<- ifelse(ASFL$Qprod1a_add_3 == "True", 1, 0)
+p1aadd4<- ifelse(ASFL$Qprod1a_add_4 == "True", 1, 0)
+p1aadd5<- ifelse(ASFL$Qprod1a_add_5 == "True", 1, 0)
+
+produse <- p1a1+p1a2+p1a3+p1a5+p1a6+p1a7+p1a8+p1a9+p1a10+p1a11+p1a12+p1a13+p1a14+p1a15+p1aadd1+p1aadd2+p1aadd3+p1aadd4+p1aadd5
+table(produse)
+summary(produse)
+ASFL5 <- cbind(ASFL4,produse)
+
+
+####################################product holding ###################################################
+
+#holds a savings investment or retirement product
+table(ASFL_org$Qprod1b_1)
+ASFL <- ASFL %>% mutate(Qprod1b_1 = ifelse(is.na(Qprod1b_1), 0, Qprod1b_1))
+ASFL$Qprod1b_1
+p1b1 <- ifelse(ASFL$Qprod1b_1 == "1", 1, 0)
+table(p1b1)
+
+ASFL <- ASFL %>% mutate(Qprod1b_2 = ifelse(is.na(Qprod1b_2), 0, Qprod1b_2))
+ASFL$Qprod1b_2
+p1b2 <- ifelse(ASFL$Qprod1b_2 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_8 = ifelse(is.na(Qprod1b_8), 0, Qprod1b_8))
+ASFL$Qprod1b_8
+p1b8 <- ifelse(ASFL$Qprod1b_8 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_11 = ifelse(is.na(Qprod1b_11), 0, Qprod1b_11))
+ASFL$Qprod1b_11
+p1b11 <- ifelse(ASFL$Qprod1b_11 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_12 = ifelse(is.na(Qprod1b_12), 0, Qprod1b_12))
+ASFL$Qprod1b_12
+p1b12 <- ifelse(ASFL$Qprod1b_12 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_add_2 = ifelse(is.na(Qprod1b_add_2), 0, Qprod1b_add_2))
+ASFL$Qprod1b_add_2
+p1badd2 <- ifelse(ASFL$Qprod1b_add_2 == "4", 1, 0)
+
+savinre <- p1b1+p1b2+p1b8+p1b11+p1b12+p1badd2
+table(savinre) #internationally very high in comparison - only 50% average
+savinred <- ifelse(savinre >= "1", 1, 0)
+table(savinred)
+ASFL5 <- cbind(ASFL5,savinre,savinred)
+wpct(ASFL5$savinre, weight=ASFL5$wght, na.rm=TRUE)
+wpct(ASFL5$savinred, weight=ASFL5$wght, na.rm=TRUE)
+1-0.11614094 #89% - according to OECD (2020)
+
+###Holds a current account debit card mobile payment facility or payment card
+ASFL <- ASFL %>% mutate(Qprod1b_7 = ifelse(is.na(Qprod1b_7), 0, Qprod1b_7))
+ASFL$Qprod1b_7
+p1b7 <- ifelse(ASFL$Qprod1b_7 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_13 = ifelse(is.na(Qprod1b_13), 0, Qprod1b_13))
+ASFL$Qprod1b_13
+p1b13 <- ifelse(ASFL$Qprod1b_13 == "1", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_14 = ifelse(is.na(Qprod1b_14), 0, Qprod1b_14))
+ASFL$Qprod1b_14
+p1b14 <- ifelse(ASFL$Qprod1b_14 == "3", 1, 0)
+
+payprod <- p1b7+p1b13+p1b14
+table(payprod)
+payprodd <- ifelse(payprod >= "1", 1, 0)
+table(payprodd)
+ASFL5 <- cbind(ASFL5,payprod,payprodd)
+wpct(ASFL5$payprod, weight=ASFL5$wght, na.rm=TRUE)
+1-0.02037268   #98% - according to OECD (2020)
+
+#Holds any insurance product
+ASFL <- ASFL %>% mutate(Qprod1b_10 = ifelse(is.na(Qprod1b_10), 0, Qprod1b_10))
+ASFL$Qprod1b_10
+p1b10 <- ifelse(ASFL$Qprod1b_10 == "3", 1, 0)
+table(p1b10)  
+ASFL5 <- cbind(ASFL5,p1b10)
+wpct(ASFL5$p1b10, weight=ASFL5$wght, na.rm=TRUE) #75% - according to OECD (2020)
+
+###Holds any credit product
+ASFL_org$Qprod1b_3
+ASFL <- ASFL %>% mutate(Qprod1b_3 = ifelse(is.na(Qprod1b_3), 0, Qprod1b_3))
+ASFL$Qprod1b_3
+p1b3 <- ifelse(ASFL$Qprod1b_3 == "1", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_add_4 = ifelse(is.na(Qprod1b_add_4), 0, Qprod1b_add_4))
+ASFL$Qprod1b_add_4
+p1badd4 <- ifelse(ASFL$Qprod1b_add_4 == "4", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_5 = ifelse(is.na(Qprod1b_5), 0, Qprod1b_5))
+ASFL$Qprod1b_5
+p1b5 <- ifelse(ASFL$Qprod1b_5 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_6 = ifelse(is.na(Qprod1b_6), 0, Qprod1b_6))
+ASFL$Qprod1b_6
+p1b6 <- ifelse(ASFL$Qprod1b_6 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_9 = ifelse(is.na(Qprod1b_9), 0, Qprod1b_9))
+ASFL$Qprod1b_9
+p1b9 <- ifelse(ASFL$Qprod1b_9 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_add_1 = ifelse(is.na(Qprod1b_add_1), 0, Qprod1b_add_1))
+ASFL$Qprod1b_add_1
+p1badd1 <- ifelse(ASFL$Qprod1b_add_1 == "3", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_add_3 = ifelse(is.na(Qprod1b_add_3), 0, Qprod1b_add_3))
+ASFL$Qprod1b_add_3
+p1badd3 <- ifelse(ASFL$Qprod1b_add_3 == "4", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_add_5 = ifelse(is.na(Qprod1b_add_5), 0, Qprod1b_add_5))
+ASFL$Qprod1b_add_5
+p1badd5 <- ifelse(ASFL$Qprod1b_add_5 == "4", 1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1b_15 = ifelse(is.na(Qprod1b_15), 0, Qprod1b_15))
+ASFL$Qprod1b_15
+p1b15 <- ifelse(ASFL$Qprod1b_15 == "1", 1, 0)
+
+credp <- p1b3+p1badd4+p1b5+p1b6+p1b9+p1b15+p1badd1+p1badd3+p1badd5
+table(credp)
+credpd <- ifelse(credp >= "1", 1, 0)
+ASFL5 <- cbind(ASFL5,credp,credpd)
+wpct(ASFL5$credp, weight=ASFL5$wght, na.rm=TRUE)
+wpct(ASFL5$credpd, weight=ASFL5$wght, na.rm=TRUE)
+1-0.4320583510 #57% - according to OECD (2020)
+
+#financialproductholding 
+finprodholding <- savinre+payprod+p1b10+credp
+ASFL5 <- cbind(ASFL5, finprodholding)
+###bought a product in the past year #recently chosen
+#highest number (3 or 4) indicates Â´Yes after exluding NAs
+#recent choice
+ASFL <- ASFL %>% mutate(Qprod1c_1 = ifelse(is.na(Qprod1c_1), 0, Qprod1c_1))
+ASFL$Qprod1c_1
+RC1 <- ifelse(ASFL$Qprod1c_1 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_2 = ifelse(is.na(Qprod1c_2), 0, Qprod1c_2))
+ASFL$Qprod1c_2
+RC2 <- ifelse(ASFL$Qprod1c_2 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_3 = ifelse(is.na(Qprod1c_3), 0, Qprod1c_3))
+ASFL$Qprod1c_3
+RC3 <- ifelse(ASFL$Qprod1c_3 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_5 = ifelse(is.na(Qprod1c_5), 0, Qprod1c_5))
+ASFL$Qprod1c_5
+RC5 <- ifelse(ASFL$Qprod1c_5 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_6 = ifelse(is.na(Qprod1c_6), 0, Qprod1c_6))
+ASFL$Qprod1c_6
+RC6 <- ifelse(ASFL$Qprod1c_6 == "1",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_7 = ifelse(is.na(Qprod1c_7), 0, Qprod1c_7))
+ASFL$Qprod1c_7
+RC7 <- ifelse(ASFL$Qprod1c_7 == "1",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_8 = ifelse(is.na(Qprod1c_8), 0, Qprod1c_8))
+ASFL$Qprod1c_8
+RC8 <- ifelse(ASFL$Qprod1c_8 == "1",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_9 = ifelse(is.na(Qprod1c_9), 0, Qprod1c_9))
+ASFL$Qprod1c_9
+RC9 <- ifelse(ASFL$Qprod1c_9 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_10 = ifelse(is.na(Qprod1c_10), 0, Qprod1c_10))
+ASFL$Qprod1c_10
+RC10 <- ifelse(ASFL$Qprod1c_10 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_11 = ifelse(is.na(Qprod1c_11), 0, Qprod1c_11))
+ASFL$Qprod1c_11
+RC11 <- ifelse(ASFL$Qprod1c_11 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_12 = ifelse(is.na(Qprod1c_12), 0, Qprod1c_12))
+ASFL$Qprod1c_12
+RC12 <- ifelse(ASFL$Qprod1c_12 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_13 = ifelse(is.na(Qprod1c_13), 0, Qprod1c_13))
+ASFL$Qprod1c_13
+RC13 <- ifelse(ASFL$Qprod1c_13 == "1",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_14 = ifelse(is.na(Qprod1c_14), 0, Qprod1c_14))
+ASFL$Qprod1c_14
+RC14 <- ifelse(ASFL$Qprod1c_14 == "1",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_15 = ifelse(is.na(Qprod1c_15), 0, Qprod1c_15))
+ASFL$Qprod1c_15
+RC15 <- ifelse(ASFL$Qprod1c_15 == "2",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_add_1 = ifelse(is.na(Qprod1c_add_1), 0, Qprod1c_add_1))
+ASFL$Qprod1c_add_1
+RCadd1 <- ifelse(ASFL$Qprod1c_add_1 == "4",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_add_2 = ifelse(is.na(Qprod1c_add_2), 0, Qprod1c_add_2))
+ASFL$Qprod1c_add_2
+RCadd2 <- ifelse(ASFL$Qprod1c_add_2 == "4",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_add_3 = ifelse(is.na(Qprod1c_add_3), 0, Qprod1c_add_3))
+ASFL$Qprod1c_add_3
+RCadd3 <- ifelse(ASFL$Qprod1c_add_3 == "4",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_add_4 = ifelse(is.na(Qprod1c_add_4), 0, Qprod1c_add_4))
+ASFL$Qprod1c_add_4
+RCadd4 <- ifelse(ASFL$Qprod1c_add_4 == "3",1, 0)
+
+ASFL <- ASFL %>% mutate(Qprod1c_add_5 = ifelse(is.na(Qprod1c_add_5), 0, Qprod1c_add_5))
+ASFL$Qprod1c_add_5
+RCadd5 <- ifelse(ASFL$Qprod1c_add_5 == "4",1, 0)
+
+recentchoice <- RC1+RC2+RC3+RC5+RC6+RC7+RC8+RC9+RC10+RC11+RC12+RC13+RC14+RC15+RCadd1+RCadd2+RCadd3+RCadd4+RCadd5
+table(recentchoice)
+recentchoiced <- ifelse(recentchoice >= "1", 1, 0)
+ASFL5 <- cbind(ASFL5,recentchoice,recentchoiced)
+wpct(ASFL5$recentchoice, weight=ASFL5$wght, na.rm=TRUE)
+wpct(ASFL5$recentchoiced, weight=ASFL5$wght, na.rm=TRUE)
+1-0.5886103437 #41% - according to OECD (2020)
+
+###turned to family/friends to borrow and save
+#QF3_3 and QF12_3_1 from before <- NAs already excluded!
+#full
+#QF3_3_borrow <- ifelse(ASFL$QF3_3 == "Yes", 1, 0)
+ASFL <- ASFL %>% mutate(QF12_2_3 = ifelse(is.na(QF12_2_3), 0, QF12_2_3))
+QF12_2_3 <- ifelse(ASFL$QF12_2_3 == "4", 1, 0)
+QF12_3_1 <- ifelse(ASFL$QF12_3_1 == "4", 1, 0)
+
+#famfriend <- QF3_3+QF12_3_1+QF12_2_3
+famfriend <- QF3_3+QF12_3_1+QF12_2_3
+famfriend
+table(famfriend)
+famfriend[famfriend == "2"] <- "1"
+famfriend <- as.numeric(famfriend)
+ASFL5 <- cbind(ASFL5,famfriend)
+wpct(ASFL5$famfriend, weight=ASFL$wght) #13% - according to OECD (2020)
+
+
+#################ADDITIONAL FINANCIAL LITERACY INDICATORS COMPARISONS##################################
+ASFL5m <- ASFL5[(ASFL5$QD1 %in% male),]
+ASFL5f <- ASFL5[(ASFL5$QD1 %in% female),]
+ASFL5hfinbuff <- ASFL5[(ASFL5$QF13 %in% hfinbuff),]
+ASFL5lfinbuff <- ASFL5[(ASFL5$QF13 %in% lfinbuff),]
+
+ASFL5se <- ASFL5[(ASFL5$QD10 %in% se),]
+ASFL5sehfinbuff <- ASFL5se[(ASFL5se$QF13 %in% hfinbuff),]
+ASFL5selfinbuff <- ASFL5se[(ASFL5se$QF13 %in% lfinbuff),]
+ASFL5sem <- ASFL5se[(ASFL5se$QD1 %in% male),]
+ASFL5sef <- ASFL5se[(ASFL5se$QD1 %in% female),]
+ASFL5oth <- ASFL5[(ASFL5$QD10 %in% oth),]
+
+ASFL5e <- ASFL5[(ASFL5$QD10 %in% e),]
+ASFL5em <- ASFL5e[(ASFL5e$QD1 %in% male),]
+ASFL5ef <- ASFL5e[(ASFL5e$QD1 %in% female),]
+ASFL5unempl <- ASFL5[(ASFL5$QD10 %in% unempl),]
+
+ASFL5oth <- ASFL5[(ASFL5$QD10 %in% oth),]
+ASFL5othworet <- ASFL5[(ASFL5$QD10 %in% othworet),]
+ASFL5ret <- ASFL5[(ASFL5$QD10 %in% ret),]
+ASFL5entrepreneurs <- ASFL5[(ASFL5$QF9_11 %in% entrepreneurs),]
+#################total financial resilience comparison############################
+wpct(ASFL5m$highfinbuffd, weight=ASFL5m$wght, na.rm=TRUE)
+wpct(ASFL5m$sixmonthfinbuffd, weight=ASFL5m$wght, na.rm=TRUE)
+wpct(ASFL5m$shortfall, weight=ASFL5m$wght, na.rm=TRUE)
+wpct(ASFL5m$finstress1, weight=ASFL5m$wght, na.rm=TRUE)
+wpct(ASFL5m$finstress2, weight=ASFL5m$wght, na.rm=TRUE)
+wpct(ASFL5m$finstress3, weight=ASFL5m$wght, na.rm=TRUE)
+
+wpct(ASFL5m$finfraudd, weight=ASFL5m$wght, na.rm=TRUE)
+
+wpct(ASFL5f$highfinbuffd, weight=ASFL5f$wght, na.rm=TRUE)
+wpct(ASFL5f$sixmonthfinbuffd, weight=ASFL5f$wght, na.rm=TRUE)
+wpct(ASFL5f$shortfall, weight=ASFL5f$wght, na.rm=TRUE)
+wpct(ASFL5f$finstress1, weight=ASFL5f$wght, na.rm=TRUE)
+wpct(ASFL5f$finstress2, weight=ASFL5f$wght, na.rm=TRUE)
+wpct(ASFL5f$finstress3, weight=ASFL5f$wght, na.rm=TRUE)
+
+wpct(ASFL5f$finfraudd, weight=ASFL5f$wght, na.rm=TRUE)
+
+wpct(ASFL5se$highfinbuffd, weight=ASFL5se$wght, na.rm=TRUE) #more than three months
+wpct(ASFL5se$sixmonthfinbuffd, weight=ASFL5se$wght, na.rm=TRUE) #more than six months
+wpct(ASFL5se$shortfall, weight=ASFL5se$wght, na.rm=TRUE)
+wpct(ASFL5se$finstress1, weight=ASFL5se$wght, na.rm=TRUE)
+wpct(ASFL5se$finstress2, weight=ASFL5se$wght, na.rm=TRUE)
+wpct(ASFL5se$finstress3, weight=ASFL5se$wght, na.rm=TRUE)
+
+wpct(ASFL5se$finfraudd, weight=ASFL5se$wght, na.rm=TRUE)
+
+wpct(ASFL5sem$highfinbuffd, weight=ASFL5sem$wght, na.rm=TRUE) #more than three months
+wpct(ASFL5sem$sixmonthfinbuffd, weight=ASFL5sem$wght, na.rm=TRUE) #more than six months
+wpct(ASFL5sem$shortfall, weight=ASFL5sem$wght, na.rm=TRUE)
+wpct(ASFL5sem$finstress1, weight=ASFL5sem$wght, na.rm=TRUE)
+wpct(ASFL5sem$finstress2, weight=ASFL5sem$wght, na.rm=TRUE)
+wpct(ASFL5sem$finstress3, weight=ASFL5sem$wght, na.rm=TRUE)
+
+wpct(ASFL5sem$finfraudd, weight=ASFL5sem$wght, na.rm=TRUE)
+
+wpct(ASFL5sef$highfinbuffd, weight=ASFL5sef$wght, na.rm=TRUE)
+wpct(ASFL5sef$sixmonthfinbuffd, weight=ASFL5sef$wght, na.rm=TRUE)
+wpct(ASFL5sef$shortfall, weight=ASFL5sef$wght, na.rm=TRUE)
+wpct(ASFL5sef$finstress1, weight=ASFL5sef$wght, na.rm=TRUE)
+wpct(ASFL5sef$finstress2, weight=ASFL5sef$wght, na.rm=TRUE)
+wpct(ASFL5sef$finstress3, weight=ASFL5sef$wght, na.rm=TRUE)
+
+wpct(ASFL5sef$finfraudd, weight=ASFL5sef$wght, na.rm=TRUE)
+
+
+wpct(ASFL5e$highfinbuffd, weight=ASFL5e$wght, na.rm=TRUE)
+wpct(ASFL5e$sixmonthfinbuffd, weight=ASFL5e$wght, na.rm=TRUE)
+wpct(ASFL5e$shortfall, weight=ASFL5e$wght, na.rm=TRUE)
+wpct(ASFL5e$finstress1, weight=ASFL5e$wght, na.rm=TRUE)
+wpct(ASFL5e$finstress2, weight=ASFL5e$wght, na.rm=TRUE)
+wpct(ASFL5e$finstress3, weight=ASFL5e$wght, na.rm=TRUE)
+
+wpct(ASFL5e$finfraudd, weight=ASFL5e$wght, na.rm=TRUE)
+
+wpct(ASFL5em$highfinbuffd, weight=ASFL5em$wght, na.rm=TRUE)
+wpct(ASFL5em$sixmonthfinbuffd, weight=ASFL5em$wght, na.rm=TRUE)
+wpct(ASFL5em$shortfall, weight=ASFL5em$wght, na.rm=TRUE)
+wpct(ASFL5em$finstress1, weight=ASFL5em$wght, na.rm=TRUE)
+wpct(ASFL5em$finstress2, weight=ASFL5em$wght, na.rm=TRUE)
+wpct(ASFL5em$finstress3, weight=ASFL5em$wght, na.rm=TRUE)
+
+wpct(ASFL5em$finfraudd, weight=ASFL5em$wght, na.rm=TRUE)
+
+wpct(ASFL5ef$highfinbuffd, weight=ASFL5ef$wght, na.rm=TRUE)
+wpct(ASFL5ef$sixmonthfinbuffd, weight=ASFL5ef$wght, na.rm=TRUE)
+wpct(ASFL5ef$shortfall, weight=ASFL5ef$wght, na.rm=TRUE)
+wpct(ASFL5ef$finstress1, weight=ASFL5ef$wght, na.rm=TRUE)
+wpct(ASFL5ef$finstress2, weight=ASFL5ef$wght, na.rm=TRUE)
+wpct(ASFL5ef$finstress3, weight=ASFL5ef$wght, na.rm=TRUE)
+
+wpct(ASFL5ef$finfraudd, weight=ASFL5ef$wght, na.rm=TRUE)
+
+wpct(ASFL5unempl$highfinbuffd, weight=ASFL5unempl$wght, na.rm=TRUE)
+wpct(ASFL5unempl$sixmonthfinbuffd, weight=ASFL5unempl$wght, na.rm=TRUE)
+wpct(ASFL5unempl$shortfall, weight=ASFL5unempl$wght, na.rm=TRUE)
+wpct(ASFL5unempl$finstress1, weight=ASFL5unempl$wght, na.rm=TRUE)
+wpct(ASFL5unempl$finstress2, weight=ASFL5unempl$wght, na.rm=TRUE)
+wpct(ASFL5unempl$finstress3, weight=ASFL5unempl$wght, na.rm=TRUE)
+
+wpct(ASFL5unempl$finfraudd, weight=ASFL5unempl$wght, na.rm=TRUE)
+
+wpct(ASFL5oth$highfinbuffd, weight=ASFL5oth$wght, na.rm=TRUE)
+wpct(ASFL5oth$sixmonthfinbuffd, weight=ASFL5oth$wght, na.rm=TRUE)
+wpct(ASFL5oth$shortfall, weight=ASFL5oth$wght, na.rm=TRUE)
+wpct(ASFL5oth$finstress1, weight=ASFL5oth$wght, na.rm=TRUE)
+wpct(ASFL5oth$finstress2, weight=ASFL5oth$wght, na.rm=TRUE)
+wpct(ASFL5oth$finstress3, weight=ASFL5oth$wght, na.rm=TRUE)
+
+wpct(ASFL5oth$finfraudd, weight=ASFL5oth$wght, na.rm=TRUE)
+
+
+wpct(ASFL5othworet$highfinbuffd, weight=ASFL5othworet$wght, na.rm=TRUE)
+wpct(ASFL5othworet$sixmonthfinbuffd, weight=ASFL5othworet$wght, na.rm=TRUE)
+wpct(ASFL5othworet$shortfall, weight=ASFL5othworet$wght, na.rm=TRUE)
+wpct(ASFL5othworet$finstress1, weight=ASFL5othworet$wght, na.rm=TRUE)
+wpct(ASFL5othworet$finstress2, weight=ASFL5othworet$wght, na.rm=TRUE)
+wpct(ASFL5othworet$finstress3, weight=ASFL5othworet$wght, na.rm=TRUE)
+
+wpct(ASFL5othworet$finfraudd, weight=ASFL5othworet$wght, na.rm=TRUE)
+
+
+wpct(ASFL5ret$highfinbuffd, weight=ASFL5ret$wght, na.rm=TRUE)
+wpct(ASFL5ret$sixmonthfinbuffd, weight=ASFL5ret$wght, na.rm=TRUE)
+wpct(ASFL5ret$shortfall, weight=ASFL5ret$wght, na.rm=TRUE)
+wpct(ASFL5ret$finstress1, weight=ASFL5ret$wght, na.rm=TRUE)
+wpct(ASFL5ret$finstress2, weight=ASFL5ret$wght, na.rm=TRUE)
+wpct(ASFL5ret$finstress3, weight=ASFL5ret$wght, na.rm=TRUE)
+
+wpct(ASFL5ret$finfraudd, weight=ASFL5ret$wght, na.rm=TRUE)
+
+wpct(ASFL5entrepreneurs$highfinbuffd, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL5entrepreneurs$sixmonthfinbuffd, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL5entrepreneurs$shortfall, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL5entrepreneurs$finstress1, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL5entrepreneurs$finstress2, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL5entrepreneurs$finstress3, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+
+wpct(ASFL5entrepreneurs$finfraudd, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+
+
+#################total financial inclusion comparison############################
+wpct(ASFL5se$produse, weight=ASFL5se$wght, na.rm=TRUE)
+1-0.009898962-0.021408774
+wpct(ASFL5se$savinre, weight=ASFL5se$wght, na.rm=TRUE)
+1-0.09229320 
+wpct(ASFL5se$payprod, weight=ASFL5se$wght, na.rm=TRUE)
+wpct(ASFL5se$p1b10, weight=ASFL5se$wght, na.rm=TRUE)
+wpct(ASFL5se$credp, weight=ASFL5se$wght, na.rm=TRUE)
+1-0.13404446 
+wpct(ASFL5se$finprodholding, weight=ASFL5se$wght, na.rm=TRUE)
+weighted.mean(ASFL5se$finprodholding, ASFL5se$wght)
+wpct(ASFL5se$recentchoice, weight=ASFL5se$wght, na.rm=TRUE)
+1-0.46595312 
+wpct(ASFL5se$famfriend, weight=ASFL5se$wght,na.rm=TRUE)
+
+ASFL5em <- ASFL5e[(ASFL5e$QD1 %in% male),]
+wpct(ASFL5em$produse, weight=ASFL5em$wght, na.rm=TRUE)
+1-0.012434899- 0.016887064- 0.027976337
+wpct(ASFL5em$savinre, weight=ASFL5em$wght, na.rm=TRUE)
+1-0.08514439  
+wpct(ASFL5em$payprod, weight=ASFL5em$wght, na.rm=TRUE)
+1-0.004802508 
+wpct(ASFL5em$p1b10, weight=ASFL5em$wght, na.rm=TRUE)
+wpct(ASFL5em$credp, weight=ASFL5em$wght, na.rm=TRUE)
+1-0.244355104  
+wpct(ASFL5em$recentchoice, weight=ASFL5em$wght, na.rm=TRUE)
+1-0.433069410  
+wpct(ASFL5em$famfriend, weight=ASFL5em$wght,na.rm=TRUE)
+
+ASFL5ef <- ASFL5e[(ASFL5e$QD1 %in% female),]
+wpct(ASFL5ef$produse, weight=ASFL5ef$wght, na.rm=TRUE)
+1-0.014116070- 0.003766211- 0.028318376
+wpct(ASFL5ef$savinre, weight=ASFL5ef$wght, na.rm=TRUE)
+1-0.07999574  
+wpct(ASFL5ef$payprod, weight=ASFL5ef$wght, na.rm=TRUE)
+1-0.01519599 
+wpct(ASFL5ef$p1b10, weight=ASFL5ef$wght, na.rm=TRUE)
+wpct(ASFL5ef$credp, weight=ASFL5ef$wght, na.rm=TRUE)
+1-0.333412459  
+wpct(ASFL5ef$recentchoice, weight=ASFL5ef$wght, na.rm=TRUE)
+1-0.506929121   
+wpct(ASFL5ef$famfriend, weight=ASFL5ef$wght,na.rm=TRUE)
+
+ASFL5e <- ASFL5[(ASFL5$QD10 %in% e),]
+wpct(ASFL5e$produse, weight=ASFL5e$wght, na.rm=TRUE)
+1-0.013245258 -0.010562546- 0.028141207
+wpct(ASFL5e$savinre, weight=ASFL5e$wght, na.rm=TRUE)
+1-0.08266264 
+wpct(ASFL5e$payprod, weight=ASFL5e$wght, na.rm=TRUE)
+1-0.009812379  
+wpct(ASFL5e$p1b10, weight=ASFL5e$wght, na.rm=TRUE)
+wpct(ASFL5e$credp, weight=ASFL5e$wght, na.rm=TRUE)
+1-0.2872825616 
+wpct(ASFL5e$finprodholding, weight=ASFL5e$wght, na.rm=TRUE)
+weighted.mean(ASFL5e$finprodholding, ASFL5e$wght)
+wpct(ASFL5e$recentchoice, weight=ASFL5e$wght, na.rm=TRUE)
+1-0.4686712937 
+wpct(ASFL5e$famfriend, weight=ASFL5e$wght,na.rm=TRUE)
+
+ASFL5sem <- ASFL5se[(ASFL5se$QD1 %in% male),]
+wpct(ASFL5sem$produse, weight=ASFL5sem$wght, na.rm=TRUE)
+1-0.01663340- 0.01517251
+wpct(ASFL5sem$savinre, weight=ASFL5sem$wght, na.rm=TRUE)
+1-0.06101732 
+wpct(ASFL5sem$payprod, weight=ASFL5sem$wght, na.rm=TRUE)
+wpct(ASFL5sem$p1b10, weight=ASFL5sem$wght, na.rm=TRUE)
+wpct(ASFL5sem$credp, weight=ASFL5sem$wght, na.rm=TRUE)
+1-0.06886512 
+wpct(ASFL5sem$recentchoice, weight=ASFL5sem$wght, na.rm=TRUE)
+1-0.32043103 
+wpct(ASFL5sem$famfriend, weight=ASFL5sem$wght,na.rm=TRUE)
+
+ASFL5sef <- ASFL5se[(ASFL5se$QD1 %in% female),]
+wpct(ASFL5sef$produse, weight=ASFL5sef$wght, na.rm=TRUE)
+1-0.03057546 
+wpct(ASFL5sef$savinre, weight=ASFL5sef$wght, na.rm=TRUE)
+1-0.13826565  
+wpct(ASFL5sef$payprod, weight=ASFL5sef$wght, na.rm=TRUE)
+wpct(ASFL5sef$p1b10, weight=ASFL5sef$wght, na.rm=TRUE)
+wpct(ASFL5sef$credp, weight=ASFL5sef$wght, na.rm=TRUE)
+1-0.22985166 
+wpct(ASFL5sef$recentchoice, weight=ASFL5sef$wght, na.rm=TRUE)
+1-0.67985622  
+wpct(ASFL5sef$famfriend, weight=ASFL5sef$wght,na.rm=TRUE)
+
+ASFL5unempl <- ASFL5[(ASFL5$QD10 %in% unempl),]
+wpct(ASFL5unempl$produse, weight=ASFL5unempl$wght, na.rm=TRUE)
+1-0.02030828 -0.04754515- 0.01676906- 0.01877133
+wpct(ASFL5unempl$savinre, weight=ASFL5unempl$wght, na.rm=TRUE)
+1-0.48168187  
+wpct(ASFL5unempl$payprod, weight=ASFL5unempl$wght, na.rm=TRUE)
+1-0.02385717   
+wpct(ASFL5unempl$p1b10, weight=ASFL5unempl$wght, na.rm=TRUE)
+wpct(ASFL5unempl$credp, weight=ASFL5unempl$wght, na.rm=TRUE)
+1-0.69319268  
+wpct(ASFL5unempl$finprodholding, weight=ASFL5unempl$wght, na.rm=TRUE)
+weighted.mean(ASFL5unempl$finprodholding, ASFL5unempl$wght)
+wpct(ASFL5unempl$recentchoice, weight=ASFL5unempl$wght, na.rm=TRUE)
+1-0.60441327  
+wpct(ASFL5unempl$famfriend, weight=ASFL5unempl$wght,na.rm=TRUE)
+
+
+ASFL5oth <- ASFL5[(ASFL5$QD10 %in% oth),]
+wpct(ASFL5oth$produse, weight=ASFL5oth$wght, na.rm=TRUE)
+1-0.005500922 -0.007719099 -0.023412552 -0.034910974 -0.020833509
+wpct(ASFL5oth$savinre, weight=ASFL5oth$wght, na.rm=TRUE)
+1-0.162477257  
+wpct(ASFL5oth$payprod, weight=ASFL5oth$wght, na.rm=TRUE)
+1-0.036649870 
+wpct(ASFL5oth$p1b10, weight=ASFL5oth$wght, na.rm=TRUE)
+wpct(ASFL5oth$credp, weight=ASFL5oth$wght, na.rm=TRUE)
+1-0.6576287329 
+wpct(ASFL5oth$finprodholding, weight=ASFL5oth$wght, na.rm=TRUE)
+weighted.mean(ASFL5oth$finprodholding, ASFL5oth$wght)
+wpct(ASFL5oth$recentchoice, weight=ASFL5oth$wght, na.rm=TRUE)
+1-0.759425470 
+wpct(ASFL5oth$famfriend, weight=ASFL5oth$wght,na.rm=TRUE)
+
+ASFL5othworet <- ASFL5[(ASFL5$QD10 %in% othworet),]
+wpct(ASFL5othworet$produse, weight=ASFL5othworet$wght, na.rm=TRUE)
+1-0.014309649 -0.016596644 -0.028121471 -0.033892776- 0.021953299
+wpct(ASFL5othworet$savinre, weight=ASFL5othworet$wght, na.rm=TRUE)
+1-  0.30774273 
+wpct(ASFL5othworet$payprod, weight=ASFL5othworet$wght, na.rm=TRUE)
+1- 0.086388782 
+wpct(ASFL5othworet$p1b10, weight=ASFL5othworet$wght, na.rm=TRUE)
+wpct(ASFL5othworet$credp, weight=ASFL5othworet$wght, na.rm=TRUE)
+1- 0.72332066 
+wpct(ASFL5othworet$finprodholding, weight=ASFL5othworet$wght, na.rm=TRUE)
+weighted.mean(ASFL5othworet$finprodholding, ASFL5othworet$wght)
+wpct(ASFL5othworet$recentchoice, weight=ASFL5othworet$wght, na.rm=TRUE)
+1- 0.524159000 
+wpct(ASFL5othworet$famfriend, weight=ASFL5othworet$wght,na.rm=TRUE)
+
+ASFL5ret <- ASFL5[(ASFL5$QD10 %in% ret),]
+wpct(ASFL5ret$produse, weight=ASFL5ret$wght, na.rm=TRUE)
+1-0.001491719 -0.003678575- 0.021269336- 0.035374397- 0.020323848
+wpct(ASFL5ret$savinre, weight=ASFL5ret$wght, na.rm=TRUE)
+1-0.09636115   
+wpct(ASFL5ret$payprod, weight=ASFL5ret$wght, na.rm=TRUE)
+1- 0.01401171 
+wpct(ASFL5ret$p1b10, weight=ASFL5ret$wght, na.rm=TRUE)
+wpct(ASFL5ret$credp, weight=ASFL5ret$wght, na.rm=TRUE)
+1- 0.627729720 
+wpct(ASFL5ret$finprodholding, weight=ASFL5ret$wght, na.rm=TRUE)
+weighted.mean(ASFL5ret$finprodholding, ASFL5ret$wght)
+wpct(ASFL5ret$recentchoice, weight=ASFL5ret$wght, na.rm=TRUE)
+1- 0.86650461 
+wpct(ASFL5ret$famfriend, weight=ASFL5ret$wght,na.rm=TRUE)
+
+ASFL5entrepreneurs <- ASFL5[(ASFL5$QF9_11 %in% entrepreneurs),]
+wpct(ASFL5entrepreneurs$produse, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+1-0.04087746- 0.02257407
+wpct(ASFL5entrepreneurs$savinre, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+1-  0.16960143 
+wpct(ASFL5entrepreneurs$payprod, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL5entrepreneurs$p1b10, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL5entrepreneurs$credp, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+1- 0.33198734 
+wpct(ASFL5entrepreneurs$finprodholding, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+weighted.mean(ASFL5entrepreneurs$finprodholding, ASFL5entrepreneurs$wght)
+wpct(ASFL5entrepreneurs$recentchoice, weight=ASFL5entrepreneurs$wght, na.rm=TRUE)
+1- 0.72953345 
+wpct(ASFL5entrepreneurs$famfriend, weight=ASFL5entrepreneurs$wght,na.rm=TRUE)
+
+#################total financial well-being comparison############################
+wpct(ASFL5se$finwellbeing, weight=ASFL5se$wght,na.rm=TRUE)
+weighted.mean(ASFL5se$finwellbeing, ASFL5se$wght)
+wpct(ASFL5sem$finwellbeing, weight=ASFL5sem$wght,na.rm=TRUE)
+weighted.mean(ASFL5sem$finwellbeing, ASFL5sem$wght)
+wpct(ASFL5sef$finwellbeing, weight=ASFL5sef$wght,na.rm=TRUE)
+weighted.mean(ASFL5sef$finwellbeing, ASFL5sef$wght)
+
+wpct(ASFL5e$finwellbeing, weight=ASFL5e$wght,na.rm=TRUE)
+weighted.mean(ASFL5e$finwellbeing, ASFL5e$wght)
+weighted.mean(ASFL5em$finwellbeing, ASFL5em$wght)
+weighted.mean(ASFL5ef$finwellbeing, ASFL5ef$wght)
+
+wpct(ASFL5unempl$finwellbeing, weight=ASFL5unempl$wght,na.rm=TRUE)
+weighted.mean(ASFL5unempl$finwellbeing, ASFL5unempl$wght)
+wpct(ASFL5oth$finwellbeing, weight=ASFL5oth$wght,na.rm=TRUE)
+weighted.mean(ASFL5oth$finwellbeing, ASFL5oth$wght)
+wpct(ASFL5othworet$finwellbeing, weight=ASFL5othworet$wght,na.rm=TRUE)
+weighted.mean(ASFL5othworet$finwellbeing, ASFL5othworet$wght)
+wpct(ASFL5ret$finwellbeing, weight=ASFL5ret$wght,na.rm=TRUE)
+weighted.mean(ASFL5ret$finwellbeing, ASFL5ret$wght)
+wpct(ASFL5entrepreneurs$finwellbeing, weight=ASFL5entrepreneurs$wght,na.rm=TRUE)
+weighted.mean(ASFL5entrepreneurs$finwellbeing, ASFL5entrepreneurs$wght)
+
+#adopted financial well-being score
+wpct(ASFL5se$finwellbeing1, weight=ASFL5se$wght,na.rm=TRUE)
+wpct(ASFL5se$finwellbeing2, weight=ASFL5se$wght,na.rm=TRUE)
+wpct(ASFL5se$finwellbeing3, weight=ASFL5se$wght,na.rm=TRUE)
+wpct(ASFL5se$finwellbeing4, weight=ASFL5se$wght,na.rm=TRUE)
+wpct(ASFL5se$finwellbeing5, weight=ASFL5se$wght,na.rm=TRUE)
+
+wpct(ASFL5sem$finwellbeing1, weight=ASFL5sem$wght,na.rm=TRUE)
+wpct(ASFL5sem$finwellbeing2, weight=ASFL5sem$wght,na.rm=TRUE)
+wpct(ASFL5sem$finwellbeing3, weight=ASFL5sem$wght,na.rm=TRUE)
+wpct(ASFL5sem$finwellbeing4, weight=ASFL5sem$wght,na.rm=TRUE)
+wpct(ASFL5sem$finwellbeing5, weight=ASFL5sem$wght,na.rm=TRUE)
+
+wpct(ASFL5sef$finwellbeing1, weight=ASFL5sef$wght,na.rm=TRUE)
+wpct(ASFL5sef$finwellbeing2, weight=ASFL5sef$wght,na.rm=TRUE)
+wpct(ASFL5sef$finwellbeing3, weight=ASFL5sef$wght,na.rm=TRUE)
+wpct(ASFL5sef$finwellbeing4, weight=ASFL5sef$wght,na.rm=TRUE)
+wpct(ASFL5sef$finwellbeing5, weight=ASFL5sef$wght,na.rm=TRUE)
+
+wpct(ASFL5e$finwellbeing1, weight=ASFL5e$wght,na.rm=TRUE)
+wpct(ASFL5e$finwellbeing2, weight=ASFL5e$wght,na.rm=TRUE)
+wpct(ASFL5e$finwellbeing3, weight=ASFL5e$wght,na.rm=TRUE)
+wpct(ASFL5e$finwellbeing4, weight=ASFL5e$wght,na.rm=TRUE)
+wpct(ASFL5e$finwellbeing5, weight=ASFL5e$wght,na.rm=TRUE)
+wpct(ASFL5em$finwellbeing1, weight=ASFL5em$wght,na.rm=TRUE)
+wpct(ASFL5em$finwellbeing2, weight=ASFL5em$wght,na.rm=TRUE)
+wpct(ASFL5em$finwellbeing3, weight=ASFL5em$wght,na.rm=TRUE)
+wpct(ASFL5em$finwellbeing4, weight=ASFL5em$wght,na.rm=TRUE)
+wpct(ASFL5em$finwellbeing5, weight=ASFL5em$wght,na.rm=TRUE)
+
+wpct(ASFL5ef$finwellbeing1, weight=ASFL5ef$wght,na.rm=TRUE)
+wpct(ASFL5ef$finwellbeing2, weight=ASFL5ef$wght,na.rm=TRUE)
+wpct(ASFL5ef$finwellbeing3, weight=ASFL5ef$wght,na.rm=TRUE)
+wpct(ASFL5ef$finwellbeing4, weight=ASFL5ef$wght,na.rm=TRUE)
+wpct(ASFL5ef$finwellbeing5, weight=ASFL5ef$wght,na.rm=TRUE)
+
+wpct(ASFL5oth$finwellbeing1, weight=ASFL5oth$wght,na.rm=TRUE)
+wpct(ASFL5oth$finwellbeing2, weight=ASFL5oth$wght,na.rm=TRUE)
+wpct(ASFL5oth$finwellbeing3, weight=ASFL5oth$wght,na.rm=TRUE)
+wpct(ASFL5oth$finwellbeing4, weight=ASFL5oth$wght,na.rm=TRUE)
+wpct(ASFL5oth$finwellbeing5, weight=ASFL5oth$wght,na.rm=TRUE)
+
+#############################MAIN FINANCIAL LITERACY SCORE (without additional indicators)#########################
+finlit <- fin_know+fin_att+fin_beh
+finlitadd <- fin_know_add+fin_att+fin_beh
+summary(finlit)
+table(finlit)
+ASFL6 <- cbind(ASFL5, finlit, finlitadd)
+weighted.mean(ASFL6$finlit, ASFL6$wght) #14.4 - according to OECD (2020)
+wpct(ASFL6$finlit, weight=ASFL6$wght,na.rm=TRUE)
+finlitr <- round(ASFL6$finlit)
+ASFL6 <- cbind(ASFL6, finlitr)
+wpct(ASFL6$finlitr, weight=ASFL6$wght, na.rm=TRUE)
+weighted.mean(ASFL6$finlitr, ASFL6$wght)
+
+weighted.mean(ASFL6$finlitadd, ASFL6$wght) 
+wpct(ASFL6$finlitadd, weight=ASFL6$wght,na.rm=TRUE)
+finlitaddr <- round(ASFL6$finlitadd)
+ASFL6 <- cbind(ASFL6, finlitaddr)
+wpct(ASFL6$finlitaddr, weight=ASFL6$wght, na.rm=TRUE)
+weighted.mean(ASFL6$finlitaddr, ASFL6$wght)
+
+#dummy variables 
+ASFL6 <- ASFL6 %>% mutate(finlit_group = case_when(finlit >=17  & finlit <= 20.66666666666667 ~ "High fl",
+                                                   finlit >=14   & finlit <17  ~ "Average fl",
+                                                   finlit >= 0  & finlit <14  ~ "Low fl"))
+table(ASFL6$finlit_group)
+
+finlit_group_1 <- factor(ASFL6$finlit_group, levels=c("High fl","Average fl", "Low fl"))
+levels(finlit_group_1)
+
+
+highfinlitd <- ifelse(ASFL6$finlit_group == "High fl", 1, 0)
+averagefinlitd <- ifelse(ASFL6$finlit_group == "Average fl", 1, 0)
+lowfinlitd <- ifelse(ASFL6$finlit_group == "Low fl", 1, 0)
+ASFL6 <- cbind(ASFL6,highfinlitd,averagefinlitd,lowfinlitd,finlit_group_1)
+table(ASFL6$highfinlitd)
+table(ASFL6$averagefinlitd)
+table(ASFL6$lowfinlitd)
+table(ASFL6$finlit_group_1)
+
+
+
+###main financial literacy indicator comparison
+ASFL6se <- ASFL6[(ASFL6$QD10 %in% se),]
+weighted.mean(ASFL6se$finlit, ASFL6se$wght)
+weighted.mean(ASFL6se$finlitadd, ASFL6se$wght)
+wpct(ASFL6se$finlit, weight=ASFL6se$wght, na.rm=TRUE)
+wpct(ASFL6se$finlitadd, weight=ASFL6se$wght, na.rm=TRUE)
+ASFL6e <- ASFL6[(ASFL6$QD10 %in% e),]
+weighted.mean(ASFL6e$finlit, ASFL6e$wght)
+weighted.mean(ASFL6e$finlitadd, ASFL6e$wght)
+wpct(ASFL6e$finlit, weight=ASFL6e$wght, na.rm=TRUE)
+wpct(ASFL6e$finlitadd, weight=ASFL6e$wght, na.rm=TRUE)
+ASFL6eu <- ASFL6[(ASFL6$QD10 %in% eu),]
+ASFL6unempl <- ASFL6[(ASFL6$QD10 %in% unempl),]
+weighted.mean(ASFL6unempl$finlit, ASFL6unempl$wght)
+weighted.mean(ASFL6unempl$finlitadd, ASFL6unempl$wght)
+wpct(ASFL6unempl$finlit, weight=ASFL6unempl$wght, na.rm=TRUE)
+wpct(ASFL6unempl$finlitadd, weight=ASFL6unempl$wght, na.rm=TRUE)
+ASFL6oth <- ASFL6[(ASFL6$QD10 %in% oth),]
+weighted.mean(ASFL6oth$finlit, ASFL6oth$wght)
+weighted.mean(ASFL6oth$finlitadd, ASFL6oth$wght)
+wpct(ASFL6oth$finlit, weight=ASFL6oth$wght, na.rm=TRUE)
+wpct(ASFL6oth$finlitadd, weight=ASFL6oth$wght, na.rm=TRUE)
+ASFL6othworet <- ASFL6[(ASFL6$QD10 %in% othworet),]
+weighted.mean(ASFL6othworet$finlit, ASFL6othworet$wght)
+weighted.mean(ASFL6othworet$finlitadd, ASFL6othworet$wght)
+wpct(ASFL6othworet$finlit, weight=ASFL6othworet$wght, na.rm=TRUE)
+wpct(ASFL6othworet$finlitadd, weight=ASFL6othworet$wght, na.rm=TRUE)
+ASFL6ret <- ASFL6[(ASFL6$QD10 %in% ret),]
+weighted.mean(ASFL6ret$finlit, ASFL6ret$wght)
+weighted.mean(ASFL6ret$finlitadd, ASFL6ret$wght)
+wpct(ASFL6ret$finlit, weight=ASFL6ret$wght, na.rm=TRUE)
+wpct(ASFL6ret$finlitadd, weight=ASFL6ret$wght, na.rm=TRUE)
+ASFL6entrepreneurs <- ASFL6[(ASFL6$QF9_11 %in% entrepreneurs),]
+weighted.mean(ASFL6entrepreneurs$finlit, ASFL6entrepreneurs$wght)
+weighted.mean(ASFL6entrepreneurs$finlitadd, ASFL6entrepreneurs$wght)
+wpct(ASFL6entrepreneurs$finlit, weight=ASFL6entrepreneurs$wght, na.rm=TRUE)
+wpct(ASFL6entrepreneurs$finlitadd, weight=ASFL6entrepreneurs$wght, na.rm=TRUE)
+
+ASFL6m <- ASFL6[(ASFL6$QD1 %in% male),]
+ASFL6f <- ASFL6[(ASFL6$QD1 %in% female),]
+weighted.mean(ASFL6m$finlit, ASFL6m$wght) #14.6
+weighted.mean(ASFL6f$finlit, ASFL6f$wght) #14.2
+ASFL6sem <- ASFL6se[(ASFL6se$QD1 %in% male),]
+ASFL6sef <- ASFL6se[(ASFL6se$QD1 %in% female),]
+weighted.mean(ASFL6sem$finlit, ASFL6sem$wght) 
+weighted.mean(ASFL6sef$finlit, ASFL6sef$wght)
+ASFL6em <- ASFL6e[(ASFL6e$QD1 %in% male),]
+ASFL6ef <- ASFL6e[(ASFL6e$QD1 %in% female),]
+weighted.mean(ASFL6em$finlit, ASFL6em$wght) 
+weighted.mean(ASFL6ef$finlit, ASFL6ef$wght)
+
+#########financial cushion and financial indicators - high or low financial savings
+ASFL6hfinbuff <- ASFL6[(ASFL6$QF13 %in% hfinbuff),]
+ASFL6lfinbuff <- ASFL6[(ASFL6$QF13 %in% lfinbuff),]
+
+###financial resilience specific below or above three months
+#fullsample
+weighted.mean(ASFL6hfinbuff$finlit,ASFL6hfinbuff$wght)#according to OECD
+weighted.mean(ASFL6lfinbuff$finlit,ASFL6lfinbuff$wght)
+
+weighted.mean(ASFL6hfinbuff$fin_know,ASFL6hfinbuff$wght)
+weighted.mean(ASFL6lfinbuff$fin_know,ASFL6lfinbuff$wght)
+
+weighted.mean(ASFL6hfinbuff$fin_beh,ASFL6hfinbuff$wght)
+weighted.mean(ASFL6lfinbuff$fin_beh,ASFL6lfinbuff$wght)
+
+weighted.mean(ASFL6hfinbuff$fin_att,ASFL6hfinbuff$wght)
+weighted.mean(ASFL6lfinbuff$fin_att,ASFL6lfinbuff$wght)
+#financial stress and concern 
+weighted.mean(ASFL6hfinbuff$shortfall,ASFL6hfinbuff$wght)
+weighted.mean(ASFL6lfinbuff$shortfall,ASFL6lfinbuff$wght)
+weighted.mean(ASFL6hfinbuff$finstress1,ASFL6hfinbuff$wght)
+weighted.mean(ASFL6lfinbuff$finstress1,ASFL6lfinbuff$wght)
+weighted.mean(ASFL6hfinbuff$finstress2,ASFL6hfinbuff$wght)
+weighted.mean(ASFL6lfinbuff$finstress2,ASFL6lfinbuff$wght)
+weighted.mean(ASFL6hfinbuff$finstress3,ASFL6hfinbuff$wght)
+weighted.mean(ASFL6lfinbuff$finstress3,ASFL6lfinbuff$wght)
+
+weighted.mean(ASFL6hfinbuff$finfraudd,ASFL6hfinbuff$wght)
+weighted.mean(ASFL6lfinbuff$finfraudd,ASFL6lfinbuff$wght)
+
+##########################self-employed##########################
+ASFL6sehfinbuff <- ASFL6se[(ASFL6se$QF13 %in% hfinbuff),]
+ASFL6selfinbuff <- ASFL6se[(ASFL6se$QF13 %in% lfinbuff),]
+ASFL6semhfinbuff <- ASFL6sem[(ASFL6sem$QF13 %in% hfinbuff),]
+ASFL6semlfinbuff <- ASFL6sem[(ASFL6sem$QF13 %in% lfinbuff),]
+ASFL6sefhfinbuff <- ASFL6sef[(ASFL6sef$QF13 %in% hfinbuff),]
+ASFL6seflfinbuff <- ASFL6sef[(ASFL6sef$QF13 %in% lfinbuff),]
+#high financial savings
+weighted.mean(ASFL6sehfinbuff$finlit,ASFL6sehfinbuff$wght)
+weighted.mean(ASFL6selfinbuff$finlit,ASFL6selfinbuff$wght)
+
+weighted.mean(ASFL6sehfinbuff$fin_know,ASFL6sehfinbuff$wght)
+weighted.mean(ASFL6selfinbuff$fin_know,ASFL6selfinbuff$wght)
+
+weighted.mean(ASFL6sehfinbuff$fin_beh,ASFL6sehfinbuff$wght)
+weighted.mean(ASFL6selfinbuff$fin_beh,ASFL6selfinbuff$wght)
+
+weighted.mean(ASFL6sehfinbuff$fin_att,ASFL6sehfinbuff$wght)
+weighted.mean(ASFL6selfinbuff$fin_att,ASFL6selfinbuff$wght)
+
+
+weighted.mean(ASFL6semhfinbuff$finlit,ASFL6semhfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$finlit,ASFL6semlfinbuff$wght)
+
+weighted.mean(ASFL6semhfinbuff$fin_know,ASFL6semhfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$fin_know,ASFL6semlfinbuff$wght)
+
+weighted.mean(ASFL6semhfinbuff$fin_beh,ASFL6semhfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$fin_beh,ASFL6semlfinbuff$wght)
+
+weighted.mean(ASFL6semhfinbuff$fin_att,ASFL6semhfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$fin_att,ASFL6semlfinbuff$wght)
+
+
+weighted.mean(ASFL6sefhfinbuff$finlit,ASFL6sefhfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$finlit,ASFL6seflfinbuff$wght)
+
+weighted.mean(ASFL6sefhfinbuff$fin_know,ASFL6sefhfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$fin_know,ASFL6seflfinbuff$wght)
+
+weighted.mean(ASFL6sefhfinbuff$fin_beh,ASFL6sefhfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$fin_beh,ASFL6seflfinbuff$wght)
+
+weighted.mean(ASFL6sefhfinbuff$fin_att,ASFL6sefhfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$fin_att,ASFL6seflfinbuff$wght)
+
+#financial stress and concern 
+weighted.mean(ASFL6sehfinbuff$shortfall,ASFL6sehfinbuff$wght)
+weighted.mean(ASFL6selfinbuff$shortfall,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6sehfinbuff$finstress1,ASFL6sehfinbuff$wght)
+weighted.mean(ASFL6selfinbuff$finstress1,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6sehfinbuff$finstress2,ASFL6sehfinbuff$wght)
+weighted.mean(ASFL6selfinbuff$finstress2,ASFL6selfinbuff$wght)
+weighted.mean(ASFL6sehfinbuff$finstress3,ASFL6sehfinbuff$wght)
+weighted.mean(ASFL6selfinbuff$finstress3,ASFL6selfinbuff$wght)
+
+weighted.mean(ASFL6sehfinbuff$finfraudd,ASFL6sehfinbuff$wght)
+weighted.mean(ASFL6selfinbuff$finfraudd,ASFL6selfinbuff$wght)
+
+
+weighted.mean(ASFL6semhfinbuff$shortfall,ASFL6semhfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$shortfall,ASFL6semlfinbuff$wght)
+weighted.mean(ASFL6semhfinbuff$finstress1,ASFL6semhfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$finstress1,ASFL6semlfinbuff$wght)
+weighted.mean(ASFL6semhfinbuff$finstress2,ASFL6semhfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$finstress2,ASFL6semlfinbuff$wght)
+weighted.mean(ASFL6semhfinbuff$finstress3,ASFL6semhfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$finstress3,ASFL6semlfinbuff$wght)
+
+weighted.mean(ASFL6semhfinbuff$finfraudd,ASFL6semhfinbuff$wght)
+weighted.mean(ASFL6semlfinbuff$finfraudd,ASFL6semlfinbuff$wght)
+
+
+weighted.mean(ASFL6sefhfinbuff$shortfall,ASFL6sefhfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$shortfall,ASFL6seflfinbuff$wght)
+weighted.mean(ASFL6sefhfinbuff$finstress1,ASFL6sefhfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$finstress1,ASFL6seflfinbuff$wght)
+weighted.mean(ASFL6sefhfinbuff$finstress2,ASFL6sefhfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$finstress2,ASFL6seflfinbuff$wght)
+weighted.mean(ASFL6sefhfinbuff$finstress3,ASFL6sefhfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$finstress3,ASFL6seflfinbuff$wght)
+
+weighted.mean(ASFL6sefhfinbuff$finfraudd,ASFL6sefhfinbuff$wght)
+weighted.mean(ASFL6seflfinbuff$finfraudd,ASFL6seflfinbuff$wght)
+
+##########################employed##########################
+ASFL6ehfinbuff <- ASFL6e[(ASFL6e$QF13 %in% hfinbuff),]
+ASFL6elfinbuff <- ASFL6e[(ASFL6e$QF13 %in% lfinbuff),]
+ASFL6emhfinbuff <- ASFL6em[(ASFL6em$QF13 %in% hfinbuff),]
+ASFL6emlfinbuff <- ASFL6em[(ASFL6em$QF13 %in% lfinbuff),]
+ASFL6efhfinbuff <- ASFL6ef[(ASFL6ef$QF13 %in% hfinbuff),]
+ASFL6eflfinbuff <- ASFL6ef[(ASFL6ef$QF13 %in% lfinbuff),]
+#high financial savings
+weighted.mean(ASFL6ehfinbuff$finlit,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$finlit,ASFL6elfinbuff$wght)
+
+weighted.mean(ASFL6ehfinbuff$fin_know,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$fin_know,ASFL6elfinbuff$wght)
+
+weighted.mean(ASFL6ehfinbuff$fin_beh,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$fin_beh,ASFL6elfinbuff$wght)
+
+weighted.mean(ASFL6ehfinbuff$fin_att,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$fin_att,ASFL6elfinbuff$wght)
+
+
+weighted.mean(ASFL6emhfinbuff$finlit,ASFL6emhfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$finlit,ASFL6emlfinbuff$wght)
+
+weighted.mean(ASFL6emhfinbuff$fin_know,ASFL6emhfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$fin_know,ASFL6emlfinbuff$wght)
+
+weighted.mean(ASFL6emhfinbuff$fin_beh,ASFL6emhfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$fin_beh,ASFL6emlfinbuff$wght)
+
+weighted.mean(ASFL6emhfinbuff$fin_att,ASFL6emhfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$fin_att,ASFL6emlfinbuff$wght)
+
+
+weighted.mean(ASFL6efhfinbuff$finlit,ASFL6efhfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$finlit,ASFL6eflfinbuff$wght)
+
+weighted.mean(ASFL6efhfinbuff$fin_know,ASFL6efhfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$fin_know,ASFL6eflfinbuff$wght)
+
+weighted.mean(ASFL6efhfinbuff$fin_beh,ASFL6efhfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$fin_beh,ASFL6eflfinbuff$wght)
+
+weighted.mean(ASFL6efhfinbuff$fin_att,ASFL6efhfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$fin_att,ASFL6eflfinbuff$wght)
+
+#financial stress and concern 
+weighted.mean(ASFL6ehfinbuff$shortfall,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$shortfall,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6ehfinbuff$finstress1,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$finstress1,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6ehfinbuff$finstress2,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$finstress2,ASFL6elfinbuff$wght)
+weighted.mean(ASFL6ehfinbuff$finstress3,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$finstress3,ASFL6elfinbuff$wght)
+
+weighted.mean(ASFL6ehfinbuff$finfraudd,ASFL6ehfinbuff$wght)
+weighted.mean(ASFL6elfinbuff$finfraudd,ASFL6elfinbuff$wght)
+
+
+weighted.mean(ASFL6emhfinbuff$shortfall,ASFL6emhfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$shortfall,ASFL6emlfinbuff$wght)
+weighted.mean(ASFL6emhfinbuff$finstress1,ASFL6emhfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$finstress1,ASFL6emlfinbuff$wght)
+weighted.mean(ASFL6emhfinbuff$finstress2,ASFL6emhfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$finstress2,ASFL6emlfinbuff$wght)
+weighted.mean(ASFL6emhfinbuff$finstress3,ASFL6emhfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$finstress3,ASFL6emlfinbuff$wght)
+
+weighted.mean(ASFL6emhfinbuff$finfraudd,ASFL6emhfinbuff$wght)
+weighted.mean(ASFL6emlfinbuff$finfraudd,ASFL6emlfinbuff$wght)
+
+
+weighted.mean(ASFL6efhfinbuff$shortfall,ASFL6efhfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$shortfall,ASFL6eflfinbuff$wght)
+weighted.mean(ASFL6efhfinbuff$finstress1,ASFL6efhfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$finstress1,ASFL6eflfinbuff$wght)
+weighted.mean(ASFL6efhfinbuff$finstress2,ASFL6efhfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$finstress2,ASFL6eflfinbuff$wght)
+weighted.mean(ASFL6efhfinbuff$finstress3,ASFL6efhfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$finstress3,ASFL6eflfinbuff$wght)
+
+weighted.mean(ASFL6efhfinbuff$finfraudd,ASFL6efhfinbuff$wght)
+weighted.mean(ASFL6eflfinbuff$finfraudd,ASFL6eflfinbuff$wght)
+
+
+##############################GENDER DIFFERENCES financial indicators ############
+
+###selfemployed
+ASFL6sem <- ASFL6se[(ASFL6se$QD1 %in% male),]
+ASFL6sef <- ASFL6se[(ASFL6se$QD1 %in% female),]
+#male
+weighted.mean(ASFL6sem$finlit,ASFL6sem$wght)
+weighted.mean(ASFL6sem$fin_know,ASFL6sem$wght)
+weighted.mean(ASFL6sem$fin_know_add,ASFL6sem$wght)
+weighted.mean(ASFL6sem$fin_beh,ASFL6sem$wght)
+weighted.mean(ASFL6sem$fin_att,ASFL6sem$wght)
+
+wpct(ASFL6sem$produse,ASFL6sem$wght, na.rm=TRUE)
+1-0.01663340- 0.01517251
+wpct(ASFL6sem$savinred,ASFL6sem$wght, na.rm=TRUE)
+wpct(ASFL6sem$payprodd,ASFL6sem$wght, na.rm=TRUE)
+wpct(ASFL6sem$p1b10,ASFL6sem$wght, na.rm=TRUE)
+wpct(ASFL6sem$credpd,ASFL6sem$wght, na.rm=TRUE)
+wpct(ASFL6sem$recentchoiced,ASFL6sem$wght, na.rm=TRUE)
+wpct(ASFL6sem$famfriend,ASFL6sem$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6sem$finwellbeing,ASFL6sem$wght)
+
+wpct(ASFL6sem$QF13,ASFL6sem$wght, na.rm=TRUE)
+0.21019579  +0.54237185  
+wpct(ASFL6sem$finfraudd,ASFL6sem$wght, na.rm=TRUE)
+
+wpct(ASFL6sem$shortfall,ASFL6sem$wght, na.rm=TRUE)
+wpct(ASFL6sem$finstress1,ASFL6sem$wght, na.rm=TRUE)
+wpct(ASFL6sem$finstress2,ASFL6sem$wght, na.rm=TRUE)
+wpct(ASFL6sem$finstress3,ASFL6sem$wght, na.rm=TRUE)
+
+#female
+weighted.mean(ASFL6sef$finlit,ASFL6sef$wght)
+weighted.mean(ASFL6sef$fin_know,ASFL6sef$wght)
+weighted.mean(ASFL6sef$fin_know_add,ASFL6sef$wght)
+weighted.mean(ASFL6sef$fin_beh,ASFL6sef$wght)
+weighted.mean(ASFL6sef$fin_att,ASFL6sef$wght)
+
+wpct(ASFL6sef$produse,ASFL6sef$wght, na.rm=TRUE)
+1-0.03057546 
+wpct(ASFL6sef$savinred,ASFL6sef$wght, na.rm=TRUE)
+wpct(ASFL6sef$payprodd,ASFL6sef$wght, na.rm=TRUE)
+wpct(ASFL6sef$p1b10,ASFL6sef$wght, na.rm=TRUE)
+wpct(ASFL6sef$credpd,ASFL6sef$wght, na.rm=TRUE)
+wpct(ASFL6sef$recentchoiced,ASFL6sef$wght, na.rm=TRUE)
+wpct(ASFL6sef$famfriend,ASFL6sef$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6sef$finwellbeing,ASFL6sef$wght)
+
+wpct(ASFL6sef$QF13,ASFL6sef$wght, na.rm=TRUE)
+0.21569250   +0.32039232  
+wpct(ASFL6sef$finfraudd,ASFL6sef$wght, na.rm=TRUE)
+
+wpct(ASFL6sef$shortfall,ASFL6sef$wght, na.rm=TRUE)
+wpct(ASFL6sef$finstress1,ASFL6sef$wght, na.rm=TRUE)
+wpct(ASFL6sef$finstress2,ASFL6sef$wght, na.rm=TRUE)
+wpct(ASFL6sef$finstress3,ASFL6sef$wght, na.rm=TRUE)
+
+##employed
+#male
+weighted.mean(ASFL6em$finlit,ASFL6em$wght)
+weighted.mean(ASFL6em$fin_know,ASFL6em$wght)
+weighted.mean(ASFL6em$fin_know_add,ASFL6em$wght)
+weighted.mean(ASFL6em$fin_beh,ASFL6em$wght)
+weighted.mean(ASFL6em$fin_att,ASFL6em$wght)
+
+wpct(ASFL6em$produse,ASFL6em$wght, na.rm=TRUE)
+1-0.012434899 -0.016887064- 0.027976337
+wpct(ASFL6em$savinred,ASFL6em$wght, na.rm=TRUE)
+wpct(ASFL6em$payprodd,ASFL6em$wght, na.rm=TRUE)
+wpct(ASFL6em$p1b10,ASFL6em$wght, na.rm=TRUE)
+wpct(ASFL6em$credpd,ASFL6em$wght, na.rm=TRUE)
+wpct(ASFL6em$recentchoiced,ASFL6em$wght, na.rm=TRUE)
+wpct(ASFL6em$famfriend,ASFL6em$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6em$finwellbeing,ASFL6em$wght)
+
+wpct(ASFL6em$QF13,ASFL6em$wght, na.rm=TRUE)
+0.21320536  +0.30795281  
+wpct(ASFL6em$finfraudd,ASFL6em$wght, na.rm=TRUE)
+
+wpct(ASFL6em$shortfall,ASFL6em$wght, na.rm=TRUE)
+wpct(ASFL6em$finstress1,ASFL6em$wght, na.rm=TRUE)
+wpct(ASFL6em$finstress2,ASFL6em$wght, na.rm=TRUE)
+wpct(ASFL6em$finstress3,ASFL6em$wght, na.rm=TRUE)
+
+#female
+weighted.mean(ASFL6ef$finlit,ASFL6ef$wght)
+weighted.mean(ASFL6ef$fin_know,ASFL6ef$wght)
+weighted.mean(ASFL6ef$fin_know_add,ASFL6ef$wght)
+weighted.mean(ASFL6ef$fin_beh,ASFL6ef$wght)
+weighted.mean(ASFL6ef$fin_att,ASFL6ef$wght)
+
+wpct(ASFL6ef$produse,ASFL6ef$wght, na.rm=TRUE)
+1-0.014116070 -0.003766211 -0.028318376
+wpct(ASFL6ef$savinred,ASFL6ef$wght, na.rm=TRUE)
+wpct(ASFL6ef$payprodd,ASFL6ef$wght, na.rm=TRUE)
+wpct(ASFL6ef$p1b10,ASFL6ef$wght, na.rm=TRUE)
+wpct(ASFL6ef$credpd,ASFL6ef$wght, na.rm=TRUE)
+wpct(ASFL6ef$recentchoiced,ASFL6ef$wght, na.rm=TRUE)
+wpct(ASFL6ef$famfriend,ASFL6ef$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6ef$finwellbeing,ASFL6ef$wght)
+
+wpct(ASFL6ef$QF13,ASFL6ef$wght, na.rm=TRUE)
+0.25480653  +0.25635277  
+wpct(ASFL6ef$finfraudd,ASFL6ef$wght, na.rm=TRUE)
+
+wpct(ASFL6ef$shortfall,ASFL6ef$wght, na.rm=TRUE)
+wpct(ASFL6ef$finstress1,ASFL6ef$wght, na.rm=TRUE)
+wpct(ASFL6ef$finstress2,ASFL6ef$wght, na.rm=TRUE)
+wpct(ASFL6ef$finstress3,ASFL6ef$wght, na.rm=TRUE)
+
+##############################EDUCATION DIFFERENCES financial indicators ############
+###selfemployed
+ASFL6sehigheduc <- ASFL6se[(ASFL6se$education %in% heduc),]
+ASFL6seloweduc <- ASFL6se[(ASFL6se$education %in% leduc),]
+#higheducation
+weighted.mean(ASFL6sehigheduc$finlit,ASFL6sehigheduc$wght)
+weighted.mean(ASFL6sehigheduc$fin_know,ASFL6sehigheduc$wght)
+weighted.mean(ASFL6sehigheduc$fin_know_add,ASFL6sehigheduc$wght)
+weighted.mean(ASFL6sehigheduc$fin_beh,ASFL6sehigheduc$wght)
+weighted.mean(ASFL6sehigheduc$fin_att,ASFL6sehigheduc$wght)
+
+wpct(ASFL6sehigheduc$produse,ASFL6sehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6sehigheduc$savinred,ASFL6sehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6sehigheduc$payprodd,ASFL6sehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6sehigheduc$p1b10,ASFL6sehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6sehigheduc$credpd,ASFL6sehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6sehigheduc$recentchoiced,ASFL6sehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6sehigheduc$famfriend,ASFL6sehigheduc$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6sehigheduc$finwellbeing,ASFL6sehigheduc$wght)
+
+wpct(ASFL6sehigheduc$QF13,ASFL6sehigheduc$wght, na.rm=TRUE)
+0.30488454 +0.47935957 
+wpct(ASFL6sehigheduc$finfraudd,ASFL6sehigheduc$wght, na.rm=TRUE)
+
+wpct(ASFL6sehigheduc$shortfall,ASFL6sehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6sehigheduc$finstress1,ASFL6sehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6sehigheduc$finstress2,ASFL6sehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6sehigheduc$finstress3,ASFL6sehigheduc$wght, na.rm=TRUE)
+
+#loweducation
+weighted.mean(ASFL6seloweduc$finlit,ASFL6seloweduc$wght)
+weighted.mean(ASFL6seloweduc$fin_know,ASFL6seloweduc$wght)
+weighted.mean(ASFL6seloweduc$fin_know_add,ASFL6seloweduc$wght)
+weighted.mean(ASFL6seloweduc$fin_beh,ASFL6seloweduc$wght)
+weighted.mean(ASFL6seloweduc$fin_att,ASFL6seloweduc$wght)
+
+wpct(ASFL6seloweduc$produse,ASFL6seloweduc$wght, na.rm=TRUE)
+1-0.01729779- 0.03741043
+wpct(ASFL6seloweduc$savinred,ASFL6seloweduc$wght, na.rm=TRUE)
+wpct(ASFL6seloweduc$payprodd,ASFL6seloweduc$wght, na.rm=TRUE)
+wpct(ASFL6seloweduc$p1b10,ASFL6seloweduc$wght, na.rm=TRUE)
+wpct(ASFL6seloweduc$credpd,ASFL6seloweduc$wght, na.rm=TRUE)
+wpct(ASFL6seloweduc$recentchoiced,ASFL6seloweduc$wght, na.rm=TRUE)
+wpct(ASFL6seloweduc$famfriend,ASFL6seloweduc$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6seloweduc$finwellbeing,ASFL6seloweduc$wght)
+
+wpct(ASFL6seloweduc$QF13,ASFL6seloweduc$wght, na.rm=TRUE)
+0.15267947  +0.44715041 
+wpct(ASFL6seloweduc$finfraudd,ASFL6seloweduc$wght, na.rm=TRUE)
+
+wpct(ASFL6seloweduc$shortfall,ASFL6seloweduc$wght, na.rm=TRUE)
+wpct(ASFL6seloweduc$finstress1,ASFL6seloweduc$wght, na.rm=TRUE)
+wpct(ASFL6seloweduc$finstress2,ASFL6seloweduc$wght, na.rm=TRUE)
+wpct(ASFL6seloweduc$finstress3,ASFL6seloweduc$wght, na.rm=TRUE)
+
+##employed
+ASFL6ehigheduc <- ASFL6e[(ASFL6e$education %in% heduc),]
+ASFL6eloweduc <- ASFL6e[(ASFL6e$education %in% leduc),]
+#higheducation
+weighted.mean(ASFL6ehigheduc$finlit,ASFL6ehigheduc$wght)
+weighted.mean(ASFL6ehigheduc$fin_know,ASFL6ehigheduc$wght)
+weighted.mean(ASFL6ehigheduc$fin_know_add,ASFL6ehigheduc$wght)
+weighted.mean(ASFL6ehigheduc$fin_beh,ASFL6ehigheduc$wght)
+weighted.mean(ASFL6ehigheduc$fin_att,ASFL6ehigheduc$wght)
+
+wpct(ASFL6ehigheduc$produse,ASFL6ehigheduc$wght, na.rm=TRUE)
+1-0.013230582- 0.005814360- 0.004625973
+wpct(ASFL6ehigheduc$savinred,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$payprodd,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$p1b10,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$credpd,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$recentchoiced,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$famfriend,ASFL6ehigheduc$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6ehigheduc$finwellbeing,ASFL6ehigheduc$wght)
+
+wpct(ASFL6ehigheduc$QF13,ASFL6ehigheduc$wght, na.rm=TRUE)
+0.263778084 +0.435235931 
+wpct(ASFL6ehigheduc$finfraudd,ASFL6ehigheduc$wght, na.rm=TRUE)
+
+wpct(ASFL6ehigheduc$shortfall,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$finstress1,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$finstress2,ASFL6ehigheduc$wght, na.rm=TRUE)
+wpct(ASFL6ehigheduc$finstress3,ASFL6ehigheduc$wght, na.rm=TRUE)
+
+#loweducation
+weighted.mean(ASFL6eloweduc$finlit,ASFL6eloweduc$wght)
+weighted.mean(ASFL6eloweduc$fin_know,ASFL6eloweduc$wght)
+weighted.mean(ASFL6eloweduc$fin_know_add,ASFL6eloweduc$wght)
+weighted.mean(ASFL6eloweduc$fin_beh,ASFL6eloweduc$wght)
+weighted.mean(ASFL6eloweduc$fin_att,ASFL6eloweduc$wght)
+
+wpct(ASFL6eloweduc$produse,ASFL6eloweduc$wght, na.rm=TRUE)
+1-0.01371346- 0.01316100- 0.04016817
+wpct(ASFL6eloweduc$savinred,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$payprodd,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$p1b10,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$credpd,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$recentchoiced,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$famfriend,ASFL6eloweduc$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6eloweduc$finwellbeing,ASFL6eloweduc$wght)
+
+wpct(ASFL6eloweduc$QF13,ASFL6eloweduc$wght, na.rm=TRUE)
+0.22102786 +0.21036784 
+wpct(ASFL6eloweduc$finfraudd,ASFL6eloweduc$wght, na.rm=TRUE)
+
+wpct(ASFL6eloweduc$shortfall,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$finstress1,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$finstress2,ASFL6eloweduc$wght, na.rm=TRUE)
+wpct(ASFL6eloweduc$finstress3,ASFL6eloweduc$wght, na.rm=TRUE)
+
+
+##############################EDUCATION specific DIFFERENCES financial indicators ############
+####self-employed
+ASFL6seprimary <- ASFL6se[(ASFL6se$educationspecific_1 %in% primary ),]
+ASFL6selowersec <- ASFL6se[(ASFL6se$educationspecific_1 %in% lowersec),]
+ASFL6seuppersec <- ASFL6se[(ASFL6se$educationspecific_1 %in% uppersec),]
+ASFL6seuniversity <- ASFL6se[(ASFL6se$educationspecific_1 %in% university),]
+ASFL6seAkademie <- ASFL6se[(ASFL6se$educationspecific_1 %in% akademie),]
+
+#primary
+weighted.mean(ASFL6seprimary$finlit,ASFL6seprimary$wght)
+weighted.mean(ASFL6seprimary$fin_know,ASFL6seprimary$wght)
+weighted.mean(ASFL6seprimary$fin_know_add,ASFL6seprimary$wght)
+weighted.mean(ASFL6seprimary$fin_beh,ASFL6seprimary$wght)
+weighted.mean(ASFL6seprimary$fin_att,ASFL6seprimary$wght)
+
+wpct(ASFL6seprimary$produse,ASFL6seprimary$wght, na.rm=TRUE)
+wpct(ASFL6seprimary$savinred,ASFL6seprimary$wght, na.rm=TRUE)
+wpct(ASFL6seprimary$payprodd,ASFL6seprimary$wght, na.rm=TRUE)
+wpct(ASFL6seprimary$p1b10,ASFL6seprimary$wght, na.rm=TRUE)
+wpct(ASFL6seprimary$credpd,ASFL6seprimary$wght, na.rm=TRUE)
+wpct(ASFL6seprimary$recentchoiced,ASFL6seprimary$wght, na.rm=TRUE)
+wpct(ASFL6seprimary$famfriend,ASFL6seprimary$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6seprimary$finwellbeing,ASFL6seprimary$wght)
+
+wpct(ASFL6seprimary$QF13,ASFL6seprimary$wght, na.rm=TRUE)
+0.6419943 +0.2088144 
+wpct(ASFL6seprimary$finfraudd,ASFL6seprimary$wght, na.rm=TRUE)
+
+wpct(ASFL6seprimary$shortfall,ASFL6seprimary$wght, na.rm=TRUE)
+wpct(ASFL6seprimary$finstress1,ASFL6seprimary$wght, na.rm=TRUE)
+wpct(ASFL6seprimary$finstress2,ASFL6seprimary$wght, na.rm=TRUE)
+wpct(ASFL6seprimary$finstress3,ASFL6seprimary$wght, na.rm=TRUE)
+#lowersec
+weighted.mean(ASFL6selowersec$finlit,ASFL6selowersec$wght)
+weighted.mean(ASFL6selowersec$fin_know,ASFL6selowersec$wght)
+weighted.mean(ASFL6selowersec$fin_know_add,ASFL6selowersec$wght)
+weighted.mean(ASFL6selowersec$fin_beh,ASFL6selowersec$wght)
+weighted.mean(ASFL6selowersec$fin_att,ASFL6selowersec$wght)
+
+wpct(ASFL6selowersec$produse,ASFL6selowersec$wght, na.rm=TRUE)
+wpct(ASFL6selowersec$savinred,ASFL6selowersec$wght, na.rm=TRUE)
+wpct(ASFL6selowersec$payprodd,ASFL6selowersec$wght, na.rm=TRUE)
+wpct(ASFL6selowersec$p1b10,ASFL6selowersec$wght, na.rm=TRUE)
+wpct(ASFL6selowersec$credpd,ASFL6selowersec$wght, na.rm=TRUE)
+wpct(ASFL6selowersec$recentchoiced,ASFL6selowersec$wght, na.rm=TRUE)
+wpct(ASFL6selowersec$famfriend,ASFL6selowersec$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6selowersec$finwellbeing,ASFL6selowersec$wght)
+
+wpct(ASFL6selowersec$QF13,ASFL6selowersec$wght, na.rm=TRUE)
+0.6419943 +0.2088144 
+wpct(ASFL6selowersec$finfraudd,ASFL6selowersec$wght, na.rm=TRUE)
+
+wpct(ASFL6selowersec$shortfall,ASFL6selowersec$wght, na.rm=TRUE)
+wpct(ASFL6selowersec$finstress1,ASFL6selowersec$wght, na.rm=TRUE)
+wpct(ASFL6selowersec$finstress2,ASFL6selowersec$wght, na.rm=TRUE)
+wpct(ASFL6selowersec$finstress3,ASFL6selowersec$wght, na.rm=TRUE)
+#uppersec
+weighted.mean(ASFL6seuppersec$finlit,ASFL6seuppersec$wght)
+weighted.mean(ASFL6seuppersec$fin_know,ASFL6seuppersec$wght)
+weighted.mean(ASFL6seuppersec$fin_know_add,ASFL6seuppersec$wght)
+weighted.mean(ASFL6seuppersec$fin_beh,ASFL6seuppersec$wght)
+weighted.mean(ASFL6seuppersec$fin_att,ASFL6seuppersec$wght)
+
+wpct(ASFL6seuppersec$produse,ASFL6seuppersec$wght, na.rm=TRUE)
+wpct(ASFL6seuppersec$savinred,ASFL6seuppersec$wght, na.rm=TRUE)
+wpct(ASFL6seuppersec$payprodd,ASFL6seuppersec$wght, na.rm=TRUE)
+wpct(ASFL6seuppersec$p1b10,ASFL6seuppersec$wght, na.rm=TRUE)
+wpct(ASFL6seuppersec$credpd,ASFL6seuppersec$wght, na.rm=TRUE)
+wpct(ASFL6seuppersec$recentchoiced,ASFL6seuppersec$wght, na.rm=TRUE)
+wpct(ASFL6seuppersec$famfriend,ASFL6seuppersec$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6seuppersec$finwellbeing,ASFL6seuppersec$wght)
+
+wpct(ASFL6seuppersec$QF13,ASFL6seuppersec$wght, na.rm=TRUE)
+0.6419943 +0.2088144 
+wpct(ASFL6seuppersec$finfraudd,ASFL6seuppersec$wght, na.rm=TRUE)
+
+wpct(ASFL6seuppersec$shortfall,ASFL6seuppersec$wght, na.rm=TRUE)
+wpct(ASFL6seuppersec$finstress1,ASFL6seuppersec$wght, na.rm=TRUE)
+wpct(ASFL6seuppersec$finstress2,ASFL6seuppersec$wght, na.rm=TRUE)
+wpct(ASFL6seuppersec$finstress3,ASFL6seuppersec$wght, na.rm=TRUE)
+#university
+weighted.mean(ASFL6seuniversity$finlit,ASFL6seuniversity$wght)
+weighted.mean(ASFL6seuniversity$fin_know,ASFL6seuniversity$wght)
+weighted.mean(ASFL6seuniversity$fin_know_add,ASFL6seuniversity$wght)
+weighted.mean(ASFL6seuniversity$fin_beh,ASFL6seuniversity$wght)
+weighted.mean(ASFL6seuniversity$fin_att,ASFL6seuniversity$wght)
+
+wpct(ASFL6seuniversity$produse,ASFL6seuniversity$wght, na.rm=TRUE)
+wpct(ASFL6seuniversity$savinred,ASFL6seuniversity$wght, na.rm=TRUE)
+wpct(ASFL6seuniversity$payprodd,ASFL6seuniversity$wght, na.rm=TRUE)
+wpct(ASFL6seuniversity$p1b10,ASFL6seuniversity$wght, na.rm=TRUE)
+wpct(ASFL6seuniversity$credpd,ASFL6seuniversity$wght, na.rm=TRUE)
+wpct(ASFL6seuniversity$recentchoiced,ASFL6seuniversity$wght, na.rm=TRUE)
+wpct(ASFL6seuniversity$famfriend,ASFL6seuniversity$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6seuniversity$finwellbeing,ASFL6seuniversity$wght)
+
+wpct(ASFL6seuniversity$QF13,ASFL6seuniversity$wght, na.rm=TRUE)
+0.6419943 +0.2088144 
+wpct(ASFL6seuniversity$finfraudd,ASFL6seuniversity$wght, na.rm=TRUE)
+
+wpct(ASFL6seuniversity$shortfall,ASFL6seuniversity$wght, na.rm=TRUE)
+wpct(ASFL6seuniversity$finstress1,ASFL6seuniversity$wght, na.rm=TRUE)
+wpct(ASFL6seuniversity$finstress2,ASFL6seuniversity$wght, na.rm=TRUE)
+wpct(ASFL6seuniversity$finstress3,ASFL6seuniversity$wght, na.rm=TRUE)
+
+#Akademie
+weighted.mean(ASFL6seAkademie$finlit,ASFL6seAkademie$wght)
+weighted.mean(ASFL6seAkademie$fin_know,ASFL6seAkademie$wght)
+weighted.mean(ASFL6seAkademie$fin_know_add,ASFL6seAkademie$wght)
+weighted.mean(ASFL6seAkademie$fin_beh,ASFL6seAkademie$wght)
+weighted.mean(ASFL6seAkademie$fin_att,ASFL6seAkademie$wght)
+
+wpct(ASFL6seAkademie$produse,ASFL6seAkademie$wght, na.rm=TRUE)
+wpct(ASFL6seAkademie$savinred,ASFL6seAkademie$wght, na.rm=TRUE)
+wpct(ASFL6seAkademie$payprodd,ASFL6seAkademie$wght, na.rm=TRUE)
+wpct(ASFL6seAkademie$p1b10,ASFL6seAkademie$wght, na.rm=TRUE)
+wpct(ASFL6seAkademie$credpd,ASFL6seAkademie$wght, na.rm=TRUE)
+wpct(ASFL6seAkademie$recentchoiced,ASFL6seAkademie$wght, na.rm=TRUE)
+wpct(ASFL6seAkademie$famfriend,ASFL6seAkademie$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6seAkademie$finwellbeing,ASFL6seAkademie$wght)
+
+wpct(ASFL6seAkademie$QF13,ASFL6seAkademie$wght, na.rm=TRUE)
+0.6419943 +0.2088144 
+wpct(ASFL6seAkademie$finfraudd,ASFL6seAkademie$wght, na.rm=TRUE)
+
+wpct(ASFL6seAkademie$shortfall,ASFL6seAkademie$wght, na.rm=TRUE)
+wpct(ASFL6seAkademie$finstress1,ASFL6seAkademie$wght, na.rm=TRUE)
+wpct(ASFL6seAkademie$finstress2,ASFL6seAkademie$wght, na.rm=TRUE)
+wpct(ASFL6seAkademie$finstress3,ASFL6seAkademie$wght, na.rm=TRUE)
+
+
+
+####employed
+ASFL6eprimary <- ASFL6e[(ASFL6e$educationspecific_1 %in% primary ),]
+ASFL6elowersec <- ASFL6e[(ASFL6e$educationspecific_1 %in% lowersec),]
+ASFL6euppersec <- ASFL6e[(ASFL6e$educationspecific_1 %in% uppersec),]
+ASFL6euniversity <- ASFL6e[(ASFL6e$educationspecific_1 %in% university),]
+ASFL6eAkademie <- ASFL6e[(ASFL6e$educationspecific_1 %in% akademie),]
+
+#primary
+weighted.mean(ASFL6eprimary$finlit,ASFL6eprimary$wght)
+weighted.mean(ASFL6eprimary$fin_know,ASFL6eprimary$wght)
+weighted.mean(ASFL6eprimary$fin_know_add,ASFL6eprimary$wght)
+weighted.mean(ASFL6eprimary$fin_beh,ASFL6eprimary$wght)
+weighted.mean(ASFL6eprimary$fin_att,ASFL6eprimary$wght)
+
+wpct(ASFL6eprimary$produse,ASFL6eprimary$wght, na.rm=TRUE)
+wpct(ASFL6eprimary$savinred,ASFL6eprimary$wght, na.rm=TRUE)
+wpct(ASFL6eprimary$payprodd,ASFL6eprimary$wght, na.rm=TRUE)
+wpct(ASFL6eprimary$p1b10,ASFL6eprimary$wght, na.rm=TRUE)
+wpct(ASFL6eprimary$credpd,ASFL6eprimary$wght, na.rm=TRUE)
+wpct(ASFL6eprimary$recentchoiced,ASFL6eprimary$wght, na.rm=TRUE)
+wpct(ASFL6eprimary$famfriend,ASFL6eprimary$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6eprimary$finwellbeing,ASFL6eprimary$wght)
+
+wpct(ASFL6eprimary$QF13,ASFL6eprimary$wght, na.rm=TRUE)
+0.6419943 +0.2088144 
+wpct(ASFL6eprimary$finfraudd,ASFL6eprimary$wght, na.rm=TRUE)
+
+wpct(ASFL6eprimary$shortfall,ASFL6eprimary$wght, na.rm=TRUE)
+wpct(ASFL6eprimary$finstress1,ASFL6eprimary$wght, na.rm=TRUE)
+wpct(ASFL6eprimary$finstress2,ASFL6eprimary$wght, na.rm=TRUE)
+wpct(ASFL6eprimary$finstress3,ASFL6eprimary$wght, na.rm=TRUE)
+#lowersec
+weighted.mean(ASFL6elowersec$finlit,ASFL6elowersec$wght)
+weighted.mean(ASFL6elowersec$fin_know,ASFL6elowersec$wght)
+weighted.mean(ASFL6elowersec$fin_know_add,ASFL6elowersec$wght)
+weighted.mean(ASFL6elowersec$fin_beh,ASFL6elowersec$wght)
+weighted.mean(ASFL6elowersec$fin_att,ASFL6elowersec$wght)
+
+wpct(ASFL6elowersec$produse,ASFL6elowersec$wght, na.rm=TRUE)
+wpct(ASFL6elowersec$savinred,ASFL6elowersec$wght, na.rm=TRUE)
+wpct(ASFL6elowersec$payprodd,ASFL6elowersec$wght, na.rm=TRUE)
+wpct(ASFL6elowersec$p1b10,ASFL6elowersec$wght, na.rm=TRUE)
+wpct(ASFL6elowersec$credpd,ASFL6elowersec$wght, na.rm=TRUE)
+wpct(ASFL6elowersec$recentchoiced,ASFL6elowersec$wght, na.rm=TRUE)
+wpct(ASFL6elowersec$famfriend,ASFL6elowersec$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6elowersec$finwellbeing,ASFL6elowersec$wght)
+
+wpct(ASFL6elowersec$QF13,ASFL6elowersec$wght, na.rm=TRUE)
+0.6419943 +0.2088144 
+wpct(ASFL6elowersec$finfraudd,ASFL6elowersec$wght, na.rm=TRUE)
+
+wpct(ASFL6elowersec$shortfall,ASFL6elowersec$wght, na.rm=TRUE)
+wpct(ASFL6elowersec$finstress1,ASFL6elowersec$wght, na.rm=TRUE)
+wpct(ASFL6elowersec$finstress2,ASFL6elowersec$wght, na.rm=TRUE)
+wpct(ASFL6elowersec$finstress3,ASFL6elowersec$wght, na.rm=TRUE)
+#uppersec
+weighted.mean(ASFL6euppersec$finlit,ASFL6euppersec$wght)
+weighted.mean(ASFL6euppersec$fin_know,ASFL6euppersec$wght)
+weighted.mean(ASFL6euppersec$fin_know_add,ASFL6euppersec$wght)
+weighted.mean(ASFL6euppersec$fin_beh,ASFL6euppersec$wght)
+weighted.mean(ASFL6euppersec$fin_att,ASFL6euppersec$wght)
+
+wpct(ASFL6euppersec$produse,ASFL6euppersec$wght, na.rm=TRUE)
+wpct(ASFL6euppersec$savinred,ASFL6euppersec$wght, na.rm=TRUE)
+wpct(ASFL6euppersec$payprodd,ASFL6euppersec$wght, na.rm=TRUE)
+wpct(ASFL6euppersec$p1b10,ASFL6euppersec$wght, na.rm=TRUE)
+wpct(ASFL6euppersec$credpd,ASFL6euppersec$wght, na.rm=TRUE)
+wpct(ASFL6euppersec$recentchoiced,ASFL6euppersec$wght, na.rm=TRUE)
+wpct(ASFL6euppersec$famfriend,ASFL6euppersec$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6euppersec$finwellbeing,ASFL6euppersec$wght)
+
+wpct(ASFL6euppersec$QF13,ASFL6euppersec$wght, na.rm=TRUE)
+0.6419943 +0.2088144 
+wpct(ASFL6euppersec$finfraudd,ASFL6euppersec$wght, na.rm=TRUE)
+
+wpct(ASFL6euppersec$shortfall,ASFL6euppersec$wght, na.rm=TRUE)
+wpct(ASFL6euppersec$finstress1,ASFL6euppersec$wght, na.rm=TRUE)
+wpct(ASFL6euppersec$finstress2,ASFL6euppersec$wght, na.rm=TRUE)
+wpct(ASFL6euppersec$finstress3,ASFL6euppersec$wght, na.rm=TRUE)
+#university
+weighted.mean(ASFL6euniversity$finlit,ASFL6euniversity$wght)
+weighted.mean(ASFL6euniversity$fin_know,ASFL6euniversity$wght)
+weighted.mean(ASFL6euniversity$fin_know_add,ASFL6euniversity$wght)
+weighted.mean(ASFL6euniversity$fin_beh,ASFL6euniversity$wght)
+weighted.mean(ASFL6euniversity$fin_att,ASFL6euniversity$wght)
+
+wpct(ASFL6euniversity$produse,ASFL6euniversity$wght, na.rm=TRUE)
+wpct(ASFL6euniversity$savinred,ASFL6euniversity$wght, na.rm=TRUE)
+wpct(ASFL6euniversity$payprodd,ASFL6euniversity$wght, na.rm=TRUE)
+wpct(ASFL6euniversity$p1b10,ASFL6euniversity$wght, na.rm=TRUE)
+wpct(ASFL6euniversity$credpd,ASFL6euniversity$wght, na.rm=TRUE)
+wpct(ASFL6euniversity$recentchoiced,ASFL6euniversity$wght, na.rm=TRUE)
+wpct(ASFL6euniversity$famfriend,ASFL6euniversity$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6euniversity$finwellbeing,ASFL6euniversity$wght)
+
+wpct(ASFL6euniversity$QF13,ASFL6euniversity$wght, na.rm=TRUE)
+0.6419943 +0.2088144 
+wpct(ASFL6euniversity$finfraudd,ASFL6euniversity$wght, na.rm=TRUE)
+
+wpct(ASFL6euniversity$shortfall,ASFL6euniversity$wght, na.rm=TRUE)
+wpct(ASFL6euniversity$finstress1,ASFL6euniversity$wght, na.rm=TRUE)
+wpct(ASFL6euniversity$finstress2,ASFL6euniversity$wght, na.rm=TRUE)
+wpct(ASFL6euniversity$finstress3,ASFL6euniversity$wght, na.rm=TRUE)
+
+#Akademie
+weighted.mean(ASFL6eAkademie$finlit,ASFL6eAkademie$wght)
+weighted.mean(ASFL6eAkademie$fin_know,ASFL6eAkademie$wght)
+weighted.mean(ASFL6eAkademie$fin_know_add,ASFL6eAkademie$wght)
+weighted.mean(ASFL6eAkademie$fin_beh,ASFL6eAkademie$wght)
+weighted.mean(ASFL6eAkademie$fin_att,ASFL6eAkademie$wght)
+
+wpct(ASFL6eAkademie$produse,ASFL6eAkademie$wght, na.rm=TRUE)
+wpct(ASFL6eAkademie$savinred,ASFL6eAkademie$wght, na.rm=TRUE)
+wpct(ASFL6eAkademie$payprodd,ASFL6eAkademie$wght, na.rm=TRUE)
+wpct(ASFL6eAkademie$p1b10,ASFL6eAkademie$wght, na.rm=TRUE)
+wpct(ASFL6eAkademie$credpd,ASFL6eAkademie$wght, na.rm=TRUE)
+wpct(ASFL6eAkademie$recentchoiced,ASFL6eAkademie$wght, na.rm=TRUE)
+wpct(ASFL6eAkademie$famfriend,ASFL6eAkademie$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6eAkademie$finwellbeing,ASFL6eAkademie$wght)
+
+wpct(ASFL6eAkademie$QF13,ASFL6eAkademie$wght, na.rm=TRUE)
+0.6419943 +0.2088144 
+wpct(ASFL6eAkademie$finfraudd,ASFL6eAkademie$wght, na.rm=TRUE)
+
+wpct(ASFL6eAkademie$shortfall,ASFL6eAkademie$wght, na.rm=TRUE)
+wpct(ASFL6eAkademie$finstress1,ASFL6eAkademie$wght, na.rm=TRUE)
+wpct(ASFL6eAkademie$finstress2,ASFL6eAkademie$wght, na.rm=TRUE)
+wpct(ASFL6eAkademie$finstress3,ASFL6eAkademie$wght, na.rm=TRUE)
+
+
+
+##############################AGE DIFFERENCES financial indicators ############
+##self-employed
+ASFL6seoldmill <- ASFL6se[(ASFL6se$age_group %in% oldmill),]
+ASFL6segenx <- ASFL6se[(ASFL6se$age_group %in% genx),]
+ASFL6sebabyboom <- ASFL6se[(ASFL6se$age_group %in% babyboom),]
+#old millenials
+weighted.mean(ASFL6seoldmill$finlit,ASFL6seoldmill$wght)
+weighted.mean(ASFL6seoldmill$fin_know,ASFL6seoldmill$wght)
+weighted.mean(ASFL6seoldmill$fin_know_add,ASFL6seoldmill$wght)
+weighted.mean(ASFL6seoldmill$fin_beh,ASFL6seoldmill$wght)
+weighted.mean(ASFL6seoldmill$fin_att,ASFL6seoldmill$wght)
+
+wpct(ASFL6seoldmill$produse,ASFL6seoldmill$wght, na.rm=TRUE)
+wpct(ASFL6seoldmill$savinred,ASFL6seoldmill$wght, na.rm=TRUE)
+wpct(ASFL6seoldmill$payprodd,ASFL6seoldmill$wght, na.rm=TRUE)
+wpct(ASFL6seoldmill$p1b10,ASFL6seoldmill$wght, na.rm=TRUE)
+wpct(ASFL6seoldmill$credpd,ASFL6seoldmill$wght, na.rm=TRUE)
+wpct(ASFL6seoldmill$recentchoiced,ASFL6seoldmill$wght, na.rm=TRUE)
+wpct(ASFL6seoldmill$famfriend,ASFL6seoldmill$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6seoldmill$finwellbeing,ASFL6seoldmill$wght)
+
+wpct(ASFL6seoldmill$QF13,ASFL6seoldmill$wght, na.rm=TRUE)
+0.6419943 +0.2088144 
+wpct(ASFL6seoldmill$finfraudd,ASFL6seoldmill$wght, na.rm=TRUE)
+
+wpct(ASFL6seoldmill$shortfall,ASFL6seoldmill$wght, na.rm=TRUE)
+wpct(ASFL6seoldmill$finstress1,ASFL6seoldmill$wght, na.rm=TRUE)
+wpct(ASFL6seoldmill$finstress2,ASFL6seoldmill$wght, na.rm=TRUE)
+wpct(ASFL6seoldmill$finstress3,ASFL6seoldmill$wght, na.rm=TRUE)
+
+
+wpct(ASFL6seoldmill$QK1,ASFL6seoldmill$wght, na.rm=TRUE)
+
+#generationx
+weighted.mean(ASFL6segenx$finlit,ASFL6segenx$wght)
+weighted.mean(ASFL6segenx$fin_know,ASFL6segenx$wght)
+weighted.mean(ASFL6segenx$fin_know_add,ASFL6segenx$wght)
+weighted.mean(ASFL6segenx$fin_beh,ASFL6segenx$wght)
+weighted.mean(ASFL6segenx$fin_att,ASFL6segenx$wght)
+
+wpct(ASFL6segenx$produse,ASFL6segenx$wght, na.rm=TRUE)
+1-0.01100897 
+wpct(ASFL6segenx$savinred,ASFL6segenx$wght, na.rm=TRUE)
+wpct(ASFL6segenx$payprodd,ASFL6segenx$wght, na.rm=TRUE)
+wpct(ASFL6segenx$p1b10,ASFL6segenx$wght, na.rm=TRUE)
+wpct(ASFL6segenx$credpd,ASFL6segenx$wght, na.rm=TRUE)
+wpct(ASFL6segenx$recentchoiced,ASFL6segenx$wght, na.rm=TRUE)
+wpct(ASFL6segenx$famfriend,ASFL6segenx$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6segenx$finwellbeing,ASFL6segenx$wght)
+
+wpct(ASFL6segenx$QF13,ASFL6segenx$wght, na.rm=TRUE)
+
+wpct(ASFL6segenx$finfraudd,ASFL6segenx$wght, na.rm=TRUE)
+
+wpct(ASFL6segenx$shortfall,ASFL6segenx$wght, na.rm=TRUE)
+wpct(ASFL6segenx$finstress1,ASFL6segenx$wght, na.rm=TRUE)
+wpct(ASFL6segenx$finstress2,ASFL6segenx$wght, na.rm=TRUE)
+wpct(ASFL6segenx$finstress3,ASFL6segenx$wght, na.rm=TRUE)
+
+wpct(ASFL6segenx$QK1,ASFL6segenx$wght, na.rm=TRUE)
+
+#babyboomer
+weighted.mean(ASFL6sebabyboom$finlit,ASFL6sebabyboom$wght)
+weighted.mean(ASFL6sebabyboom$fin_know,ASFL6sebabyboom$wght)
+weighted.mean(ASFL6sebabyboom$fin_know_add,ASFL6sebabyboom$wght)
+weighted.mean(ASFL6sebabyboom$fin_beh,ASFL6sebabyboom$wght)
+weighted.mean(ASFL6sebabyboom$fin_att,ASFL6sebabyboom$wght)
+
+wpct(ASFL6sebabyboom$produse,ASFL6sebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6sebabyboom$savinred,ASFL6sebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6sebabyboom$payprodd,ASFL6sebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6sebabyboom$p1b10,ASFL6sebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6sebabyboom$credpd,ASFL6sebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6sebabyboom$recentchoiced,ASFL6sebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6sebabyboom$famfriend,ASFL6sebabyboom$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6sebabyboom$finwellbeing,ASFL6sebabyboom$wght)
+
+wpct(ASFL6sebabyboom$QF13,ASFL6sebabyboom$wght, na.rm=TRUE)
+
+wpct(ASFL6sebabyboom$finfraudd,ASFL6sebabyboom$wght, na.rm=TRUE)
+
+wpct(ASFL6sebabyboom$shortfall,ASFL6sebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6sebabyboom$finstress1,ASFL6sebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6sebabyboom$finstress2,ASFL6sebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6sebabyboom$finstress3,ASFL6sebabyboom$wght, na.rm=TRUE)
+
+wpct(ASFL6sebabyboom$QK1,ASFL6sebabyboom$wght, na.rm=TRUE)
+
+##employed
+ASFL6eyoungmill <- ASFL6e[(ASFL6e$age_group %in% youngmill),]
+ASFL6eoldmill <- ASFL6e[(ASFL6e$age_group %in% oldmill),]
+ASFL6egenx <- ASFL6e[(ASFL6e$age_group %in% genx),]
+ASFL6ebabyboom <- ASFL6e[(ASFL6e$age_group %in% babyboom),]
+ASFL6esilgen <- ASFL6e[(ASFL6e$age_group %in% silgen),]
+#young millenials 
+weighted.mean(ASFL6eyoungmill$finlit,ASFL6eyoungmill$wght)
+weighted.mean(ASFL6eyoungmill$fin_know,ASFL6eyoungmill$wght)
+weighted.mean(ASFL6eyoungmill$fin_know_add,ASFL6eyoungmill$wght)
+weighted.mean(ASFL6eyoungmill$fin_beh,ASFL6eyoungmill$wght)
+weighted.mean(ASFL6eyoungmill$fin_att,ASFL6eyoungmill$wght)
+
+wpct(ASFL6eyoungmill$produse,ASFL6eyoungmill$wght, na.rm=TRUE)
+1-0.026067015- 0.026186010- 0.025585653
+wpct(ASFL6eyoungmill$savinred,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$payprodd,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$p1b10,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$credpd,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$recentchoiced,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$famfriend,ASFL6eyoungmill$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6eyoungmill$finwellbeing,ASFL6eyoungmill$wght)
+
+wpct(ASFL6eyoungmill$QF13,ASFL6eyoungmill$wght, na.rm=TRUE)
+
+wpct(ASFL6eyoungmill$finfraudd,ASFL6eyoungmill$wght, na.rm=TRUE)
+
+wpct(ASFL6eyoungmill$shortfall,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$finstress1,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$finstress2,ASFL6eyoungmill$wght, na.rm=TRUE)
+wpct(ASFL6eyoungmill$finstress3,ASFL6eyoungmill$wght, na.rm=TRUE)
+
+wpct(ASFL6eyoungmill$QK1,ASFL6eyoungmill$wght, na.rm=TRUE)
+#old millenials
+weighted.mean(ASFL6eoldmill$finlit,ASFL6eoldmill$wght)
+weighted.mean(ASFL6eoldmill$fin_know,ASFL6eoldmill$wght)
+weighted.mean(ASFL6eoldmill$fin_know_add,ASFL6eoldmill$wght)
+weighted.mean(ASFL6eoldmill$fin_beh,ASFL6eoldmill$wght)
+weighted.mean(ASFL6eoldmill$fin_att,ASFL6eoldmill$wght)
+
+wpct(ASFL6eoldmill$produse,ASFL6eoldmill$wght, na.rm=TRUE)
+1-0.006780411 -0.017789871
+wpct(ASFL6eoldmill$savinred,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$payprodd,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$p1b10,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$credpd,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$recentchoiced,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$famfriend,ASFL6eoldmill$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6eoldmill$finwellbeing,ASFL6eoldmill$wght)
+
+wpct(ASFL6eoldmill$QF13,ASFL6eoldmill$wght, na.rm=TRUE)
+0.22887376 +0.21982290 
+wpct(ASFL6eoldmill$finfraudd,ASFL6eoldmill$wght, na.rm=TRUE)
+
+wpct(ASFL6eoldmill$shortfall,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$finstress1,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$finstress2,ASFL6eoldmill$wght, na.rm=TRUE)
+wpct(ASFL6eoldmill$finstress3,ASFL6eoldmill$wght, na.rm=TRUE)
+
+wpct(ASFL6eoldmill$QK1,ASFL6eoldmill$wght, na.rm=TRUE)
+
+#generationx
+weighted.mean(ASFL6egenx$finlit,ASFL6egenx$wght)
+weighted.mean(ASFL6egenx$fin_know,ASFL6egenx$wght)
+weighted.mean(ASFL6egenx$fin_know_add,ASFL6egenx$wght)
+weighted.mean(ASFL6egenx$fin_beh,ASFL6egenx$wght)
+weighted.mean(ASFL6egenx$fin_att,ASFL6egenx$wght)
+
+wpct(ASFL6egenx$produse,ASFL6egenx$wght, na.rm=TRUE)
+1-0.012434426- 0.008529126 -0.034150325
+wpct(ASFL6egenx$savinred,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$payprodd,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$p1b10,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$credpd,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$recentchoiced,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$famfriend,ASFL6egenx$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6egenx$finwellbeing,ASFL6egenx$wght)
+
+wpct(ASFL6egenx$QF13,ASFL6egenx$wght, na.rm=TRUE)
+0.253681795 +0.337342456
+wpct(ASFL6egenx$finfraudd,ASFL6egenx$wght, na.rm=TRUE)
+
+wpct(ASFL6egenx$shortfall,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$finstress1,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$finstress2,ASFL6egenx$wght, na.rm=TRUE)
+wpct(ASFL6egenx$finstress3,ASFL6egenx$wght, na.rm=TRUE)
+
+wpct(ASFL6egenx$QK1,ASFL6egenx$wght, na.rm=TRUE)
+
+#babyboomer
+weighted.mean(ASFL6ebabyboom$finlit,ASFL6ebabyboom$wght)
+weighted.mean(ASFL6ebabyboom$fin_know,ASFL6ebabyboom$wght)
+weighted.mean(ASFL6ebabyboom$fin_know_add,ASFL6ebabyboom$wght)
+weighted.mean(ASFL6ebabyboom$fin_beh,ASFL6ebabyboom$wght)
+weighted.mean(ASFL6ebabyboom$fin_att,ASFL6ebabyboom$wght)
+
+wpct(ASFL6ebabyboom$produse,ASFL6ebabyboom$wght, na.rm=TRUE)
+1-0.02667173- 0.02760791
+wpct(ASFL6ebabyboom$savinred,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$payprodd,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$p1b10,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$credpd,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$recentchoiced,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$famfriend,ASFL6ebabyboom$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6ebabyboom$finwellbeing,ASFL6ebabyboom$wght)
+
+wpct(ASFL6ebabyboom$QF13,ASFL6ebabyboom$wght, na.rm=TRUE)
+0.18205470+0.59163253 
+wpct(ASFL6ebabyboom$finfraudd,ASFL6ebabyboom$wght, na.rm=TRUE)
+
+wpct(ASFL6ebabyboom$shortfall,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$finstress1,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$finstress2,ASFL6ebabyboom$wght, na.rm=TRUE)
+wpct(ASFL6ebabyboom$finstress3,ASFL6ebabyboom$wght, na.rm=TRUE)
+
+wpct(ASFL6ebabyboom$QK1,ASFL6ebabyboom$wght, na.rm=TRUE)
+
+#silentgeneration
+weighted.mean(ASFL6esilgen$finlit,ASFL6esilgen$wght)
+weighted.mean(ASFL6esilgen$fin_know,ASFL6esilgen$wght)
+weighted.mean(ASFL6esilgen$fin_know_add,ASFL6esilgen$wght)
+weighted.mean(ASFL6esilgen$fin_beh,ASFL6esilgen$wght)
+weighted.mean(ASFL6esilgen$fin_att,ASFL6esilgen$wght)
+
+wpct(ASFL6esilgen$produse,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$savinred,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$payprodd,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$p1b10,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$credpd,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$recentchoiced,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$famfriend,ASFL6esilgen$wght, na.rm=TRUE)
+
+weighted.mean(ASFL6esilgen$finwellbeing,ASFL6esilgen$wght)
+
+wpct(ASFL6esilgen$QF13,ASFL6esilgen$wght, na.rm=TRUE)
+
+wpct(ASFL6esilgen$finfraudd,ASFL6esilgen$wght, na.rm=TRUE)
+
+wpct(ASFL6esilgen$shortfall,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$finstress1,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$finstress2,ASFL6esilgen$wght, na.rm=TRUE)
+wpct(ASFL6esilgen$finstress3,ASFL6esilgen$wght, na.rm=TRUE)
+
+wpct(ASFL6esilgen$QK1,ASFL6esilgen$wght, na.rm=TRUE)
+
+
+####################RISK BEHAVIOUR#############################
+#1 variable 
+HFCSrisk <- ASFL$HFCS1
+table(ASFL$HFCS1)
+wpct(ASFL$HFCS1, weight=ASFL$wght, na.rm=TRUE)
+HFCSrisk1<- ifelse(ASFL$HFCS1 == "I am prepared to take substantial financial risks expecting to earn substantial returns", 1, 0)
+HFCSrisk2<- ifelse(ASFL$HFCS1 == "I am prepared to take above average financial risks expecting to earn above average returns", 1, 0)
+HFCSriskd <- HFCSrisk1 + HFCSrisk2
+HFCSrisk3<- ifelse(ASFL$HFCS1 == "I am prepared to take average financial risks expecting to earn average returns", 1, 0)
+HFCSrisk4<- ifelse(ASFL$HFCS1 == "I am not willing to take any financial risk", 1, 0)
+HFCSnriskd <- HFCSrisk3 + HFCSrisk4
+table(HFCSriskd)
+table(HFCSnriskd)
+#alternative - only "no" as no
+HFCSriskad <- HFCSrisk1 +HFCSrisk2+HFCSrisk3
+HFCSnriskad <- HFCSrisk4
+table(HFCSriskad)
+table(HFCSnriskad)
+riskad <- c("I am prepared to take substantial financial risks expecting to earn substantial returns","I am prepared to take above average financial risks expecting to earn above average returns","I am prepared to take average financial risks expecting to earn average returns")
+riskd <- c("I am prepared to take substantial financial risks expecting to earn substantial returns","I am prepared to take above average financial risks expecting to earn above average returns")
+nriskad <- c("I am not willing to take any financial risk")
+nriskd <- c("I am prepared to take average financial risks expecting to earn average returns","I am not willing to take any financial risk")
+
+HFCSnriskad <- HFCSrisk4
+table(HFCSriskad)
+table(HFCSnriskad)
+ASFL7 <- cbind(ASFL6,HFCSrisk,HFCSrisk1,HFCSrisk2,HFCSrisk3,HFCSrisk4,HFCSriskd,HFCSnriskd,HFCSriskad,HFCSnriskad)
+
+
+ASFL7 <- ASFL7 %>% mutate(HFCSrisk_group = case_when(HFCSrisk == "I am prepared to take substantial financial risks expecting to earn substantial returns" ~"Substantial risk" ,
+                                                     HFCSrisk == "I am prepared to take above average financial risks expecting to earn above average returns" ~ "High risk",
+                                                     HFCSrisk == "I am prepared to take average financial risks expecting to earn average returns" ~ "Average risk",
+                                                     HFCSrisk == "I am not willing to take any financial risk" ~ "No risk"))
+table(ASFL7$HFCSrisk_group)
+HFCSrisk_group_1 <- as.factor(ASFL7$HFCSrisk_group)
+levels(HFCSrisk_group_1)
+ASFL7 <- within(ASFL7, HFCSrisk_group_1 <- relevel(HFCSrisk_group_1, ref = "No risk"))
+
+
+numericHFCS1<- ifelse(ASFL$HFCS1 == "I am prepared to take substantial financial risks expecting to earn substantial returns", 4, 0)
+numericHFCS2<- ifelse(ASFL$HFCS1 == "I am prepared to take above average financial risks expecting to earn above average returns", 3, 0)
+numericHFCS3<- ifelse(ASFL$HFCS1 == "I am prepared to take average financial risks expecting to earn average returns", 2, 0)
+numericHFCS4<- ifelse(ASFL$HFCS1 == "I am not willing to take any financial risk", 1, 0)
+
+numericHFCSrisk <- numericHFCS1+numericHFCS2+numericHFCS3+numericHFCS4
+table(numericHFCSrisk)
+ASFL7 <- cbind(ASFL7,numericHFCSrisk)
+
+
+ASFL7se <- ASFL7[(ASFL7$QD10 %in% se),] 
+ASFL7e <- ASFL7[(ASFL7$QD10 %in% e),] 
+ASFL7eu <- ASFL7[(ASFL7$QD10 %in% eu),] 
+ASFL7oth <-  ASFL7[(ASFL7$QD10 %in% oth),] 
+ASFL7othworet <-  ASFL7[(ASFL7$QD10 %in% othworet),] 
+ASFL7ret <-  ASFL7[(ASFL7$QD10 %in% ret),] 
+ASFL7unempl <-  ASFL7[(ASFL7$QD10 %in% unempl),] 
+ASFL7entrepreneurs <-  ASFL7[(ASFL7$QF9_11 %in% entrepreneurs),] 
+
+
+table(ASFL7se$HFCSrisk_group_1)
+table(ASFL7se$HFCSrisk_group_1)/79
+table(ASFL7e$HFCSrisk_group_1)
+table(ASFL7e$HFCSrisk_group_1)/699
+table(ASFL7ret$HFCSrisk_group_1)
+table(ASFL7ret$HFCSrisk_group_1)/494
+table(ASFL7othworet$HFCSrisk_group_1)
+table(ASFL7othworet$HFCSrisk_group_1)/146
+table(ASFL7unempl$HFCSrisk_group_1)
+table(ASFL7unempl$HFCSrisk_group_1)/50
+table(ASFL7entrepreneurs$HFCSrisk_group_1)
+table(ASFL7entrepreneurs$HFCSrisk_group_1)/19
+
+
+
+###############designed risk variable#################################
+#######Risky financial assets - currently holds or used in the last year for active saving###########################
+#######Stock, shares & bonds#################
+table(ASFL$Qprod1b_11)#stock and shares
+table(ASFL$Qprod1b_12)#bonds 
+table(ASFL$Qprod1b_15)#crypto
+table(ASFL$QF3_5)#bonds and time deposits
+table(ASFL$QF3_6)#crypto
+table(ASFL$QF3_7)#stock and shares
+#recently chose
+table(ASFL$Qprod1c_11)#stock and shares
+table(ASFL$Qprod1c_12)#bonds 
+table(ASFL$Qprod1c_15)#crypto
+
+stockshare <- p1b11 + QF3_7
+stockshare_1 <- p1b11 + QF3_7+RC11
+stockshared <- ifelse(stockshare >= "1", 1, 0)
+stockshare_1d <- ifelse(stockshare_1 >= "1", 1, 0)
+
+bond <- p1b12 + QF3_5
+bond_1 <- p1b12 + QF3_5+RC12
+bondd <- ifelse(bond >= "1", 1, 0)
+bond_1d <- ifelse(bond_1 >= "1", 1, 0)
+
+crypto <- p1b15 + QF3_6 
+crypto_1 <-p1b15 + QF3_6 +RC15
+cryptod <- ifelse(crypto >= "1", 1, 0)
+crypto_1d <- ifelse(crypto_1 >= "1", 1, 0)
+
+ASFL7 <- cbind(ASFL7,stockshared,stockshare_1d,bondd,bond_1d,cryptod,crypto_1d)
+table(ASFL7$stockshared)
+
+riskyassets<- p1b11 + p1b12 + p1b15 + QF3_7 + QF3_5 + QF3_6 
+table(riskyassets)
+riskyassetsd <- ifelse(riskyassets >= "1", 1, 0)
+table(riskyassetsd)
+riskyassets_1<- p1b11 + p1b12 + p1b15 + QF3_7 + QF3_5 + QF3_6 + RC11+ RC12 + RC15
+table(riskyassets_1)
+riskyassets_1d <- ifelse(riskyassets_1 >= "1", 1, 0)
+table(riskyassets_1d)
+ASFL7 <- cbind(ASFL7,riskyassets,riskyassetsd,riskyassets_1,riskyassets_1d)
+
+table(ASFL7se$riskyassetsd)
+table(ASFL7se$riskyassetsd)/79
+table(ASFL7e$riskyassetsd)
+table(ASFL7e$riskyassetsd)/699
+table(ASFL7ret$riskyassetsd)
+table(ASFL7ret$riskyassetsd)/494
+table(ASFL7othworet$riskyassetsd)
+table(ASFL7othworet$riskyassetsd)/146
+table(ASFL7unempl$riskyassetsd)
+table(ASFL7unempl$riskyassetsd)/50
+table(ASFL7entrepreneurs$riskyassetsd)
+table(ASFL7entrepreneurs$riskyassetsd)/19
+
+
+ASFL7 <- ASFL7 %>% mutate(riskyassets_group = case_when(riskyassetsd == "0" ~"No assets" ,
+                                                        riskyassetsd == "1" ~"At least one asset"))
+table(ASFL7$riskyassets_group)
+riskyassets1_group <- factor(ASFL7$riskyassets_group, levels=c("At least one asset","No assets"))
+riskyassets2_group <- factor(ASFL7$riskyassets_group, levels=c("No assets","At least one asset"))
+ASFL7 <- cbind(ASFL7, riskyassets1_group,riskyassets2_group)
+
+
+####RISK ATTITUDE I am prepared to risk some of my own money when saving or making an investment
+summary(ASFL$QS1_2)
+QS1_2 <-ASFL$QS1_2
+QS1_2_1_rec <- ifelse(QS1_2== "Refused", 1, 0)
+QS1_2_2_rec <- ifelse(QS1_2 == "Not relevant", 1, 0)
+QS1_2_3_rec <- ifelse(QS1_2 == "Don't know", 1, 0)
+
+QS1_2_1 <- ifelse(QS1_2 == "Completely agree",1, 0)
+QS1_2_2 <- ifelse(QS1_2 == "2",1, 0)
+QS1_2risk <- QS1_2_1 + QS1_2_2
+QS1_2_3 <- ifelse(QS1_2 == "3",1, 0)
+QS1_2neithernor <- QS1_2_1_rec+QS1_2_2_rec+QS1_2_3_rec+QS1_2_3
+QS1_2_4 <- ifelse(QS1_2 == "4",1, 0)
+QS1_2_5 <- ifelse(QS1_2 == "Completely disagree",1, 0)
+QS1_2nrisk <- QS1_2_4 + QS1_2_5
+table(QS1_2risk)
+table(QS1_2nrisk)
+table(QS1_2neithernor)
+ASFL7 <- cbind(ASFL7,QS1_2risk)
+
+ASFL7 <- ASFL7 %>% mutate(QS1_2risk_group = case_when(QS1_2 == "Refused" ~"Ref/Don't know" ,
+                                                      QS1_2 == "Not relevant" ~"Ref/Don't know" ,
+                                                      QS1_2 == "Don't know" ~"Ref/Don't know" ,
+                                                      QS1_2 == "Completely agree" ~"Substantial risk" ,
+                                                      QS1_2 == "2" ~"High risk" ,
+                                                      QS1_2 == "3" ~"Average risk" ,
+                                                      QS1_2 == "4" ~"Average risk" ,
+                                                      QS1_2 == "Completely disagree" ~"No risk"))
+table(ASFL7$QS1_2risk_group)
+QS1_2risk_group_1 <- factor(ASFL7$QS1_2risk_group, levels=c("No risk","Ref/Don't know","Average risk","High risk","Substantial risk"))
+levels(QS1_2risk_group_1)
+ASFL7 <- cbind(ASFL7, QS1_2risk_group_1)
+
+numericQS1_2_1<- ifelse(ASFL$QS1_2 == "Completely agree", 4, 0)
+numericQS1_2_2<- ifelse(ASFL$QS1_2 == "2", 3, 0)
+numericQS1_2_3<- ifelse(ASFL$QS1_2 == "3", 2, 0)
+numericQS1_2_4<- ifelse(ASFL$QS1_2 == "4", 2, 0)
+numericQS1_2_5<- ifelse(ASFL$QS1_2 == "Completely disagree", 1, 0)
+
+
+numericQS1_2 <- numericQS1_2_1+numericQS1_2_2+numericQS1_2_3+numericQS1_2_4+numericQS1_2_5
+table(numericQS1_2)
+ASFL7 <- cbind(ASFL7,numericQS1_2)
+
+#problematic to but into one score - HFCS and assets separately
+riskscore <- bondd+stockshared+cryptod+HFCSriskd+QS1_2risk
+table(riskscore)
+highriskscored <- ifelse(riskscore >= "2", 1, 0)
+lowriskscored <- ifelse(riskscore < "2", 1, 0)
+
+ASFL7 <- cbind(ASFL7,highriskscored,lowriskscored)
+ASFL7risk <-  ASFL7[(ASFL7$HFCS1 %in% riskad),]
+ASFL7nrisk <-  ASFL7[(ASFL7$HFCS1 %in% nriskad),]
+ASFL7m <- ASFL7[(ASFL7$QD1 %in% male),]
+ASFL7f <- ASFL7[(ASFL7$QD1 %in% female),]
+ASFL7mrisk <- ASFL7m[(ASFL7m$HFCS1 %in% riskad),]
+ASFL7mnrisk <- ASFL7m[(ASFL7m$HFCS1 %in% nriskad),]
+ASFL7frisk <- ASFL7f[(ASFL7f$HFCS1 %in% riskad),]
+ASFL7fnrisk <- ASFL7f[(ASFL7f$HFCS1 %in% nriskad),]
+ASFL7se <- ASFL7[(ASFL7$QD10 %in% se),] 
+ASFL7sem <- ASFL7se[(ASFL7se$QD1 %in% male),]
+ASFL7sef <- ASFL7se[(ASFL7se$QD1 %in% female),]
+ASFL7e <- ASFL7[(ASFL7$QD10 %in% e),] 
+ASFL7em <- ASFL7e[(ASFL7e$QD1 %in% male),]
+ASFL7ef <- ASFL7e[(ASFL7e$QD1 %in% female),]
+ASFL7eu <- ASFL7[(ASFL7$QD10 %in% eu),] 
+ASFL7oth <-  ASFL7[(ASFL7$QD10 %in% oth),] 
+ASFL7othworet <-  ASFL7[(ASFL7$QD10 %in% othworet),] 
+ASFL7ret <-  ASFL7[(ASFL7$QD10 %in% ret),] 
+ASFL7unempl <-  ASFL7[(ASFL7$QD10 %in% unempl),] 
+ASFL7entrepreneurs <-  ASFL7[(ASFL7$QF9_11 %in% entrepreneurs),] 
+
+wpct(ASFL7$HFCS1, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$HFCS1, weight=ASFL7se$wght, na.rm=TRUE)
+table(ASFL7se$HFCS1)
+wpct(ASFL7sem$HFCS1, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$HFCS1, weight=ASFL7sef$wght, na.rm=TRUE)
+wpct(ASFL7e$HFCS1, weight=ASFL7e$wght, na.rm=TRUE)
+table(ASFL7e$HFCS1)
+wpct(ASFL7em$HFCS1, weight=ASFL7em$wght, na.rm=TRUE)
+wpct(ASFL7ef$HFCS1, weight=ASFL7ef$wght, na.rm=TRUE)
+wpct(ASFL7eu$HFCS1, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$HFCS1, weight=ASFL7oth$wght, na.rm=TRUE)
+table(ASFL7oth$HFCS1)
+wpct(ASFL7othworet$HFCS1, weight=ASFL7othworet$wght, na.rm=TRUE)
+wpct(ASFL7ret$HFCS1, weight=ASFL7ret$wght, na.rm=TRUE)
+
+
+wpct(ASFL7$stockshared, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$stockshared, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7sem$stockshared, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$stockshared, weight=ASFL7sef$wght, na.rm=TRUE)
+
+wpct(ASFL7e$stockshared, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7em$stockshared, weight=ASFL7em$wght, na.rm=TRUE)
+wpct(ASFL7ef$stockshared, weight=ASFL7ef$wght, na.rm=TRUE)
+
+wpct(ASFL7eu$stockshared, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$stockshared, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$stockshared, weight=ASFL7othworet$wght, na.rm=TRUE)
+
+wpct(ASFL7$bondd, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$bondd, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7sem$bondd, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$bondd, weight=ASFL7sef$wght, na.rm=TRUE)
+
+wpct(ASFL7e$bondd, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7em$bondd, weight=ASFL7em$wght, na.rm=TRUE)
+wpct(ASFL7ef$bondd, weight=ASFL7ef$wght, na.rm=TRUE)
+wpct(ASFL7eu$bondd, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$bondd, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$bondd, weight=ASFL7othworet$wght, na.rm=TRUE)
+
+wpct(ASFL7$cryptod, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$cryptod, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7sem$cryptod, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$cryptod, weight=ASFL7sef$wght, na.rm=TRUE)
+
+wpct(ASFL7e$cryptod, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7em$cryptod, weight=ASFL7em$wght, na.rm=TRUE)
+wpct(ASFL7ef$cryptod, weight=ASFL7ef$wght, na.rm=TRUE)
+wpct(ASFL7eu$cryptod, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$cryptod, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$cryptod, weight=ASFL7othworet$wght, na.rm=TRUE)
+
+table(ASFL7$riskyassets)
+table(ASFL7se$riskyassets)
+table(ASFL7e$riskyassets)
+table(ASFL7eu$riskyassets)
+table(ASFL7oth$riskyassets)
+wpct(ASFL7$riskyassetsd, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$riskyassetsd, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7sem$riskyassetsd, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$riskyassetsd, weight=ASFL7sef$wght, na.rm=TRUE)
+
+wpct(ASFL7e$riskyassetsd, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7em$riskyassetsd, weight=ASFL7em$wght, na.rm=TRUE)
+wpct(ASFL7ef$riskyassetsd, weight=ASFL7ef$wght, na.rm=TRUE)
+wpct(ASFL7eu$riskyassetsd, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$riskyassetsd, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$riskyassetsd, weight=ASFL7othworet$wght, na.rm=TRUE)
+
+wpct(ASFL7$QS1_2risk, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$QS1_2risk, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7sem$QS1_2risk, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$QS1_2risk, weight=ASFL7sef$wght, na.rm=TRUE)
+
+wpct(ASFL7e$QS1_2risk, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7eu$QS1_2risk, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$QS1_2risk, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$QS1_2risk, weight=ASFL7othworet$wght, na.rm=TRUE)
+
+wpct(ASFL7$HFCSriskd, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$HFCSriskd, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7sem$HFCSriskd, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$HFCSriskd, weight=ASFL7sef$wght, na.rm=TRUE)
+
+wpct(ASFL7e$HFCSriskd, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7eu$HFCSriskd, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$HFCSriskd, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$HFCSriskd, weight=ASFL7othworet$wght, na.rm=TRUE)
+
+wpct(ASFL7$HFCSriskad, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$HFCSriskad, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7sem$HFCSriskad, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$HFCSriskad, weight=ASFL7sef$wght, na.rm=TRUE)
+
+wpct(ASFL7e$HFCSriskad, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7eu$HFCSriskad, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$HFCSriskad, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$HFCSriskad, weight=ASFL7othworet$wght, na.rm=TRUE)
+
+wpct(ASFL7$numericHFCSrisk, weight=ASFL7$wght, na.rm=TRUE)
+wpct(ASFL7se$numericHFCSrisk, weight=ASFL7se$wght, na.rm=TRUE)
+wpct(ASFL7sem$numericHFCSrisk, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sef$numericHFCSrisk, weight=ASFL7sef$wght, na.rm=TRUE)
+
+wpct(ASFL7e$numericHFCSrisk, weight=ASFL7e$wght, na.rm=TRUE)
+wpct(ASFL7eu$numericHFCSrisk, weight=ASFL7eu$wght, na.rm=TRUE)
+wpct(ASFL7oth$numericHFCSrisk, weight=ASFL7oth$wght, na.rm=TRUE)
+wpct(ASFL7othworet$numericHFCSrisk, weight=ASFL7othworet$wght, na.rm=TRUE)
+
+
+
+######financial risk taking sample comparison 
+ASFL7se <- ASFL7[(ASFL7$QD10 %in% se),]
+ASFL7serisk <- ASFL7se[(ASFL7se$HFCS1 %in% riskad),]
+ASFL7senrisk <- ASFL7se[(ASFL7se$HFCS1 %in% nriskad),]
+ASFL7sem <- ASFL7se[(ASFL7se$QD1 %in% male),]
+ASFL7semrisk <- ASFL7sem[(ASFL7sem$HFCS1 %in% riskad),]
+ASFL7semnrisk <- ASFL7sem[(ASFL7sem$HFCS1 %in% nriskad),]
+ASFL7sef <- ASFL7se[(ASFL7se$QD1 %in% female),]
+ASFL7sefrisk <- ASFL7sef[(ASFL7sef$HFCS1 %in% riskad),]
+ASFL7sefnrisk <- ASFL7sef[(ASFL7sef$HFCS1 %in% nriskad),]
+ASFL7e <- ASFL7[(ASFL7$QD10 %in% e),]
+ASFL7em <- ASFL7e[(ASFL7e$QD1 %in% male),]
+ASFL7emrisk <- ASFL7em[(ASFL7em$HFCS1 %in% riskad),]
+ASFL7emnrisk <- ASFL7em[(ASFL7em$HFCS1 %in% nriskad),]
+ASFL7ef <- ASFL7e[(ASFL7e$QD1 %in% female),]
+ASFL7efrisk <- ASFL7ef[(ASFL7ef$HFCS1 %in% riskad),]
+ASFL7efnrisk <- ASFL7ef[(ASFL7ef$HFCS1 %in% nriskad),]
+ASFL7eu <- ASFL7[(ASFL7$QD10 %in% eu),]
+ASFL7oth <- ASFL7[(ASFL7$QD10 %in% oth),]
+ASFL7othworet <- ASFL7[(ASFL7$QD10 %in% othworet),]
+ASFL7ret <- ASFL7[(ASFL7$QD10 %in% ret),]
+
+#####self-employed
+weighted.mean(ASFL7semrisk$finlit, ASFL7semrisk$wght)
+weighted.mean(ASFL7semnrisk$finlit, ASFL7semnrisk$wght)
+weighted.mean(ASFL7semrisk$fin_know, ASFL7semrisk$wght)
+weighted.mean(ASFL7semnrisk$fin_know, ASFL7semnrisk$wght)
+weighted.mean(ASFL7semrisk$fin_beh, ASFL7semrisk$wght)
+weighted.mean(ASFL7semnrisk$fin_beh, ASFL7semnrisk$wght)
+weighted.mean(ASFL7semrisk$fin_att, ASFL7semrisk$wght)
+weighted.mean(ASFL7semnrisk$fin_att, ASFL7semnrisk$wght)
+
+weighted.mean(ASFL7semrisk$sixmonthfinbuffd, ASFL7semrisk$wght)
+weighted.mean(ASFL7semnrisk$sixmonthfinbuffd, ASFL7semnrisk$wght)
+
+weighted.mean(ASFL7semrisk$finwellbeing, ASFL7semrisk$wght)
+weighted.mean(ASFL7semnrisk$finwellbeing, ASFL7semnrisk$wght)
+wpct(ASFL7semrisk$finwellbeing2, weight=ASFL7semrisk$wght, na.rm=TRUE)
+wpct(ASFL7semnrisk$finwellbeing2, weight=ASFL7semnrisk$wght, na.rm=TRUE)
+wpct(ASFL7semrisk$finwellbeing3, weight=ASFL7semrisk$wght, na.rm=TRUE)
+wpct(ASFL7semnrisk$finwellbeing3, weight=ASFL7semnrisk$wght, na.rm=TRUE)
+
+weighted.mean(ASFL7sefrisk$finlit, ASFL7sefrisk$wght)
+weighted.mean(ASFL7sefnrisk$finlit, ASFL7sefnrisk$wght)
+weighted.mean(ASFL7sefrisk$fin_know, ASFL7sefrisk$wght)
+weighted.mean(ASFL7sefnrisk$fin_know, ASFL7sefnrisk$wght)
+weighted.mean(ASFL7sefrisk$fin_beh, ASFL7sefrisk$wght)
+weighted.mean(ASFL7sefnrisk$fin_beh, ASFL7sefnrisk$wght)
+weighted.mean(ASFL7sefrisk$fin_att, ASFL7sefrisk$wght)
+weighted.mean(ASFL7sefnrisk$fin_att, ASFL7sefnrisk$wght)
+
+weighted.mean(ASFL7sefrisk$sixmonthfinbuffd, ASFL7sefrisk$wght)
+weighted.mean(ASFL7sefnrisk$sixmonthfinbuffd, ASFL7sefnrisk$wght)
+
+weighted.mean(ASFL7sefrisk$finwellbeing, ASFL7sefrisk$wght)
+weighted.mean(ASFL7sefnrisk$finwellbeing, ASFL7sefnrisk$wght)
+wpct(ASFL7sefrisk$finwellbeing2, weight=ASFL7sefrisk$wght, na.rm=TRUE)
+wpct(ASFL7sefnrisk$finwellbeing2, weight=ASFL7sefnrisk$wght, na.rm=TRUE)
+wpct(ASFL7sefrisk$finwellbeing3, weight=ASFL7sefrisk$wght, na.rm=TRUE)
+wpct(ASFL7sefnrisk$finwellbeing3, weight=ASFL7sefnrisk$wght, na.rm=TRUE)
+
+#####employed
+weighted.mean(ASFL7emrisk$finlit, ASFL7emrisk$wght)
+weighted.mean(ASFL7emnrisk$finlit, ASFL7emnrisk$wght)
+weighted.mean(ASFL7emrisk$fin_know, ASFL7emrisk$wght)
+weighted.mean(ASFL7emnrisk$fin_know, ASFL7emnrisk$wght)
+weighted.mean(ASFL7emrisk$fin_beh, ASFL7emrisk$wght)
+weighted.mean(ASFL7emnrisk$fin_beh, ASFL7emnrisk$wght)
+weighted.mean(ASFL7emrisk$fin_att, ASFL7emrisk$wght)
+weighted.mean(ASFL7emnrisk$fin_att, ASFL7emnrisk$wght)
+
+weighted.mean(ASFL7emrisk$sixmonthfinbuffd, ASFL7emrisk$wght)
+weighted.mean(ASFL7emnrisk$sixmonthfinbuffd, ASFL7emnrisk$wght)
+
+weighted.mean(ASFL7emrisk$finwellbeing, ASFL7emrisk$wght)
+weighted.mean(ASFL7emnrisk$finwellbeing, ASFL7emnrisk$wght)
+wpct(ASFL7emrisk$finwellbeing2, weight=ASFL7emrisk$wght, na.rm=TRUE)
+wpct(ASFL7emnrisk$finwellbeing2, weight=ASFL7emnrisk$wght, na.rm=TRUE)
+wpct(ASFL7emrisk$finwellbeing3, weight=ASFL7emrisk$wght, na.rm=TRUE)
+wpct(ASFL7emnrisk$finwellbeing3, weight=ASFL7emnrisk$wght, na.rm=TRUE)
+
+weighted.mean(ASFL7efrisk$finlit, ASFL7efrisk$wght)
+weighted.mean(ASFL7efnrisk$finlit, ASFL7efnrisk$wght)
+weighted.mean(ASFL7efrisk$fin_know, ASFL7efrisk$wght)
+weighted.mean(ASFL7efnrisk$fin_know, ASFL7efnrisk$wght)
+weighted.mean(ASFL7efrisk$fin_beh, ASFL7efrisk$wght)
+weighted.mean(ASFL7efnrisk$fin_beh, ASFL7efnrisk$wght)
+weighted.mean(ASFL7efrisk$fin_att, ASFL7efrisk$wght)
+weighted.mean(ASFL7efnrisk$fin_att, ASFL7efnrisk$wght)
+
+weighted.mean(ASFL7efrisk$sixmonthfinbuffd, ASFL7efrisk$wght)
+weighted.mean(ASFL7efnrisk$sixmonthfinbuffd, ASFL7efnrisk$wght)
+
+weighted.mean(ASFL7efrisk$finwellbeing, ASFL7efrisk$wght)
+weighted.mean(ASFL7efnrisk$finwellbeing, ASFL7efnrisk$wght)
+wpct(ASFL7efnrisk$finwellbeing2, weight=ASFL7efnrisk$wght, na.rm=TRUE)
+wpct(ASFL7efrisk$finwellbeing3, weight=ASFL7efrisk$wght, na.rm=TRUE)
+wpct(ASFL7efnrisk$finwellbeing3, weight=ASFL7efnrisk$wght, na.rm=TRUE)
