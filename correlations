@@ -700,17 +700,18 @@ cor.test(ASFL7$singled, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$childd, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$singleparentd, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
 
-
+cor.test(ASFL7$finlit, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$fin_know, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$fin_beh, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$fin_att, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
 
 #financial buffer (resilience) full sample
 cor.test(ASFL7$numericsaknow, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
-cor.test(ASFL7$savebuffd, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
+cor.test(ASFL7$numericfinbuff, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$produse, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$finprodholding, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$finwellbeing, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
+cor.test(ASFL7$finfraudd, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
 #risk
 cor.test(ASFL7$numericHFCSrisk, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
 #cor.test(ASFL7$HFCSriskd, ASFL7$savebuffd, data=ASFL7, weights=ASFL7$wght)
@@ -735,17 +736,18 @@ cor.test(ASFL7$singled, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$childd, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$singleparentd, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
 
-
+cor.test(ASFL7$finlit, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$fin_know, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$fin_beh, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$fin_att, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
 
 #financial buffer (resilience) full sample
 cor.test(ASFL7$numericsaknow, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
-cor.test(ASFL7$expensecovd, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
+cor.test(ASFL7$numericfinbuff, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$produse, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$finprodholding, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
 cor.test(ASFL7$finwellbeing, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
+cor.test(ASFL7$finfraudd, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
 #risk
 cor.test(ASFL7$numericHFCSrisk, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
 #cor.test(ASFL7$HFCSriskd, ASFL7$expensecovd, data=ASFL7, weights=ASFL7$wght)
@@ -789,8 +791,8 @@ cor.test(ASFL7se$riskyassetsd, ASFL7se$numericfinbuff, data=ASFL7se, weights=ASF
 
 ###alternatives
 #1
-cor.test(ASFL7se$selfemployedd, ASFL7se$savebuffd, data=ASFL7se, weights=ASFL7se$wght)
-cor.test(ASFL7se$employedd, ASFL7se$savebuffd, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$selfemployedd, ASFL7se$savebuffd, data=ASFL7se, weights=ASFL7se$wght)
+#cor.test(ASFL7se$employedd, ASFL7se$savebuffd, data=ASFL7se, weights=ASFL7se$wght)
 cor.test(ASFL7se$age, ASFL7se$savebuffd, data=ASFL7se, weights=ASFL7se$wght)
 cor.test(ASFL7se$maled, ASFL7se$savebuffd, data=ASFL7se, weights=ASFL7se$wght)
 #cor.test(ASFL7se$loweduc, ASFL7se$savebuffd, data=ASFL7se, weights=ASFL7se$wght)
@@ -816,6 +818,7 @@ cor.test(ASFL7se$savebuffd, ASFL7se$savebuffd, data=ASFL7se, weights=ASFL7se$wgh
 cor.test(ASFL7se$produse, ASFL7se$savebuffd, data=ASFL7se, weights=ASFL7se$wght)
 cor.test(ASFL7se$finprodholding, ASFL7se$savebuffd, data=ASFL7se, weights=ASFL7se$wght)
 cor.test(ASFL7se$finwellbeing, ASFL7se$savebuffd, data=ASFL7se, weights=ASFL7se$wght)
+cor.test(ASFL7se$finfraudd, ASFL7se$savebuffd, data=ASFL7se, weights=ASFL7se$wght)
 #risk
 cor.test(ASFL7se$numericHFCSrisk, ASFL7se$savebuffd, data=ASFL7se, weights=ASFL7se$wght)
 #cor.test(ASFL7se$HFCSriskd, ASFL7se$savebuffd, data=ASFL7se, weights=ASFL7se$wght)
@@ -1653,8 +1656,4 @@ cor.test( ASFL7e$numericsaknow,ASFL7e$maled, data=ASFL7e, weights=ASFL7e$wght)
 cor.test(ASFL7e$produse, ASFL7e$maled, data=ASFL7e, weights=ASFL7e$wght)
 cor.test(ASFL7e$finprodholding,ASFL7e$maled,  data=ASFL7e, weights=ASFL7e$wght)
 cor.test(ASFL7e$finwellbeing, ASFL7e$maled, data=ASFL7e, weights=ASFL7e$wght)
-
-
-
-
 
