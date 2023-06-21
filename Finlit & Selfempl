@@ -109,8 +109,10 @@ ASFL <- ASFL %>%
 employmentunempl_1 <- as.factor(ASFL$employmentunempl)
 levels(employmentunempl_1)
 ASFL <- within(ASFL, employmentunempl_1 <- relevel(employmentunempl_1, ref = "Other"))
-
-ASFL<-cbind(ASFL,employment1_1,employment1_2,employment2_2,employmentfull_full,employmentalt_alt, employmentunempl_1)
+employmentunempl_2 <- factor(ASFL$employmentunempl, levels=c("Employed","Self-employed", "Other"))
+ASFL<-cbind(ASFL,employment1_1,employment1_2,employment2_2,employmentfull_full,employmentalt_alt, employmentunempl_1,employmentunempl_2)
+levels(employmentunempl_2)
+ASFL<-cbind(ASFL,employment1_1,employment1_2,employment2_2,employmentfull_full,employmentalt_alt, employmentunempl_1,employmentunempl_2)
 
 
 ##alternative: QF9_11 ##own business as a retirement funding option
