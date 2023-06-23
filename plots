@@ -1638,6 +1638,22 @@ riskfinknowse<- ggplot(data = ASFL7se,
   theme(legend.position = "none")
 
 riskfinknowse
+
+finknowriskse<- ggplot(data = ASFL7se,
+                       aes(axis1 = Finknowse,# First variable on the X-axis
+                           axis2 =  Finriskpropse, 
+                           y = frequency(Finriskpropse))) +
+  geom_alluvium(aes(fill = Finknowse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+finknowriskse
 #literacy
 Finlitse <- ASFL7se$finlit_group_1
 riskfinlitse<- ggplot(data = ASFL7se,
@@ -1709,13 +1725,13 @@ riskfinknowsem<- ggplot(data = ASFL7sem,
   theme(legend.position = "none")
 
 riskfinknowsem
-#literacy
-Finlitsem <- ASFL7sem$finlit_group_1
-riskfinlitsem<- ggplot(data = ASFL7sem,
-                      aes(axis1 = Finriskpropsem,# First variable on the X-axis
-                          axis2 = Finlitsem , 
-                          y = frequency(Finlitsem))) +
-  geom_alluvium(aes(fill = Finriskpropsem)) +
+
+Finknowriskpropsem <- factor(ASFL7sem$HFCSrisk_group_1, levels=c("Substantial risk", "High risk", "Average risk","No risk"))
+finknowrisksem<- ggplot(data = ASFL7sem,
+                        aes(axis1 = Finknowsem,# First variable on the X-axis
+                            axis2 =  Finriskpropsem, 
+                            y = frequency(Finriskpropsem))) +
+  geom_alluvium(aes(fill = Finknowsem)) +
   scale_x_discrete(expand = c(0.2, 0.2)) +
   geom_flow() +
   geom_stratum(alpha = 0.1) +
@@ -1724,13 +1740,14 @@ riskfinlitsem<- ggplot(data = ASFL7sem,
   scale_fill_viridis_d() +
   theme_void()+
   theme(legend.position = "none")
-riskfinlitsem
 
-Finlitsem <- ASFL7semm$finlit_group_1
+riskfinknowsem
+#literacy
+Finlitsem <- ASFL7sem$finlit_group_1
 riskfinlitsem<- ggplot(data = ASFL7sem,
-                       aes(axis1 = Finriskpropsem,# First variable on the X-axis
-                           axis2 = Finlitsem , 
-                           y = frequency(Finlitsem))) +
+                      aes(axis1 = Finriskpropsem,# First variable on the X-axis
+                          axis2 = Finlitsem , 
+                          y = frequency(Finlitsem))) +
   geom_alluvium(aes(fill = Finriskpropsem)) +
   scale_x_discrete(expand = c(0.2, 0.2)) +
   geom_flow() +
@@ -1813,23 +1830,6 @@ riskfinlitsef<- ggplot(data = ASFL7sef,
   theme(legend.position = "none")
 riskfinlitsef
 
-Finlitsef <- ASFL7sef$finlit_group_1
-riskfinlitsef<- ggplot(data = ASFL7sef,
-                       aes(axis1 = Finriskpropsef,# First variable on the X-axis
-                           axis2 = Finlitsef , 
-                           y = frequency(Finlitsef))) +
-  geom_alluvium(aes(fill = Finriskpropsef)) +
-  scale_x_discrete(expand = c(0.2, 0.2)) +
-  geom_flow() +
-  geom_stratum(alpha = 0.1) +
-  geom_text(stat = "stratum",
-            aes(label = after_stat(stratum))) +
-  scale_fill_viridis_d() +
-  theme_void()+
-  theme(legend.position = "none")
-riskfinlitsef
-
-
 #behaviour
 Finbehsef <- ASFL7sef$fin_beh_group_1
 riskbehsef<- ggplot(data = ASFL7sef,
@@ -1881,6 +1881,22 @@ riskfinknowe<- ggplot(data = ASFL7e,
   theme(legend.position = "none")
 
 riskfinknowe
+
+finknowriske<- ggplot(data = ASFL7e,
+                      aes(axis1 = Finknowe,# First variable on the X-axis
+                          axis2 =  Finriskprope, 
+                          y = frequency(Finriskprope))) +
+  geom_alluvium(aes(fill = Finknowe)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+finknowriske
 #literacy
 Finlite <- ASFL7e$finlit_group_1
 riskfinlite<- ggplot(data = ASFL7e,
@@ -1968,22 +1984,6 @@ riskfinlitem<- ggplot(data = ASFL7em,
   theme(legend.position = "none")
 riskfinlitem
 
-Finlitem <- ASFL7emm$finlit_group_1
-riskfinlitem<- ggplot(data = ASFL7em,
-                       aes(axis1 = Finriskpropem,# First variable on the X-axis
-                           axis2 = Finlitem , 
-                           y = frequency(Finlitem))) +
-  geom_alluvium(aes(fill = Finriskpropem)) +
-  scale_x_discrete(expand = c(0.2, 0.2)) +
-  geom_flow() +
-  geom_stratum(alpha = 0.1) +
-  geom_text(stat = "stratum",
-            aes(label = after_stat(stratum))) +
-  scale_fill_viridis_d() +
-  theme_void()+
-  theme(legend.position = "none")
-riskfinlitem
-
 
 #behaviour
 Finbehem <- ASFL7em$fin_beh_group_1
@@ -2039,22 +2039,6 @@ riskfinknowef<- ggplot(data = ASFL7ef,
 
 riskfinknowef
 #literacy
-Finlitef <- ASFL7ef$finlit_group_1
-riskfinlitef<- ggplot(data = ASFL7ef,
-                       aes(axis1 = Finriskpropef,# First variable on the X-axis
-                           axis2 = Finlitef , 
-                           y = frequency(Finlitef))) +
-  geom_alluvium(aes(fill = Finriskpropef)) +
-  scale_x_discrete(expand = c(0.2, 0.2)) +
-  geom_flow() +
-  geom_stratum(alpha = 0.1) +
-  geom_text(stat = "stratum",
-            aes(label = after_stat(stratum))) +
-  scale_fill_viridis_d() +
-  theme_void()+
-  theme(legend.position = "none")
-riskfinlitef
-
 Finlitef <- ASFL7ef$finlit_group_1
 riskfinlitef<- ggplot(data = ASFL7ef,
                        aes(axis1 = Finriskpropef,# First variable on the X-axis
@@ -2142,6 +2126,22 @@ riskassetfinknowse<- ggplot(data = ASFL7se,
   theme(legend.position = "none")
 
 riskassetfinknowse
+
+finknowriskassetse<- ggplot(data = ASFL7se,
+                            aes(axis1 = Finknowse,# First variable on the X-axis
+                                axis2 =  Finriskassetse, 
+                                y = frequency(Finriskassetse))) +
+  geom_alluvium(aes(fill = Finknowse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+finknowriskassetse
 
 #literacy
 Finlitse <- ASFL7se$finlit_group_1
@@ -2307,6 +2307,7 @@ selfassessriskassetsem
 
 
 #riskyassefts and knowledge
+Finriskasseftsef  <- ASFL7sef$riskyassets1_group
 ##females
 riskasseftfinknowsef<- ggplot(data = ASFL7sef,
                             aes(axis1 = Finriskasseftsef,# First variable on the X-axis
@@ -2378,6 +2379,23 @@ riskasseftattsef<- ggplot(data = ASFL7sef,
 
 riskasseftattsef
 
+Finriskassetsef <- ASFL7sef$riskyassets1_group
+selfassessriskassetsef<- ggplot(data = ASFL7sef,
+                               aes(axis1 = Assessmentsef,# First variable on the X-axis
+                                   axis2 = Finriskassetsef, 
+                                   y = frequency(Finriskassetsef))) +
+  geom_alluvium(aes(fill = Assessmentsef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessriskassetsef
+
 
 ########################employed
 Finriskassete <- ASFL7e$riskyassets1_group
@@ -2414,6 +2432,22 @@ riskassetfinknowe<- ggplot(data = ASFL7e,
   theme(legend.position = "none")
 
 riskassetfinknowe
+
+finknowriskassete<- ggplot(data = ASFL7e,
+                           aes(axis1 = Finknowe ,# First variable on the X-axis
+                               axis2 = Finriskassete, 
+                               y = frequency(Finriskassete))) +
+  geom_alluvium(aes(fill = Finknowe )) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+finknowriskassete
 
 #literacy
 Finlite <- ASFL7e$finlit_group_1
@@ -3336,6 +3370,20 @@ ggplot(ASFL7se, aes(x = finwellbeing, y = finlit)) +
   geom_smooth(method = "lm", se = FALSE) +
   labs(x = "Well-being", y = "Literacy")
 
+
+#wellbeingfinbeh
+par(mfrow=c(2,1))
+cor.test(ASFL7se$finwellbeing, ASFL7se$fin_beh, data=ASFL7se, weights=ASFL7se$wght)
+ggplot(ASFL7se, aes(x = fin_beh, y =  finwellbeing)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(y = "Well-being", x = "Behaviour")
+
+cor.test(ASFL7e$finwellbeing, ASFL7e$fin_beh, data=ASFL7e, weights=ASFL7e$wght)
+ggplot(ASFL7e, aes(x = fin_beh, y =  finwellbeing)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(y = "Well-being", x = "Behaviour")
 
 #####################DRAFTS/ADDITIONAL################################
 #weighted scatter plots
