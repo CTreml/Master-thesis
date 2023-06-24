@@ -3423,7 +3423,43 @@ table(ASFL7unempl$HFCSrisk_group_1)/50
 table(ASFL7entrepreneurs$HFCSrisk_group_1)
 table(ASFL7entrepreneurs$HFCSrisk_group_1)/19
 
+###############indicator confidence about retirement planing#################################
+retplan <- ASFL$QF8
+table(ASFL$QF8)
+wpct(ASFL$HFCS1, weight=ASFL$wght, na.rm=TRUE)
+QF8_1<- ifelse(ASFL$QF8 == "1 - Very confident", 1, 0)
+QF8_2<- ifelse(ASFL$QF8 == "2", 1, 0)
+retconf <- QF8_1 + QF8_2
+QF8_3 <- ifelse(ASFL$QF8 == "3", 1, 0)
+QF8_4<- ifelse(ASFL$QF8 == "4", 1, 0)
+QF8_5<- ifelse(ASFL$QF8 == "5 - Not at all confident", 1, 0)
+QF8_no<- ifelse(ASFL$QF8 == "Respondent has no retirement plan", 1, 0)
+QF8_ref <-  ifelse(ASFL$QF8 == "Refused", 1, 0)
+QF8_dok <- ifelse(ASFL$QF8 == "Don't know", 1, 0)
+QF8_refdok <- QF8_ref+QF8_dok
+table(retconf)
+ASFL7 <- cbind(ASFL7,QF8_1,QF8_2,QF8_3,QF8_4,QF8_5,QF8_ref,QF8_dok, QF8_refdok,retconf)
 
+table(ASFLse$QF8)
+wpct(ASFLse$QF8, weight=ASFLse$wght, na.rm=TRUE)
+wpct(ASFLsem$QF8, weight=ASFLsem$wght, na.rm=TRUE)
+wpct(ASFLsef$QF8, weight=ASFLsef$wght, na.rm=TRUE)
+table(ASFLe$QF8)
+wpct(ASFLe$QF8, weight=ASFLe$wght, na.rm=TRUE)
+wpct(ASFLem$QF8, weight=ASFLem$wght, na.rm=TRUE)
+wpct(ASFLef$QF8, weight=ASFLef$wght, na.rm=TRUE)
+table(ASFLret$QF8)
+table(ASFLothworet$QF8)
+table(ASFLunempl$QF8)
+table(ASFLentrepreneurs$QF8)
+
+
+table(ASFLse$QF8)/79
+table(ASFLe$QF8)/699
+table(ASFLret$QF8)/494
+table(ASFLothworet$QF8)/146
+table(ASFLunempl$QF8)/50
+table(ASFLentrepreneurs$QF8)/19
 
 ###############designed risk variable#################################
 #######Risky financial assets - currently holds or used in the last year for active saving###########################
