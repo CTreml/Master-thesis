@@ -1,0 +1,279 @@
+########################PLOTS###########################
+#dev.off() ... fixes problems in plotting!
+
+#hex_codes1
+#"#F8766D" "#DE8C00" "#B79F00" "#7CAE00" "#00BA38" "#00C08B" "#00BFC4"
+#"#00B4F0" "#619CFF" "#C77CFF" "#F564E3" "#FF64B0"
+
+##ggplots
+#above: plot1 + plot2 
+#beneath: plot1/plot2
+
+#Legende: +theme(legend.position="none") <- instead of none: top, bottom, 
+
+#######################SOCIODEMOGRAPHIC CHARACTERISTICS#######################
+##################################EMPLOYMENT##################################
+empl <- round(c(79/1418,699/1418,494/1418,50/1418,5/1418,23/1418,24/1418,21/1418,23/1418), digits=4)
+paste(round(100*empl, 2), "%", sep="")
+emplshare <- data.frame("Employment" = c("Self-employed", "Employee","Retired", "Unemployed", "Apprentice", "Student", "Home",  "Not working", "Other"),
+                        "amount" = c(79/1418,699/1418,494/1418,50/1418,5/1418,23/1418,24/1418,21/1418,23/1418))
+emp_comp <-ggplot(emplshare, aes(x="", y=amount, fill=Employment)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) +
+  geom_text(aes(label = c("5.57%" , "49.29%", "34.84%" ,"3.53%","" , "" , "",  "" , "" )),
+            position = position_stack(vjust = 0.4))+
+  #geom_text(aes(label = c("5.57%" , "49.29%", "34.84%" ,"3.53%","0.35%" , "1.62%" , "1.69%",  "1.48%" , "1.62%" )),
+  #    position = position_stack(vjust = 0.4))+
+  theme_void()
+emp_comp
+
+emplshare2 <- data.frame("Employment" = c("Self-employed", "Employee", "Other", "Retired"),
+                         "amount" = c(79/1418,699/1418,146/1418,494/1418))
+
+empl_simple_comp <- ggplot(emplshare2, aes(x="", y=amount, fill=Employment)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) +
+  theme_void()
+
+
+##################################AGE##################################
+gencomp <- data.frame(status=rep(c('Self-employed', 'Employees'), each=5),
+                      age=rep(c('Silent generation','Baby boomers','Generation X','Old millenials','Young millenials'  ), times=2),
+                      share=c(0/79,11/79,63/79,5/79,0/79, 1/699,35/699,386/699,163/699,114/699))
+gencomp$status<- factor(gencomp$status, levels=c('Self-employed', 'Employees'))
+gencomp$age<- factor(gencomp$age, levels=c('Silent generation','Baby boomers','Generation X','Old millenials','Young millenials'))
+generations_comp <- ggplot(gencomp, aes(fill=age, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+  theme(legend.position="bottom")
+generations_comp
+##################################GENDER##################################
+emplstat <- c(rep("Self-employed" , 2) , rep("Employees" , 2) )
+gender <- rep(c("Male" , "Female" ) , 2)
+value <- abs(c(45/79,34/79,346/699,353/699))
+genderplot<- data.frame(gender,emplstat,value)
+genderplot$emplstat<- factor(genderplot$emplstat, levels=c('Self-employed', 'Employees'))
+genderplot$gender<- factor(genderplot$gender, levels=c('Male','Female'))
+gender_comp <- ggplot(genderplot, aes(fill=gender, y=value, x=emplstat)) + 
+  geom_bar(position="dodge", stat="identity")+ 
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
+  labs(x="" ,y="Percentage share",fill="") + theme(legend.position="bottom")
+gender_comp
+
+
+##################################EDUCATION##################################
+educomp <- data.frame(status=rep(c('Self-employed', 'Employees'), each=2),
+                      education=rep(c('Higher', 'Lower'), times=2),
+                      share=c(36/79, 43/79,249/699, 450/699))
+educomp$status<- factor(educomp$status, levels=c('Self-employed', 'Employees'))
+educomp$education<- factor(educomp$education, levels=c('Higher', 'Lower'))
+educ_comp <-ggplot(educomp, aes(fill=education, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  scale_fill_manual(values=c("green",
+                             "purple"))+
+  labs(x="",y="Percentage share",fill="") + theme(legend.position="bottom")
+educ_comp
+
+
+#################################LIVING COMMUNITY TYPE##############################
+livingcomm <- data.frame(status=rep(c('Self-employed', 'Employees'), each=3),
+                         community=rep(c("Village","Town","City"), times=2),
+                         share=c(20/79,25/79,34/79,198/699,258/699,243/699))
+livingcomm$status<- factor(livingcomm$status, levels=c('Self-employed', 'Employees'))
+livingcomm$community<- factor(livingcomm$community, levels=c("Village","Town","City"))
+living_comp <- ggplot(livingcomm, aes(fill=community, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+ theme(legend.position="bottom")
+living_comp
+
+
+##################################HOUSEHOLD SIZE##################################
+#sole and with children comparison plot
+household <- c(rep("Single household" , 2) , rep("Children" , 2), rep("Single parent" , 2))
+emplstat <- rep(c("Self-employed" , "Employees" ) , 3)
+value <- abs(c(23/79,196/699,29/79,245/699,3/79,34/699))
+householdplot<- data.frame(household,emplstat,value)
+householdplot$household<- factor(householdplot$household, levels=c("Single household","Children","Single parent"))
+householdplot$emplstat<- factor(householdplot$emplstat, levels=c('Self-employed', 'Employees'))
+household_comp <- ggplot(householdplot, aes(fill=emplstat, y=value, x=household)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x = "",y="Percentage share", fill = "") + theme(legend.position="bottom")
+household_comp
+
+##################################HOUSEHOLD INCOME##################################
+hincomecomp <- data.frame(status=rep(c('Self-employed', 'Employees'), each=4),
+                          income=rep(c('3.000 or more','Between 2.000 and 3.000','Up to 2.000', 'Ref/Don`t know'), times=2),
+                          share=c( 36/79, 18/79, 15/79,10/79,212/699,264/699,171/699,52/699))
+hincomecomp$status<- factor(hincomecomp$status, levels=c('Self-employed', 'Employees'))
+hincomecomp$income<- factor(hincomecomp$income, levels=c('3.000 or more','Between 2.000 and 3.000','Up to 2.000', 'Ref/Don`t know'))
+hincome_comp <-ggplot(hincomecomp, aes(fill=income, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+ theme(legend.position="bottom")
+hincome_comp
+
+##################################SELF-RATED FINANCIAL KNOWLEDGE##################################
+#simple
+selfratedknow <- data.frame(status=rep(c('Self-employed', 'Employees'), each=4),
+                            selfassessment=rep(c('Ref/Don´t know','Low', 'Average', 'High'), times=2),
+                            share=c(0.04768587,0.04254538,0.34443552,0.5653332,0.02188622,0.1390004,0.4149923,0.4241211))
+selfratedknow$selfassessment<- factor(selfratedknow$selfassessment, levels=c('Ref/Don´t know','Low', 'Average', 'High'))
+selfratedknow$status<- factor(selfratedknow$status, levels=c('Self-employed', 'Employees'))
+sa_comp <- ggplot(selfratedknow, aes(fill=selfassessment, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+ theme(legend.position="bottom")
+sa_comp
+
+#specific
+selfratedknow_specific <- data.frame(status=rep(c('Self-employed', 'Employees'), each=6),
+                                     selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=2),
+                                     share=c(0.11731588,0.44801736,0.34443552,0.01013686,0.03240852,0.04768587,0.109634073,0.314487009,0.414992278,0.115507818,0.023492600,0.02188622))
+selfratedknow_specific$selfassessment<- factor(selfratedknow_specific$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+selfratedknow_specific$status<- factor(selfratedknow_specific$status, levels=c('Self-employed', 'Employees'))
+saspecific_comp <- ggplot(selfratedknow_specific, aes(fill=selfassessment, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+ theme(legend.position="bottom")
+saspecific_comp
+
+#################Gender specific
+#self-employed
+selfratedknowgender <- data.frame(gender=rep(c('Male', 'Female'), each=6),
+                                  selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=2),
+                                  share=c(0.12388988, 0.55073307, 0.29503202,0,0,0.03034502,  0.10765274, 0.29703540,0.41705377,0.02503704, 0.08004583,0.07317521 ))
+
+selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+selfratedknowgender$gender<- factor(selfratedknowgender$gender, levels=c('Male', 'Female'))
+sa_gender_se <- ggplot(selfratedknowgender, aes(fill=selfassessment, y=share, x=gender)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+ theme(legend.position="none")
+sa_gender_se
+
+#employed
+selfratedknowgender <- data.frame(gender=rep(c('Male', 'Female'), each=6),
+                                  selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=2),
+                                  share=c(0.123241627 ,0.356358811 ,0.410727526,0.073273932, 0.012593160,0.02380494,0.095011378 , 0.269491520, 0.419575185,0.160892403, 0.035205152 , 0.01982436))
+
+selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+selfratedknowgender$gender<- factor(selfratedknowgender$gender, levels=c('Male', 'Female'))
+sa_gender_e<- ggplot(selfratedknowgender, aes(fill=selfassessment, y=share, x=gender)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="",fill="")+ theme(legend.position="none")
+sa_gender_e
+
+sa_gender <- sa_gender_se+sa_gender_e
+sa_gender <- sa_gender_se+sa_gender_e + plot_layout(guides = "collect")& theme(legend.position = "bottom")
+sa_gender
+
+
+##################################RISK BEHAVIOUR##################################
+
+
+#######################FINANCIAL CHARACTERISTICS#######################
+
+#######################FINANCIAL KNOWLEDGE#######################
+#basic financial knowledge 
+finknow <- c(rep("0" , 2),rep("1" ,2) , rep("2" , 2) ,  rep("3" , 2),rep("4" , 2),rep("5" , 2),rep("6" , 2),rep("7" , 2))
+emplstat <- rep(c("Self-employed" , "Employed" ) , 8)
+value <- abs(c(0,0.00814261,0.02025315,0.02193322,0.02347651,0.04273161,0.02656343,0.07215542,0.02564542,0.11685606,0.14809457,0.14000963,0.28741922,0.28684853,0.46854770,0.31132292))
+finknowOECD<- data.frame(finknow,emplstat,value)
+finknowOECD$finknow<- factor(finknowOECD$finknow, levels=c('0', '1', '2','3','4','5','6','7'))
+finknowOECD$emplstat<- factor(finknowOECD$emplstat, levels=c("Self-employed" , "Employed" ))
+finknow_comp <-ggplot(finknowOECD, aes(fill=emplstat, y=value, x=finknow)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="Employment status")+theme(legend.position="none")
+finknow_comp
+
+
+#enlarged financial knowledge
+finknow <- c(rep("0" , 2),rep("1" , 2) , rep("2" ,2) ,  rep("3" , 2),rep("4" , 2),rep("5" , 2),rep("6" , 2),rep("7" , 2),rep("8" , 2),rep("9" , 2),rep("10" , 2))
+emplstat <- rep(c("Self-employed" , "Employed" ) , 11)
+value <- abs(c(0,0.001926869,0.020253150,0.012413192,0.014446959,0.020341872,0.026563430,0.031332812,0.009029548,0.061954325,0.014725101,0.063976149,0.010920319,0.083720361,0.050575388,0.080004069, 0.185755832,0.201836482, 0.291193550,0.210809532,0.376536723,0.231684336))
+finknowadd<- data.frame(finknow,emplstat,value)
+finknowadd$emplstat<- factor(finknowadd$emplstat, levels=c("Self-employed" , "Employed" ))
+finknowadd$finknow<- factor(finknowadd$finknow, levels=c('0','1', '2', '3','4','5','6','7','8','9','10'))
+finknow_add_comp <- ggplot(finknowadd, aes(fill=emplstat, y=value, x=finknow)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="Employment status")+theme(legend.position="none")
+
+finknow_add_comp
+
+finknow_comp+finknow_add_comp
+
+#######################Detailed answers to financial knowledge#######################
+##according to Chart 4 - Fessler et al (2020) - financial knowledge details #correct incorrect dont know 
+#SELF-EMPLOYED - financial knowledge details #correct incorrect dont know 
+finknowdetailse <- data.frame(finknow=rep(c('Exchange rate','Overdrawing an account','Real interest', 'Diversification*','Inflation definition*', 'Risk and return*','Compound interest*','Interest plus principal*','Interest on loan*','Time value*'), each=3),
+                              status=rep(c('Correct','Incorrect','Ref/Don´t know' ), times=10),
+                              share=c(0.87447672,0.04876289,0.07676039, 0.7227731 ,0.1404427 ,0.1367842 ,0.93873646,0.01444696,0.04681658, 0.77142812,0.13102772,0.09754416 , 0.91822943,0.03238426,0.04938631,0.90143273,0.03396225, 0.06460503,0.64042716,0.3091052,0.05046764,0.911007520,0.025367278,0.0636252,0.970574832,0.007966968,0.0214582,0.8812004,0.06277662,0.05602298))
+finknowdetailse$finknow<- factor(finknowdetailse$finknow, levels=c('Exchange rate','Overdrawing an account','Real interest', 'Diversification*','Inflation definition*', 'Risk and return*','Compound interest*','Interest plus principal*','Interest on loan*','Time value*'))
+finknowdetailse$status<- factor(finknowdetailse$status, levels=c('Correct','Incorrect','Ref/Don´t know' ))
+finknowdetailse<-ggplot(finknowdetailse, aes(fill=status, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+
+  coord_flip()
+
+round(c(0.8812004,0.06277662,0.05602298,0.970574832,0.007966968,0.0214582,0.911007520,0.025367278,0.0636252,0.64042716,0.3091052,0.05046764,0.90143273,0.03396225, 0.06460503 ,0.91822943,0.03238426,0.04938631 ,0.77142812,0.13102772,0.09754416 ,0.93873646,0.01444696,0.04681658,0.7227731 ,0.1404427 ,0.1367842 ,0.87447672,0.04876289,0.07676039), digits=3)
+#EMPLOYED - financial knowledge details #correct incorrect dont know
+finknowdetaile <- data.frame(finknow=rep(c('Exchange rate','Overdrawing an account','Real interest', 'Diversification*','Inflation definition*', 'Risk and return*','Compound interest*','Interest plus principal*','Interest on loan*','Time value*'), each=3),
+                             status=rep(c('Correct','Incorrect','Ref/Don´t know' ), times=10),
+                             share=c(0.703229118 ,0.159618,0.1371529, 0.740998033 ,0.174713123,0.08428884,0.77005123,0.1758667,0.05408207,0.667234442,0.162267278,0.1704983,0.887358506,0.052169972 ,0.06047152,0.9070270072 ,0.0443046011 ,0.04866839,0.5221745,0.3517732,0.1274378, 0.7892900880,0.1056407,0.1050692,0.897261034,0.03466621,0.06807276,0.7227266,0.2387096,0.03856385))
+finknowdetaile$finknow<- factor(finknowdetaile$finknow, levels=c('Exchange rate','Overdrawing an account','Real interest', 'Diversification*','Inflation definition*', 'Risk and return*','Compound interest*','Interest plus principal*','Interest on loan*','Time value*'))
+finknowdetaile$status<- factor(finknowdetaile$status, levels=c('Correct','Incorrect','Ref/Don´t know' ))
+finknowdetaile <- ggplot(finknowdetaile, aes(fill=status, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+
+  coord_flip()+ theme(panel.grid = element_blank(),
+                         axis.text.y = element_blank())
+
+round(c(0.7227266,0.2387096,0.03856385,0.897261034,0.03466621,0.06807276,0.7892900880,0.1056407,0.1050692,0.5221745,0.3517732,0.1274378,0.9070270072 ,0.0443046011 ,0.04866839,0.887358506,0.052169972 ,0.06047152,0.667234442,0.162267278,0.1704983,0.77005123,0.1758667,0.05408207,0.740998033 ,0.174713123,0.08428884,0.703229118 ,0.159618,0.1371529), digits=3)
+
+finknowdetail_comp <- finknowdetailse+finknowdetaile + plot_layout(guides = "collect")& theme(legend.position = "bottom")
+finknowdetail_comp
+
+#GENDER SPECIFIC correct incorrect dont know 
+#self-employed
+finknowdetailgenderse <- data.frame(finknow=rep(c('Exchange rate Male','Exchange rate Female' ,'Overdrawing an account Male','Overdrawing an account Female','Real interest Male','Real interest Female','Diversification* Male','Diversification* Female','Inflation definition* Male','Inflation definition* Female','Risk and return* Male','Risk and return* Female','Compound interest* Male','Compound interest* Female', 'Interest plus principal* Male','Interest plus principal* Female','Interest on loan* Male','Interest on loan* Female','Time value* Male','Time value* Female'), each=3),
+                                    status=rep(c('Correct','Incorrect','Ref/Don´t know' ), times=20),
+                                    share=c(0.94007636,0.05992364,0,0.77805172,0.03235769,0.18959059,
+                                            0.79478339,0.13380348,0.07141313,0.6169251,0.1502016,0.2328732, 
+                                            0.97572452,0.02427548,0,0.8843677,0,0.1156323,
+                                            0.81016060,0.17466689,0.01517251,0.71449519,0.06688245,0.21862236,
+                                            0.97572452,0.02427548,0,0.83371732,0.04430336,0.12197932, 
+                                            0.94293263,0.05706737,0,0.840432,0,0.159568,  
+                                            0.62289779,0.3467572,(1-0.3467572-0.62289779),0.6661936 ,0.2537606,(1-0.6661936-0.2537606),  
+                                            0.92702989 ,0.04262509 ,(0.01517251+0.01517251),0.8874562 ,0,0.1125438,   
+                                            0.98482749,0,0.01517251,0.94962483,0.01967762,(0.01426306+0.01643448),
+                                            0.8974658,0.08706451,0.01546969,0.8572919,0.02707577,0.11563233))
+
+finknowdetailgenderse$finknow<- factor(finknowdetailgenderse$finknow, levels=c('Exchange rate Male','Exchange rate Female' ,'Overdrawing an account Male','Overdrawing an account Female','Real interest Male','Real interest Female','Diversification* Male','Diversification* Female','Inflation definition* Male','Inflation definition* Female','Risk and return* Male','Risk and return* Female','Compound interest* Male','Compound interest* Female', 'Interest plus principal* Male','Interest plus principal* Female','Interest on loan* Male','Interest on loan* Female','Time value* Male','Time value* Female'))
+finknowdetailgenderse$status<- factor(finknowdetailgenderse$status, levels=c('Correct','Incorrect','Ref/Don´t know' ))
+finknowdetail_se <- ggplot(finknowdetailgenderse, aes(fill=status, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+
+  coord_flip()
+finknowdetail_se 
+
+#employed #proper version
+finknowdetailgendere <- data.frame(finknow=rep(c('Exchange rate Male','Exchange rate Female' ,'Overdrawing an account Male','Overdrawing an account Female','Real interest Male','Real interest Female','Diversification* Male','Diversification* Female','Inflation definition* Male','Inflation definition* Female','Risk and return* Male','Risk and return* Female','Compound interest* Male','Compound interest* Female', 'Interest plus principal* Male','Interest plus principal* Female','Interest on loan* Male','Interest on loan* Female','Time value* Male','Time value* Female'), each=3),
+                                   status=rep(c('Correct','Incorrect','Ref/Don´t know' ), times=20),
+                                   share=c(0.743805912,0.1453599,0.1108342,0.659625245, 0.1749397,  0.1654351 ,
+                                           0.7762141 ,0.1376383 ,0.0861476 , 0.703154812 ,0.214553766 ,(0.004494796+ 0.077796626),
+                                           0.77442909 ,(0.04688433+0.12413096),(0.01843345 + 0.03612217), 0.765346776 , (0.045856744+ 0.135223186),(0.007405501 +0.046167792),
+                                           0.715146681 ,0.144632912 ,(0.008957269 +0.131263138),0.615747892 ,0.181217190 ,(0.001953584+ 0.201081333) ,
+                                           0.91308900 ,0.03351947 ,0.05339153 ,0.859708485 ,0.072211819 ,(0.009323992+ 0.058755705),
+                                           0.90041254 , 0.03530823 , 0.06427923 ,0.914134923 ,0.053972111 ,(0.001953584 +0.029939382),
+                                           0.5534543  ,0.3430558,0.1034899, 0.4856869 , 0.3611409,0.1531722,
+                                           0.827807758 ,0.09280624,0.079386,0.747898953 ,0.1194326,0.1326684,
+                                           0.922244936 ,(0.020832451+ 0.003951563+ 0.003807905),(0.014539266+ 0.012534812+ 0.022089067),0.870413303 ,(0.030420380+ 0.003554709+ 0.004994470+ 0.002224076 ),(0.028173971 +0.031317930 +0.028901159),
+                                           (0.662530957 +0.077892090 ),(0.073554902 +0.152705480),(0.003221358+ 0.005212802+0.024882410),(0.63686116+0.06684878 ),(0.05284933+0.19923814),(0.01209575+0.03210683 )))
+finknowdetailgendere$finknow<- factor(finknowdetailgendere$finknow, levels=c('Exchange rate Male','Exchange rate Female' ,'Overdrawing an account Male','Overdrawing an account Female','Real interest Male','Real interest Female','Diversification* Male','Diversification* Female','Inflation definition* Male','Inflation definition* Female','Risk and return* Male','Risk and return* Female','Compound interest* Male','Compound interest* Female', 'Interest plus principal* Male','Interest plus principal* Female','Interest on loan* Male','Interest on loan* Female','Time value* Male','Time value* Female'))
+finknowdetailgendere$status<- factor(finknowdetailgendere$status, levels=c('Correct','Incorrect','Ref/Don´t know' ))
+finknowdetail_e <-ggplot(finknowdetailgendere, aes(fill=status, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+
+  coord_flip()+ theme(panel.grid = element_blank(),
+                      axis.text.y = element_blank())
+finknowdetail_e
+
+finknowdetail_gendercomp <- finknowdetail_se+finknowdetail_e + plot_layout(guides = "collect")& theme(legend.position = "bottom")
+finknowdetail_gendercomp
+
