@@ -259,6 +259,8 @@ lowersec <- c("Lower secondary")
 uppersec <- c("Upper secondary")
 university <- c("Universitary")
 akademie <- c("Akademie")
+##alternative: excluding all with university/Akademie
+tertiary<- c("Universitary","Akademie")
 
 primary_1d <- ifelse(ASFL$QD9 == "7", 1, 0)
 primary_2d <- ifelse(ASFL$QD9 == "6", 1, 0)
