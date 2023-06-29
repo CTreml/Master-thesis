@@ -44,10 +44,9 @@ ASFL <- ASFL %>%
     employment1 =="Looking after the home"~"Other",
     employment1 =="Other"~"Other"))
 
-employment1_1 <- as.factor(ASFL$employment1)
-levels(employment1_1)
-ASFL <- within(ASFL, employment1_1 <- relevel(employment1_1, ref = "Other"))
 
+employment1_1 <- factor(ASFL$employment1, levels=c("Other","Self-employed","Employed"))
+levels(employment1_1)
 
 employment1_2 <- factor(ASFL$employment1, levels=c("Employed","Self-employed", "Other"))
 levels(employment1_2)
