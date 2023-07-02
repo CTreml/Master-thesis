@@ -2,6 +2,7 @@
 ASFL7se <- ASFL7[(ASFL7$QD10 %in% se),] 
 ASFL7e <- ASFL7[(ASFL7$QD10 %in% e),] 
 ASFL7eu <- ASFL7[(ASFL7$QD10 %in% eu),] 
+empl <- c("In paid employment [work for someone else]","Self-employed [work for myself]")
 ASFL7empl <- ASFL7[(ASFL7$QD10 %in% empl),] 
 ASFL7oth <-  ASFL7[(ASFL7$QD10 %in% oth),] 
 ASFL7othworet <-  ASFL7[(ASFL7$QD10 %in% othworet),] 
@@ -9,6 +10,7 @@ ASFL7ret <-  ASFL7[(ASFL7$QD10 %in% ret),]
 ASFL7unempl <-  ASFL7[(ASFL7$QD10 %in% unempl),] 
 ASFL7entrepreneurs <-  ASFL7[(ASFL7$QF9_11 %in% entrepreneurs),] 
 ASFL7nontertiary <- ASFL7[!(ASFL7$educationspecific_1 %in% tertiary),] 
+ASFL7nonprimary <- ASFL7[!(ASFL7$educationspecific_1 %in% primary),]
 ASFL7nontertiarye <- ASFL7e[!(ASFL7e$educationspecific_1 %in% tertiary),] 
 ASFL7nontertiaryse <- ASFL7se[!(ASFL7se$educationspecific_1 %in% tertiary),] 
 
@@ -354,7 +356,7 @@ summary(finattriske)
 coeftest(finattriske, vcov = vcovHC(finattriske, type = "HC0"))
 AIC(finattriske)
 
-#alternative3 numericHFCSrisk
+#alternative numericHFCSrisk
 #full sample
 finlitrisk <- lm(finlit ~ numericHFCSrisk,data=ASFL7, weights=ASFL7$wght) 
 summary(finlitrisk)  
@@ -479,7 +481,7 @@ finattriske <- lm(fin_att ~numericQS1_2,data=ASFL7e, weights=ASFL7e$wght)
 summary(finattriske)  
 coeftest(finattriske, vcov = vcovHC(finattriske, type = "HC0"))
 
-#alternative4 HFCSriskgroup_1
+#alternative HFCSriskgroup_1
 #full sample
 finlitrisk <- lm(finlit ~ HFCSrisk_group_1,data=ASFL7, weights=ASFL7$wght) 
 summary(finlitrisk)  
@@ -557,24 +559,24 @@ finlitrisk <- lm(finlit ~QS1_2risk_group_1,data=ASFL7, weights=ASFL7$wght)
 summary(finlitrisk)  
 coeftest(finlitrisk, vcov = vcovHC(finlitrisk, type = "HC0"))
 AIC(finlitrisk)
-finknowrisk <- lm(fin_know QS1_2risk_group_1,data=ASFL7, weights=ASFL7$wght) 
+finknowrisk <- lm(fin_know~ QS1_2risk_group_1,data=ASFL7, weights=ASFL7$wght) 
 summary(finknowrisk)  
 coeftest(finknowrisk, vcov = vcovHC(finknowrisk, type = "HC0"))
 AIC(finknowrisk)
-finbehrisk <- lm(fin_beh QS1_2risk_group_1,data=ASFL7, weights=ASFL7$wght)
+finbehrisk <- lm(fin_beh ~QS1_2risk_group_1,data=ASFL7, weights=ASFL7$wght)
 summary(finbehrisk)  
 coeftest(finbehrisk, vcov = vcovHC(finbehrisk, type = "HC0"))
 AIC(finbehrisk)
-finattrisk <- lm(fin_att QS1_2risk_group_1,data=ASFL7, weights=ASFL7$wght) 
+finattrisk <- lm(fin_att~ QS1_2risk_group_1,data=ASFL7, weights=ASFL7$wght) 
 summary(finattrisk)  
 coeftest(finattrisk, vcov = vcovHC(finattrisk, type = "HC0"))
 AIC(finattrisk)
 
-selfemployedrisk <- glm(selfemployedd QS1_2risk_group_1,data=ASFL7, weights=ASFL7$wght, family="binomial") 
+selfemployedrisk <- glm(selfemployedd ~QS1_2risk_group_1,data=ASFL7, weights=ASFL7$wght, family="binomial") 
 summary(selfemployedrisk)  
 coeftest(selfemployedrisk, vcov = vcovHC(selfemployedrisk, type = "HC0"))
 (adjR2(selfemployedrisk))
-employedrisk <- glm(employedd QS1_2risk_group_1,data=ASFL7, weights=ASFL7$wght, family="binomial") 
+employedrisk <- glm(employedd~ QS1_2risk_group_1,data=ASFL7, weights=ASFL7$wght, family="binomial") 
 summary(employedrisk)  
 coeftest(employedrisk, vcov = vcovHC(employedrisk, type = "HC0"))
 multi_emplrisk <- multinom(employment1_1 ~ QS1_2risk_group_1,data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
@@ -587,32 +589,40 @@ stargazer(multi_emplrisk, type="text", out="multi_emplrisk.htm")
 PseudoR2(multi_emplrisk, which = c("McFadden"))
 
 #self-employed
-finlitriskse <- lm(finlit QS1_2risk_group_1,data=ASFL7se, weights=ASFL7se$wght)
+finlitriskse <- lm(finlit ~QS1_2risk_group_1,data=ASFL7se, weights=ASFL7se$wght)
 summary(finlitriskse)  
 coeftest(finlitriskse, vcov = vcovHC(finlitriskse, type = "HC0"))
-finknowriskse <- lm(fin_know QS1_2risk_group_1,data=ASFL7se, weights=ASFL7se$wght) 
+AIC(finlitriskse)
+finknowriskse <- lm(fin_know ~QS1_2risk_group_1,data=ASFL7se, weights=ASFL7se$wght) 
 summary(finknowriskse)  
 coeftest(finknowriskse, vcov = vcovHC(finknowriskse, type = "HC0"))
-finbehriskse <- lm(fin_beh QS1_2risk_group_1,data=ASFL7se, weights=ASFL7se$wght) 
+AIC(finknowriskse)
+finbehriskse <- lm(fin_beh ~QS1_2risk_group_1,data=ASFL7se, weights=ASFL7se$wght) 
 summary(finbehriskse)  
 coeftest(finbehriskse, vcov = vcovHC(finbehriskse, type = "HC0"))
-finattriskse <- lm(fin_att QS1_2risk_group_1,data=ASFL7se, weights=ASFL7se$wght) 
+AIC(finbehriskse)
+finattriskse <- lm(fin_att~ QS1_2risk_group_1,data=ASFL7se, weights=ASFL7se$wght) 
 summary(finattriskse)  
 coeftest(finattriskse, vcov = vcovHC(finattriskse, type = "HC0"))
+AIC(finattriskse)
 
 #employed
-finlitriske <- lm(finlit QS1_2risk_group_1,data=ASFL7e, weights=ASFL7e$wght) 
+finlitriske <- lm(finlit~ QS1_2risk_group_1,data=ASFL7e, weights=ASFL7e$wght) 
+summary(finlitriske) 
 coeftest(finlitriske, vcov = vcovHC(finlitriske, type = "HC0"))
-finknowriske <- lm(fin_know QS1_2risk_group_1,data=ASFL7e, weights=ASFL7e$wght) 
+AIC(finlitriske)
+finknowriske <- lm(fin_know~ QS1_2risk_group_1,data=ASFL7e, weights=ASFL7e$wght) 
 summary(finknowriske)  
 coeftest(finknowriske, vcov = vcovHC(finknowriske, type = "HC0"))
-finbehriske <- lm(fin_beh QS1_2risk_group_1,data=ASFL7e, weights=ASFL7e$wght) 
+AIC(finknowriske)
+finbehriske <- lm(fin_beh~ QS1_2risk_group_1,data=ASFL7e, weights=ASFL7e$wght) 
 summary(finbehriske)  
 coeftest(finbehriske, vcov = vcovHC(finbehriske, type = "HC0"))
-finattriske <- lm(fin_att QS1_2risk_group_1,data=ASFL7e, weights=ASFL7e$wght) 
+AIC(finbehriske)
+finattriske <- lm(fin_att~ QS1_2risk_group_1,data=ASFL7e, weights=ASFL7e$wght) 
 summary(finattriske)  
 coeftest(finattriske, vcov = vcovHC(finattriske, type = "HC0"))
-
+AIC(finattriske)
 #rboustness: riskyassets 
 #full sample
 finlitriskyassets <- lm(finlit ~ riskyassetsd,data=ASFL7, weights=ASFL7$wght) 
@@ -955,10 +965,25 @@ coeftest(finattmodel, vcov = vcovHC(finattmodel, type = "HC0"))
 AIC(finattmodel)
 
 ####only for working respondents #considerably smaller sample size
-finlitmodel_empl <- lm(finlit ~employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7empl, weights=ASFL7empl$wght)
+finlitmodel_empl <- lm(finlit ~ employment1_2 + age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7empl, weights=ASFL7empl$wght)
 summary(finlitmodel_empl)
 coeftest(finlitmodel_empl, vcov = vcovHC(finlitmodel_empl, type = "HC0"))
 AIC(finlitmodel_empl)
+
+finknowmodel_empl <- lm(fin_know ~ employment1_2 + age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7empl, weights=ASFL7empl$wght)
+summary(finknowmodel_empl)
+coeftest(finknowmodel_empl, vcov = vcovHC(finknowmodel_empl, type = "HC0"))
+AIC(finknowmodel_empl)
+
+finbehmodel_empl <- lm(fin_beh ~ employment1_2 + age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7empl, weights=ASFL7empl$wght)
+summary(finbehmodel_empl)
+coeftest(finbehmodel_empl, vcov = vcovHC(finbehmodel_empl, type = "HC0"))
+AIC(finbehmodel_empl)
+
+finattmodel_empl <- lm(fin_att ~ employment1_2 + age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7empl, weights=ASFL7empl$wght)
+summary(finattmodel_empl)
+coeftest(finattmodel_empl, vcov = vcovHC(finattmodel_empl, type = "HC0"))
+AIC(finattmodel_empl)
 
 ####without employment
 finlitmodel_woempl <- lm(finlit ~ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
@@ -2337,6 +2362,11 @@ summary(finlitmodelfullinteract)
 shapiro.test(finlitmodelfullinteract$residuals)
 coeftest(finlitmodelfullinteract, vcov = vcovHC(finlitmodelfullinteract, type = "HC0"))
 AIC(finlitmodelfullinteract)
+finlitmodelfullinteract <- lm(fin_know ~ employment1_2+ (age + gender + higheduc+ incomegroup_1+ HFCSriskad+ riskyassetsd)^2 , data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodelfullinteract)
+shapiro.test(finlitmodelfullinteract$residuals)
+coeftest(finlitmodelfullinteract, vcov = vcovHC(finlitmodelfullinteract, type = "HC0"))
+AIC(finlitmodelfullinteract)
 #employmentfullinteractions
 finlitmodelfullinteractempl <- lm(finlit ~ employment1_2+ age +age*employment1_2 + gender + employment1_2*gender + higheduc+ employment1_2*higheduc+ incomegroup_1+ employment1_2*incomegroup_1 + HFCSriskad+  employment1_2*HFCSriskad + riskyassetsd + employment1_2*riskyassetsd, data=ASFL7, weights=ASFL7$wght)
 summary(finlitmodelfullinteractempl)
@@ -2344,7 +2374,7 @@ coeftest(finlitmodelfullinteractempl, vcov = vcovHC(finlitmodelfullinteractempl,
 AIC(finlitmodelfullinteract)
 
 
-
+#reasonable full interactions model - !
 finlitmodelfullinteract <- lm(finlit ~ employment1_2+incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7, weights=ASFL7$wght)
 summary(finlitmodelfullinteract)
 shapiro.test(finlitmodelfullinteract$residuals)
@@ -2367,71 +2397,126 @@ coeftest(finattmodelfullinteract, vcov = vcovHC(finattmodelfullinteract, type = 
 AIC(finattmodelfullinteract)
 
 
-###alternative - by hand
-finlitmodelriskinteract <- lm(finlit ~employment1_2+ age + age*HFCSriskad + gender+ gender*HFCSriskad + higheduc+higheduc*HFCSriskad +incomegroup_1+incomegroup_1*HFCSriskad+ HFCSriskad + HFCSriskad * riskyassetsd+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
-summary(finlitmodelriskinteract)
-coeftest(finlitmodelriskinteract, vcov = vcovHC(finlitmodelriskinteract, type = "HC0"))
-AIC(finlitmodelriskinteract)
-finknowmodelriskinteract <- lm(fin_know ~employment1_2+ age + age*HFCSriskad + gender+ gender*HFCSriskad + higheduc+higheduc*HFCSriskad +incomegroup_1+incomegroup_1*HFCSriskad+ HFCSriskad + HFCSriskad * riskyassetsd +riskyassetsd, data=ASFL7, weights=ASFL7$wght)
-summary(finknowmodelriskinteract)
-coeftest(finknowmodelriskinteract, vcov = vcovHC(finknowmodelriskinteract, type = "HC0"))
-AIC(finknowmodelriskinteract)
-finbehmodelriskinteract <- lm(fin_beh ~employment1_2+ age + age*HFCSriskad + gender+ gender*HFCSriskad + higheduc+higheduc*HFCSriskad +incomegroup_1+incomegroup_1*HFCSriskad+ HFCSriskad + HFCSriskad * riskyassetsd +riskyassetsd, data=ASFL7, weights=ASFL7$wght)
-summary(finbehmodelriskinteract)
-coeftest(finbehmodelriskinteract, vcov = vcovHC(finbehmodelriskinteract, type = "HC0"))
-AIC(finbehmodelriskinteract)
-finattmodelriskinteract <- lm(fin_att ~employment1_2+ age + age*HFCSriskad + gender+ gender*HFCSriskad + higheduc+higheduc*HFCSriskad +incomegroup_1+incomegroup_1*HFCSriskad+ HFCSriskad + HFCSriskad * riskyassetsd+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
-summary(finattmodelriskinteract)
-coeftest(finattmodelriskinteract, vcov = vcovHC(finattmodelriskinteract, type = "HC0"))
-AIC(finattmodelriskinteract)
-
-#self-employed
-finlitmodelriskinteractse <- lm(finlit ~ age + age*HFCSriskad + gender+ gender*HFCSriskad + higheduc+higheduc*HFCSriskad +incomegroup_1+incomegroup_1*HFCSriskad+ HFCSriskad + HFCSriskad * riskyassetsd +riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
-summary(finlitmodelriskinteractse)
-coeftest(finlitmodelriskinteractse, vcov = vcovHC(finlitmodelriskinteractse, type = "HC0"))
-AIC(finlitmodelriskinteractse)
-finknowmodelriskinteractse <- lm(fin_know ~ age + age*HFCSriskad + gender+ gender*HFCSriskad + higheduc+higheduc*HFCSriskad +incomegroup_1+incomegroup_1*HFCSriskad+ HFCSriskad + HFCSriskad * riskyassetsd +riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
-summary(finknowmodelriskinteractse)
-coeftest(finknowmodelriskinteractse, vcov = vcovHC(finknowmodelriskinteractse, type = "HC0"))
-AIC(finknowmodelriskinteractse)
-finbehmodelriskinteractse <- lm(fin_beh ~ age + age*HFCSriskad + gender+ gender*HFCSriskad + higheduc+higheduc*HFCSriskad +incomegroup_1+incomegroup_1*HFCSriskad+ HFCSriskad + HFCSriskad * riskyassetsd+ riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
-summary(finbehmodelriskinteractse)
-coeftest(finbehmodelriskinteractse, vcov = vcovHC(finbehmodelriskinteractse, type = "HC0"))
-AIC(finbehmodelriskinteractse)
-finattmodelriskinteractse <- lm(fin_att ~ age + age*HFCSriskad + gender+ gender*HFCSriskad + higheduc+higheduc*HFCSriskad +incomegroup_1+incomegroup_1*HFCSriskad+ HFCSriskad + HFCSriskad * riskyassetsd +riskyassetsd, data=ASFL7se, weights=ASFL7se$wght)
-summary(finattmodelriskinteractse)
-coeftest(finattmodelriskinteractse, vcov = vcovHC(finattmodelriskinteractse, type = "HC0"))
-AIC(finattmodelriskinteractse)
-
+#selfemployed
+#reasonable interactions!
 finlitmodelfullinteractse <- lm(finlit ~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7se, weights=ASFL7se$wght)
 summary(finlitmodelfullinteractse)
 shapiro.test(finlitmodelfullinteractse$residuals)
 coeftest(finlitmodelfullinteractse, vcov = vcovHC(finlitmodelfullinteractse, type = "HC0"))
 AIC(finlitmodelfullinteractse)
 
-#employed
-finlitmodelriskinteracte <- lm(finlit ~ age + age*HFCSriskad + gender+ gender*HFCSriskad + higheduc+higheduc*HFCSriskad +incomegroup_1+incomegroup_1*HFCSriskad+ HFCSriskad + HFCSriskad * riskyassetsd+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
-summary(finlitmodelriskinteracte)
-coeftest(finlitmodelriskinteracte, vcov = vcovHC(finlitmodelriskinteracte, type = "HC0"))
-AIC(finlitmodelriskinteracte)
-finknowmodelriskinteracte <- lm(fin_know ~ age + age*HFCSriskad + gender+ gender*HFCSriskad + higheduc+higheduc*HFCSriskad +incomegroup_1+incomegroup_1*HFCSriskad+ HFCSriskad + HFCSriskad * riskyassetsd+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
-summary(finknowmodelriskinteracte)
-coeftest(finknowmodelriskinteracte, vcov = vcovHC(finknowmodelriskinteracte, type = "HC0"))
-AIC(finknowmodelriskinteracte)
-finbehmodelriskinteracte <- lm(fin_beh ~age + age*HFCSriskad + gender+ gender*HFCSriskad + higheduc+higheduc*HFCSriskad +incomegroup_1+incomegroup_1*HFCSriskad+ HFCSriskad + HFCSriskad * riskyassetsd+ riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
-summary(finbehmodelriskinteracte)
-coeftest(finbehmodelriskinteracte, vcov = vcovHC(finbehmodelriskinteracte, type = "HC0"))
-AIC(finbehmodelriskinteracte)
-finattmodelriskinteracte <- lm(fin_att ~ age + age*HFCSriskad + gender+ gender*HFCSriskad + higheduc+higheduc*HFCSriskad +incomegroup_1+incomegroup_1*HFCSriskad+ HFCSriskad + HFCSriskad * riskyassetsd riskyassetsd, data=ASFL7e, weights=ASFL7e$wght)
-summary(finattmodelriskinteracte)
-coeftest(finattmodelriskinteracte, vcov = vcovHC(finattmodelriskinteracte, type = "HC0"))
-AIC(finattmodelriskinteracte)
+finknowmodelfullinteractse <- lm(fin_know ~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7se, weights=ASFL7se$wght)
+summary(finknowmodelfullinteractse)
+coeftest(finknowmodelfullinteractse, vcov = vcovHC(finknowmodelfullinteractse, type = "HC0"))
+AIC(finknowmodelfullinteractse)
 
+finbehmodelfullinteractse <- lm(fin_beh~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7se, weights=ASFL7se$wght)
+summary(finbehmodelfullinteractse)
+coeftest(finbehmodelfullinteractse, vcov = vcovHC(finbehmodelfullinteractse, type = "HC0"))
+AIC(finbehmodelfullinteractse)
+
+finattmodelfullinteractse <- lm(fin_att~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7se, weights=ASFL7se$wght)
+summary(finattmodelfullinteractse)
+coeftest(finattmodelfullinteractse, vcov = vcovHC(finattmodelfullinteractse, type = "HC0"))
+AIC(finattmodelfullinteractse)
+
+#employed
 finlitmodelfullinteracte <- lm(finlit ~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7e, weights=ASFL7e$wght)
 summary(finlitmodelfullinteracte)
 shapiro.test(finlitmodelfullinteracte$residuals)
 coeftest(finlitmodelfullinteracte, vcov = vcovHC(finlitmodelfullinteracte, type = "HC0"))
 AIC(finlitmodelfullinteracte)
+
+finknowmodelfullinteracte <- lm(fin_know ~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7e, weights=ASFL7e$wght)
+summary(finknowmodelfullinteracte)
+coeftest(finknowmodelfullinteracte, vcov = vcovHC(finknowmodelfullinteracte, type = "HC0"))
+AIC(finknowmodelfullinteracte)
+
+finbehmodelfullinteracte <- lm(fin_beh~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7e, weights=ASFL7e$wght)
+summary(finbehmodelfullinteracte)
+coeftest(finbehmodelfullinteracte, vcov = vcovHC(finbehmodelfullinteracte, type = "HC0"))
+AIC(finbehmodelfullinteracte)
+
+finattmodelfullinteracte <- lm(fin_att~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7e, weights=ASFL7e$wght)
+summary(finattmodelfullinteracte)
+coeftest(finattmodelfullinteracte, vcov = vcovHC(finattmodelfullinteracte, type = "HC0"))
+AIC(finattmodelfullinteracte)
+
+####finally interactions model 
+###only reasonable full interactions model - !
+finlitmodelfullinteract <- lm(finlit ~ employment1_2+incomegroup_1+ age + gender + higheduc +higheduc*age+ HFCSriskad+HFCSriskad*gender+HFCSriskad*higheduc+riskyassetsd+riskyassetsd*higheduc+riskyassetsd*gender , data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodelfullinteract)
+shapiro.test(finlitmodelfullinteract$residuals)
+coeftest(finlitmodelfullinteract, vcov = vcovHC(finlitmodelfullinteract, type = "HC0"))
+AIC(finlitmodelfullinteract)
+#alternative
+finlitmodelfullinteract <- lm(finlit ~ employment1_2+incomegroup_1+ age + gender + higheduc +higheduc*age+ HFCSriskad+HFCSriskad*gender+riskyassetsd+riskyassetsd*higheduc , data=ASFL7, weights=ASFL7$wght)
+summary(finlitmodelfullinteract)
+shapiro.test(finlitmodelfullinteract$residuals)
+coeftest(finlitmodelfullinteract, vcov = vcovHC(finlitmodelfullinteract, type = "HC0"))
+AIC(finlitmodelfullinteract)
+
+finknowmodelfullinteract <- lm(fin_know ~ employment1_2+incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7, weights=ASFL7$wght)
+summary(finknowmodelfullinteract)
+coeftest(finknowmodelfullinteract, vcov = vcovHC(finknowmodelfullinteract, type = "HC0"))
+AIC(finknowmodelfullinteract)
+
+finbehmodelfullinteract <- lm(fin_beh~ employment1_2+incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7, weights=ASFL7$wght)
+summary(finbehmodelfullinteract)
+coeftest(finbehmodelfullinteract, vcov = vcovHC(finbehmodelfullinteract, type = "HC0"))
+AIC(finbehmodelfullinteract)
+
+finattmodelfullinteract <- lm(fin_att~ employment1_2+incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7, weights=ASFL7$wght)
+summary(finattmodelfullinteract)
+coeftest(finattmodelfullinteract, vcov = vcovHC(finattmodelfullinteract, type = "HC0"))
+AIC(finattmodelfullinteract)
+
+
+#selfemployed
+#reasonable interactions!
+finlitmodelfullinteractse <- lm(finlit ~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7se, weights=ASFL7se$wght)
+summary(finlitmodelfullinteractse)
+shapiro.test(finlitmodelfullinteractse$residuals)
+coeftest(finlitmodelfullinteractse, vcov = vcovHC(finlitmodelfullinteractse, type = "HC0"))
+AIC(finlitmodelfullinteractse)
+
+finknowmodelfullinteractse <- lm(fin_know ~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7se, weights=ASFL7se$wght)
+summary(finknowmodelfullinteractse)
+coeftest(finknowmodelfullinteractse, vcov = vcovHC(finknowmodelfullinteractse, type = "HC0"))
+AIC(finknowmodelfullinteractse)
+
+finbehmodelfullinteractse <- lm(fin_beh~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7se, weights=ASFL7se$wght)
+summary(finbehmodelfullinteractse)
+coeftest(finbehmodelfullinteractse, vcov = vcovHC(finbehmodelfullinteractse, type = "HC0"))
+AIC(finbehmodelfullinteractse)
+
+finattmodelfullinteractse <- lm(fin_att~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7se, weights=ASFL7se$wght)
+summary(finattmodelfullinteractse)
+coeftest(finattmodelfullinteractse, vcov = vcovHC(finattmodelfullinteractse, type = "HC0"))
+AIC(finattmodelfullinteractse)
+
+#employed
+finlitmodelfullinteracte <- lm(finlit ~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7e, weights=ASFL7e$wght)
+summary(finlitmodelfullinteracte)
+shapiro.test(finlitmodelfullinteracte$residuals)
+coeftest(finlitmodelfullinteracte, vcov = vcovHC(finlitmodelfullinteracte, type = "HC0"))
+AIC(finlitmodelfullinteracte)
+
+finknowmodelfullinteracte <- lm(fin_know ~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7e, weights=ASFL7e$wght)
+summary(finknowmodelfullinteracte)
+coeftest(finknowmodelfullinteracte, vcov = vcovHC(finknowmodelfullinteracte, type = "HC0"))
+AIC(finknowmodelfullinteracte)
+
+finbehmodelfullinteracte <- lm(fin_beh~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7e, weights=ASFL7e$wght)
+summary(finbehmodelfullinteracte)
+coeftest(finbehmodelfullinteracte, vcov = vcovHC(finbehmodelfullinteracte, type = "HC0"))
+AIC(finbehmodelfullinteracte)
+
+finattmodelfullinteracte <- lm(fin_att~ incomegroup_1+ (age + gender + higheduc+ HFCSriskad+riskyassetsd)^2 , data=ASFL7e, weights=ASFL7e$wght)
+summary(finattmodelfullinteracte)
+coeftest(finattmodelfullinteracte, vcov = vcovHC(finattmodelfullinteracte, type = "HC0"))
+AIC(finattmodelfullinteracte)
+
 
 
 ###########################MULTINOMIAL logit model###########################
@@ -2454,8 +2539,32 @@ se
 p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
 p
 stargazer(multi_finlit, type="text", out="multi_finlit.htm") 
-coeftest(multi_finlit, vcov = vcovHC(multi_finlit))
 PseudoR2(multi_finlit, which = c("McFadden"))
+
+multi_finknow <- multinom(fin_know_group ~ employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
+summary(multi_finknow)
+stargazer(multi_finknow, type="text", out="multi_finknow.htm") 
+PseudoR2(multi_finknow, which = c("McFadden"))
+
+multi_finbeh <- multinom(fin_beh_group ~ employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
+summary(multi_finbeh)
+stargazer(multi_finbeh, type="text", out="multi_finknow.htm") 
+PseudoR2(multi_finbeh, which = c("McFadden"))
+
+multi_finatt <- multinom(fin_att_group ~ employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
+summary(multi_finatt)
+stargazer(multi_finatt, type="text", out="multi_finatt.htm") 
+PseudoR2(multi_finatt, which = c("McFadden"))
+
+#####full reverse causality model 
+multi_fullreverse <- multinom(employment1_1 ~ finlit + age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data = ASFL7, weights=ASFL7$wght,Hess = TRUE, trace = FALSE)
+summary(multi_fullreverse)
+se <- summary(multi_fullreverse)$coefficients/summary(multi_fullreverse)$standard.errors
+se
+p <- (1 - pnorm(abs(se), 0, 1)) * 2 #p-Wert Berechnung!!
+p
+stargazer(multi_fullreverse, type="text", out="multi_finlit.htm") 
+PseudoR2(multi_fullreverse, which = c("McFadden"))
 
 multi_finlit_se <- multinom(finlit_group ~  age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data = ASFL7se, weights=ASFL7se$wght,Hess = TRUE, trace = FALSE)
 summary(multi_finlit_se)
@@ -2468,6 +2577,7 @@ PseudoR2(multi_finlit_e, which = c("McFadden"))
 
 
 ###########################FULL MODEL OTHER INDICATORS###########################
+####financial wellbeing
 finwellbeingmodel <- lm(finwellbeing ~employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
 summary(finwellbeingmodel)
 coeftest(finwellbeingmodel, vcov = vcovHC(finwellbeingmodel, type = "HC0"))
@@ -2481,6 +2591,7 @@ summary(finwellbeingmodel_e)
 coeftest(finwellbeingmodel_e, vcov = vcovHC(finwellbeingmodel_e, type = "HC0"))
 AIC(finwellbeingmodel_e)
 
+####product awareness
 produsemodel <- lm(produse~employment1_2+ age + gender + higheduc +incomegroup_1+ HFCSriskad+ riskyassetsd, data=ASFL7, weights=ASFL7$wght)
 summary(produsemodel)
 coeftest(produsemodel, vcov = vcovHC(produsemodel, type = "HC0"))
@@ -2493,5 +2604,4 @@ produsemodel_e <- lm(produse~age + gender + higheduc +incomegroup_1+ HFCSriskad+
 summary(produsemodel_e)
 coeftest(produsemodel_e, vcov = vcovHC(produsemodel_e, type = "HC0"))
 AIC(produsemodel_e)
-
 
