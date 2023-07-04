@@ -25,7 +25,7 @@ emp_comp <-ggplot(emplshare, aes(x="", y=amount, fill=Employment)) +
   #geom_text(aes(label = c("5.57%" , "49.29%", "34.84%" ,"3.53%","0.35%" , "1.62%" , "1.69%",  "1.48%" , "1.62%" )),
   #    position = position_stack(vjust = 0.4))+
   theme_void()
-emp_comp
+emp_comp+theme(legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15))
 
 emplshare2 <- data.frame("Employment" = c("Self-employed", "Employee", "Other", "Retired"),
                          "amount" = c(79/1418,699/1418,146/1418,494/1418))
@@ -33,8 +33,8 @@ emplshare2 <- data.frame("Employment" = c("Self-employed", "Employee", "Other", 
 empl_simple_comp <- ggplot(emplshare2, aes(x="", y=amount, fill=Employment)) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
-  theme_void()
-
+  theme_void() +theme(legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15))
+empl_simple_comp
 
 ##################################AGE##################################
 gencomp <- data.frame(status=rep(c('Self-employed', 'Employees'), each=5),
@@ -44,7 +44,8 @@ gencomp$status<- factor(gencomp$status, levels=c('Self-employed', 'Employees'))
 gencomp$age<- factor(gencomp$age, levels=c('Silent generation','Baby boomers','Generation X','Old millenials','Young millenials'))
 generations_comp <- ggplot(gencomp, aes(fill=age, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="")+  theme(legend.position="bottom")
+  labs(x="",y="Percentage share",fill="")  +theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))+
+  guides(fill=guide_legend(nrow=2, byrow=TRUE))
 generations_comp
 ##################################GENDER##################################
 emplstat <- c(rep("Self-employed" , 2) , rep("Employees" , 2) )
@@ -57,7 +58,7 @@ gender_comp <- ggplot(genderplot, aes(fill=gender, y=value, x=emplstat)) +
   geom_bar(position="dodge", stat="identity")+ 
   scale_fill_manual(values=c("grey",
                              "orange"))+
-  labs(x="" ,y="Percentage share",fill="") + theme(legend.position="bottom")
+  labs(x="" ,y="Percentage share",fill="")+ theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
 gender_comp
 
 
@@ -71,21 +72,20 @@ educ_comp <-ggplot(educomp, aes(fill=education, y=share, x=status)) +
   geom_bar(position='stack', stat='identity')+
   scale_fill_manual(values=c("green",
                              "purple"))+
-  labs(x="",y="Percentage share",fill="") + theme(legend.position="bottom")
+  labs(x="",y="Percentage share",fill="") + theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
 educ_comp
 
 
 #################################LIVING COMMUNITY TYPE##############################
 livingcomm <- data.frame(status=rep(c('Self-employed', 'Employees'), each=3),
-                         community=rep(c("Village","Town","City"), times=2),
-                         share=c(20/79,25/79,34/79,198/699,258/699,243/699))
+                         community=rep(c("City","Town","Village"), times=2),
+                         share=c(34/79,25/79,20/79,243/699,258/699,198/699))
 livingcomm$status<- factor(livingcomm$status, levels=c('Self-employed', 'Employees'))
-livingcomm$community<- factor(livingcomm$community, levels=c("Village","Town","City"))
+livingcomm$community<- factor(livingcomm$community, levels=c("City","Town","Village"))
 living_comp <- ggplot(livingcomm, aes(fill=community, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="")+ theme(legend.position="bottom")
+  labs(x="",y="Percentage share",fill="")+ theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
 living_comp
-
 
 ##################################HOUSEHOLD SIZE##################################
 #sole and with children comparison plot
@@ -97,7 +97,7 @@ householdplot$household<- factor(householdplot$household, levels=c("Single house
 householdplot$emplstat<- factor(householdplot$emplstat, levels=c('Self-employed', 'Employees'))
 household_comp <- ggplot(householdplot, aes(fill=emplstat, y=value, x=household)) + 
   geom_bar(position="dodge", stat="identity")+
-  labs(x = "",y="Percentage share", fill = "") + theme(legend.position="bottom")
+  labs(x = "",y="Percentage share", fill = "") + theme(legend.position="bottom")+ theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
 household_comp
 
 ##################################HOUSEHOLD INCOME##################################
@@ -120,7 +120,7 @@ selfratedknow$selfassessment<- factor(selfratedknow$selfassessment, levels=c('Re
 selfratedknow$status<- factor(selfratedknow$status, levels=c('Self-employed', 'Employees'))
 sa_comp <- ggplot(selfratedknow, aes(fill=selfassessment, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="")+ theme(legend.position="bottom")
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
 sa_comp
 
 #specific
@@ -131,7 +131,8 @@ selfratedknow_specific$selfassessment<- factor(selfratedknow_specific$selfassess
 selfratedknow_specific$status<- factor(selfratedknow_specific$status, levels=c('Self-employed', 'Employees'))
 saspecific_comp <- ggplot(selfratedknow_specific, aes(fill=selfassessment, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="")+ theme(legend.position="bottom")
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))+
+  guides(fill=guide_legend(nrow=2, byrow=TRUE))
 saspecific_comp
 
 #################Gender specific
@@ -160,7 +161,7 @@ sa_gender_e<- ggplot(selfratedknowgender, aes(fill=selfassessment, y=share, x=ge
 sa_gender_e
 
 sa_gender <- sa_gender_se+sa_gender_e
-sa_gender <- sa_gender_se+sa_gender_e + plot_layout(guides = "collect")& theme(legend.position = "bottom")
+sa_gender <- sa_gender_se+sa_gender_e + plot_layout(guides = "collect")& theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))& guides(fill=guide_legend(nrow=2, byrow=TRUE))
 sa_gender
 
 
@@ -174,7 +175,7 @@ HFCSrisk$status<- factor(HFCSrisk$status, levels=c('Self-employed', 'Employees')
 HFCSriskcomp <- ggplot(HFCSrisk, aes(fill=Propensity, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity') +
   # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
-  labs(x="",y = 'Percentage share',fill="")+ theme(legend.position="bottom")
+  labs(x="",y = 'Percentage share',fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
 HFCSriskcomp
 
 #gender specific
@@ -186,7 +187,7 @@ HFCSriskgender$status<- factor(HFCSriskgender$status, levels=c('Male', 'Female')
 HFCSrisk_se <-ggplot(HFCSriskgender, aes(fill=HFCSrisk, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity') +
   # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
-  labs(x="",y = 'Percentage share',fill="")+ theme(legend.position="bottom")
+  labs(x="",y = 'Percentage share',fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
 HFCSrisk_se
 
 #employed
@@ -198,7 +199,7 @@ HFCSriskgender$status<- factor(HFCSriskgender$status, levels=c('Male', 'Female')
 HFCSrisk_e <- ggplot(HFCSriskgender, aes(fill=HFCSrisk, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity') +
   # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
-  labs(x="",y = 'Percentage share',fill="")  +  theme(legend.position="bottom")
+  labs(x="",y = 'Percentage share',fill="")  +theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
 HFCSrisk_e
 
 
@@ -211,7 +212,7 @@ riskplot$risk<- factor(riskplot$risk, levels=c("Stocks/shares","Bonds","Crypto a
 riskplot$emplstat<- factor(riskplot$emplstat, levels=c('Self-employed', 'Employed'))
 riskyassetcomp <- ggplot(riskplot, aes(fill=emplstat, y=value, x=risk)) + 
   geom_bar(position="dodge", stat="identity")+
-  labs(x = "",y="Percentage share", fill = "")+  theme(legend.position="bottom")
+  labs(x = "",y="Percentage share", fill = "")+  theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
 riskyassetcomp
 
 #gender specific
@@ -226,7 +227,7 @@ riskyassets_se <- ggplot(riskplot, aes(fill=gender, y=value, x=risk)) +
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("grey",
                              "orange"))+
-  labs(x = "",y="Percentage share", fill = "")+  theme(legend.position="bottom")
+  labs(x = "",y="Percentage share", fill = "")+  theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 13))
 riskyassets_se
 
 #employed
@@ -240,7 +241,7 @@ riskyassets_e<- ggplot(riskplot, aes(fill=gender, y=value, x=risk)) +
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("grey",
                              "orange"))+
-  labs(x = "",y="Percentage share", fill = "")+  theme(legend.position="bottom")
+  labs(x = "",y="Percentage share", fill = "")+  theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 13))
 riskyassets_e
 
 #####################Confidence about retiremet saving################################
