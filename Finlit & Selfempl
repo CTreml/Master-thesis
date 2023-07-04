@@ -17,7 +17,7 @@ library(glmtoolbox)
 library(pscl)
 library(AICcmodavg)
 library(DescTools)
-library(scales)
+library(scales) 
 
 #setting the working directory
 setwd("C:/Users/carme/Documents/Studium/Master Economics/Master Thesis")
@@ -43,7 +43,6 @@ ASFL <- ASFL %>%
     employment1 =="Apprentice"~"Other",
     employment1 =="Looking after the home"~"Other",
     employment1 =="Other"~"Other"))
-
 
 employment1_1 <- factor(ASFL$employment1, levels=c("Other","Self-employed","Employed"))
 levels(employment1_1)
@@ -113,8 +112,6 @@ ASFL <- within(ASFL, employmentunempl_1 <- relevel(employmentunempl_1, ref = "Ot
 employmentunempl_2 <- factor(ASFL$employmentunempl, levels=c("Employed","Self-employed", "Other"))
 ASFL<-cbind(ASFL,employment1_1,employment1_2,employment2_2,employmentfull_full,employmentalt_alt, employmentunempl_1,employmentunempl_2)
 levels(employmentunempl_2)
-ASFL<-cbind(ASFL,employment1_1,employment1_2,employment2_2,employmentfull_full,employmentalt_alt, employmentunempl_1,employmentunempl_2)
-
 
 ##alternative: QF9_11 ##own business as a retirement funding option
 summary(ASFL$QF9_11)
@@ -258,8 +255,6 @@ lowersec <- c("Lower secondary")
 uppersec <- c("Upper secondary")
 university <- c("Universitary")
 akademie <- c("Akademie")
-##alternative: excluding all with university/Akademie
-tertiary<- c("Universitary","Akademie")
 
 primary_1d <- ifelse(ASFL$QD9 == "7", 1, 0)
 primary_2d <- ifelse(ASFL$QD9 == "6", 1, 0)
@@ -286,6 +281,9 @@ heduc <- c("Higher")
 loweduc<- ifelse(ASFL$education == "Lower", 1, 0)
 ASFL <- cbind(ASFL,higheduc,loweduc)
 leduc <- c("Lower")
+
+##alternative: excluding all with university/Akademie
+tertiary<- c("Universitary","Akademie")
 
 
 #################################add_education###################################
@@ -468,9 +466,7 @@ empl <- round(c(79/1418,699/1418,494/1418,50/1418,5/1418,23/1418,24/1418,21/1418
 paste(round(100*empl, 2), "%", sep="")
 emplshare <- data.frame("Employment" = c("Self-employed", "Employed","Retired", "Unemployed", "Apprentice", "Student", "Home",  "Not working", "Other"),
                         "amount" = c(79/1418,699/1418,494/1418,50/1418,5/1418,23/1418,24/1418,21/1418,23/1418))
-
-
-ggplot(emplshare, aes(x="", y=amount, fill=Employment)) +
+emp_comp <-ggplot(emplshare, aes(x="", y=amount, fill=Employment)) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
   geom_text(aes(label = c("5.57%" , "49.29%", "34.84%" ,"3.53%","" , "" , "",  "" , "" )),
@@ -482,7 +478,7 @@ ggplot(emplshare, aes(x="", y=amount, fill=Employment)) +
 emplshare2 <- data.frame("Employment" = c("Self-employed", "Employed", "Other", "Retired"),
                          "amount" = c(79/1418,699/1418,146/1418,494/1418))
 
-ggplot(emplshare2, aes(x="", y=amount, fill=Employment)) +
+empl_simple_comp <- ggplot(emplshare2, aes(x="", y=amount, fill=Employment)) +
   geom_bar(stat="identity", width=1) +
   coord_polar("y", start=0) +
   theme_void()
@@ -582,14 +578,27 @@ summary(ASFLentrepreneurs$QD7)
 table(ASFLentrepreneurs$age_group)
 table(ASFLentrepreneurs$age_group)/19
 ###age group comparison plot 
-gencomp <- data.frame(status=rep(c('Self-employed', 'Employed'), each=5),
+gencomp <- data.frame(status=rep(c('Self-employed', 'Employees'), each=5),
                       age=rep(c('Young millenials', 'Old millenials', 'Generation X', 'Baby boomers', 'Silent generation ' ), times=2),
                       share=c(0/79,5/79,63/79,11/79,0/79, 114/699,163/699,386/699,35/699,1/699))
-gencomp$status<- factor(gencomp$status, levels=c('Self-employed', 'Employed'))
+gencomp$status<- factor(gencomp$status, levels=c('Self-employed', 'Employees'))
 gencomp$age<- factor(gencomp$age, levels=c('Young millenials', 'Old millenials', 'Generation X', 'Baby boomers', 'Silent generation '))
 ggplot(gencomp, aes(fill=age, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="")
+  labs(x="",y="Percentage share",fill="")+ 
+  theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
+##new
+gencomp <- data.frame(status=rep(c('Self-employed', 'Employees'), each=5),
+                      age=rep(c(  'Silent generation ', 'Baby boomers','Generation X', 'Old millenials','Young millenials' ), times=2),
+                      share=c(0/79,11/79,63/79,5/79,0/79,1/699 ,35/699,386/699,163/699,114/699))
+gencomp$status<- factor(gencomp$status, levels=c('Self-employed', 'Employees'))
+gencomp$age<- factor(gencomp$age, levels=c(  'Silent generation ', 'Baby boomers','Generation X', 'Old millenials','Young millenials'))
+ggplot(gencomp, aes(fill=age, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+ 
+  theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))+
+  guides(fill=guide_legend(nrow=2, byrow=TRUE))
+
 ###with others
 gencomp <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=5),
                       age=rep(c('Young millenials', 'Old millenials', 'Generation X', 'Baby boomers', 'Silent generation ' ), times=3),
@@ -667,8 +676,8 @@ ggplot(genderplot, aes(fill=gender, y=value, x=emplstat)) +
   geom_bar(position="dodge", stat="identity")+ 
   scale_fill_manual(values=c("grey",
                              "orange"))+
-  labs(x="" ,y="Percentage share",fill="")
-
+  labs(x="" ,y="Percentage share",fill="")+
+  theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
 #with others
 emplstat <- c(rep("Self-employed" , 2) , rep("Employed" , 2) ,  rep("Others" , 2) )
 gender <- rep(c("Male" , "Female" ) , 3)
@@ -823,7 +832,8 @@ ggplot(educomp, aes(fill=education, y=share, x=status)) +
   geom_bar(position='stack', stat='identity')+
   scale_fill_manual(values=c("green",
                              "purple"))+
-  labs(x="",y="Percentage share",fill="")
+  labs(x="",y="Percentage share",fill="") +
+  theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
 
 
 
@@ -1072,7 +1082,7 @@ livingcomm$status<- factor(livingcomm$status, levels=c('Self-employed', 'Employe
 livingcomm$community<- factor(livingcomm$community, levels=c("Village","Town","City"))
 ggplot(livingcomm, aes(fill=community, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="")
+  labs(x="",y="Percentage share",fill="") +theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
 
 
 ##################################HOUSEHOLD INCOME##################################
@@ -1146,7 +1156,7 @@ hincomecomp$status<- factor(hincomecomp$status, levels=c('Self-employed', 'Emplo
 hincomecomp$income<- factor(hincomecomp$income, levels=c('3.000 or more','Between 2.000 and 3.000','Up to 2.000', 'Ref/Don`t know'))
 ggplot(hincomecomp, aes(fill=income, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="")
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
 
 ###with others
 hincomecomp <- data.frame(status=rep(c('Self-employed', 'Employed','Others'), each=3),
@@ -1288,7 +1298,8 @@ selfratedknow$selfassessment<- factor(selfratedknow$selfassessment, levels=c('Re
 selfratedknow$status<- factor(selfratedknow$status, levels=c('Self-employed', 'Employed'))
 ggplot(selfratedknow, aes(fill=selfassessment, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="")
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))+
+  guides(fill=guide_legend(nrow=2, byrow=TRUE))
 
 #self-rated knowledge specific comparison plot
 #unweighted
@@ -1318,7 +1329,10 @@ selfratedknow_specific$selfassessment<- factor(selfratedknow_specific$selfassess
 selfratedknow_specific$status<- factor(selfratedknow_specific$status, levels=c('Self-employed', 'Employed'))
 ggplot(selfratedknow_specific, aes(fill=selfassessment, y=share, x=status)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="")
+  labs(x="",y="Percentage share",fill="") +theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))+
+  guides(fill=guide_legend(nrow=2, byrow=TRUE))
+
+
 
 #self-rated knowledge specific gender comparison plot
 #unweighted
@@ -1341,7 +1355,9 @@ selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, 
 selfratedknowgender$gender<- factor(selfratedknowgender$gender, levels=c('Male', 'Female'))
 ggplot(selfratedknowgender, aes(fill=selfassessment, y=share, x=gender)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="")
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))+
+  guides(fill=guide_legend(nrow=2, byrow=TRUE))
+
 #employed
 selfratedknowgender <- data.frame(gender=rep(c('Male', 'Female'), each=6),
                                   selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=2),
@@ -1351,4 +1367,5 @@ selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, 
 selfratedknowgender$gender<- factor(selfratedknowgender$gender, levels=c('Male', 'Female'))
 ggplot(selfratedknowgender, aes(fill=selfassessment, y=share, x=gender)) + 
   geom_bar(position='stack', stat='identity')+
-  labs(x="",y="Percentage share",fill="")
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))+
+  guides(fill=guide_legend(nrow=2, byrow=TRUE))
