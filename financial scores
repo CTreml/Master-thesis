@@ -3429,18 +3429,20 @@ table(HFCSnriskad)
 ASFL7 <- cbind(ASFL6,HFCSrisk,HFCSrisk1,HFCSrisk2,HFCSrisk3,HFCSrisk4,HFCSriskd,HFCSnriskd,HFCSriskad,HFCSnriskad)
 
 
-ASFL7 <- ASFL7 %>% mutate(HFCSrisk_group = case_when(HFCSrisk == "I am prepared to take substantial financial risks expecting to earn substantial returns" ~"Substantial risk" ,
-                                                     HFCSrisk == "I am prepared to take above average financial risks expecting to earn above average returns" ~ "High risk",
-                                                     HFCSrisk == "I am prepared to take average financial risks expecting to earn average returns" ~ "Average risk",
-                                                     HFCSrisk == "I am not willing to take any financial risk" ~ "No risk"))
+ASFL7 <- ASFL7 %>% mutate(HFCSrisk_group = case_when(HFCSrisk == "I am prepared to take substantial financial risks expecting to earn substantial returns" ~"Substantial" ,
+                                                     HFCSrisk == "I am prepared to take above average financial risks expecting to earn above average returns" ~ "High",
+                                                     HFCSrisk == "I am prepared to take average financial risks expecting to earn average returns" ~ "Average",
+                                                     HFCSrisk == "I am not willing to take any financial risk" ~ "No"))
 table(ASFL7$HFCSrisk_group)
 HFCSrisk_group_1 <- as.factor(ASFL7$HFCSrisk_group)
 levels(HFCSrisk_group_1)
-ASFL7 <- within(ASFL7, HFCSrisk_group_1 <- relevel(HFCSrisk_group_1, ref = "No risk"))
+ASFL7 <- within(ASFL7, HFCSrisk_group_1 <- relevel(HFCSrisk_group_1, ref = "No"))
+
+
 
 ASFL7 <- ASFL7 %>% mutate(HFCSriskad_1 = case_when(HFCSriskad == "0" ~"No" ,
                                                    HFCSriskad == "1" ~"At least average"))
-table(ASFL7$HFCSriskad_2)
+table(ASFL7$HFCSriskad_1)
 HFCSriskad_2 <- factor(ASFL7$HFCSriskad_1, levels=c("No","At least average"))
 ASFL7 <- cbind(ASFL7, HFCSriskad_2)
 
