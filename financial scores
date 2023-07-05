@@ -3575,7 +3575,7 @@ ASFL7 <- ASFL7 %>% mutate(riskyassets_group = case_when(riskyassetsd == "0" ~"No
                                                         riskyassetsd == "1" ~"At least one asset"))
 table(ASFL7$riskyassets_group)
 riskyassets1_group <- factor(ASFL7$riskyassets_group, levels=c("At least one asset","No assets"))
-riskyassets2_group <- factor(ASFL7$riskyassets_group, levels=c("No assets","At least one asset"))
+riskyassets2_group <- factor(ASFL7$riskyassets_group, levels=c("No","At least one"))
 ASFL7 <- cbind(ASFL7, riskyassets1_group,riskyassets2_group)
 
 
