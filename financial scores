@@ -3790,9 +3790,11 @@ ASFL7eu <- ASFL7[(ASFL7$QD10 %in% eu),]
 ASFL7oth <- ASFL7[(ASFL7$QD10 %in% oth),]
 ASFL7othworet <- ASFL7[(ASFL7$QD10 %in% othworet),]
 ASFL7ret <- ASFL7[(ASFL7$QD10 %in% ret),]
-
 #####self-employed
 #males
+wpct(ASFL7sem$HFCSriskad, weight=ASFL7sem$wght, na.rm=TRUE)
+wpct(ASFL7sem$riskyassetsd, weight=ASFL7sem$wght, na.rm=TRUE)
+
 weighted.mean(ASFL7semrisk$finlit, ASFL7semrisk$wght)
 weighted.mean(ASFL7semnrisk$finlit, ASFL7semnrisk$wght)
 weighted.mean(ASFL7semrisk$fin_know, ASFL7semrisk$wght)
@@ -3817,6 +3819,9 @@ wpct(ASFL7semrisk$riskyassetsd, weight=ASFL7semrisk$wght, na.rm=TRUE)
 wpct(ASFL7semnrisk$riskyassetsd, weight=ASFL7semnrisk$wght, na.rm=TRUE)
 
 #females
+wpct(ASFL7sef$HFCSriskad, weight=ASFL7sef$wght, na.rm=TRUE)
+wpct(ASFL7sef$riskyassetsd, weight=ASFL7sef$wght, na.rm=TRUE)
+
 weighted.mean(ASFL7sefrisk$finlit, ASFL7sefrisk$wght)
 weighted.mean(ASFL7sefnrisk$finlit, ASFL7sefnrisk$wght)
 weighted.mean(ASFL7sefrisk$fin_know, ASFL7sefrisk$wght)
@@ -3843,6 +3848,9 @@ wpct(ASFL7sefnrisk$riskyassetsd, weight=ASFL7sefnrisk$wght, na.rm=TRUE)
 
 #####employed
 #males
+wpct(ASFL7em$HFCSriskad, weight=ASFL7em$wght, na.rm=TRUE)
+wpct(ASFL7em$riskyassetsd, weight=ASFL7em$wght, na.rm=TRUE)
+
 weighted.mean(ASFL7emrisk$finlit, ASFL7emrisk$wght)
 weighted.mean(ASFL7emnrisk$finlit, ASFL7emnrisk$wght)
 weighted.mean(ASFL7emrisk$fin_know, ASFL7emrisk$wght)
@@ -3865,6 +3873,9 @@ wpct(ASFL7emrisk$riskyassetsd, weight=ASFL7emrisk$wght, na.rm=TRUE)
 wpct(ASFL7emnrisk$riskyassetsd, weight=ASFL7emnrisk$wght, na.rm=TRUE)
 
 #females
+wpct(ASFL7ef$HFCSriskad, weight=ASFL7ef$wght, na.rm=TRUE)
+wpct(ASFL7ef$riskyassetsd, weight=ASFL7ef$wght, na.rm=TRUE)
+
 weighted.mean(ASFL7efrisk$finlit, ASFL7efrisk$wght)
 weighted.mean(ASFL7efnrisk$finlit, ASFL7efnrisk$wght)
 weighted.mean(ASFL7efrisk$fin_know, ASFL7efrisk$wght)
