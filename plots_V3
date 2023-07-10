@@ -1,0 +1,2871 @@
+########################PLOTS###########################
+#dev.off() ... fixes problems in plotting!
+
+#hex_codes1
+#"#F8766D" "#DE8C00" "#B79F00" "#7CAE00" "#00BA38" "#00C08B" "#00BFC4"
+#"#00B4F0" "#619CFF" "#C77CFF" "#F564E3" "#FF64B0"
+
+##ggplots
+#above: plot1 + plot2 
+#beneath: plot1/plot2
+
+#Legende: +theme(legend.position="none") <- instead of none: top, bottom, 
+
+#######################SOCIODEMOGRAPHIC CHARACTERISTICS#######################
+##################################EMPLOYMENT##################################
+empl <- round(c(79/1418,699/1418,494/1418,50/1418,5/1418,23/1418,24/1418,21/1418,23/1418), digits=4)
+paste(round(100*empl, 2), "%", sep="")
+emplshare <- data.frame("Employment" = c("Self-employed", "Employee","Retired", "Unemployed", "Apprentice", "Student", "Home",  "Not working", "Other"),
+                        "amount" = c(79/1418,699/1418,494/1418,50/1418,5/1418,23/1418,24/1418,21/1418,23/1418))
+emp_comp <-ggplot(emplshare, aes(x="", y=amount, fill=Employment)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) +
+  geom_text(aes(label = c("5.57%" , "49.29%", "34.84%" ,"3.53%","" , "" , "",  "" , "" )),
+            position = position_stack(vjust = 0.4))+
+  #geom_text(aes(label = c("5.57%" , "49.29%", "34.84%" ,"3.53%","0.35%" , "1.62%" , "1.69%",  "1.48%" , "1.62%" )),
+  #    position = position_stack(vjust = 0.4))+
+  theme_void()
+emp_comp+theme(legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15))
+
+emplshare2 <- data.frame("Employment" = c("Self-employed", "Employee", "Other", "Retired"),
+                         "amount" = c(79/1418,699/1418,146/1418,494/1418))
+
+empl_simple_comp <- ggplot(emplshare2, aes(x="", y=amount, fill=Employment)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0) +
+  theme_void() +theme(legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15))
+empl_simple_comp
+
+##################################AGE##################################
+gencomp <- data.frame(status=rep(c('Self-employed', 'Employees'), each=5),
+                      age=rep(c('Silent generation','Baby-boomers','Generation X','Old millennials','Young millennials'  ), times=2),
+                      share=c(0/79,11/79,63/79,5/79,0/79, 1/699,35/699,386/699,163/699,114/699))
+gencomp$status<- factor(gencomp$status, levels=c('Self-employed', 'Employees'))
+gencomp$age<- factor(gencomp$age, levels=c('Silent generation','Baby-boomers','Generation X','Old millennials','Young millennials'))
+generations_comp <- ggplot(gencomp, aes(fill=age, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")  +theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))+
+  guides(fill=guide_legend(nrow=2, byrow=TRUE))
+generations_comp
+##################################GENDER##################################
+emplstat <- c(rep("Self-employed" , 2) , rep("Employees" , 2) )
+gender <- rep(c("Male" , "Female" ) , 2)
+value <- abs(c(45/79,34/79,346/699,353/699))
+genderplot<- data.frame(gender,emplstat,value)
+genderplot$emplstat<- factor(genderplot$emplstat, levels=c('Self-employed', 'Employees'))
+genderplot$gender<- factor(genderplot$gender, levels=c('Male','Female'))
+gender_comp <- ggplot(genderplot, aes(fill=gender, y=value, x=emplstat)) + 
+  geom_bar(position="dodge", stat="identity")+ 
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
+  labs(x="" ,y="Percentage share",fill="")+ theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
+gender_comp
+
+
+##################################EDUCATION##################################
+educomp <- data.frame(status=rep(c('Self-employed', 'Employees'), each=2),
+                      education=rep(c('Higher', 'Lower'), times=2),
+                      share=c(36/79, 43/79,249/699, 450/699))
+educomp$status<- factor(educomp$status, levels=c('Self-employed', 'Employees'))
+educomp$education<- factor(educomp$education, levels=c('Higher', 'Lower'))
+educ_comp <-ggplot(educomp, aes(fill=education, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  scale_fill_manual(values=c("green",
+                             "purple"))+
+  labs(x="",y="Percentage share",fill="") + theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
+educ_comp
+
+
+#################################LIVING COMMUNITY TYPE##############################
+livingcomm <- data.frame(status=rep(c('Self-employed', 'Employees'), each=3),
+                         community=rep(c("City","Town","Village"), times=2),
+                         share=c(34/79,25/79,20/79,243/699,258/699,198/699))
+livingcomm$status<- factor(livingcomm$status, levels=c('Self-employed', 'Employees'))
+livingcomm$community<- factor(livingcomm$community, levels=c("City","Town","Village"))
+living_comp <- ggplot(livingcomm, aes(fill=community, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+ theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
+living_comp
+
+##################################HOUSEHOLD SIZE##################################
+#sole and with children comparison plot
+household <- c(rep("Single household" , 2) , rep("Children" , 2), rep("Single parent" , 2))
+emplstat <- rep(c("Self-employed" , "Employees" ) , 3)
+value <- abs(c(23/79,196/699,29/79,245/699,3/79,34/699))
+householdplot<- data.frame(household,emplstat,value)
+householdplot$household<- factor(householdplot$household, levels=c("Single household","Children","Single parent"))
+householdplot$emplstat<- factor(householdplot$emplstat, levels=c('Self-employed', 'Employees'))
+household_comp <- ggplot(householdplot, aes(fill=emplstat, y=value, x=household)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x = "",y="Percentage share", fill = "") + theme(legend.position="bottom")+ theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 15))
+household_comp
+
+##################################HOUSEHOLD INCOME##################################
+hincomecomp <- data.frame(status=rep(c('Self-employed', 'Employees'), each=4),
+                          income=rep(c('3.000 or more','Between 2.000 and 3.000','Up to 2.000', 'Ref/Don`t know'), times=2),
+                          share=c( 36/79, 18/79, 15/79,10/79,212/699,264/699,171/699,52/699))
+hincomecomp$status<- factor(hincomecomp$status, levels=c('Self-employed', 'Employees'))
+hincomecomp$income<- factor(hincomecomp$income, levels=c('3.000 or more','Between 2.000 and 3.000','Up to 2.000', 'Ref/Don`t know'))
+hincome_comp <-ggplot(hincomecomp, aes(fill=income, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+ theme(legend.position="bottom")+ theme(legend.position="bottom")+ theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=13), axis.text = element_text(size = 13))
+hincome_comp
+
+##################################SELF-RATED FINANCIAL KNOWLEDGE##################################
+#simple
+selfratedknow <- data.frame(status=rep(c('Self-employed', 'Employees'), each=4),
+                            selfassessment=rep(c('Ref/Don´t know','Low', 'Average', 'High'), times=2),
+                            share=c(0.04768587,0.04254538,0.34443552,0.5653332,0.02188622,0.1390004,0.4149923,0.4241211))
+selfratedknow$selfassessment<- factor(selfratedknow$selfassessment, levels=c('Ref/Don´t know','Low', 'Average', 'High'))
+selfratedknow$status<- factor(selfratedknow$status, levels=c('Self-employed', 'Employees'))
+sa_comp <- ggplot(selfratedknow, aes(fill=selfassessment, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
+sa_comp
+
+#specific
+selfratedknow_specific <- data.frame(status=rep(c('Self-employed', 'Employees'), each=6),
+                                     selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=2),
+                                     share=c(0.11731588,0.44801736,0.34443552,0.01013686,0.03240852,0.04768587,0.109634073,0.314487009,0.414992278,0.115507818,0.023492600,0.02188622))
+selfratedknow_specific$selfassessment<- factor(selfratedknow_specific$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+selfratedknow_specific$status<- factor(selfratedknow_specific$status, levels=c('Self-employed', 'Employees'))
+saspecific_comp <- ggplot(selfratedknow_specific, aes(fill=selfassessment, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))+
+  guides(fill=guide_legend(nrow=2, byrow=TRUE))
+saspecific_comp
+
+#################Gender specific
+#self-employed
+selfratedknowgender <- data.frame(gender=rep(c('Male', 'Female'), each=6),
+                                  selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=2),
+                                  share=c(0.12388988, 0.55073307, 0.29503202,0,0,0.03034502,  0.10765274, 0.29703540,0.41705377,0.02503704, 0.08004583,0.07317521 ))
+
+selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+selfratedknowgender$gender<- factor(selfratedknowgender$gender, levels=c('Male', 'Female'))
+sa_gender_se <- ggplot(selfratedknowgender, aes(fill=selfassessment, y=share, x=gender)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+ theme(legend.position="none")
+sa_gender_se
+
+#employed
+selfratedknowgender <- data.frame(gender=rep(c('Male', 'Female'), each=6),
+                                  selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=2),
+                                  share=c(0.123241627 ,0.356358811 ,0.410727526,0.073273932, 0.012593160,0.02380494,0.095011378 , 0.269491520, 0.419575185,0.160892403, 0.035205152 , 0.01982436))
+
+selfratedknowgender$selfassessment<- factor(selfratedknowgender$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+selfratedknowgender$gender<- factor(selfratedknowgender$gender, levels=c('Male', 'Female'))
+sa_gender_e<- ggplot(selfratedknowgender, aes(fill=selfassessment, y=share, x=gender)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="",fill="")+ theme(legend.position="none")
+sa_gender_e
+
+sa_gender <- sa_gender_se+sa_gender_e
+sa_gender <- sa_gender_se+sa_gender_e + plot_layout(guides = "collect")& theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))& guides(fill=guide_legend(nrow=2, byrow=TRUE))
+sa_gender
+
+
+##################################RISK BEHAVIOUR##################################
+#####risk propensity
+HFCSrisk <- data.frame(status=rep(c('Self-employed', 'Employees'), each=4),
+                       Propensity=rep(c('Substantial', 'Above average', 'Average', 'No'), times=2),
+                       share=c(0.09569008 ,0.08783484 ,0.37851258 ,0.43796251 ,0.0436851 ,0.1492514,0.3258391 ,0.4812244   ))
+HFCSrisk$Propensity<- factor(HFCSrisk$Propensity, levels=c('Substantial', 'Above average', 'Average', 'No'))
+HFCSrisk$status<- factor(HFCSrisk$status, levels=c('Self-employed', 'Employees'))
+HFCSriskcomp <- ggplot(HFCSrisk, aes(fill=Propensity, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity') +
+  # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
+  labs(x="",y = 'Percentage share',fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
+HFCSriskcomp
+
+#gender specific
+HFCSriskgender <- data.frame(status=rep(c('Male', 'Female'), each=4),
+                             HFCSrisk=rep(c('Substantial', 'Above average', 'Average', 'No'), times=2),
+                             share=c(0.1423696,0.1174501,0.4206140,0.3195663 ,0.02707574 ,0.04430336 ,0.31662770 ,0.61199320 ))
+HFCSriskgender$HFCSrisk<- factor(HFCSriskgender$HFCSrisk, levels=c('Substantial', 'Above average', 'Average', 'No'))
+HFCSriskgender$status<- factor(HFCSriskgender$status, levels=c('Male', 'Female'))
+HFCSrisk_se <-ggplot(HFCSriskgender, aes(fill=HFCSrisk, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity') +
+  # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
+  labs(x="",y = 'Percentage share',fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
+HFCSrisk_se
+
+#employed
+HFCSriskgender <- data.frame(status=rep(c('Male', 'Female'), each=4),
+                             HFCSrisk=rep(c('Substantial', 'Above average', 'Average', 'No'), times=2),
+                             share=c(0.05766399 ,0.17860590 ,0.36957689 ,0.39415322 ,0.02866337 ,0.11770697 ,0.27883838 ,0.57479129))
+HFCSriskgender$HFCSrisk<- factor(HFCSriskgender$HFCSrisk, levels=c('Substantial', 'Above average', 'Average', 'No'))
+HFCSriskgender$status<- factor(HFCSriskgender$status, levels=c('Male', 'Female'))
+HFCSrisk_e <- ggplot(HFCSriskgender, aes(fill=HFCSrisk, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity') +
+  # scale_fill_manual(values = c("Substantial", "Above average", "Average", "No")) +
+  labs(x="",y = 'Percentage share',fill="")  +theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
+HFCSrisk_e
+
+
+####risky asset holding
+risk <- c(rep("Stocks/shares" , 2) , rep("Bonds" , 2) ,  rep("Crypto assets" , 2))
+emplstat <- rep(c("Self-employed" , "Employed" ) , 3)
+value <- abs(c(0.2355855 ,0.1363495  ,0.1235186,0.0873412,0.05656405 ,0.05553866))
+riskplot<- data.frame(risk,emplstat,value)
+riskplot$risk<- factor(riskplot$risk, levels=c("Stocks/shares","Bonds","Crypto assets"))
+riskplot$emplstat<- factor(riskplot$emplstat, levels=c('Self-employed', 'Employed'))
+riskyassetcomp <- ggplot(riskplot, aes(fill=emplstat, y=value, x=risk)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x = "",y="Percentage share", fill = "")+  theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 15))
+riskyassetcomp
+
+#gender specific
+#self-employed
+risk <- c(rep("Stocks/shares" , 2) , rep("Bonds" , 2) ,  rep("Crypto assets" , 2)  )
+gender <- rep(c("Male" , "Female" ) , 3)
+value <- abs(c(0.3244025 ,0.1050333 ,0.2075505 , 0, 0.08051489 ,0.0213587 ))
+riskplot<- data.frame(risk,gender,value)
+riskplot$risk<- factor(riskplot$risk, levels=c("Stocks/shares","Bonds","Crypto assets"))
+riskplot$gender<- factor(riskplot$gender, levels=c("Male" , "Female"))
+riskyassets_se <- ggplot(riskplot, aes(fill=gender, y=value, x=risk)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
+  labs(x = "",y="Percentage share", fill = "")+  theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+riskyassets_se
+
+#employed
+risk <- c(rep("Stocks/shares" , 2) , rep("Bonds" , 2) ,  rep("Crypto assets" , 2)  )
+gender <- rep(c("Male" , "Female" ) , 3)
+value <- abs(c(0.1948144  ,0.07352301  ,0.1206942  , 0.05150003 , 0.07224161  ,0.03758964  ))
+riskplot<- data.frame(risk,gender,value)
+riskplot$risk<- factor(riskplot$risk, levels=c("Stocks/shares","Bonds","Crypto assets"))
+riskplot$gender<- factor(riskplot$gender, levels=c("Male" , "Female"))
+riskyassets_e<- ggplot(riskplot, aes(fill=gender, y=value, x=risk)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
+  labs(x = "",y="Percentage share", fill = "")+  theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+riskyassets_e
+
+#####################Confidence about retiremet saving################################
+#gender
+#self-employed
+selfratedretconfidencegender <- data.frame(gender=rep(c('Male', 'Female'), each=7),
+                                           confidence=rep(c('Very confident','Confident', 'Neutral', 'Not very confident', 'Not at all confident','No retirement plan','Ref/Don´t know'), times=2),
+                                           share=c( 0.26035711, 0.46253090,0.08337192, 0.14224387, 0.05149620,0,0,0.20356250 ,0.32319687 , 0.17386718,0.2141272,0.05334253,0,0.03190366  ))
+
+selfratedretconfidencegender$confidence<- factor(selfratedretconfidencegender$confidence, levels=c('Very confident','Confident', 'Neutral', 'Not very confident', 'Not at all confident','No retirement plan','Ref/Don´t know'))
+selfratedretconfidencegender$gender<- factor(selfratedretconfidencegender$gender, levels=c('Male', 'Female'))
+retconfidence_se <- ggplot(selfratedretconfidencegender, aes(fill=confidence, y=share, x=gender)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+  theme(legend.position="none")
+
+retconfidence_se
+
+#employed
+selfratedretconfidencegender <- data.frame(gender=rep(c('Male', 'Female'), each=7),
+                                           confidence=rep(c('Very confident','Confident', 'Neutral', 'Not very confident', 'Not at all confident','No retirement plan','Ref/Don´t know'), times=2),
+                                           share=c(0.21553711, 0.40482851, 0.16907384,0.08190972, 0.01778835, 0.09010109, 0.02076138 , 0.174023898, 0.450898769,0.130308129,0.147298208,0.030572816, 0.057930075,0.008968106  ))
+
+selfratedretconfidencegender$confidence<- factor(selfratedretconfidencegender$confidence, levels=c('Very confident','Confident', 'Neutral', 'Not very confident', 'Not at all confident','No retirement plan','Ref/Don´t know'))
+selfratedretconfidencegender$gender<- factor(selfratedretconfidencegender$gender, levels=c('Male', 'Female'))
+retconfidence_e<- ggplot(selfratedretconfidencegender, aes(fill=confidence, y=share, x=gender)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+  theme(legend.position="none")
+retconfidence_e
+
+retconfidence_gender <- retconfidence_se+retconfidence_e + plot_layout(guides = "collect")&theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=13), axis.text = element_text(size = 13))& guides(fill=guide_legend(nrow=2, byrow=TRUE))
+retconfidence_gender
+
+#######################FINANCIAL CHARACTERISTICS#######################
+
+#######################FINANCIAL KNOWLEDGE#######################
+#basic financial knowledge 
+finknow <- c(rep("0" , 2),rep("1" ,2) , rep("2" , 2) ,  rep("3" , 2),rep("4" , 2),rep("5" , 2),rep("6" , 2),rep("7" , 2))
+emplstat <- rep(c("Self-employed" , "Employed" ) , 8)
+value <- abs(c(0,0.00814261,0.02025315,0.02193322,0.02347651,0.04273161,0.02656343,0.07215542,0.02564542,0.11685606,0.14809457,0.14000963,0.28741922,0.28684853,0.46854770,0.31132292))
+finknowOECD<- data.frame(finknow,emplstat,value)
+finknowOECD$finknow<- factor(finknowOECD$finknow, levels=c('0', '1', '2','3','4','5','6','7'))
+finknowOECD$emplstat<- factor(finknowOECD$emplstat, levels=c("Self-employed" , "Employed" ))
+finknow_comp <-ggplot(finknowOECD, aes(fill=emplstat, y=value, x=finknow)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="Employment status")+theme(legend.position="none")
+finknow_comp
+
+
+#enlarged financial knowledge
+finknow <- c(rep("0" , 2),rep("1" , 2) , rep("2" ,2) ,  rep("3" , 2),rep("4" , 2),rep("5" , 2),rep("6" , 2),rep("7" , 2),rep("8" , 2),rep("9" , 2),rep("10" , 2))
+emplstat <- rep(c("Self-employed" , "Employed" ) , 11)
+value <- abs(c(0,0.001926869,0.020253150,0.012413192,0.014446959,0.020341872,0.026563430,0.031332812,0.009029548,0.061954325,0.014725101,0.063976149,0.010920319,0.083720361,0.050575388,0.080004069, 0.185755832,0.201836482, 0.291193550,0.210809532,0.376536723,0.231684336))
+finknowadd<- data.frame(finknow,emplstat,value)
+finknowadd$emplstat<- factor(finknowadd$emplstat, levels=c("Self-employed" , "Employed" ))
+finknowadd$finknow<- factor(finknowadd$finknow, levels=c('0','1', '2', '3','4','5','6','7','8','9','10'))
+finknow_add_comp <- ggplot(finknowadd, aes(fill=emplstat, y=value, x=finknow)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="Employment status")+theme(legend.position="none")
+
+finknow_add_comp
+
+finknow_comp+finknow_add_comp
+
+#######################Detailed answers to financial knowledge#######################
+##according to Chart 4 - Fessler et al (2020) - financial knowledge details #correct incorrect dont know 
+#SELF-EMPLOYED - financial knowledge details #correct incorrect dont know 
+finknowdetailse <- data.frame(finknow=rep(c('Exchange rate','Overdrawing an account','Real interest', 'Diversification*','Inflation definition*', 'Risk and return*','Compound interest*','Interest plus principal*','Interest on loan*','Time value*'), each=3),
+                              status=rep(c('Correct','Incorrect','Ref/Don´t know' ), times=10),
+                              share=c(0.87447672,0.04876289,0.07676039, 0.7227731 ,0.1404427 ,0.1367842 ,0.93873646,0.01444696,0.04681658, 0.77142812,0.13102772,0.09754416 , 0.91822943,0.03238426,0.04938631,0.90143273,0.03396225, 0.06460503,0.64042716,0.3091052,0.05046764,0.911007520,0.025367278,0.0636252,0.970574832,0.007966968,0.0214582,0.8812004,0.06277662,0.05602298))
+finknowdetailse$finknow<- factor(finknowdetailse$finknow, levels=c('Exchange rate','Overdrawing an account','Real interest', 'Diversification*','Inflation definition*', 'Risk and return*','Compound interest*','Interest plus principal*','Interest on loan*','Time value*'))
+finknowdetailse$status<- factor(finknowdetailse$status, levels=c('Correct','Incorrect','Ref/Don´t know' ))
+finknowdetailse<-ggplot(finknowdetailse, aes(fill=status, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+
+  coord_flip()
+finknowdetailse
+round(c(0.8812004,0.06277662,0.05602298,0.970574832,0.007966968,0.0214582,0.911007520,0.025367278,0.0636252,0.64042716,0.3091052,0.05046764,0.90143273,0.03396225, 0.06460503 ,0.91822943,0.03238426,0.04938631 ,0.77142812,0.13102772,0.09754416 ,0.93873646,0.01444696,0.04681658,0.7227731 ,0.1404427 ,0.1367842 ,0.87447672,0.04876289,0.07676039), digits=3)
+#EMPLOYED - financial knowledge details #correct incorrect dont know
+finknowdetaile <- data.frame(finknow=rep(c('Exchange rate','Overdrawing an account','Real interest', 'Diversification*','Inflation definition*', 'Risk and return*','Compound interest*','Interest plus principal*','Interest on loan*','Time value*'), each=3),
+                             status=rep(c('Correct','Incorrect','Ref/Don´t know' ), times=10),
+                             share=c(0.703229118 ,0.159618,0.1371529, 0.740998033 ,0.174713123,0.08428884,0.77005123,0.1758667,0.05408207,0.667234442,0.162267278,0.1704983,0.887358506,0.052169972 ,0.06047152,0.9070270072 ,0.0443046011 ,0.04866839,0.5221745,0.3517732,0.1274378, 0.7892900880,0.1056407,0.1050692,0.897261034,0.03466621,0.06807276,0.7227266,0.2387096,0.03856385))
+finknowdetaile$finknow<- factor(finknowdetaile$finknow, levels=c('Exchange rate','Overdrawing an account','Real interest', 'Diversification*','Inflation definition*', 'Risk and return*','Compound interest*','Interest plus principal*','Interest on loan*','Time value*'))
+finknowdetaile$status<- factor(finknowdetaile$status, levels=c('Correct','Incorrect','Ref/Don´t know' ))
+finknowdetaile <- ggplot(finknowdetaile, aes(fill=status, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+
+  coord_flip()+ theme(panel.grid = element_blank(),
+                         axis.text.y = element_blank())
+finknowdetaile
+round(c(0.7227266,0.2387096,0.03856385,0.897261034,0.03466621,0.06807276,0.7892900880,0.1056407,0.1050692,0.5221745,0.3517732,0.1274378,0.9070270072 ,0.0443046011 ,0.04866839,0.887358506,0.052169972 ,0.06047152,0.667234442,0.162267278,0.1704983,0.77005123,0.1758667,0.05408207,0.740998033 ,0.174713123,0.08428884,0.703229118 ,0.159618,0.1371529), digits=3)
+
+finknowdetail_comp <- finknowdetailse+finknowdetaile + plot_layout(guides = "collect")& theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=13), axis.text = element_text(size = 14))
+finknowdetail_comp
+
+#GENDER SPECIFIC correct incorrect dont know 
+#self-employed
+finknowdetailgenderse <- data.frame(finknow=rep(c('Exchange rate_M','Exchange rate_F' ,'Overdrawing an account_M','Overdrawing an account_F','Real interest_M','Real interest_F','Diversification*_M','Diversification*_F','Inflation definition*_M','Inflation definition*_F','Risk and return*_M','Risk and return*_F','Compound interest*_M','Compound interest*_F', 'Interest plus principal*_M','Interest plus principal*_F','Interest on loan*_M','Interest on loan*_F','Time value*_M','Time value*_F'), each=3),
+                                    status=rep(c('Correct','Incorrect','Ref/Don´t know' ), times=20),
+                                    share=c(0.94007636,0.05992364,0,0.77805172,0.03235769,0.18959059,
+                                            0.79478339,0.13380348,0.07141313,0.6169251,0.1502016,0.2328732, 
+                                            0.97572452,0.02427548,0,0.8843677,0,0.1156323,
+                                            0.81016060,0.17466689,0.01517251,0.71449519,0.06688245,0.21862236,
+                                            0.97572452,0.02427548,0,0.83371732,0.04430336,0.12197932, 
+                                            0.94293263,0.05706737,0,0.840432,0,0.159568,  
+                                            0.62289779,0.3467572,(1-0.3467572-0.62289779),0.6661936 ,0.2537606,(1-0.6661936-0.2537606),  
+                                            0.92702989 ,0.04262509 ,(0.01517251+0.01517251),0.8874562 ,0,0.1125438,   
+                                            0.98482749,0,0.01517251,0.94962483,0.01967762,(0.01426306+0.01643448),
+                                            0.8974658,0.08706451,0.01546969,0.8572919,0.02707577,0.11563233))
+
+finknowdetailgenderse$finknow<- factor(finknowdetailgenderse$finknow, levels=c('Exchange rate_M','Exchange rate_F' ,'Overdrawing an account_M','Overdrawing an account_F','Real interest_M','Real interest_F','Diversification*_M','Diversification*_F','Inflation definition*_M','Inflation definition*_F','Risk and return*_M','Risk and return*_F','Compound interest*_M','Compound interest*_F', 'Interest plus principal*_M','Interest plus principal*_F','Interest on loan*_M','Interest on loan*_F','Time value*_M','Time value*_F'))
+finknowdetailgenderse$status<- factor(finknowdetailgenderse$status, levels=c('Correct','Incorrect','Ref/Don´t know' ))
+finknowdetail_se <- ggplot(finknowdetailgenderse, aes(fill=status, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+
+  coord_flip()
+finknowdetail_se 
+
+#employed #proper version
+finknowdetailgendere <- data.frame(finknow=rep(c('Exchange rate_M','Exchange rate_F' ,'Overdrawing an account_M','Overdrawing an account_F','Real interest_M','Real interest_F','Diversification*_M','Diversification*_F','Inflation definition*_M','Inflation definition*_F','Risk and return*_M','Risk and return*_F','Compound interest*_M','Compound interest*_F', 'Interest plus principal*_M','Interest plus principal*_F','Interest on loan*_M','Interest on loan*_F','Time value*_M','Time value*_F'), each=3),
+                                   status=rep(c('Correct','Incorrect','Ref/Don´t know' ), times=20),
+                                   share=c(0.743805912,0.1453599,0.1108342,0.659625245, 0.1749397,  0.1654351 ,
+                                           0.7762141 ,0.1376383 ,0.0861476 , 0.703154812 ,0.214553766 ,(0.004494796+ 0.077796626),
+                                           0.77442909 ,(0.04688433+0.12413096),(0.01843345 + 0.03612217), 0.765346776 , (0.045856744+ 0.135223186),(0.007405501 +0.046167792),
+                                           0.715146681 ,0.144632912 ,(0.008957269 +0.131263138),0.615747892 ,0.181217190 ,(0.001953584+ 0.201081333) ,
+                                           0.91308900 ,0.03351947 ,0.05339153 ,0.859708485 ,0.072211819 ,(0.009323992+ 0.058755705),
+                                           0.90041254 , 0.03530823 , 0.06427923 ,0.914134923 ,0.053972111 ,(0.001953584 +0.029939382),
+                                           0.5534543  ,0.3430558,0.1034899, 0.4856869 , 0.3611409,0.1531722,
+                                           0.827807758 ,0.09280624,0.079386,0.747898953 ,0.1194326,0.1326684,
+                                           0.922244936 ,(0.020832451+ 0.003951563+ 0.003807905),(0.014539266+ 0.012534812+ 0.022089067),0.870413303 ,(0.030420380+ 0.003554709+ 0.004994470+ 0.002224076 ),(0.028173971 +0.031317930 +0.028901159),
+                                           (0.662530957 +0.077892090 ),(0.073554902 +0.152705480),(0.003221358+ 0.005212802+0.024882410),(0.63686116+0.06684878 ),(0.05284933+0.19923814),(0.01209575+0.03210683 )))
+finknowdetailgendere$finknow<- factor(finknowdetailgendere$finknow, levels=c('Exchange rate_M','Exchange rate_F' ,'Overdrawing an account_M','Overdrawing an account_F','Real interest_M','Real interest_F','Diversification*_M','Diversification*_F','Inflation definition*_M','Inflation definition*_F','Risk and return*_M','Risk and return*_F','Compound interest*_M','Compound interest*_F', 'Interest plus principal*_M','Interest plus principal*_F','Interest on loan*_M','Interest on loan*_F','Time value*_M','Time value*_F'))
+finknowdetailgendere$status<- factor(finknowdetailgendere$status, levels=c('Correct','Incorrect','Ref/Don´t know' ))
+finknowdetail_e <-ggplot(finknowdetailgendere, aes(fill=status, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+
+  coord_flip()+ theme(panel.grid = element_blank(),
+                      axis.text.y = element_blank())
+finknowdetail_e
+
+finknowdetail_gendercomp <- finknowdetail_se+finknowdetail_e + plot_layout(guides = "collect")& theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=13), axis.text = element_text(size = 14))
+finknowdetail_gendercomp
+
+
+####################SELF-ASSESSMENT & ACTUAL KNOWLEDGE#####################
+#graph according to Fessler et al (2020) - probably difficult for self-employed! 
+#full
+table(ASFL6$fin_know)
+f0 <- c("0")
+f1 <- c("1")
+f2 <- c("2")
+f3 <- c("3")
+f4 <- c("4")
+f5 <- c("5")
+f6 <- c("6")
+f7 <- c("7")
+f8 <- c("8")
+f9 <- c("9")
+f10 <- c("10")
+sa1 <- c("Don't know","Refused")
+sa2 <- c("Very low")
+sa3 <- c("Quite low")
+sa4 <- c("About average")
+sa5 <- c("Quite high")
+sa6 <- c("Very high")
+sa1a <- c("Don't know","Refused")
+sa2a <- c("Quite low","Very low")
+sa3a <- c("Average")
+sa4a <- c("Quite high","Very high")
+
+
+
+#SELF-EMPLOYED
+table(ASFL6se$fin_know)
+#financial knowledge OECD 
+ASFL6sef0 <- ASFL6se[(ASFL6se$fin_know %in% f0),] 
+table(ASFL6sef0$QK1)
+wpct(ASFL6sef0$QK1, weight=ASFL6sef0$wght, na.rm=TRUE)
+ASFL6sef1 <- ASFL6se[(ASFL6se$fin_know %in% f1),] 
+table(ASFL6sef1$QK1)
+wpct(ASFL6sef1$QK1, weight=ASFL6sef1$wght, na.rm=TRUE)
+ASFL6sef2 <- ASFL6se[(ASFL6se$fin_know %in% f2),] 
+table(ASFL6sef2$QK1)
+wpct(ASFL6sef2$QK1, weight=ASFL6sef2$wght, na.rm=TRUE)
+ASFL6sef3 <- ASFL6se[(ASFL6se$fin_know %in% f3),] 
+table(ASFL6sef3$QK1)
+wpct(ASFL6sef3$QK1, weight=ASFL6sef3$wght, na.rm=TRUE)
+ASFL6sef4 <- ASFL6se[(ASFL6se$fin_know %in% f4),] 
+table(ASFL6sef4$QK1)
+wpct(ASFL6sef4$QK1, weight=ASFL6sef4$wght, na.rm=TRUE)
+ASFL6sef5 <- ASFL6se[(ASFL6se$fin_know %in% f5),] 
+table(ASFL6sef5$QK1)
+wpct(ASFL6sef5$QK1, weight=ASFL6sef5$wght, na.rm=TRUE)
+ASFL6sef6 <- ASFL6se[(ASFL6se$fin_know %in% f6),] 
+table(ASFL6sef6$QK1)
+wpct(ASFL6sef6$QK1, weight=ASFL6sef6$wght, na.rm=TRUE)
+ASFL6sef7 <- ASFL6se[(ASFL6se$fin_know %in% f7),]
+table(ASFL6sef7$QK1)
+wpct(ASFL6sef7$QK1, weight=ASFL6sef7$wght, na.rm=TRUE)
+#financial knowledge austria-specific
+ASFL6sef1 <- ASFL6se[(ASFL6se$fin_know_add %in% f1),] 
+table(ASFL6sef1$QK1)
+wpct(ASFL6sef1$QK1, weight=ASFL6sef1$wght, na.rm=TRUE)
+ASFL6sef2 <- ASFL6se[(ASFL6se$fin_know_add %in% f2),] 
+table(ASFL6sef2$QK1)
+wpct(ASFL6sef2$QK1, weight=ASFL6sef2$wght, na.rm=TRUE)
+ASFL6sef3 <- ASFL6se[(ASFL6se$fin_know_add %in% f3),] 
+table(ASFL6sef3$QK1)
+wpct(ASFL6sef3$QK1, weight=ASFL6sef3$wght, na.rm=TRUE)
+ASFL6sef4 <- ASFL6se[(ASFL6se$fin_know_add %in% f4),] 
+table(ASFL6sef4$QK1)
+wpct(ASFL6sef4$QK1, weight=ASFL6sef4$wght, na.rm=TRUE)
+ASFL6sef5 <- ASFL6se[(ASFL6se$fin_know_add %in% f5),] 
+table(ASFL6sef5$QK1)
+wpct(ASFL6sef5$QK1, weight=ASFL6sef5$wght, na.rm=TRUE)
+ASFL6sef6 <- ASFL6se[(ASFL6se$fin_know_add %in% f6),] 
+table(ASFL6sef6$QK1)
+wpct(ASFL6sef6$QK1, weight=ASFL6sef6$wght, na.rm=TRUE)
+ASFL6sef7 <- ASFL6se[(ASFL6se$fin_know_add %in% f7),]
+table(ASFL6sef7$QK1)
+wpct(ASFL6sef7$QK1, weight=ASFL6sef7$wght, na.rm=TRUE)
+ASFL6sef8 <- ASFL6se[(ASFL6se$fin_know_add %in% f8),]
+table(ASFL6sef8$QK1)
+wpct(ASFL6sef8$QK1, weight=ASFL6sef8$wght, na.rm=TRUE)
+ASFL6sef9 <- ASFL6se[(ASFL6se$fin_know_add %in% f9),]
+table(ASFL6sef9$QK1)
+wpct(ASFL6sef9$QK1, weight=ASFL6sef9$wght, na.rm=TRUE)
+ASFL6sef10 <- ASFL6se[(ASFL6se$fin_know_add %in% f10),]
+table(ASFL6sef10$QK1)
+wpct(ASFL6sef10$QK1, weight=ASFL6sef10$wght, na.rm=TRUE)
+
+
+ASFL6sesa1 <- ASFL6se[(ASFL6se$QK1 %in% sa1),]
+table(ASFL6sesa1$fin_know)
+wpct(ASFL6sesa1$fin_know, weight=ASFL6sesa1$wght, na.rm=TRUE)
+ASFL6sesa2 <- ASFL6se[(ASFL6se$QK1 %in% sa2),]
+table(ASFL6sesa2$fin_know)
+wpct(ASFL6sesa2$fin_know, weight=ASFL6sesa2$wght, na.rm=TRUE)
+ASFL6sesa3 <- ASFL6se[(ASFL6se$QK1 %in% sa3),]
+table(ASFL6sesa3$fin_know)
+wpct(ASFL6sesa3$fin_know, weight=ASFL6sesa3$wght, na.rm=TRUE)
+ASFL6sesa4 <- ASFL6se[(ASFL6se$QK1 %in% sa4),]
+table(ASFL6sesa4$fin_know)
+wpct(ASFL6sesa4$fin_know, weight=ASFL6sesa4$wght, na.rm=TRUE)
+ASFL6sesa5 <- ASFL6se[(ASFL6se$QK1 %in% sa5),]
+table(ASFL6sesa5$fin_know)
+wpct(ASFL6sesa5$fin_know, weight=ASFL6sesa5$wght, na.rm=TRUE)
+ASFL6sesa6 <- ASFL6se[(ASFL6se$QK1 %in% sa6),]
+table(ASFL6sesa6$fin_know)
+wpct(ASFL6sesa6$fin_know, weight=ASFL6sesa6$wght, na.rm=TRUE)
+
+
+#weighted
+finknowsrvsactualse <- data.frame(finknow=rep(c('1', '2', '3','4','5','6','7'), each=6),
+                                  selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=7),
+                                  share=c(0,0,0,0,1,0, 0.6153794,0,0,0,0,0.3846206 ,0,0,0,0, 0.4575978,0.5424022,0.4258195,0,0.5741805,0,0,0, 0,0.41199686,0.35581963,0.06844854,0,0.16373498,0.1219059,0.4887250,0.3893691,0,0,0,0.1214615,0.5261661,0.3523725,0,0,0))
+finknowsrvsactualse$finknow<- factor(finknowsrvsactualse$finknow, levels=c('1', '2', '3','4','5','6','7'))
+finknowsrvsactualse$selfassessment<- factor(finknowsrvsactualse$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+
+savsfk_se <- ggplot(finknowsrvsactualse, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="") +theme(legend.position="none")
+savsfk_se
+#additional score
+finknowsrvsactualseadd <- data.frame(finknow=rep(c('1', '2', '3','4','5','6','7','8','9','10'), each=6),
+                                     selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=10),
+                                     share=c(0,0,0,0,1,0, 1,0,0,0,0,0 ,0,0,0,0,0.4575978 ,0.5424022 , 0,0,0,0, 0,1, 0,0,1,0,0,0,1,0,0,0,0,0, 0,0.5205521 ,0,0,0,0.4794479,0.06014215,0.29642929,0.58885769,0.05457087,0,0, 0.08196046,0.58286797,0.33517157,0,0,0, 0.1511419,0.5229221,0.3259360,0,0,0))
+finknowsrvsactualseadd$finknow<- factor(finknowsrvsactualseadd$finknow, levels=c('1', '2', '3','4','5','6','7','8','9','10'))
+finknowsrvsactualseadd$selfassessment<- factor(finknowsrvsactualseadd$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+
+savsfkadd_se <-ggplot(finknowsrvsactualseadd, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none")
+savsfkadd_se
+
+###self-employed gender comparison self-assessed versus actual financial knowledge  - OECD share 
+#males
+table(ASFL7sem$fin_know)
+ASFL7semf1 <- ASFL7sem[(ASFL7sem$fin_know %in% f1),] 
+table(ASFL7semf1$QK1)
+wpct(ASFL7semf1$QK1, weight=ASFL7semf1$wght, na.rm=TRUE)
+ASFL7semf2 <- ASFL7sem[(ASFL7sem$fin_know %in% f2),] 
+table(ASFL7semf2$QK1)
+wpct(ASFL7semf2$QK1, weight=ASFL7semf2$wght, na.rm=TRUE)
+ASFL7semf3 <- ASFL7sem[(ASFL7sem$fin_know %in% f3),] 
+table(ASFL7semf3$QK1)
+wpct(ASFL7semf3$QK1, weight=ASFL7semf3$wght, na.rm=TRUE)
+ASFL7semf4 <- ASFL7sem[(ASFL7sem$fin_know %in% f4),] 
+table(ASFL7semf4$QK1)
+wpct(ASFL7semf4$QK1, weight=ASFL7semf4$wght, na.rm=TRUE)
+ASFL7semf5 <- ASFL7sem[(ASFL7sem$fin_know %in% f5),] 
+table(ASFL7semf5$QK1)
+wpct(ASFL7semf5$QK1, weight=ASFL7semf5$wght, na.rm=TRUE)
+ASFL7semf6 <- ASFL7sem[(ASFL7sem$fin_know %in% f6),] 
+table(ASFL7semf6$QK1)
+wpct(ASFL7semf6$QK1, weight=ASFL7semf6$wght, na.rm=TRUE)
+ASFL7semf7 <- ASFL7sem[(ASFL7sem$fin_know %in% f7),]
+table(ASFL7semf7$QK1)
+wpct(ASFL7semf7$QK1, weight=ASFL7semf7$wght, na.rm=TRUE)
+
+#males
+finknowsrvsactualsemales <- data.frame(finknow=rep(c('1', '2', '3','4','5','6','7'), each=6),
+                                       selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=7),
+                                       share=c(0,0,0,0,0,0,  0.6153794,0,0,0,0,0.3846206     ,0,0,0,0,0,0     ,1,0,0,0,0,0,   0,0.47004873,0.43142287,0,0,0.09852841       ,0,0.7099677,0.2900323,0,0,0,   0.1594925 ,0.5504949,0.2900126,0,0,0))
+finknowsrvsactualsemales$finknow<- factor(finknowsrvsactualsemales$finknow, levels=c('1', '2', '3','4','5','6','7'))
+finknowsrvsactualsemales$selfassessment<- factor(finknowsrvsactualsemales$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+
+savsfk_se_male <-ggplot(finknowsrvsactualsemales, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none")
+savsfk_se_male
+
+#females
+table(ASFL7sef$fin_know)
+ASFL7seff1 <- ASFL7sef[(ASFL7sef$fin_know %in% f1),] 
+table(ASFL7seff1$QK1)
+wpct(ASFL7seff1$QK1, weight=ASFL7seff1$wght, na.rm=TRUE)
+ASFL7seff2 <- ASFL7sef[(ASFL7sef$fin_know %in% f2),] 
+table(ASFL7seff2$QK1)
+wpct(ASFL7seff2$QK1, weight=ASFL7seff2$wght, na.rm=TRUE)
+ASFL7seff3 <- ASFL7sef[(ASFL7sef$fin_know %in% f3),] 
+table(ASFL7seff3$QK1)
+wpct(ASFL7seff3$QK1, weight=ASFL7seff3$wght, na.rm=TRUE)
+ASFL7seff4 <- ASFL7sef[(ASFL7sef$fin_know %in% f4),] 
+table(ASFL7seff4$QK1)
+wpct(ASFL7seff4$QK1, weight=ASFL7seff4$wght, na.rm=TRUE)
+ASFL7seff5 <- ASFL7sef[(ASFL7sef$fin_know %in% f5),] 
+table(ASFL7seff5$QK1)
+wpct(ASFL7seff5$QK1, weight=ASFL7seff5$wght, na.rm=TRUE)
+ASFL7seff6 <- ASFL7sef[(ASFL7sef$fin_know %in% f6),] 
+table(ASFL7seff6$QK1)
+wpct(ASFL7seff6$QK1, weight=ASFL7seff6$wght, na.rm=TRUE)
+ASFL7seff7 <- ASFL7sef[(ASFL7sef$fin_know %in% f7),]
+table(ASFL7seff7$QK1)
+wpct(ASFL7seff7$QK1, weight=ASFL7seff7$wght, na.rm=TRUE)
+
+finknowsrvsactualsefemales <- data.frame(finknow=rep(c('1', '2', '3','4','5','6','7'), each=6),
+                                         selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=7),
+                                         share=c(0,0,0,0,1,0,  0,0,0,0,0,0     ,0,0,0,0,0.4575978,0.5424022      ,0,0,1,0,0,0,   0,0.3177529,0.2330821,0.1795709,0,0.2695941       ,0.2882284,0.1868723,0.5248993 ,0,0,0,   0.05170461,0.48154196 ,0.46675343,0,0,0))
+finknowsrvsactualsefemales$finknow<- factor(finknowsrvsactualsefemales$finknow, levels=c('1', '2', '3','4','5','6','7'))
+finknowsrvsactualsefemales$selfassessment<- factor(finknowsrvsactualsefemales$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+savsfk_se_female<-ggplot(finknowsrvsactualsefemales, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="",fill="")+theme(legend.position="none")
+savsfk_se_female
+
+#self-assessed versus actual financial knowledge
+#EMPLOYED
+table(ASFL6e$fin_know)
+f0 <- c("0")
+ASFL6ef0 <- ASFL6e[(ASFL6e$fin_know %in% f0),] 
+table(ASFL6ef0$QK1)
+wpct(ASFL6ef0$QK1, weight=ASFL6ef0$wght, na.rm=TRUE)
+ASFL6ef1 <- ASFL6e[(ASFL6e$fin_know %in% f1),] 
+table(ASFL6ef1$QK1)
+wpct(ASFL6ef1$QK1, weight=ASFL6ef1$wght, na.rm=TRUE)
+ASFL6ef2 <- ASFL6e[(ASFL6e$fin_know %in% f2),] 
+table(ASFL6ef2$QK1)
+wpct(ASFL6ef2$QK1, weight=ASFL6ef2$wght, na.rm=TRUE)
+ASFL6ef3 <- ASFL6e[(ASFL6e$fin_know %in% f3),] 
+table(ASFL6ef3$QK1)
+wpct(ASFL6ef3$QK1, weight=ASFL6ef3$wght, na.rm=TRUE)
+ASFL6ef4 <- ASFL6e[(ASFL6e$fin_know %in% f4),] 
+table(ASFL6ef4$QK1)
+wpct(ASFL6ef4$QK1, weight=ASFL6ef4$wght, na.rm=TRUE)
+ASFL6ef5 <- ASFL6e[(ASFL6e$fin_know %in% f5),] 
+table(ASFL6ef5$QK1)
+wpct(ASFL6ef5$QK1, weight=ASFL6ef5$wght, na.rm=TRUE)
+ASFL6ef6 <- ASFL6e[(ASFL6e$fin_know %in% f6),] 
+table(ASFL6ef6$QK1)
+wpct(ASFL6ef6$QK1, weight=ASFL6ef6$wght, na.rm=TRUE)
+ASFL6ef7 <- ASFL6e[(ASFL6e$fin_know %in% f7),]
+table(ASFL6ef7$QK1)
+wpct(ASFL6ef7$QK1, weight=ASFL6ef7$wght, na.rm=TRUE)
+
+#financial knowledge austria-specific
+ASFL6ef0 <- ASFL6e[(ASFL6e$fin_know_add %in% f0),] 
+table(ASFL6ef0$QK1)
+wpct(ASFL6ef0$QK1, weight=ASFL6ef0$wght, na.rm=TRUE)
+ASFL6ef1 <- ASFL6e[(ASFL6e$fin_know_add %in% f1),] 
+table(ASFL6ef1$QK1)
+wpct(ASFL6ef1$QK1, weight=ASFL6ef1$wght, na.rm=TRUE)
+ASFL6ef2 <- ASFL6e[(ASFL6e$fin_know_add %in% f2),] 
+table(ASFL6ef2$QK1)
+wpct(ASFL6ef2$QK1, weight=ASFL6ef2$wght, na.rm=TRUE)
+ASFL6ef3 <- ASFL6e[(ASFL6e$fin_know_add %in% f3),] 
+table(ASFL6ef3$QK1)
+wpct(ASFL6ef3$QK1, weight=ASFL6ef3$wght, na.rm=TRUE)
+ASFL6ef4 <- ASFL6e[(ASFL6e$fin_know_add %in% f4),] 
+table(ASFL6ef4$QK1)
+wpct(ASFL6ef4$QK1, weight=ASFL6ef4$wght, na.rm=TRUE)
+ASFL6ef5 <- ASFL6e[(ASFL6e$fin_know_add %in% f5),] 
+table(ASFL6ef5$QK1)
+wpct(ASFL6ef5$QK1, weight=ASFL6ef5$wght, na.rm=TRUE)
+ASFL6ef6 <- ASFL6e[(ASFL6e$fin_know_add %in% f6),] 
+table(ASFL6ef6$QK1)
+wpct(ASFL6ef6$QK1, weight=ASFL6ef6$wght, na.rm=TRUE)
+ASFL6ef7 <- ASFL6e[(ASFL6e$fin_know_add %in% f7),]
+table(ASFL6ef7$QK1)
+wpct(ASFL6ef7$QK1, weight=ASFL6ef7$wght, na.rm=TRUE)
+ASFL6ef8 <- ASFL6e[(ASFL6e$fin_know_add %in% f8),]
+table(ASFL6ef8$QK1)
+wpct(ASFL6ef8$QK1, weight=ASFL6ef8$wght, na.rm=TRUE)
+ASFL6ef9 <- ASFL6e[(ASFL6e$fin_know_add %in% f9),]
+table(ASFL6ef9$QK1)
+wpct(ASFL6ef9$QK1, weight=ASFL6ef9$wght, na.rm=TRUE)
+ASFL6ef10 <- ASFL6e[(ASFL6e$fin_know_add %in% f10),]
+table(ASFL6ef10$QK1)
+wpct(ASFL6ef10$QK1, weight=ASFL6ef10$wght, na.rm=TRUE)
+
+
+#weighted
+finknowsrvsactuale <- data.frame(finknow=rep(c('0','1', '2', '3','4','5','6','7'), each=6),
+                                 selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=8),
+                                 share=c(0.2098396,0.3194787,0.2366402,0.2340415,0,0,0.1141987,0.1217890,0.3336348,0.3072708,0,0.1231066,0.07554566,0.20428725,0.40472719,0.17406951,0.07725223 ,0.06411817,0.08002219,0.18573293,0.41269069,0.19568430,0.11214470,0.01372519,0.07820165,0.25849217,0.42282345,0.17915729,0.03574778,(0.01456135+0.01101631),0.07829734,0.26175988,0.46580907,0.15018534,0.02204253,0.02190585,0.13272466,0.34209866,0.41341018,0.07869608,0.01123968,0.02183074,0.122849521,0.392189095,0.402995932,0.066708399,0.005178042,0.010079010 ))
+finknowsrvsactuale$finknow<- factor(finknowsrvsactuale$finknow, levels=c('0', '1', '2', '3','4','5','6','7'))
+finknowsrvsactuale$selfassessment<- factor(finknowsrvsactuale$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+
+savsfk_e <- ggplot(finknowsrvsactuale, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="",fill="")+theme(legend.position="none")
+savsfk_e
+
+#weighted enlarged
+finknowsrvsactualeadd <- data.frame(finknow=rep(c('0','1', '2', '3','4','5','6','7','8','9','10'), each=6),
+                                    selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=11),
+                                    share=c(0,0,1,0,0,0,0.2510720,0.2095666,0.3858386,0.1535228,0,0 , 0,0.45679982,0.06117439,0.28816653 ,0,(0.13273732+0.06112194),  0.05862425,0.07782021,0.26011025,0.33726083,0.21842182,0.04776264,   0.04241135,0.11906924,0.48086800,0.26077658,0.08088971,0.01598512,0.09457541  ,0.25886089,0.46880651,0.14895974,0.01294548, 0.01585196,   0.128003746,0.305082015,0.350512828,0.178317765,0.029872562, 0.008211084,0.09355030,0.33611440,0.35136372,0.10160937,0.05199996 ,0.06536225, 0.116581645,0.290227667  , 0.463043096,0.098878986,0.004577588,0.026691018,   0.10935602,0.35367009,0.44382987,0.06296554,0.01529384 ,0.01488465,  0.13474292,0.39126382,0.4083966,0.06559663,0,0))
+finknowsrvsactualeadd$finknow<- factor(finknowsrvsactualeadd$finknow, levels=c('0','1', '2', '3','4','5','6','7','8','9','10'))
+finknowsrvsactualeadd$selfassessment<- factor(finknowsrvsactualeadd$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+savsfkadd_e <- ggplot(finknowsrvsactualeadd, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="",fill="")+theme(legend.position="none")
+savsfkadd_e
+
+###employed gender comparison self-assessed versus actual financial knowledge  - OECD share 
+#males
+table(ASFL7em$fin_know)
+ASFL7emf0 <- ASFL7em[(ASFL7em$fin_know %in% f0),] 
+table(ASFL7emf0$QK1)
+wpct(ASFL7emf0$QK1, weight=ASFL7emf0$wght, na.rm=TRUE)
+ASFL7emf1 <- ASFL7em[(ASFL7em$fin_know %in% f1),] 
+table(ASFL7emf1$QK1)
+wpct(ASFL7emf1$QK1, weight=ASFL7emf1$wght, na.rm=TRUE)
+ASFL7emf2 <- ASFL7em[(ASFL7em$fin_know %in% f2),] 
+table(ASFL7emf2$QK1)
+wpct(ASFL7emf2$QK1, weight=ASFL7emf2$wght, na.rm=TRUE)
+ASFL7emf3 <- ASFL7em[(ASFL7em$fin_know %in% f3),] 
+table(ASFL7emf3$QK1)
+wpct(ASFL7emf3$QK1, weight=ASFL7emf3$wght, na.rm=TRUE)
+ASFL7emf4 <- ASFL7em[(ASFL7em$fin_know %in% f4),] 
+table(ASFL7emf4$QK1)
+wpct(ASFL7emf4$QK1, weight=ASFL7emf4$wght, na.rm=TRUE)
+ASFL7emf5 <- ASFL7em[(ASFL7em$fin_know %in% f5),] 
+table(ASFL7emf5$QK1)
+wpct(ASFL7emf5$QK1, weight=ASFL7emf5$wght, na.rm=TRUE)
+ASFL7emf6 <- ASFL7em[(ASFL7em$fin_know %in% f6),] 
+table(ASFL7emf6$QK1)
+wpct(ASFL7emf6$QK1, weight=ASFL7emf6$wght, na.rm=TRUE)
+ASFL7emf7 <- ASFL7em[(ASFL7em$fin_know %in% f7),]
+table(ASFL7emf7$QK1)
+wpct(ASFL7emf7$QK1, weight=ASFL7emf7$wght, na.rm=TRUE)
+
+#males
+finknowsrvsactualemales <- data.frame(finknow=rep(c('0','1', '2', '3','4','5','6','7'), each=6),
+                                      selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=8),
+                                      share=c(0, 0.5744791,0.4255209,0,0,0,0.1792174,0,0.4770879,0,0,0.3436948,0, 0.28883572 , 0.32651444,0.28883572, 0,0.09581413, 0.12710670, 0.20135147,0.41051877,0.10462267, 0.13119898,0.02520141 ,0.06401908,0.38737118, 0.30639131, 0.22858886 ,0,0.01362957,0.05314660, 0.25509995, 0.55621984,0.06716284,0.02108105 ,0.04728972,0.15592899,0.37554513,0.40749972,0.03789304,0,0.02313312, 0.14512801,0.41595356,0.39326854 , 0.04564989 ,0,0   ))
+finknowsrvsactualemales$finknow<- factor(finknowsrvsactualemales$finknow, levels=c('0','1', '2', '3','4','5','6','7'))
+finknowsrvsactualemales$selfassessment<- factor(finknowsrvsactualemales$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+
+savsfk_e_male <- ggplot(finknowsrvsactualemales, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none")  #alternative mit "Percentage share!
+savsfk_e_male
+#females
+table(ASFL7ef$fin_know)
+ASFL7eff0 <- ASFL7ef[(ASFL7ef$fin_know %in% f0),] 
+table(ASFL7eff0$QK1)
+wpct(ASFL7eff0$QK1, weight=ASFL7eff0$wght, na.rm=TRUE)
+ASFL7eff1 <- ASFL7ef[(ASFL7ef$fin_know %in% f1),] 
+table(ASFL7eff1$QK1)
+wpct(ASFL7eff1$QK1, weight=ASFL7eff1$wght, na.rm=TRUE)
+ASFL7eff2 <- ASFL7ef[(ASFL7ef$fin_know %in% f2),] 
+table(ASFL7eff2$QK1)
+wpct(ASFL7eff2$QK1, weight=ASFL7eff2$wght, na.rm=TRUE)
+ASFL7eff3 <- ASFL7ef[(ASFL7ef$fin_know %in% f3),] 
+table(ASFL7eff3$QK1)
+wpct(ASFL7eff3$QK1, weight=ASFL7eff3$wght, na.rm=TRUE)
+ASFL7eff4 <- ASFL7ef[(ASFL7ef$fin_know %in% f4),] 
+table(ASFL7eff4$QK1)
+wpct(ASFL7eff4$QK1, weight=ASFL7eff4$wght, na.rm=TRUE)
+ASFL7eff5 <- ASFL7ef[(ASFL7ef$fin_know %in% f5),] 
+table(ASFL7eff5$QK1)
+wpct(ASFL7eff5$QK1, weight=ASFL7eff5$wght, na.rm=TRUE)
+ASFL7eff6 <- ASFL7ef[(ASFL7ef$fin_know %in% f6),] 
+table(ASFL7eff6$QK1)
+wpct(ASFL7eff6$QK1, weight=ASFL7eff6$wght, na.rm=TRUE)
+ASFL7eff7 <- ASFL7ef[(ASFL7ef$fin_know %in% f7),]
+table(ASFL7eff7$QK1)
+wpct(ASFL7eff7$QK1, weight=ASFL7eff7$wght, na.rm=TRUE)
+
+finknowsrvsactualefemales <- data.frame(finknow=rep(c('0','1', '2', '3','4','5','6','7'), each=6),
+                                        selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=8),
+                                        share=c(0.4727384,0,0, 0.5272616,0,0, 0.07791286 ,0.18975753 ,0.25357599, 0.47875361 ,0,0, 0.1084920 ,0.1674147,0.4388366, 0.1240187 , 0.1109428 ,0.0502952, 0.02371057,0.16705364,0.41528823, 0.30459119 , 0.08935637 ,0,0.08897155, 0.16062458 , 0.51123918 ,0.14162016,0.06289378,( 0.01526892 + 0.01938183), 0.10000199,0.26750727 ,0.38778611,0.22183235 , 0.02287227 ,0, 0.10449184 ,0.30140419, 0.42060146 ,0.12834133,0.02491506 ,0.02024612,0.09207769 , 0.35936478,0.41643174  ,0.09579516 , 0.01233014 ,0.02400049))
+finknowsrvsactualefemales$finknow<- factor(finknowsrvsactualefemales$finknow, levels=c('0','1', '2', '3','4','5','6','7'))
+finknowsrvsactualefemales$selfassessment<- factor(finknowsrvsactualefemales$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+
+savsfk_e_female<- ggplot(finknowsrvsactualefemales, aes(fill=selfassessment, y=share, x=finknow)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="",fill="")+theme(legend.position="none")
+savsfk_e_female
+
+
+
+#final sankey plots
+savsfk <- savsfk_se+savsfk_e + plot_layout(guides = "collect")& theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=13))
+savsfk
+
+savsfkadd <- savsfkadd_se+savsfkadd_e + plot_layout(guides = "collect")&theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=13))
+savsfkadd
+
+savsfkgender_se <- savsfk_se_male+savsfk_se_female + plot_layout(guides = "collect")&theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=13))
+savsfkgender_se
+
+savsfkgender_e<- savsfk_e_male+savsfk_e_female + plot_layout(guides = "collect")&theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=13))
+savsfkgender_e
+
+savsfkgender<- savsfk_se_male+savsfk_se_female+savsfk_e_male+savsfk_e_female + plot_layout(guides = "collect")&theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=13))
+savsfkgender
+
+
+#########################AGE and SELF-assessed knowledge#############################
+#self-employed
+ageselfassess_se <- data.frame(age=rep(c('Old millennials', 'Generation X', 'Baby-boomers'), each=6),
+                               selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=3),
+                               share=c(0.4115508,0.2304435,0.3580057,0,0,0,0.05208442,0.47618474,0.36171944,0.01235902,0.03951299,0.05813939,0.4166801,0.3675882,0.2157317,0,0,0  ))
+ageselfassess_se$age<- factor(ageselfassess_se$age, levels=c('Young millennial', 'Old millennials', 'Generation X', 'Baby-boomers','Silent generation'))
+ageselfassess_se$selfassessment<- factor(ageselfassess_se$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+
+saagegroup_se <- ggplot(ageselfassess_se, aes(fill=selfassessment, y=share, x=age)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none")
+saagegroup_se
+
+#employed
+ageselfassess_e <- data.frame(age=rep(c('Young millennials', 'Old millennials', 'Generation X', 'Baby boomers','Silent generation'), each=6),
+                               selfassessment=rep(c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'), times=5),
+                               share=c(0.05840070,0.22247773,0.48925905,0.17573779,0.05412473 ,0,0.10473126,0.34912473,0.35608406,0.13586425,0.02990031 ,0.02429540,0.127932266,0.332388591,0.414106697,0.086343780 ,0.010474480,0.02875419, 0.14525239,0.32658226,0.43337453,0.06825270,0,0.02653811,1,0,0,0,0,0))
+ageselfassess_e$age<- factor(ageselfassess_e$age, levels=c('Young millennials', 'Old millennials', 'Generation X', 'Baby boomers','Silent generation'))
+ageselfassess_e$selfassessment<- factor(ageselfassess_e$selfassessment, levels=c('Very high','Quite high', 'Average', 'Quite low', 'Very low','Ref/Don´t know'))
+saagegroup_e <-ggplot(ageselfassess_e, aes(fill=selfassessment, y=share, x=age)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="",fill="")+theme(legend.position="none")
+saagegroup_e
+
+saagegroup <- saagegroup_se+saagegroup_e + plot_layout(guides = "collect")&theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=13), axis.text = element_text(size = 13))& guides(fill=guide_legend(nrow=2, byrow=TRUE))
+saagegroup
+
+
+###################################FINANCIAL BEHAVIOUR############################################
+finbeh <- c(rep("0" ,2),rep("1" ,2) , rep("2" , 2) ,  rep("3" , 2),rep("4" , 2),rep("5" , 2),rep("6" , 2),rep("7" , 2),rep("8" , 2),rep("9" , 2))
+emplstat <- rep(c("Self-employed" , "Employees" ) , 10)
+value <- abs(c(0,0.002086541  ,0,0.009026878  ,0,0.023383445 ,0,0.044876836  , 0.03301144 ,0.076993411 ,0.10728803 , 0.155255602  ,0.25663641 ,0.207614159  ,0.32160377 ,0.256683235  ,0.19495995 ,0.156425619  ,0.08650040 ,0.067654273  ))
+
+finbeh<- data.frame(finbeh,emplstat,value)
+finbeh$emplstat<- factor(finbeh$emplstat, levels=c("Self-employed" , "Employees"  ))
+finbehcomp <- ggplot(finbeh, aes(fill=emplstat, y=value, x=finbeh)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="")
+finbehcomp
+
+###################################FINANCIAL ATTITUDE############################################
+finatt <- c(rep("1" ,2) , rep("2" , 2) ,  rep("3" , 2),rep("4" , 2),rep("5" , 2))
+emplstat <- rep(c("Self-employed" , "Employed" ) , 5)
+value <- abs(c(0.009898962,(0.019702185+0.015250336), (0.017642861+0.049240888+0.037445602), (0.030863270+0.080344159+0.066798590) ,(0.128762416+0.162110230+0.147164521),(0.111915009+0.160942769+0.166338157),(0.249522741+0.112254614+0.022341435), (0.156959210+0.130576429+0.038484449),0.063615729,(0.013488896+0.008336541)))
+finatt<- data.frame(finatt,emplstat,value)
+finatt$emplstat<- factor(finatt$emplstat, levels=c("Self-employed" , "Employed" ))
+finattcomp <- ggplot(finatt, aes(fill=emplstat, y=value, x=finatt)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="")
+
+finattcomp
+
+###################################SUBGROUP DIFFERENCES in financial literacy############################################
+#####gender comparison main financial literacy scores 
+
+####self-employed
+#weighted
+finlitcomparison <- c(rep("Knowledge" , 2) , rep("Behaviour" , 2) , rep("Attitude" , 2) )
+gender <- rep(c("Male" , "Female" ) , 3)
+value <- abs(c(6.161039,5.749211,7.007273,6.489682,3.291648,3.319749))
+finlitcomparisongender<- data.frame(finlitcomparison,gender,value)
+finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finlitcomparisongender$gender<- factor(finlitcomparisongender$gender, levels=c("Male" , "Female"))
+fingencomp_se <- ggplot(finlitcomparisongender, aes(fill=gender, y=value, x=finlitcomparison)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
+  labs(x = "",y="Mean score", fill = "")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+fingencomp_se
+####employed
+finlitcomparison <- c(rep("Knowledge" , 2) , rep("Behaviour" , 2) , rep("Attitude" , 2) )
+gender <- rep(c("Male" , "Female" ) , 3)
+value <- abs(c(5.572578,5.1973,6.2366,6.11386,3.053325,3.177074))
+finlitcomparisongender<- data.frame(finlitcomparison,gender,value)
+finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finlitcomparisongender$gender<- factor(finlitcomparisongender$gender, levels=c("Male" , "Female"))
+fingencomp_e <-ggplot(finlitcomparisongender, aes(fill=gender, y=value, x=finlitcomparison)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
+  labs(x = "",y="Mean score", fill = "")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 15))
+fingencomp_e
+
+#####age group comparison main financial literacy scores 
+
+####self-employed
+#weighted
+finlitcomparison <- c(rep("Knowledge" , 5) , rep("Behaviour" , 5) , rep("Attitude" , 5) )
+agegroup <- rep(c("Young millennials", "Old millennials" , "Generation X", "Baby-boomers", "Silent generation" ) , 3)
+value <- abs(c(0,6.43318,5.971818,5.915405,0,0,7.404092,6.731798,6.933479,0,0,3.581911,3.324066,3.004795, 0))
+finlitcomparisonage<- data.frame(finlitcomparison,agegroup,value)
+finlitcomparisonage$finlitcomparison<- factor(finlitcomparisonage$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finlitcomparisonage$agegroup<- factor(finlitcomparisonage$agegroup, levels=c("Young millennials", "Old millennials" , "Generation X", "Baby-boomers", "Silent generation" ))
+finagecomp_se <-ggplot(finlitcomparisonage, aes(fill=agegroup, y=value, x=finlitcomparison)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x = "",y="Mean score", fill = "")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=13), axis.text = element_text(size = 15))# guides(fill=guide_legend(nrow=2, byrow=TRUE))
+finagecomp_se
+####employed
+finlitcomparison <- c(rep("Knowledge" , 5) , rep("Behaviour" , 5) , rep("Attitude" , 5) )
+agegroup <- rep(c("Young millennials", "Old millennials" , "Generation X", "Baby-boomers", "Silent generation" ) , 3)
+value <- abs(c(5.070268,5.400707,5.45375, 6.142982,7 ,5.811853,6.211901,6.309896,6.04485,6,2.696193,3.14479, 3.261084,3.055484,2.666667))
+finlitcomparisonage<- data.frame(finlitcomparison,agegroup,value)
+finlitcomparisonage$finlitcomparison<- factor(finlitcomparisonage$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finlitcomparisonage$agegroup<- factor(finlitcomparisonage$agegroup, levels=c("Young millennials", "Old millennials" , "Generation X", "Baby-boomers", "Silent generation"))
+finagecomp_e<- ggplot(finlitcomparisonage, aes(fill=agegroup, y=value, x=finlitcomparison)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x = "",y="Mean score", fill = "")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 15))+guides(fill=guide_legend(nrow=2, byrow=TRUE))
+finagecomp_e
+
+######education comparison main financial literacy scores 
+
+####self-employed
+finlitcomparison <- c(rep("Knowledge" , 2) , rep("Behaviour" , 2) , rep("Attitude" , 2) )
+education <- rep(c("Lower", "Higher" ) , 3)
+value <- abs(c(5.651829,6.452496,6.673599,6.963768,3.302335,3.30395))
+finlitcomparisoneducation<- data.frame(finlitcomparison,education,value)
+finlitcomparisoneducation$finlitcomparison<- factor(finlitcomparisoneducation$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finlitcomparisoneducation$education<- factor(finlitcomparisoneducation$education, levels=c("Lower", "Higher" ))
+fineduccomp_se <- ggplot(finlitcomparisoneducation, aes(fill=education, y=value, x=finlitcomparison)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("green",
+                             "purple"))+
+  labs(x = "",y="Mean score", fill = "")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 15))
+fineduccomp_se
+#detailed
+finlitcomparison <- c(rep("Knowledge" , 5) , rep("Behaviour" , 5) , rep("Attitude" , 5) )
+education <- rep(c("Primary" , "Lower secondary", "Upper secondary", "University" ,"Akademie") , 3)
+value <- abs(c(5.810818,5.635405,6.055423,6.657436,6.546933,  5.507917,6.79402,6.331562,7.363234,6,2.759301,3.358433,3.134587,3.390024,3.364622))
+finlitcomparisoneducation<- data.frame(finlitcomparison,education,value)
+finlitcomparisoneducation$finlitcomparison<- factor(finlitcomparisoneducation$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finlitcomparisoneducation$education<- factor(finlitcomparisoneducation$education, levels=c("Primary" , "Lower secondary", "Upper secondary", "University" ,"Akademie"))
+fineducdetailcomp_se<- ggplot(finlitcomparisoneducation, aes(fill=education, y=value, x=finlitcomparison)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x = "",y="Mean score", fill = "")+theme(legend.position="bottom")
+fineducdetailcomp_se
+####employed
+finlitcomparison <- c(rep("Knowledge" , 2) , rep("Behaviour" , 2) , rep("Attitude" , 2) )
+education <- rep(c("Lower", "Higher" ) , 3)
+value <- abs(c(5.158952,5.85291,5.896997,6.733201,3.302335,3.267067))
+finlitcomparisongender<- data.frame(finlitcomparison,education,value)
+finlitcomparisongender$finlitcomparison<- factor(finlitcomparisongender$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finlitcomparisongender$education<- factor(finlitcomparisongender$education, levels=c("Lower", "Higher" ))
+fineduccomp_e <- ggplot(finlitcomparisongender, aes(fill=education, y=value, x=finlitcomparison)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("green",
+                             "purple"))+
+  labs(x = "",y="Mean score", fill = "")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 15))
+fineduccomp_e
+#detailed
+finlitcomparison <- c(rep("Knowledge" , 5) , rep("Behaviour" , 5) , rep("Attitude" , 5) )
+education <- rep(c("Primary" , "Lower secondary", "Upper secondary", "University" ,"Akademie") , 3)
+value <- abs(c(4.040015,5.277985,5.80295,5.998981,5.554505,5.437746,5.945852,6.887595,6.474886,6.697646,2.893271,3.05032,3.34524,3.13283,3.26616))
+finlitcomparisoneducation<- data.frame(finlitcomparison,education,value)
+finlitcomparisoneducation$finlitcomparison<- factor(finlitcomparisoneducation$finlitcomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finlitcomparisoneducation$education<- factor(finlitcomparisoneducation$education, levels=c("Primary" , "Lower secondary", "Upper secondary", "University" ,"Akademie"))
+fineducdetailcomp_e<- ggplot(finlitcomparisoneducation, aes(fill=education, y=value, x=finlitcomparison)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x = "",y="", fill = "")+theme(legend.position="none")
+fineducdetailcomp_e
+
+fineducdetailcomp <- fineducdetailcomp_se+fineducdetailcomp_e + plot_layout(guides = "collect")& theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 15))&guides(fill=guide_legend(nrow=2, byrow=TRUE))
+fineducdetailcomp
+
+###################################FINANCIAL INCLUSION############################################
+#####finincl1
+finincl1 <- c(rep("Awareness" , 2) , rep("Recent purchase" , 2) , rep("Family & Friends" , 2) )
+emplstat <- rep(c("Self-employed" , "Employees" ) , 3)
+value <- abs(c((1-0.009898962-0.021408774),(1-0.013245258- 0.010562546 -0.028141207),(1-0.46595312),(1-0.4686712937),0.07881445 ,0.1335889 ))
+financialinclusionplot1 <- data.frame(finincl1,emplstat,value)
+financialinclusionplot1$finincl1<- factor(financialinclusionplot1$finincl1, levels=c('Awareness', 'Recent purchase', 'Family & Friends'))
+financialinclusionplot1$emplstat<- factor(financialinclusionplot1$emplstat, levels=c('Self-employed', 'Employees'))
+finincl1comp <- ggplot(financialinclusionplot1, aes(fill=emplstat, y=value, x=finincl1)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finincl1comp
+#####finincl2
+finincl2 <- c(rep("Saving,Investment,Retirement" , 2) , rep("Payment" , 2) , rep("Insurance" , 2) , rep("Credit" , 2))
+emplstat <- rep(c("Self-employed" , "Employees"  ) , 4)
+value <- abs(c((1-0.09229320 ),(1-0.08266264 ),1,(1-0.009812379 ),0.8830564 ,0.8075743  ,(1-0.13404446 ),(1-0.2872825616 )))
+financialinclusionplot2 <- data.frame(finincl2,emplstat,value)
+financialinclusionplot2$finincl2<- factor(financialinclusionplot2$finincl2, levels=c('Saving,Investment,Retirement','Payment','Insurance','Credit'))
+financialinclusionplot2$emplstat<- factor(financialinclusionplot2$emplstat, levels=c('Self-employed', 'Employees'))
+finincl2comp<- ggplot(financialinclusionplot2, aes(fill=emplstat, y=value, x=finincl2)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finincl2comp
+
+#gender specific
+#self-employed
+finincl1 <- c(rep("Awareness" , 2) , rep("Recent purchase" , 2) , rep("Family & Friends" , 2) )
+gender <- rep(c("Male" , "Female" ) , 3)
+value <- abs(c((1-0.01663340 -0.01517251 ),(1-0.03057546 ),(1-0.32043103 ),(1-0.67985622 ),0.08708959 ,0.06665082 ))
+financialinclusionplot1 <- data.frame(finincl1,gender,value)
+financialinclusionplot1$finincl1<- factor(financialinclusionplot1$finincl1, levels=c('Awareness', 'Recent purchase', 'Family & Friends'))
+financialinclusionplot1$gender<- factor(financialinclusionplot1$gender, levels=c("Male" , "Female"))
+finincl1_se <- ggplot(financialinclusionplot1, aes(fill=gender, y=value, x=finincl1)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finincl1_se
+
+finincl2 <- c(rep("Saving,Investment,Retirement" , 2) , rep("Payment" , 2) , rep("Insurance" , 2) , rep("Credit" , 2))
+gender <- rep(c("Male" , "Female" ) , 4)
+value <- abs(c((1-0.06101732),(1-0.13826565),1,1, 0.8874382 ,0.8766156, (1-0.06886512),(1-0.22985166)))
+financialinclusionplot2 <- data.frame(finincl2,gender,value)
+financialinclusionplot2$finincl2<- factor(financialinclusionplot2$finincl2, levels=c('Saving,Investment,Retirement','Payment','Insurance','Credit'))
+financialinclusionplot2$gender<- factor(financialinclusionplot2$gender, levels=c("Male" , "Female" ))
+finincl2_se <- ggplot(financialinclusionplot2, aes(fill=gender, y=value, x=finincl2)) + 
+  geom_bar(position = "dodge", stat="identity",width = 0.8)+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finincl2_se
+
+#employed
+finincl1 <- c(rep("Awareness" , 2) , rep("Recent purchase" , 2) , rep("Family & Friends" , 2) )
+gender <- rep(c("Male" , "Female" ) , 3)
+value <- abs(c(0.9427017,0.9537993,0.5669306 ,0.4930709 ,0.1338034  ,0.1333584  ))
+financialinclusionplot1 <- data.frame(finincl1,gender,value)
+financialinclusionplot1$finincl1<- factor(financialinclusionplot1$finincl1, levels=c('Awareness', 'Recent purchase', 'Family & Friends'))
+financialinclusionplot1$gender<- factor(financialinclusionplot1$gender, levels=c("Male" , "Female"))
+finincl1_e<- ggplot(financialinclusionplot1, aes(fill=gender, y=value, x=finincl1)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finincl1_e
+
+finincl2 <- c(rep("Saving,Investment,Retirement" , 2) , rep("Payment" , 2) , rep("Insurance" , 2) , rep("Credit" , 2))
+gender <- rep(c("Male" , "Female" ) , 4)
+value <- abs(c(0.91485561, 0.92000426 ,0.995197492,0.98480401 ,0.8113671,0.8034987,0.7556449,0.6665875 ))
+financialinclusionplot2 <- data.frame(finincl2,gender,value)
+financialinclusionplot2$finincl2<- factor(financialinclusionplot2$finincl2, levels=c('Saving,Investment,Retirement','Payment','Insurance','Credit'))
+financialinclusionplot2$gender<- factor(financialinclusionplot2$gender, levels=c("Male" , "Female" ))
+finincl2_e<- ggplot(financialinclusionplot2, aes(fill=gender, y=value, x=finincl2)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finincl2_e
+
+###################################FINANCIAL WELL-BEING############################################
+wellbeing <- c(rep("Modest role of finances in life" , 2),  rep("Saving possibility" , 2),rep("No unaffordable wishes" , 2) , rep("Few financial concerns" , 2) , rep("Not 'just getting by'" ,2) )
+emplstat <- rep(c("Self-employed" , "Employees" ) , 5)
+value <- abs(c((1-0.4034880),(1-0.4184430 ),(1-0.5439856 ),(1-0.5721883 ),(1-0.5311104 ),(1-0.5964242 ),(1-0.3706735 ),(1-0.4379736 ),(1-0.4542531 ),(1-0.5839444 )))
+wellbeingplotspecific <- data.frame(wellbeing,emplstat,value)
+wellbeingplotspecific$wellbeing<- factor(wellbeingplotspecific$wellbeing, levels=c("Modest role of finances in life","Saving possibility" ,"No unaffordable wishes" ,"Few financial concerns","Not 'just getting by'" ))
+wellbeingplotspecific$emplstat<- factor(wellbeingplotspecific$emplstat, levels=c( "Self-employed" , "Employees"))
+finwellbeingcomp <- ggplot(wellbeingplotspecific, aes(fill=emplstat, y=value, x=wellbeing)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finwellbeingcomp
+
+#genderspecific
+#self-employed
+wellbeing <- c(rep("Modest role of finances in life" , 2),  rep("Saving possibility" , 2),rep("No unaffordable wishes" , 2) , rep("Few financial concerns" , 2) , rep("Not 'just getting by'" ,2))
+gender <- rep(c("Male" , "Female") , 5)
+value <- abs(c((1-0.3820748 ),(1-0.4349631  ),(1- 0.5214057 ),(1- 0.5771759 ),(1-0.5227259  ),(1- 0.5434347),(1-0.2648075  ),(1-0.5262860  ),(1- 0.3745896),(1- 0.5713507)))
+wellbeingplotspecific <- data.frame(wellbeing,gender,value)
+wellbeingplotspecific$wellbeing<- factor(wellbeingplotspecific$wellbeing, levels=c("Modest role of finances in life","Saving possibility" ,"No unaffordable wishes" ,"Few financial concerns","Not 'just getting by'" ))
+wellbeingplotspecific$gender<- factor(wellbeingplotspecific$gender, levels=c( "Male","Female"))
+finwellbeing_se <- ggplot(wellbeingplotspecific, aes(fill=gender, y=value, x=wellbeing)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finwellbeing_se
+#employed
+wellbeing <- c(rep("Modest role of finances in life" , 2),  rep("Saving possibility" , 2),rep("No unaffordable wishes" , 2) , rep("Few financial concerns" , 2) , rep("Not 'just getting by'" ,2))
+gender <- rep(c("Male" , "Female") , 5)
+value <- abs(c((1-0.4378898  ),(1-0.3975455   ),(1- 0.5634224  ),(1- 0.5816081  ),(1-0.6158255   ),(1- 0.5755756 ),(1-0.425242   ),(1-0.4516550   ),(1- 0.5852973 ),(1- 0.5824905 )))
+wellbeingplotspecific <- data.frame(wellbeing,gender,value)
+wellbeingplotspecific$wellbeing<- factor(wellbeingplotspecific$wellbeing, levels=c("Modest role of finances in life","Saving possibility" ,"No unaffordable wishes" ,"Few financial concerns","Not 'just getting by'" ))
+wellbeingplotspecific$gender<- factor(wellbeingplotspecific$gender, levels=c( "Male","Female"))
+finwellbeing_e<- ggplot(wellbeingplotspecific, aes(fill=gender, y=value, x=wellbeing)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finwellbeing_e
+###################################FINANCIAL RESILIENCE############################################
+finrescomparison <- data.frame(status=rep(c('Self-employed', 'Employees'), each=5),
+                               finrel=rep(c('Six months or above','About three months', 'About a month','About a week','Ref/Don´t know'), times=2),
+                               share=c(0.452498000,0.212421271,0.185704480,0.078420722,(0.009029548+0.061925979),0.28308054,0.23325797,0.27961888,(0.01497427 +0.10388377),( 0.03132441+0.05386017)))
+finrescomparison$finrel<- factor(finrescomparison$finrel, levels=c('Six months or above','About three months', 'About a month','About a week','Ref/Don´t know'))
+finrescomparison$status<- factor(finrescomparison$status, levels=c('Self-employed', 'Employees'))
+fincushioncomp <- ggplot(finrescomparison, aes(fill=finrel, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")  +theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))+
+  guides(fill=guide_legend(nrow=2, byrow=TRUE))
+fincushioncomp
+
+##gender specific
+#self-employed
+finrescomparison <- data.frame(status=rep(c('Male','Female'), each=5),
+                               finrel=rep(c('Six months or above','About three months', 'About a month','About a week','Ref/Don´t know'), times=2),
+                               share=c(0.54237185,0.21019579,0.16438675,0.03180591,(0.01517251+0.03606718),0.32039232,0.21569250,0.21703944,0.14693988,0.09993585))
+finrescomparison$finrel<- factor(finrescomparison$finrel, levels=c('Six months or above','About three months', 'About a month','About a week','Ref/Don´t know'))
+finrescomparison$status<- factor(finrescomparison$status, levels=c("Male" , "Female" ))
+finres_se <- ggplot(finrescomparison, aes(fill=finrel, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")  +theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))#+guides(fill=guide_legend(nrow=2, byrow=TRUE))
+finres_se
+
+#employed
+finrescomparison <- data.frame(status=rep(c('Male','Female'), each=5),
+                               finrel=rep(c('Six months or above','About three months', 'About a month','About a week','Ref/Don´t know'), times=2),
+                               share=c(0.30795281,0.21320536,0.28929703,(0.01294024+0.09697274),(0.04229011+0.03734170), 0.25635277 ,0.25480653,0.26921872,(0.01716005+0.11131036),(0.01954064+0.07161093)))
+finrescomparison$finrel<- factor(finrescomparison$finrel, levels=c('Six months or above','About three months', 'About a month','About a week','Ref/Don´t know'))
+finrescomparison$status<- factor(finrescomparison$status, levels=c("Male" , "Female" ))
+finres_e<- ggplot(finrescomparison, aes(fill=finrel, y=share, x=status)) + 
+  geom_bar(position='stack', stat='identity')+
+  labs(x="",y="Percentage share",fill="")  +theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))+
+  guides(fill=guide_legend(nrow=2, byrow=TRUE))
+finres_e
+
+
+##############above / below three months accordig to OECD -> impact of financial savings
+### self-employed
+finrescomparison <- c(rep("Knowledge" , 2) , rep("Behaviour" , 2) , rep("Attitude" , 2) )
+status <- rep(c("Less than three months" , "More than three months" ) , 3)
+value <- abs(c(6.03243,6.185474,6.570205,6.926946,3.249507,3.298033))
+finresplot <- data.frame(finrescomparison,status,value)
+finresplot$status<- factor(finresplot$status, levels=c("Less than three months" , "More than three months" ))
+finresplot$finrescomparison<- factor(finresplot$finrescomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finresfinlitcomp <- ggplot(finresplot, aes(fill=status, y=value, x=finrescomparison)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("lightblue",
+                             "purple"))+
+  labs(x="",y="Mean score",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finresfinlitcomp
+
+finstressconcernfraud <- c(rep("Fraud victim" , 2) , rep("Shortfall" , 2) , rep("Expense worries" , 2) , rep("Financial concerns" , 2) , rep("´Just getting by´" , 2) )
+status <- rep(c("Less than three months" , "More than three months" ) , 5)
+value <- abs(c(0.08164526,0.2369556,0.1292842,0.02948726,0.1399972,0.01524525,0.2876269,0.1161688,0.3887798,0.1950129))
+finstressconcernfraudplot <- data.frame(finstressconcernfraud,status,value)
+finstressconcernfraudplot$status<- factor(finstressconcernfraudplot$status, levels=c("Less than three months" , "More than three months" ))
+finstressconcernfraudplot$finstressconcernfraud<- factor(finstressconcernfraudplot$finstressconcern, levels=c('Fraud victim', 'Shortfall', 'Expense worries', 'Financial concerns','´Just getting by´'))
+finresfinstresscomp <- ggplot(finstressconcernfraudplot, aes(fill=status, y=value, x=finstressconcernfraud)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("lightblue",
+                             "purple"))+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finresfinstresscomp
+
+finresfinlitcomp+finresfinstresscomp
+#gender specific
+#males
+finstressconcernfraud <- c(rep("Fraud victim" , 2) , rep("Shortfall" , 2) , rep("Expense worries" , 2) , rep("Financial concerns" , 2) , rep("´Just getting by´" , 2) )
+status <- rep(c("Less than three months" , "More than three months" ) , 5)
+value <- abs(c(0.2150385,0,0.1621157,0.04377732,0.1621157,0,0.2409652,0.07317262,0.3325301,0.1453484))
+finstressconcernfraudplot <- data.frame(finstressconcernfraud,status,value)
+finstressconcernfraudplot$status<- factor(finstressconcernfraudplot$status, levels=c("Less than three months" , "More than three months" ))
+finstressconcernfraudplot$finstressconcernfraud<- factor(finstressconcernfraudplot$finstressconcern, levels=c('Fraud victim', 'Shortfall', 'Expense worries', 'Financial concerns','´Just getting by´'))
+finresfinstress_semales <- ggplot(finstressconcernfraudplot, aes(fill=status, y=value, x=finstressconcernfraud)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("lightblue",
+                             "purple"))+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finresfinstress_semales
+#females
+finstressconcernfraud <- c(rep("Fraud victim" , 2) , rep("Shortfall" , 2) , rep("Expense worries" , 2) , rep("Financial concerns" , 2) , rep("´Just getting by´" , 2) )
+status <- rep(c("Less than three months" , "More than three months" ) , 5)
+value <- abs(c(0.1463335,0.2821809,0.1032716,0,0.1224725,0.0467035,0.3245973,0.2048907,0.4333469,0.2974944))
+finstressconcernfraudplot <- data.frame(finstressconcernfraud,status,value)
+finstressconcernfraudplot$status<- factor(finstressconcernfraudplot$status, levels=c("Less than three months" , "More than three months" ))
+finstressconcernfraudplot$finstressconcernfraud<- factor(finstressconcernfraudplot$finstressconcern, levels=c('Fraud victim', 'Shortfall', 'Expense worries', 'Financial concerns','´Just getting by´'))
+finresfinstress_sefemales <- ggplot(finstressconcernfraudplot, aes(fill=status, y=value, x=finstressconcernfraud)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("lightblue",
+                             "purple"))+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none")
+finresfinstress_sefemales
+
+###employed
+finrescomparison <- c(rep("Knowledge" , 2) , rep("Behaviour" , 2) , rep("Attitude" , 2)  )
+status <- rep(c("Less than three months" , "More than three months" ) , 3)
+value <- abs(c(4.960896,5.853891,5.494803,6.637096,2.877918,3.291662))
+finresplot <- data.frame(finrescomparison,status,value)
+finresplot$status<- factor(finresplot$status, levels=c("Less than three months" , "More than three months" ))
+finresplot$finrescomparison<- factor(finresplot$finrescomparison, levels=c("Knowledge","Behaviour","Attitude"))
+finresfinlitcompe <-ggplot(finresplot, aes(fill=status, y=value, x=finrescomparison)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("lightblue",
+                             "purple"))+
+  labs(x="",y="Mean score",fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finresfinlitcompe
+
+finstressconcernfraud <- c(rep("Fraud victim" , 2) , rep("Shortfall" , 2) , rep("Expense worries" , 2) , rep("Financial concerns" , 2) , rep("´Just getting by´" , 2) )
+status <- rep(c("Less than three months" , "More than three months" ) , 5)
+value <- abs(c(0.1956878, 0.184034,0.2526282,0.0485526,0.1659706,0.05963747,0.3665863,0.08129463,0.4967199,0.1975792))
+finstressconcernfraudplot <- data.frame(finstressconcernfraud,status,value)
+finstressconcernfraudplot$status<- factor(finstressconcernfraudplot$status, levels=c("Less than three months" , "More than three months" ))
+finstressconcernfraudplot$finstressconcernfraud<- factor(finstressconcernfraudplot$finstressconcern, levels=c('Fraud victim', 'Shortfall', 'Expense worries', 'Financial concerns','´Just getting by´'))
+finresfinstresscompe<- ggplot(finstressconcernfraudplot, aes(fill=status, y=value, x=finstressconcernfraud)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("lightblue",
+                             "purple"))+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15),  axis.text = element_text(size = 15))
+finresfinstresscompe
+
+finrescomp <- finresfinlitcompe+finresfinstresscompe + plot_layout(guides = "collect")& theme(legend.position = "bottom")
+finrescomp
+
+
+#gender specific
+#males
+finstressconcernfraud <- c(rep("Fraud victim" , 2) , rep("Shortfall" , 2) , rep("Expense worries" , 2) , rep("Financial concerns" , 2) , rep("´Just getting by´" , 2) )
+status <- rep(c("Less than three months" , "More than three months" ) , 5)
+value <- abs(c(0.2169437,0.2718662,0.2058148,0.04160149,0.1456423,0.05148063,0.3568729,0.06805424,0.4941516,0.2088076))
+finstressconcernfraudplot <- data.frame(finstressconcernfraud,status,value)
+finstressconcernfraudplot$status<- factor(finstressconcernfraudplot$status, levels=c("Less than three months" , "More than three months" ))
+finstressconcernfraudplot$finstressconcernfraud<- factor(finstressconcernfraudplot$finstressconcern, levels=c('Fraud victim', 'Shortfall', 'Expense worries', 'Financial concerns','´Just getting by´'))
+ggplot(finstressconcernfraudplot, aes(fill=status, y=value, x=finstressconcernfraud)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("lightblue",
+                             "purple"))+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15),  axis.text = element_text(size = 15))
+#females
+finstressconcernfraud <- c(rep("Fraud victim" , 2) , rep("Shortfall" , 2) , rep("Expense worries" , 2) , rep("Financial concerns" , 2) , rep("´Just getting by´" , 2) )
+status <- rep(c("Less than three months" , "More than three months" ) , 5)
+value <- abs(c(0.1727588,0.08780307,0.3031263,0.05616838,0.1878989,0.06857428,0.3770642,0.0958011,0.4994903,0.185277))
+finstressconcernfraudplot <- data.frame(finstressconcernfraud,status,value)
+finstressconcernfraudplot$status<- factor(finstressconcernfraudplot$status, levels=c("Less than three months" , "More than three months" ))
+finstressconcernfraudplot$finstressconcernfraud<- factor(finstressconcernfraudplot$finstressconcern, levels=c('Fraud victim', 'Shortfall', 'Expense worries', 'Financial concerns','´Just getting by´'))
+ggplot(finstressconcernfraudplot, aes(fill=status, y=value, x=finstressconcernfraud)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("lightblue",
+                             "purple"))+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15),  axis.text = element_text(size = 15))
+
+
+###correlation plots
+#wellbeingfincushion
+#self-employed
+cor.test(ASFL7se$finwellbeing, ASFL7se$numericfinbuff, data=ASFL7se, weights=ASFL7se$wght)
+ggplot(ASFL7se, aes(x = numericfinbuff , y =finwellbeing )) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(y = "Well-being", x = "Financial cushion")+theme(axis.title.x = element_text(size = 15),axis.title.y = element_text(size = 15))
+#gender-specific
+cor.test(ASFL7sem$finwellbeing, ASFL7sem$numericfinbuff, data=ASFL7sem, weights=ASFL7sem$wght)
+ggplot(ASFL7sem, aes(x = numericfinbuff , y =finwellbeing )) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(y = "Well-being", x = "Financial cushion")+theme(axis.title.x = element_text(size = 15),axis.title.y = element_text(size = 15))
+
+
+cor.test(ASFL7sef$finwellbeing, ASFL7sef$numericfinbuff, data=ASFL7sef, weights=ASFL7sef$wght)
+ggplot(ASFL7sef, aes(x = numericfinbuff , y =finwellbeing )) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(y = "Well-being", x = "Financial cushion")+theme(axis.title.x = element_text(size = 15),axis.title.y = element_text(size = 15))
+
+#employed
+cor.test(ASFL7e$finwellbeing, ASFL7e$numericfinbuff, data=ASFL7e, weights=ASFL7e$wght)
+ggplot(ASFL7e, aes(x = numericfinbuff , y =finwellbeing )) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(y = "Well-being", x = "Financial cushion")+theme(axis.title.x = element_text(size = 15),axis.title.y = element_text(size = 15))
+
+
+###################################FINANCIAL STRESS AND CONCERN############################################
+
+#weighted with financial fraud
+fistr <- c(rep("Fraud victim",2), rep("Shortfall" , 2) , rep("Expense worries" ,2) , rep("Financial concerns" , 2) , rep("´Just getting by´" , 2) )
+emplstat <- rep(c("Self-employed" , "Employees" ) , 5)
+value <- abs(c(0.1900837 ,0.2031745 ,0.05375387  ,0.1341993  ,0.04711364 ,0.1048933  ,0.1532124 ,0.2029604  ,0.2506294 ,0.3234968  ))
+finstressplot <- data.frame(fistr,emplstat,value)
+finstressplot$fistr<- factor(finstressplot$fistr, levels=c('Fraud victim','Shortfall', 'Expense worries', 'Financial concerns','´Just getting by´'))
+finstressplot$emplstat<- factor(finstressplot$emplstat, levels=c( "Self-employed" , "Employees"))
+finstresscomp <- ggplot(finstressplot, aes(fill=emplstat, y=value, x=fistr)) + 
+  geom_bar(position="dodge", stat="identity")+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finstresscomp
+
+#self-employed
+fistr <- c(rep("Fraud victim",2),rep("Shortfall" , 2) , rep("Expense worries" ,2) , rep("Financial concerns" , 2) , rep("´Just getting by´" , 2) )
+gender <- rep(c("Male","Female" ) , 5)
+value <- abs(c(0.1618311 ,0.2316124 ,0.06475131,0.03758872,0.03180591,0.06961449,0.1023429,0.2279855,0.189797,0.340047))
+finstressplot <- data.frame(fistr,gender,value)
+finstressplot$fistr<- factor(finstressplot$fistr, levels=c('Fraud victim','Shortfall', 'Expense worries', 'Financial concerns','´Just getting by´'))
+finstressplot$gender <- factor(finstressplot$gender, levels=c("Male","Female"))
+finstress_se <- ggplot(finstressplot, aes(fill=gender, y=value, x=fistr)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finstress_se
+#employed
+fistr <- c(rep("Fraud victim",2),rep("Shortfall" , 2) , rep("Expense worries" ,2) , rep("Financial concerns" , 2) , rep("´Just getting by´" , 2) )
+gender <- rep(c("Male","Female" ) , 5)
+value <- abs(c(0.2660002 ,0.1356619 ,0.1090571 ,0.161217 ,0.09430449 ,0.116272 ,0.1816542 ,0.2258561,0.3211303,0.3260398  ))
+finstressplot <- data.frame(fistr,gender,value)
+finstressplot$fistr<- factor(finstressplot$fistr, levels=c('Fraud victim','Shortfall', 'Expense worries', 'Financial concerns','´Just getting by´'))
+finstressplot$gender <- factor(finstressplot$gender, levels=c("Male","Female"))
+finstress_e<- ggplot(finstressplot, aes(fill=gender, y=value, x=fistr)) + 
+  geom_bar(position="dodge", stat="identity")+
+  scale_fill_manual(values=c("grey",
+                             "orange"))+
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+finstress_e
+
+
+
+
+#####################SANKEY-PLOTS################################
+library(ggplot2)
+library(ggalluvial)
+# Create the Sankey plot#theory:
+#skeypl2 <- ggplot(data = frequencies,
+#     aes(axis1 = personality,   # First variable on the X-axis
+#       axis2 = field, # Second variable on the X-axis
+#       axis3 = gender,   # Third variable on the X-axis
+#      y = n)) +
+# geom_alluvium(aes(fill = gender)) +
+# geom_stratum() +
+# geom_text(stat = "stratum",
+#           aes(label = after_stat(stratum))) +
+# scale_fill_viridis_d() +
+#  theme_void()
+#skeypl2
+
+
+#sankey plot - self assessed and actual financial knowledge
+#####self-employed 
+Assessmentse <- ASFL7se$saknow_group_1
+Finknowse <- ASFL7se$fin_know_group_1
+selfassessfinknowse <- ggplot(data = ASFL7se,
+                              aes(axis1 = Assessmentse,# First variable on the X-axis
+                                  axis2 = Finknowse, 
+                                  y = frequency(Finknowse))) +
+  geom_alluvium(aes(fill = Assessmentse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessfinknowse
+
+#males
+Assessmentsem <- ASFL7sem$saknow_group_1
+Finknowsem <- ASFL7sem$fin_know_group_1
+selfassessfinknowsem <- ggplot(data = ASFL7sem,
+                               aes(axis1 = Assessmentsem,# First variable on the X-axis
+                                   axis2 = Finknowsem, 
+                                   y = frequency(Finknowsem))) +
+  geom_alluvium(aes(fill = Assessmentsem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessfinknowsem
+
+#females
+Assessmentsef <- ASFL7sef$saknow_group_1
+Finknowsef <- ASFL7sef$fin_know_group_1
+selfassessfinknowsef <- ggplot(data = ASFL7sef,
+                               aes(axis1 = Assessmentsef,# First variable on the X-axis
+                                   axis2 = Finknowsef, 
+                                   y = frequency(Finknowsef))) +
+  geom_alluvium(aes(fill = Assessmentsef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessfinknowsef
+
+#####employed
+Assessmente <- ASFL7e$saknow_group_1
+Finknowe <- ASFL7e$fin_know_group_1
+selfassessfinknowe <- ggplot(data = ASFL7e,
+                             aes(axis1 = Assessmente,# First variable on the X-axis
+                                 axis2 = Finknowe, 
+                                 y = frequency(Finknowe))) +
+  geom_alluvium(aes(fill = Assessmente)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessfinknowe
+#males
+Assessmentem <- ASFL7em$saknow_group_1
+Finknowem <- ASFL7em$fin_know_group_1
+selfassessfinknowem <- ggplot(data = ASFL7em,
+                              aes(axis1 = Assessmentem,# First variable on the X-axis
+                                  axis2 = Finknowem, 
+                                  y = frequency(Finknowem))) +
+  geom_alluvium(aes(fill = Assessmentem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessfinknowem
+
+#females
+Assessmentef <- ASFL7ef$saknow_group_1
+Finknowef <- ASFL7ef$fin_know_group_1
+selfassessfinknowef <- ggplot(data = ASFL7ef,
+                              aes(axis1 = Assessmentef,# First variable on the X-axis
+                                  axis2 = Finknowef, 
+                                  y = frequency(Finknowef))) +
+  geom_alluvium(aes(fill = Assessmentef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessfinknowef
+
+
+sankeysavsfk <- selfassessfinknowse+selfassessfinknowe 
+sankeysavsfk
+
+sankeysavsfkgender_se <- selfassessfinknowsem+selfassessfinknowsef 
+sankeysavsfkgender_se
+
+sankeysavsfkgender_e<- selfassessfinknowem+selfassessfinknowef 
+sankeysavsfkgender_e
+
+savsfkgender<-  selfassessfinknowsem+selfassessfinknowsef +selfassessfinknowem+selfassessfinknowef  
+savsfkgender
+
+
+#####################INTERACTION PLOTS################################
+par(mfrow=c(2,2))
+par(mfrow=c(2,4))
+par(mfrow=c(1,2))
+######SELF EMPLOYED
+###interaction plot risk financial literacy, gender comparison
+interaction.plot(x.factor = ASFL7se$HFCSriskad_2, #x-axis variable
+                 trace.factor = ASFL7se$gender, #variable for lines
+                 response = ASFL7se$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Literacy",
+                 xlab = "Risky propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2,#line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial knowledge 
+interaction.plot(x.factor = ASFL7se$HFCSriskad_2, #x-axis variable
+                 trace.factor = ASFL7se$gender, #variable for lines
+                 response = ASFL7se$fin_know, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Knowledge",
+                 xlab = "Risky propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial behaviour 
+interaction.plot(x.factor = ASFL7se$HFCSriskad_2, #x-axis variable
+                 trace.factor = ASFL7se$gender, #variable for lines
+                 response = ASFL7se$fin_beh, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Behaviour",
+                 xlab = "Risky propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial attitude 
+interaction.plot(x.factor = ASFL7se$HFCSriskad_2, #x-axis variable
+                 trace.factor = ASFL7se$gender, #variable for lines
+                 response = ASFL7se$fin_att, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Attitude",
+                 xlab = "Risky propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+
+interaction.plot(x.factor = ASFL7se$HFCSrisk_group_1, #x-axis variable
+                 trace.factor = ASFL7se$gender, #variable for lines
+                 response = ASFL7se$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Literacy",
+                 xlab = "Risky propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2,#line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial knowledge 
+interaction.plot(x.factor = ASFL7se$HFCSrisk_group_1, #x-axis variable
+                 trace.factor = ASFL7se$gender, #variable for lines
+                 response = ASFL7se$fin_know, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Knowledge",
+                 xlab = "Risky propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial behaviour 
+interaction.plot(x.factor = ASFL7se$HFCSrisk_group_1, #x-axis variable
+                 trace.factor = ASFL7se$gender, #variable for lines
+                 response = ASFL7se$fin_beh, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Behaviour",
+                 xlab = "Risky propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+
+###interaction plot risk financial attitude 
+interaction.plot(x.factor = ASFL7se$HFCSrisk_group_1, #x-axis variable
+                 trace.factor = ASFL7se$gender, #variable for lines
+                 response = ASFL7se$fin_att, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Attitude",
+                 xlab = "Risky propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+
+
+
+###interaction plot risk financial risky asset taking 
+interaction.plot(x.factor = ASFL7se$riskyassets2_group, #x-axis variable
+                 trace.factor = ASFL7se$gender, #variable for lines
+                 response = ASFL7se$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Literacy",
+                 xlab = "Risky assets",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial knowledge 
+interaction.plot(x.factor = ASFL7se$riskyassets2_group, #x-axis variable
+                 trace.factor = ASFL7se$gender, #variable for lines
+                 response = ASFL7se$fin_know, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Knowledge",
+                 xlab = "Risky assets",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial behaviour 
+interaction.plot(x.factor = ASFL7se$riskyassets2_group, #x-axis variable
+                 trace.factor = ASFL7se$gender, #variable for lines
+                 response = ASFL7se$fin_beh, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Behaviour",
+                 xlab = "Risky assets",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial attitude 
+interaction.plot(x.factor = ASFL7se$riskyassets2_group, #x-axis variable
+                 trace.factor = ASFL7se$gender, #variable for lines
+                 response = ASFL7se$fin_att, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Attitude",
+                 xlab = "Risky assets",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+
+
+######EMPLOYED
+###interaction plot risk financial literacy, gender comparison
+interaction.plot(x.factor = ASFL7e$HFCSriskad_2, #x-axis variable
+                 trace.factor = ASFL7e$gender, #variable for lines
+                 response = ASFL7e$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2,#line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial knowledge 
+interaction.plot(x.factor = ASFL7e$HFCSriskad_2, #x-axis variable
+                 trace.factor = ASFL7e$gender, #variable for lines
+                 response = ASFL7e$fin_know, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Knowledge",
+                 xlab = "Risky propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial behaviour 
+interaction.plot(x.factor = ASFL7e$HFCSriskad_2, #x-axis variable
+                 trace.factor = ASFL7e$gender, #variable for lines
+                 response = ASFL7e$fin_beh, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Behaviour",
+                 xlab = "Risky propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial attitude 
+interaction.plot(x.factor = ASFL7e$HFCSriskad_2, #x-axis variable
+                 trace.factor = ASFL7e$gender, #variable for lines
+                 response = ASFL7e$fin_att, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Attitude",
+                 xlab = "Risky propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+
+interaction.plot(x.factor = ASFL7e$HFCSrisk_group_1, #x-axis variable
+                 trace.factor = ASFL7e$gender, #variable for lines
+                 response = ASFL7e$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Literacy",
+                 xlab = "Risk propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2,#line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial knowledge 
+interaction.plot(x.factor = ASFL7e$HFCSrisk_group_1, #x-axis variable
+                 trace.factor = ASFL7e$gender, #variable for lines
+                 response = ASFL7e$fin_know, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Knowledge",
+                 xlab = "Risky propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial behaviour 
+interaction.plot(x.factor = ASFL7e$HFCSrisk_group_1, #x-axis variable
+                 trace.factor = ASFL7e$gender, #variable for lines
+                 response = ASFL7e$fin_beh, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Behaviour",
+                 xlab = "Risky propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial attitude 
+interaction.plot(x.factor = ASFL7e$HFCSrisk_group_1, #x-axis variable
+                 trace.factor = ASFL7e$gender, #variable for lines
+                 response = ASFL7e$fin_att, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Attitude",
+                 xlab = "Risky propensity",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+
+
+###interaction plot risk financial risky asset taking 
+interaction.plot(x.factor = ASFL7e$riskyassets2_group, #x-axis variable
+                 trace.factor = ASFL7e$gender, #variable for lines
+                 response = ASFL7e$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "",
+                 xlab = "Risky assets",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial knowledge 
+interaction.plot(x.factor = ASFL7e$riskyassets2_group, #x-axis variable
+                 trace.factor = ASFL7e$gender, #variable for lines
+                 response = ASFL7e$fin_know, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Knowledge",
+                 xlab = "Risky assets",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial behaviour 
+interaction.plot(x.factor = ASFL7e$riskyassets2_group, #x-axis variable
+                 trace.factor = ASFL7e$gender, #variable for lines
+                 response = ASFL7e$fin_beh, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Behaviour",
+                 xlab = "Risky assets",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+###interaction plot risk financial attitude 
+interaction.plot(x.factor = ASFL7e$riskyassets2_group, #x-axis variable
+                 trace.factor = ASFL7e$gender, #variable for lines
+                 response = ASFL7e$fin_att, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Attitude",
+                 xlab = "Risky assets",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+par(mfrow=c(2,2))
+interaction.plot(x.factor = ASFL7se$HFCSriskad_2, #x-axis variable
+                 trace.factor = ASFL7se$riskyassets2_group, #variable for lines
+                 response = ASFL7se$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Literacy",
+                 xlab = "",
+                 col = c("brown","green"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+interaction.plot(x.factor = ASFL7e$HFCSriskad_2, #x-axis variable
+                 trace.factor = ASFL7e$riskyassets2_group, #variable for lines
+                 response = ASFL7e$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Literacy",
+                 xlab = "",
+                 col = c("brown","green"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+
+interaction.plot(x.factor = ASFL7se$HFCSrisk_group_1, #x-axis variable
+                 trace.factor = ASFL7se$riskyassets2_group, #variable for lines
+                 response = ASFL7se$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Literacy",
+                 xlab = "Risk propensity",
+                 col = c("brown","green"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+interaction.plot(x.factor = ASFL7e$HFCSrisk_group_1, #x-axis variable
+                 trace.factor = ASFL7e$riskyassets2_group, #variable for lines
+                 response = ASFL7e$finlit, #y-axis variable
+                 fun = median, #metric to plot
+                 ylab = "Literacy",
+                 xlab = "Risk propensity",
+                 col = c("brown","green"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+
+#####################ADDITIONAL SANKEY PLOTS################################
+
+#sankey plot - financial self assessment and risk propensity 
+#self-employed
+Finriskpropse <- ASFL7se$HFCSrisk_group_2
+Finriskpropse <- factor(ASFL7se$HFCSrisk_group_2, levels=c("Substantial risk", "High risk", "Average risk","No risk"))
+selfassessriskse<- ggplot(data = ASFL7se,
+                          aes(axis1 = Assessmentse,# First variable on the X-axis
+                              axis2 = Finriskpropse, 
+                              y = frequency(Finriskpropse))) +
+  geom_alluvium(aes(fill = Assessmentse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessriskse
+
+#employed
+Finriskprope <- factor(ASFL7e$HFCSrisk_group_2, levels=c("Substantial risk", "High risk", "Average risk","No risk"))
+selfassessriske<- ggplot(data = ASFL7e,
+                         aes(axis1 = Assessmente,# First variable on the X-axis
+                             axis2 = Finriskprope, 
+                             y = frequency(Finriskprope))) +
+  geom_alluvium(aes(fill = Assessmente)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessriske
+
+#sankey plot - financial risk propensity and financial knowledge/literacy (behaviour/attitude)
+######################self-employed
+#knowledge
+riskfinknowse<- ggplot(data = ASFL7se,
+                       aes(axis1 = Finriskpropse,# First variable on the X-axis
+                           axis2 = Finknowse , 
+                           y = frequency(Finknowse))) +
+  geom_alluvium(aes(fill = Finriskpropse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskfinknowse
+
+finknowriskse<- ggplot(data = ASFL7se,
+                       aes(axis1 = Finknowse,# First variable on the X-axis
+                           axis2 =  Finriskpropse, 
+                           y = frequency(Finriskpropse))) +
+  geom_alluvium(aes(fill = Finknowse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+finknowriskse
+#literacy
+Finlitse <- ASFL7se$finlit_group_1
+riskfinlitse<- ggplot(data = ASFL7se,
+                      aes(axis1 = Finriskpropse,# First variable on the X-axis
+                          axis2 = Finlitse , 
+                          y = frequency(Finlitse))) +
+  geom_alluvium(aes(fill = Finriskpropse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+riskfinlitse
+
+#behaviour
+Finbehse <- ASFL7se$fin_beh_group_1
+riskbehse<- ggplot(data = ASFL7se,
+                   aes(axis1 = Finriskpropse,# First variable on the X-axis
+                       axis2 = Finbehse , 
+                       y = frequency(Finbehse))) +
+  geom_alluvium(aes(fill = Finriskpropse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+riskbehse
+
+#attitude
+Finattse <- ASFL7se$fin_att_group_1
+riskattse<- ggplot(data = ASFL7se,
+                   aes(axis1 = Finriskpropse,# First variable on the X-axis
+                       axis2 = Finattse , 
+                       y = frequency(Finattse))) +
+  geom_alluvium(aes(fill = Finriskpropse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskattse
+
+#selfemployed males
+#self-employed
+#knowledge
+Finriskpropsem <- factor(ASFL7sem$HFCSrisk_group_2, levels=c("Substantial risk", "High risk", "Average risk","No risk"))
+riskfinknowsem<- ggplot(data = ASFL7sem,
+                        aes(axis1 = Finriskpropsem,# First variable on the X-axis
+                            axis2 = Finknowsem , 
+                            y = frequency(Finknowsem))) +
+  geom_alluvium(aes(fill = Finriskpropsem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskfinknowsem
+
+Finknowriskpropsem <- factor(ASFL7sem$HFCSrisk_group_2, levels=c("Substantial risk", "High risk", "Average risk","No risk"))
+finknowrisksem<- ggplot(data = ASFL7sem,
+                        aes(axis1 = Finknowsem,# First variable on the X-axis
+                            axis2 =  Finriskpropsem, 
+                            y = frequency(Finriskpropsem))) +
+  geom_alluvium(aes(fill = Finknowsem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskfinknowsem
+#literacy
+Finlitsem <- ASFL7sem$finlit_group_1
+riskfinlitsem<- ggplot(data = ASFL7sem,
+                       aes(axis1 = Finriskpropsem,# First variable on the X-axis
+                           axis2 = Finlitsem , 
+                           y = frequency(Finlitsem))) +
+  geom_alluvium(aes(fill = Finriskpropsem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+riskfinlitsem
+
+
+#behaviour
+Finbehsem <- ASFL7sem$fin_beh_group_1
+riskbehsem<- ggplot(data = ASFL7sem,
+                    aes(axis1 = Finriskpropsem,# First variable on the X-axis
+                        axis2 = Finbehsem , 
+                        y = frequency(Finbehsem))) +
+  geom_alluvium(aes(fill = Finriskpropsem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+riskbehsem
+
+#attitude
+Finattsem <- ASFL7sem$fin_att_group_1
+riskattsem<- ggplot(data = ASFL7sem,
+                    aes(axis1 = Finriskpropsem,# First variable on the X-axis
+                        axis2 = Finattsem , 
+                        y = frequency(Finattsem))) +
+  geom_alluvium(aes(fill = Finriskpropsem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskattsem
+
+#selfemployed females
+#knowledge
+Finriskpropsef <- factor(ASFL7sef$HFCSrisk_group_2, levels=c("Substantial risk", "High risk", "Average risk","No risk"))
+riskfinknowsef<- ggplot(data = ASFL7sef,
+                        aes(axis1 = Finriskpropsef,# First variable on the X-axis
+                            axis2 = Finknowsef , 
+                            y = frequency(Finknowsef))) +
+  geom_alluvium(aes(fill = Finriskpropsef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskfinknowsef
+#literacy
+Finlitsef <- ASFL7sef$finlit_group_1
+riskfinlitsef<- ggplot(data = ASFL7sef,
+                       aes(axis1 = Finriskpropsef,# First variable on the X-axis
+                           axis2 = Finlitsef , 
+                           y = frequency(Finlitsef))) +
+  geom_alluvium(aes(fill = Finriskpropsef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+riskfinlitsef
+
+#behaviour
+Finbehsef <- ASFL7sef$fin_beh_group_1
+riskbehsef<- ggplot(data = ASFL7sef,
+                    aes(axis1 = Finriskpropsef,# First variable on the X-axis
+                        axis2 = Finbehsef , 
+                        y = frequency(Finbehsef))) +
+  geom_alluvium(aes(fill = Finriskpropsef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+riskbehsef
+
+#attitude
+Finattsef <- ASFL7sef$fin_att_group_1
+riskattsef<- ggplot(data = ASFL7sef,
+                    aes(axis1 = Finriskpropsef,# First variable on the X-axis
+                        axis2 = Finattsef , 
+                        y = frequency(Finattsef))) +
+  geom_alluvium(aes(fill = Finriskpropsef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskattsef
+#####################employed
+#knowledge
+riskfinknowe<- ggplot(data = ASFL7e,
+                      aes(axis1 = Finriskprope,# First variable on the X-axis
+                          axis2 = Finknowe , 
+                          y = frequency(Finknowe))) +
+  geom_alluvium(aes(fill = Finriskprope)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskfinknowe
+
+finknowriske<- ggplot(data = ASFL7e,
+                      aes(axis1 = Finknowe,# First variable on the X-axis
+                          axis2 =  Finriskprope, 
+                          y = frequency(Finriskprope))) +
+  geom_alluvium(aes(fill = Finknowe)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+finknowriske
+#literacy
+Finlite <- ASFL7e$finlit_group_1
+riskfinlite<- ggplot(data = ASFL7e,
+                     aes(axis1 = Finriskprope,# First variable on the X-axis
+                         axis2 = Finlite , 
+                         y = frequency(Finlite))) +
+  geom_alluvium(aes(fill = Finriskprope)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+riskfinlite
+
+#behaviour
+Finbehe <- ASFL7e$fin_beh_group_1
+riskbehe<- ggplot(data = ASFL7e,
+                  aes(axis1 = Finriskprope,# First variable on the X-axis
+                      axis2 = Finbehe , 
+                      y = frequency(Finbehe))) +
+  geom_alluvium(aes(fill = Finriskprope)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+riskbehe
+
+#attitude
+Finatte <- ASFL7e$fin_att_group_1
+riskatte<- ggplot(data = ASFL7e,
+                  aes(axis1 = Finriskprope,# First variable on the X-axis
+                      axis2 = Finatte , 
+                      y = frequency(Finatte))) +
+  geom_alluvium(aes(fill = Finriskprope)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskatte
+
+#employed males
+#knowledge
+Finriskpropem <- factor(ASFL7em$HFCSrisk_group_2, levels=c("Substantial risk", "High risk", "Average risk","No risk"))
+riskfinknowem<- ggplot(data = ASFL7em,
+                       aes(axis1 = Finriskpropem,# First variable on the X-axis
+                           axis2 = Finknowem , 
+                           y = frequency(Finknowem))) +
+  geom_alluvium(aes(fill = Finriskpropem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskfinknowem
+#literacy
+Finlitem <- ASFL7em$finlit_group_1
+riskfinlitem<- ggplot(data = ASFL7em,
+                      aes(axis1 = Finriskpropem,# First variable on the X-axis
+                          axis2 = Finlitem , 
+                          y = frequency(Finlitem))) +
+  geom_alluvium(aes(fill = Finriskpropem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+riskfinlitem
+
+
+#behaviour
+Finbehem <- ASFL7em$fin_beh_group_1
+riskbehem<- ggplot(data = ASFL7em,
+                   aes(axis1 = Finriskpropem,# First variable on the X-axis
+                       axis2 = Finbehem , 
+                       y = frequency(Finbehem))) +
+  geom_alluvium(aes(fill = Finriskpropem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+riskbehem
+
+#attitude
+Finattem <- ASFL7em$fin_att_group_1
+riskattem<- ggplot(data = ASFL7em,
+                   aes(axis1 = Finriskpropem,# First variable on the X-axis
+                       axis2 = Finattem , 
+                       y = frequency(Finattem))) +
+  geom_alluvium(aes(fill = Finriskpropem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskattem
+
+#employed females
+#knowledge
+Finriskpropef <- factor(ASFL7ef$HFCSrisk_group_2, levels=c("Substantial risk", "High risk", "Average risk","No risk"))
+riskfinknowef<- ggplot(data = ASFL7ef,
+                       aes(axis1 = Finriskpropef,# First variable on the X-axis
+                           axis2 = Finknowef , 
+                           y = frequency(Finknowef))) +
+  geom_alluvium(aes(fill = Finriskpropef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskfinknowef
+#literacy
+Finlitef <- ASFL7ef$finlit_group_1
+riskfinlitef<- ggplot(data = ASFL7ef,
+                      aes(axis1 = Finriskpropef,# First variable on the X-axis
+                          axis2 = Finlitef , 
+                          y = frequency(Finlitef))) +
+  geom_alluvium(aes(fill = Finriskpropef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+riskfinlitef
+
+
+#behaviour
+Finbehef <- ASFL7ef$fin_beh_group_1
+riskbehef<- ggplot(data = ASFL7ef,
+                   aes(axis1 = Finriskpropef,# First variable on the X-axis
+                       axis2 = Finbehef , 
+                       y = frequency(Finbehef))) +
+  geom_alluvium(aes(fill = Finriskpropef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+riskbehef
+
+#attitude
+Finattef <- ASFL7ef$fin_att_group_1
+riskattef<- ggplot(data = ASFL7ef,
+                   aes(axis1 = Finriskpropef,# First variable on the X-axis
+                       axis2 = Finattef , 
+                       y = frequency(Finattef))) +
+  geom_alluvium(aes(fill = Finriskpropef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskattef
+
+####sankey plot - financial self-assessment and risky asset taking
+#######################self-employed
+Finriskassetse <- ASFL7se$riskyassets1_group
+selfassessriskassetse<- ggplot(data = ASFL7se,
+                               aes(axis1 = Assessmentse,# First variable on the X-axis
+                                   axis2 = Finriskassetse, 
+                                   y = frequency(Finriskassetse))) +
+  geom_alluvium(aes(fill = Assessmentse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessriskassetse
+
+#riskyassets and knowledge
+riskassetfinknowse<- ggplot(data = ASFL7se,
+                            aes(axis1 = Finriskassetse,# First variable on the X-axis
+                                axis2 = Finknowse , 
+                                y = frequency(Finknowse))) +
+  geom_alluvium(aes(fill = Finriskassetse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskassetfinknowse
+
+finknowriskassetse<- ggplot(data = ASFL7se,
+                            aes(axis1 = Finknowse,# First variable on the X-axis
+                                axis2 =  Finriskassetse, 
+                                y = frequency(Finriskassetse))) +
+  geom_alluvium(aes(fill = Finknowse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+finknowriskassetse
+
+#literacy
+Finlitse <- ASFL7se$finlit_group_1
+riskassetfinlitse<- ggplot(data = ASFL7se,
+                           aes(axis1 = Finriskassetse,# First variable on the X-axis
+                               axis2 = Finlitse , 
+                               y = frequency(Finlitse))) +
+  geom_alluvium(aes(fill = Finriskassetse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskassetfinlitse
+
+#behaviour
+Finbehse <- ASFL7se$fin_beh_group_1
+riskassetbehse<- ggplot(data = ASFL7se,
+                        aes(axis1 = Finriskassetse,# First variable on the X-axis
+                            axis2 = Finbehse , 
+                            y = frequency(Finbehse))) +
+  geom_alluvium(aes(fill = Finriskassetse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskassetbehse
+
+#attitude
+Finattse <- ASFL7se$fin_att_group_1
+riskassetattse<- ggplot(data = ASFL7se,
+                        aes(axis1 = Finriskassetse,# First variable on the X-axis
+                            axis2 = Finattse , 
+                            y = frequency(Finattse))) +
+  geom_alluvium(aes(fill = Finriskassetse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskassetattse
+
+Finriskassetse <- ASFL7se$riskyassets1_group
+selfassessriskassetse<- ggplot(data = ASFL7se,
+                               aes(axis1 = Assessmentse,# First variable on the X-axis
+                                   axis2 = Finriskassetse, 
+                                   y = frequency(Finriskassetse))) +
+  geom_alluvium(aes(fill = Assessmentse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessriskassetse
+
+#riskyassemts and knowledge
+#males
+Finriskassemtsem <- ASFL7sem$riskyassets1_group
+riskassemtfinknowsem<- ggplot(data = ASFL7sem,
+                              aes(axis1 = Finriskassemtsem,# First variable on the X-axis
+                                  axis2 = Finknowsem , 
+                                  y = frequency(Finknowsem))) +
+  geom_alluvium(aes(fill = Finriskassemtsem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskassemtfinknowsem
+
+#literacy
+Finlitsem <- ASFL7sem$finlit_group_1
+riskassemtfinlitsem<- ggplot(data = ASFL7sem,
+                             aes(axis1 = Finriskassemtsem,# First variable on the X-axis
+                                 axis2 = Finlitsem , 
+                                 y = frequency(Finlitsem))) +
+  geom_alluvium(aes(fill = Finriskassemtsem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskassemtfinlitsem
+
+#behaviour
+Finbehsem <- ASFL7sem$fin_beh_group_1
+riskassemtbehsem<- ggplot(data = ASFL7sem,
+                          aes(axis1 = Finriskassemtsem,# First variable on the X-axis
+                              axis2 = Finbehsem , 
+                              y = frequency(Finbehsem))) +
+  geom_alluvium(aes(fill = Finriskassemtsem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskassemtbehsem
+
+#attitude
+Finattsem <- ASFL7sem$fin_att_group_1
+riskassemtattsem<- ggplot(data = ASFL7sem,
+                          aes(axis1 = Finriskassemtsem,# First variable on the X-axis
+                              axis2 = Finattsem , 
+                              y = frequency(Finattsem))) +
+  geom_alluvium(aes(fill = Finriskassemtsem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskassemtattsem
+
+Finriskassetsem <- ASFL7sem$riskyassets1_group
+selfassessriskassetsem<- ggplot(data = ASFL7sem,
+                                aes(axis1 = Assessmentsem,# First variable on the X-axis
+                                    axis2 = Finriskassetsem, 
+                                    y = frequency(Finriskassetsem))) +
+  geom_alluvium(aes(fill = Assessmentsem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessriskassetsem
+
+
+
+#riskyassefts and knowledge
+Finriskasseftsef  <- ASFL7sef$riskyassets1_group
+##females
+riskasseftfinknowsef<- ggplot(data = ASFL7sef,
+                              aes(axis1 = Finriskasseftsef,# First variable on the X-axis
+                                  axis2 = Finknowsef , 
+                                  y = frequency(Finknowsef))) +
+  geom_alluvium(aes(fill = Finriskasseftsef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskasseftfinknowsef
+
+#literacy
+Finlitsef <- ASFL7sef$finlit_group_1
+riskasseftfinlitsef<- ggplot(data = ASFL7sef,
+                             aes(axis1 = Finriskasseftsef,# First variable on the X-axis
+                                 axis2 = Finlitsef , 
+                                 y = frequency(Finlitsef))) +
+  geom_alluvium(aes(fill = Finriskasseftsef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskasseftfinlitsef
+
+#behaviour
+Finbehsef <- ASFL7sef$fin_beh_group_1
+riskasseftbehsef<- ggplot(data = ASFL7sef,
+                          aes(axis1 = Finriskasseftsef,# First variable on the X-axis
+                              axis2 = Finbehsef , 
+                              y = frequency(Finbehsef))) +
+  geom_alluvium(aes(fill = Finriskasseftsef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskasseftbehsef
+
+#attitude
+Finattsef <- ASFL7sef$fin_att_group_1
+riskasseftattsef<- ggplot(data = ASFL7sef,
+                          aes(axis1 = Finriskasseftsef,# First variable on the X-axis
+                              axis2 = Finattsef , 
+                              y = frequency(Finattsef))) +
+  geom_alluvium(aes(fill = Finriskasseftsef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskasseftattsef
+
+Finriskassetsef <- ASFL7sef$riskyassets1_group
+selfassessriskassetsef<- ggplot(data = ASFL7sef,
+                                aes(axis1 = Assessmentsef,# First variable on the X-axis
+                                    axis2 = Finriskassetsef, 
+                                    y = frequency(Finriskassetsef))) +
+  geom_alluvium(aes(fill = Assessmentsef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessriskassetsef
+
+
+########################employed
+Finriskassete <- ASFL7e$riskyassets1_group
+selfassessriskassete<- ggplot(data = ASFL7e,
+                              aes(axis1 = Assessmente,# First variable on the X-axis
+                                  axis2 = Finriskassete, 
+                                  y = frequency(Finriskassete))) +
+  geom_alluvium(aes(fill = Assessmente)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessriskassete
+
+
+#riskyassets and knowledge
+riskassetfinknowe<- ggplot(data = ASFL7e,
+                           aes(axis1 = Finriskassete ,# First variable on the X-axis
+                               axis2 = Finknowe, 
+                               y = frequency(Finknowe))) +
+  geom_alluvium(aes(fill = Finriskassete)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskassetfinknowe
+
+finknowriskassete<- ggplot(data = ASFL7e,
+                           aes(axis1 = Finknowe ,# First variable on the X-axis
+                               axis2 = Finriskassete, 
+                               y = frequency(Finriskassete))) +
+  geom_alluvium(aes(fill = Finknowe )) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+finknowriskassete
+
+#literacy
+Finlite <- ASFL7e$finlit_group_1
+riskassetfinlite<- ggplot(data = ASFL7e,
+                          aes(axis1 = Finriskassete ,# First variable on the X-axis
+                              axis2 = Finlite, 
+                              y = frequency(Finlite))) +
+  geom_alluvium(aes(fill = Finriskassete)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskassetfinlite
+
+#behaviour
+Finbehe <- ASFL7e$fin_beh_group_1
+riskassetbehe<- ggplot(data = ASFL7e,
+                       aes(axis1 = Finriskassete ,# First variable on the X-axis
+                           axis2 = Finbehe, 
+                           y = frequency(Finbehe))) +
+  geom_alluvium(aes(fill = Finriskassete)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskassetbehe
+
+#attitude
+Finatte <- ASFL7e$fin_att_group_1
+riskassetatte<- ggplot(data = ASFL7e,
+                       aes(axis1 = Finriskassete ,# First variable on the X-axis
+                           axis2 = Finatte, 
+                           y = frequency(Finatte))) +
+  geom_alluvium(aes(fill = Finriskassete)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskassetatte
+
+#sankey plot - financial risk propensity and risky asset taking
+#self-employed
+Finriskassetse <- ASFL7se$riskyassets1_group
+riskpropensityassetse<- ggplot(data = ASFL7se,
+                               aes(axis1 = Finriskpropse,# First variable on the X-axis
+                                   axis2 = Finriskassetse, 
+                                   y = frequency(Finriskassetse))) +
+  geom_alluvium(aes(fill = Finriskpropse)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskpropensityassetse
+
+#employed
+riskpropensityassete<- ggplot(data = ASFL7e,
+                              aes(axis1 = Finriskprope,# First variable on the X-axis
+                                  axis2 = Finriskassete, 
+                                  y = frequency(Finriskassete))) +
+  geom_alluvium(aes(fill = Finriskprope)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskpropensityassete
+
+
+#riskyassets and knowledge
+#males
+Finriskasemtem <- ASFL7em$riskyassets1_group
+riskasemtfinknowem<- ggplot(data = ASFL7em,
+                            aes(axis1 = Finriskasemtem,# First variable on the X-axis
+                                axis2 = Finknowem , 
+                                y = frequency(Finknowem))) +
+  geom_alluvium(aes(fill = Finriskasemtem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskasemtfinknowem
+
+#literacy
+Finlitem <- ASFL7em$finlit_group_1
+riskasemtfinlitem<- ggplot(data = ASFL7em,
+                           aes(axis1 = Finriskasemtem,# First variable on the X-axis
+                               axis2 = Finlitem , 
+                               y = frequency(Finlitem))) +
+  geom_alluvium(aes(fill = Finriskasemtem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskasemtfinlitem
+
+#behaviour
+Finbehem <- ASFL7em$fin_beh_group_1
+riskasemtbehem<- ggplot(data = ASFL7em,
+                        aes(axis1 = Finriskasemtem,# First variable on the X-axis
+                            axis2 = Finbehem , 
+                            y = frequency(Finbehem))) +
+  geom_alluvium(aes(fill = Finriskasemtem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskasemtbehem
+
+#attitude
+Finattem <- ASFL7em$fin_att_group_1
+riskasemtattem<- ggplot(data = ASFL7em,
+                        aes(axis1 = Finriskasemtem,# First variable on the X-axis
+                            axis2 = Finattem , 
+                            y = frequency(Finattem))) +
+  geom_alluvium(aes(fill = Finriskasemtem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskasemtattem
+
+Finriskassetem <- ASFL7em$riskyassets1_group
+selfassessriskassetem<- ggplot(data = ASFL7em,
+                               aes(axis1 = Assessmentem,# First variable on the X-axis
+                                   axis2 = Finriskassetem, 
+                                   y = frequency(Finriskassetem))) +
+  geom_alluvium(aes(fill = Assessmentem)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+selfassessriskassetem
+
+
+
+#riskyassefts and knowledge
+##females
+Finriskaseftef <- ASFL7ef$riskyassets1_group
+riskaseftfinknowef<- ggplot(data = ASFL7ef,
+                            aes(axis1 = Finriskaseftef,# First variable on the X-axis
+                                axis2 = Finknowef , 
+                                y = frequency(Finknowef))) +
+  geom_alluvium(aes(fill = Finriskaseftef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskaseftfinknowef
+
+#literacy
+Finlitef <- ASFL7ef$finlit_group_1
+riskaseftfinlitef<- ggplot(data = ASFL7ef,
+                           aes(axis1 = Finriskaseftef,# First variable on the X-axis
+                               axis2 = Finlitef , 
+                               y = frequency(Finlitef))) +
+  geom_alluvium(aes(fill = Finriskaseftef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskaseftfinlitef
+
+#behaviour
+Finbehef <- ASFL7ef$fin_beh_group_1
+riskaseftbehef<- ggplot(data = ASFL7ef,
+                        aes(axis1 = Finriskaseftef,# First variable on the X-axis
+                            axis2 = Finbehef , 
+                            y = frequency(Finbehef))) +
+  geom_alluvium(aes(fill = Finriskaseftef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskaseftbehef
+
+#attitude
+Finattef <- ASFL7ef$fin_att_group_1
+riskaseftattef<- ggplot(data = ASFL7ef,
+                        aes(axis1 = Finriskaseftef,# First variable on the X-axis
+                            axis2 = Finattef , 
+                            y = frequency(Finattef))) +
+  geom_alluvium(aes(fill = Finriskaseftef)) +
+  scale_x_discrete(expand = c(0.2, 0.2)) +
+  geom_flow() +
+  geom_stratum(alpha = 0.1) +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum))) +
+  scale_fill_viridis_d() +
+  theme_void()+
+  theme(legend.position = "none")
+
+riskaseftattef
