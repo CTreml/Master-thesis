@@ -204,12 +204,12 @@ HFCSrisk_e
 
 
 ####risky asset holding
-risk <- c(rep("Stocks/shares" , 2) , rep("Bonds" , 2) ,  rep("Crypto assets" , 2))
-emplstat <- rep(c("Self-employed" , "Employed" ) , 3)
+risk <- c(rep("Stocks/shares" , 2) , rep("Bonds" , 2) , rep("Crypto assets" , 2))
+emplstat <- rep(c("Self-employed" , "Employees" ) , 3)
 value <- abs(c(0.2355855 ,0.1363495  ,0.1235186,0.0873412,0.05656405 ,0.05553866))
 riskplot<- data.frame(risk,emplstat,value)
 riskplot$risk<- factor(riskplot$risk, levels=c("Stocks/shares","Bonds","Crypto assets"))
-riskplot$emplstat<- factor(riskplot$emplstat, levels=c('Self-employed', 'Employed'))
+riskplot$emplstat<- factor(riskplot$emplstat, levels=c('Self-employed', 'Employees'))
 riskyassetcomp <- ggplot(riskplot, aes(fill=emplstat, y=value, x=risk)) + 
   geom_bar(position="dodge", stat="identity")+
   labs(x = "",y="Percentage share", fill = "")+  theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 15))
@@ -241,10 +241,10 @@ riskyassets_e<- ggplot(riskplot, aes(fill=gender, y=value, x=risk)) +
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("grey",
                              "orange"))+
-  labs(x = "",y="Percentage share", fill = "")+  theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+  labs(x = "",y="Percentage share", fill = "")+  theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=13), axis.text = element_text(size = 15))
 riskyassets_e
 
-#####################Confidence about retiremet saving################################
+#####################Confidence about retirement saving################################
 #gender
 #self-employed
 selfratedretconfidencegender <- data.frame(gender=rep(c('Male', 'Female'), each=7),
@@ -944,7 +944,7 @@ financialinclusionplot1$finincl1<- factor(financialinclusionplot1$finincl1, leve
 financialinclusionplot1$emplstat<- factor(financialinclusionplot1$emplstat, levels=c('Self-employed', 'Employees'))
 finincl1comp <- ggplot(financialinclusionplot1, aes(fill=emplstat, y=value, x=finincl1)) + 
   geom_bar(position="dodge", stat="identity")+
-  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), legend.text = element_text(size=15),axis.text = element_text(size = 15))
 finincl1comp
 #####finincl2
 finincl2 <- c(rep("Saving,Investment,Retirement" , 2) , rep("Payment" , 2) , rep("Insurance" , 2) , rep("Credit" , 2))
@@ -955,8 +955,10 @@ financialinclusionplot2$finincl2<- factor(financialinclusionplot2$finincl2, leve
 financialinclusionplot2$emplstat<- factor(financialinclusionplot2$emplstat, levels=c('Self-employed', 'Employees'))
 finincl2comp<- ggplot(financialinclusionplot2, aes(fill=emplstat, y=value, x=finincl2)) + 
   geom_bar(position="dodge", stat="identity")+
-  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), legend.text = element_text(size=15),axis.text = element_text(size = 15))
 finincl2comp
+
+finincl1comp+finincl2comp+plot_layout(guides = "collect")& theme(legend.position = "bottom")
 
 #gender specific
 #self-employed
@@ -970,7 +972,7 @@ finincl1_se <- ggplot(financialinclusionplot1, aes(fill=gender, y=value, x=finin
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("grey",
                              "orange"))+
-  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 15))
 finincl1_se
 
 finincl2 <- c(rep("Saving,Investment,Retirement" , 2) , rep("Payment" , 2) , rep("Insurance" , 2) , rep("Credit" , 2))
@@ -983,8 +985,11 @@ finincl2_se <- ggplot(financialinclusionplot2, aes(fill=gender, y=value, x=finin
   geom_bar(position = "dodge", stat="identity",width = 0.8)+
   scale_fill_manual(values=c("grey",
                              "orange"))+
-  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 15))
 finincl2_se
+
+finincl_se <-finincl1_se+ finincl2_se+plot_layout(guides = "collect")& theme(legend.position = "bottom")
+finincl_se
 
 #employed
 finincl1 <- c(rep("Awareness" , 2) , rep("Recent purchase" , 2) , rep("Family & Friends" , 2) )
@@ -997,7 +1002,7 @@ finincl1_e<- ggplot(financialinclusionplot1, aes(fill=gender, y=value, x=finincl
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("grey",
                              "orange"))+
-  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 15))
 finincl1_e
 
 finincl2 <- c(rep("Saving,Investment,Retirement" , 2) , rep("Payment" , 2) , rep("Insurance" , 2) , rep("Credit" , 2))
@@ -1010,48 +1015,52 @@ finincl2_e<- ggplot(financialinclusionplot2, aes(fill=gender, y=value, x=finincl
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("grey",
                              "orange"))+
-  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), legend.text = element_text(size=15),axis.text = element_text(size = 15))
 finincl2_e
 
+finincl_e <-finincl1_e+ finincl2_e+plot_layout(guides = "collect")& theme(legend.position = "bottom")
+finincl_e
+
 ###################################FINANCIAL WELL-BEING############################################
-wellbeing <- c(rep("Modest role of finances in life" , 2),  rep("Saving possibility" , 2),rep("No unaffordable wishes" , 2) , rep("Few financial concerns" , 2) , rep("Not 'just getting by'" ,2) )
+wellbeing <- c(rep("Modest role of finances" , 2),  rep("Saving possibility" , 2),rep("No unaffordable wishes" , 2) , rep("Few concerns" , 2) , rep("Not 'just getting by'" ,2) )
 emplstat <- rep(c("Self-employed" , "Employees" ) , 5)
 value <- abs(c((1-0.4034880),(1-0.4184430 ),(1-0.5439856 ),(1-0.5721883 ),(1-0.5311104 ),(1-0.5964242 ),(1-0.3706735 ),(1-0.4379736 ),(1-0.4542531 ),(1-0.5839444 )))
 wellbeingplotspecific <- data.frame(wellbeing,emplstat,value)
-wellbeingplotspecific$wellbeing<- factor(wellbeingplotspecific$wellbeing, levels=c("Modest role of finances in life","Saving possibility" ,"No unaffordable wishes" ,"Few financial concerns","Not 'just getting by'" ))
+wellbeingplotspecific$wellbeing<- factor(wellbeingplotspecific$wellbeing, levels=c("Modest role of finances","Saving possibility" ,"No unaffordable wishes" ,"Few concerns","Not 'just getting by'" ))
 wellbeingplotspecific$emplstat<- factor(wellbeingplotspecific$emplstat, levels=c( "Self-employed" , "Employees"))
 finwellbeingcomp <- ggplot(wellbeingplotspecific, aes(fill=emplstat, y=value, x=wellbeing)) + 
   geom_bar(position="dodge", stat="identity")+
-  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15),  axis.text = element_text(size = 13))
 finwellbeingcomp
 
 #genderspecific
 #self-employed
-wellbeing <- c(rep("Modest role of finances in life" , 2),  rep("Saving possibility" , 2),rep("No unaffordable wishes" , 2) , rep("Few financial concerns" , 2) , rep("Not 'just getting by'" ,2))
+wellbeing <- c(rep("Modest role of finances" , 2),  rep("Saving possibility" , 2),rep("No unaffordable wishes" , 2) , rep("Few concerns" , 2) , rep("Not 'just getting by'" ,2))
 gender <- rep(c("Male" , "Female") , 5)
 value <- abs(c((1-0.3820748 ),(1-0.4349631  ),(1- 0.5214057 ),(1- 0.5771759 ),(1-0.5227259  ),(1- 0.5434347),(1-0.2648075  ),(1-0.5262860  ),(1- 0.3745896),(1- 0.5713507)))
 wellbeingplotspecific <- data.frame(wellbeing,gender,value)
-wellbeingplotspecific$wellbeing<- factor(wellbeingplotspecific$wellbeing, levels=c("Modest role of finances in life","Saving possibility" ,"No unaffordable wishes" ,"Few financial concerns","Not 'just getting by'" ))
+wellbeingplotspecific$wellbeing<- factor(wellbeingplotspecific$wellbeing, levels=c("Modest role of finances","Saving possibility" ,"No unaffordable wishes" ,"Few concerns","Not 'just getting by'" ))
 wellbeingplotspecific$gender<- factor(wellbeingplotspecific$gender, levels=c( "Male","Female"))
 finwellbeing_se <- ggplot(wellbeingplotspecific, aes(fill=gender, y=value, x=wellbeing)) + 
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("grey",
                              "orange"))+
-  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15),  axis.text = element_text(size = 13))
 finwellbeing_se
 #employed
-wellbeing <- c(rep("Modest role of finances in life" , 2),  rep("Saving possibility" , 2),rep("No unaffordable wishes" , 2) , rep("Few financial concerns" , 2) , rep("Not 'just getting by'" ,2))
+wellbeing <- c(rep("Modest role of finances" , 2),  rep("Saving possibility" , 2),rep("No unaffordable wishes" , 2) , rep("Few concerns" , 2) , rep("Not 'just getting by'" ,2))
 gender <- rep(c("Male" , "Female") , 5)
 value <- abs(c((1-0.4378898  ),(1-0.3975455   ),(1- 0.5634224  ),(1- 0.5816081  ),(1-0.6158255   ),(1- 0.5755756 ),(1-0.425242   ),(1-0.4516550   ),(1- 0.5852973 ),(1- 0.5824905 )))
 wellbeingplotspecific <- data.frame(wellbeing,gender,value)
-wellbeingplotspecific$wellbeing<- factor(wellbeingplotspecific$wellbeing, levels=c("Modest role of finances in life","Saving possibility" ,"No unaffordable wishes" ,"Few financial concerns","Not 'just getting by'" ))
+wellbeingplotspecific$wellbeing<- factor(wellbeingplotspecific$wellbeing, levels=c("Modest role of finances","Saving possibility" ,"No unaffordable wishes" ,"Few concerns","Not 'just getting by'" ))
 wellbeingplotspecific$gender<- factor(wellbeingplotspecific$gender, levels=c( "Male","Female"))
 finwellbeing_e<- ggplot(wellbeingplotspecific, aes(fill=gender, y=value, x=wellbeing)) + 
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("grey",
                              "orange"))+
-  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), legend.text = element_text(size=15), axis.text = element_text(size = 13))
 finwellbeing_e
+
 ###################################FINANCIAL RESILIENCE############################################
 finrescomparison <- data.frame(status=rep(c('Self-employed', 'Employees'), each=5),
                                finrel=rep(c('Six months or above','About three months', 'About a month','About a week','Ref/Don´t know'), times=2),
@@ -1245,8 +1254,10 @@ finstressplot$fistr<- factor(finstressplot$fistr, levels=c('Fraud victim','Short
 finstressplot$emplstat<- factor(finstressplot$emplstat, levels=c( "Self-employed" , "Employees"))
 finstresscomp <- ggplot(finstressplot, aes(fill=emplstat, y=value, x=fistr)) + 
   geom_bar(position="dodge", stat="identity")+
-  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="bottom", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15),   axis.text = element_text(size = 15))
 finstresscomp
+
+#finstresscomp+finwellbeingcomp+plot_layout(guides = "collect")& theme(legend.position = "none")
 
 #self-employed
 fistr <- c(rep("Fraud victim",2),rep("Shortfall" , 2) , rep("Expense worries" ,2) , rep("Financial concerns" , 2) , rep("´Just getting by´" , 2) )
@@ -1259,8 +1270,12 @@ finstress_se <- ggplot(finstressplot, aes(fill=gender, y=value, x=fistr)) +
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("grey",
                              "orange"))+
-  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15),  axis.text = element_text(size = 13))
 finstress_se
+
+finstresswellbeingcomp_se <-finstress_se +finwellbeing_se+ plot_layout(guides = "collect")& theme(legend.position = "bottom")
+finstresswellbeingcomp_se
+
 #employed
 fistr <- c(rep("Fraud victim",2),rep("Shortfall" , 2) , rep("Expense worries" ,2) , rep("Financial concerns" , 2) , rep("´Just getting by´" , 2) )
 gender <- rep(c("Male","Female" ) , 5)
@@ -1272,11 +1287,12 @@ finstress_e<- ggplot(finstressplot, aes(fill=gender, y=value, x=fistr)) +
   geom_bar(position="dodge", stat="identity")+
   scale_fill_manual(values=c("grey",
                              "orange"))+
-  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'), axis.text = element_text(size = 15))
+  labs(x="",y="Percentage share",fill="")+theme(legend.position="none", legend.key.width = unit(0.3, 'cm'),legend.text = element_text(size=15), axis.text = element_text(size = 13))
 finstress_e
 
 
-
+finstresswellbeingcomp_e <-finstress_e+ finwellbeing_e+plot_layout(guides = "collect")& theme(legend.position = "bottom")
+finstresswellbeingcomp_e
 
 #####################SANKEY-PLOTS################################
 library(ggplot2)
@@ -1430,7 +1446,7 @@ par(mfrow=c(2,4))
 par(mfrow=c(1,2))
 ######SELF EMPLOYED
 ###interaction plot risk financial literacy, gender comparison
-interaction.plot(x.factor = ASFL7se$HFCSriskad_2, #x-axis variable
+genderpropinteract_se <- interaction.plot(x.factor = ASFL7se$HFCSriskad_2, #x-axis variable
                  trace.factor = ASFL7se$gender, #variable for lines
                  response = ASFL7se$finlit, #y-axis variable
                  fun = mean, #metric to plot
@@ -1440,6 +1456,7 @@ interaction.plot(x.factor = ASFL7se$HFCSriskad_2, #x-axis variable
                  lty = 1, #line type
                  lwd = 2,#line width
                  trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+genderpropinteract_se
 ###interaction plot risk financial knowledge 
 interaction.plot(x.factor = ASFL7se$HFCSriskad_2, #x-axis variable
                  trace.factor = ASFL7se$gender, #variable for lines
@@ -1483,7 +1500,7 @@ interaction.plot(x.factor = ASFL7se$HFCSrisk_group_1, #x-axis variable
                  col = c("orange","grey"),
                  lty = 1, #line type
                  lwd = 2,#line width
-                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+                 trace.label =deparse(),cex.lab= 1.25, cex.axis = 1.25)
 ###interaction plot risk financial knowledge 
 interaction.plot(x.factor = ASFL7se$HFCSrisk_group_1, #x-axis variable
                  trace.factor = ASFL7se$gender, #variable for lines
@@ -1558,13 +1575,13 @@ interaction.plot(x.factor = ASFL7se$riskyassets2_group, #x-axis variable
 interaction.plot(x.factor = ASFL7se$riskyassets2_group, #x-axis variable
                  trace.factor = ASFL7se$gender, #variable for lines
                  response = ASFL7se$fin_att, #y-axis variable
-                 fun = mean, #metric to plot
+                 fun = mean, #metric to plot,
                  ylab = "Attitude",
                  xlab = "Risky assets",
                  col = c("orange","grey"),
                  lty = 1, #line type
                  lwd = 2, #line width
-                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+                 trace.label = deparse(substitute()),cex.lab= 1.25, cex.axis = 1.25)
 
 
 ######EMPLOYED
@@ -1657,13 +1674,12 @@ interaction.plot(x.factor = ASFL7e$HFCSrisk_group_1, #x-axis variable
                  lwd = 2, #line width
                  trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
 
-
 ###interaction plot risk financial risky asset taking 
 interaction.plot(x.factor = ASFL7e$riskyassets2_group, #x-axis variable
                  trace.factor = ASFL7e$gender, #variable for lines
                  response = ASFL7e$finlit, #y-axis variable
                  fun = mean, #metric to plot
-                 ylab = "",
+                 ylab = "Literacy",
                  xlab = "Risky assets",
                  col = c("orange","grey"),
                  lty = 1, #line type
@@ -1701,8 +1717,34 @@ interaction.plot(x.factor = ASFL7e$riskyassets2_group, #x-axis variable
                  col = c("orange","grey"),
                  lty = 1, #line type
                  lwd = 2, #line width
-                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+                 trace.label = deparse(substitute()),cex.lab= 1.25, cex.axis = 1.25)
 par(mfrow=c(2,2))
+par(mfrow=c(1,2))
+###interaction gender and well-being for financial literacy
+#self-employed
+interaction.plot(x.factor = ASFL7se$finwellbeing, #x-axis variable
+                 trace.factor = ASFL7se$gender, #variable for lines
+                 response = ASFL7se$finlit, #y-axis variable
+                 fun = mean, #metric to plot
+                 ylab = "Literacy",
+                 xlab = "Well-being",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(substitute()),cex.lab= 1.25, cex.axis = 1.25)
+interaction.plot(x.factor = ASFL7e$finwellbeing, #x-axis variable
+                 trace.factor = ASFL7e$gender, #variable for lines
+                 response = ASFL7e$finlit, #y-axis variable
+                 fun = mean, #metric to plot
+                 ylab = "Literacy",
+                 xlab = "Well-being",
+                 col = c("orange","grey"),
+                 lty = 1, #line type
+                 lwd = 2, #line width
+                 trace.label = deparse(substitute()),cex.lab= 1.25, cex.axis = 1.25)
+
+
+
 interaction.plot(x.factor = ASFL7se$HFCSriskad_2, #x-axis variable
                  trace.factor = ASFL7se$riskyassets2_group, #variable for lines
                  response = ASFL7se$finlit, #y-axis variable
@@ -1743,7 +1785,7 @@ interaction.plot(x.factor = ASFL7e$HFCSrisk_group_1, #x-axis variable
                  col = c("brown","green"),
                  lty = 1, #line type
                  lwd = 2, #line width
-                 trace.label = deparse(),cex.lab= 1.25, cex.axis = 1.25)
+                 trace.label = deparse(substitute(trace.factor)),cex.lab= 1.25, cex.axis = 1.25, cex.main=3.25)
 
 #####################ADDITIONAL SANKEY PLOTS################################
 
